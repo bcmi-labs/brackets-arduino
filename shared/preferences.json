@@ -1,0 +1,5 @@
+{
+  "arduino.ide.serialmonitor.eol": "NL",
+  "arduino.ide.serialmonitor.baudrate": 9600,
+  "arduino.ide.serialmonitor.autoscroll": false
+}

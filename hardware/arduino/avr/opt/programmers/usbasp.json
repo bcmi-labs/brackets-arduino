@@ -1,0 +1,11 @@
+{
+  "name" 			: "USBasp",
+  "communication"	: "usb",
+  "protocol" 		: "usbasp",
+  "program" 		:
+  {
+	"protocol"		: "usbasp",
+	"tool" 			: "avrdude",
+	"extra_params"	: "-Pusb"
+  }
+}

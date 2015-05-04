@@ -1,0 +1,11 @@
+{
+  "name" 		  : "AVRISP mkII",
+  "communication" : "usb",
+  "protocol" 	  : "stk500v2",
+  "program" 	  :
+  {
+    "protocol"		: "stk500v2",
+    "tool" 			: "avrdude",
+    "extra_params"	: "-Pusb"
+  }
+}

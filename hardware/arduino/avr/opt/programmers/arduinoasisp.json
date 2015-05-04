@@ -1,0 +1,13 @@
+{
+  "name" 			: "Arduino as ISP",
+  "communication"	: "serial",
+  "protocol" 		: "stk500v1",
+  "speed"			: 19200,
+  "program" 		:
+    {
+      "protocol" 		: "stk500v1",
+      "speed"			: 19200,
+      "tool" 			: "avrdude",
+      "extra_params"	: "-P{serial.port} -b{program.speed}"
+    }
+}

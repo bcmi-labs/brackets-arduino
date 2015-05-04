@@ -1,0 +1,58 @@
+
+<div id="plugin-serialmonitor">
+    <div id="title">Serial Monitor </div>
+        <div id="console_serialMonitor">
+            <br>
+            <div id="send">
+                <input type="text" id="message_input">
+                <input type="button" id="send_button" class="button" value="Send">
+            </div>
+            <br>
+            <textarea id="console_log" readonly rows="5"></textarea>
+            <input type="button" id="clear_button" class="button" value="Clear"> 
+            <br>
+            <br>
+            
+            
+            
+        <div id="options">
+        <input type="checkbox" id="scroll" checked=true> AutoScroll
+            <!--select onchange="change_value('eol')" id="eol"-->
+            <select id="eol">
+                <option value="" disabled selected >Select end of line</option>
+                <option value="NA">No line ending</option>
+                <option value="NL">New line</option>
+                <option value="CR">Carriage return</option>
+                <option value="NLCR">Both NL &amp; CR</option>           
+            </select>
+            
+            <select id="baud">
+                <option value="" disabled selected>Select baud rate</option>
+                <option value="300">300</option>
+                <option value="1200">1200</option>
+                <option value="2400">2400</option>
+                <option value="4800">4800</option>
+                <option value="9600">9600</option>
+                <option value="14400">14400</option>
+                <option value="19200">19200</option>
+                <option value="28800">28800</option>
+                <option value="38400">38400</option>
+                <option value="57600">57600</option>
+                <option value="115200">115200</option>
+            </select>
+        </div>   
+    </div>
+
+
+</div>
+<!--
+<script>
+    $("#baud").change(function() {
+      val = $(this).val();
+    });
+
+    $("#eol").change(function() {
+      val = $(this).val();
+    });
+</script>
+-->

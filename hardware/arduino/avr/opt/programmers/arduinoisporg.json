@@ -1,0 +1,9 @@
+{
+  "name" 		: "ArduinoISP.org",
+  "protocol" 	: "arduinoispprg",
+  "program" 	:
+  {
+	"tool" 			: "avrdude",
+	"extra_params"	: ""
+  }
+}

@@ -1,0 +1,51 @@
+{
+    "id": "uno",
+    "name": "Arduino Uno",
+    "uid" : [
+        {"vid":"0x2a03", "pid":"0x0043"},
+        {"vid":"0x2341", "pid":"0x0043"},
+        {"vid":"0x2341", "pid":"0x0001"}
+    ],
+    "upload": {
+        "protocol": "arduino",
+        "maximum_size": "32256",
+        "speed": "115200"
+    },
+    "bootloader": {
+        "low_fuses": "0xff",
+        "high_fuses": "0xde",
+        "extended_fuses": "0x05",
+        "path": "optiboot",
+        "file": "optiboot_atmega328.hex",
+        "unlock_bits": "0x3F",
+        "lock_bits": "0x0F"
+    },
+    "build": {
+        "mcu": "atmega328p",
+        "f_cpu": "16000000L",
+        "vid": "0x2a03",
+        "pid": "0x0043",
+        "core": "arduino",
+        "variant": "standard"
+    },
+    "info": {
+        "power": {
+            "operating":5,
+            "inputmin":7,
+            "inputmax":12
+        },
+        "memory": {
+            "flash":32,
+            "sram":2,
+            "eeprom":1
+        },
+        "clockspeed": 16,
+        "io":{
+            "digital":14,
+            "pwm":6,
+            "analogin":6
+        }
+    },
+    "homepage": "http://arduino.org/products/arduino-uno",
+    "vendor":"Arduino Srl"
+}

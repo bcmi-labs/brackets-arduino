@@ -1,0 +1,9 @@
+{
+  "name" 			: "USBtinyISP",
+  "protocol" 		: "usbtiny",
+  "program" 		:
+  {
+    "tool" 			: "avrdude",
+    "extra_params"	: ""
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "zeroproedbg",
+  "name": "Arduino Zero Pro (Programming Port)",
+  "uid": [
+    {"vid": "0x03eb", "pid": "0x2111"}
+  ],
+  "upload": {
+    "tool": "openocd",
+    "protocol": "sam-ba",
+    "maximum_size": "262144",
+    "use_1200bps_touch": false,
+    "wait_for_upload_port":  false,
+    "native_usb": false
+  },
+  "build": {
+    "mcu": "cortex-m0plus",
+    "f_cpu": "48000000L",
+    "board": "SAM_ZERO",
+    "core": "arduino",
+    "extra_flags": "-D__SAMD21G18A__ -mthumb {build.usb_flags}",
+    "ldscript": "linker_scripts/gcc/flash_with_bootloader.ld",
+    "openocdscript": "openocd_scripts/arduino_zero.cfg",
+    "variant": "arduino_zero",
+    "variant_system_lib": "",
+    "vid": "0x2a03",
+    "pid": "0x804d",
+    "section.start": "0x4000"
+  }
+}

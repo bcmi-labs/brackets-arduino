@@ -1,0 +1,11 @@
+{
+  "name" 		  : "AVR ISP",
+  "communication" : "serial",
+  "protocol" 	  : "stk500v1",
+  "program" 	  : {
+    "protocol"		: "stk500v1",
+    "tool" 			: "avrdude",
+    "extra_params"	: "-P{serial.port}"
+
+  }
+}

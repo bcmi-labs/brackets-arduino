@@ -1,0 +1,5 @@
+{
+  "name" : "Arduino ARM (32-bits) Boards",
+  "version" : "2.0.0",
+  "arch" : "arm"
+}

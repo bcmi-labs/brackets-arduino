@@ -1,0 +1,10 @@
+{
+  "name" 		: "Parallel Programmer",
+  "protocol" 	: "dapa",
+  "force" 		: true,
+  "program" 	:
+  {
+	"tool" 			: "avrdude",
+	"extra_params"	: "-F"
+  }
+}

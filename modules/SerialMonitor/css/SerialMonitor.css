@@ -1,0 +1,84 @@
+#title{
+    width: 100%;
+    resize: none;
+    background-color: #006699;
+    font-size: 100%;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-align: center;
+}
+
+#plugin-serialmonitor{
+  /* background-color: #006699; 
+     background-color: #006468;
+     background-color: #00777C;*/
+     background-color: #17a1a5; 
+     height: 28%;
+}
+
+#console_serialMonitor{
+    height: 100px;
+    vertical-align: top;
+    margin-left: 2%;
+}
+
+#send{
+    vertical-align: middle;
+}
+
+#message_input{
+    width: 90%; 
+    vertical-align: middle;  
+}
+
+#console_log{
+    height:100%; 
+    width:90%;
+    resize: none;
+    display: block;
+    overflow-y: auto;
+}
+
+#clear_button{
+    float: right; 
+    margin-right:1%;
+}
+
+#options{
+    position: relative;
+    height: auto;
+    display: inline;
+    margin-left: 2%;
+}
+
+#eol, #baud{
+    float: right;
+    margin-right: 2%
+}
+
+.serial-console-icon {
+    background: url("../img/icon-off.png");
+    background-size: 22px;
+    background-position: center;
+}
+
+.serial-console-icon-on {
+    background: url("../img/icon-on.png");
+    background-size: 22px;
+    background-position: center;
+}
+
+.button {
+  -webkit-border-radius: 10;
+  -moz-border-radius: 10;
+  border-radius: 10px;
+  font-family: Arial;
+  color: #006468;
+  background: #ffffff;
+  /*padding: 10px 20px 10px 20px;*/
+  text-decoration: none;
+  float: right; 
+  margin-right:1%;
+  padding: 0.5% 1.1%;
+}

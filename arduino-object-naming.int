@@ -1,0 +1,44 @@
+##########
+
+#Events
+#all the events triggered in the arduino extension
+
+"arduino-event-port-change"             : triggered on serial port change, by the users.
+"arduino-event-port-serial-get"         : get the port array.
+"arduino-event-port-network-get"        : get the port array.
+"arduino-event-port-all-get"            : get the port array.
+
+"arduino-event-board-get"               : get the port array.
+
+
+"arduino-event-console-error"           : write error messages on the arduino user console.
+"arduino-event-console-log"             : write log messages on the arduino user console.
+
+"arduino-event-menu-tool-boards"        : open the modal window for the board selection.
+"arduino-event-menu-tool-ports"         : open the modal window for the port selection.
+"arduino-event-menu-tool-programmer"    : open the modal window for the programmer selection.
+
+##########
+
+#Domains
+
+"org-arduino-ide-domain-serialmonitor"      : serial monitor domain name
+"org-arduino-ide-domain-discovery"          : discovery domain name
+
+##########
+
+#Commands
+
+"org.arduino.ide.view.serialmonitor.openwindow"         : open the serial monitor panel
+
+##########
+
+#Preferences
+#the preferences stored in the configuration file. it mantains the user's preference for the ide.
+
+"arduino.ide.serialmonitor.baudrate"        : serial monitor baud rate
+"arduino.ide.serialmonitor.eol"             : serial monitor 'end of file' char
+"arduino.ide.serialmonitor.autoscroll"      : serial monitor autoscroll flag for the text area.
+
+##########
+

@@ -1,0 +1,25 @@
+{
+    "name": "Arduino BT w/ ATmega328",
+    "upload": {
+        "protocol": "arduino",
+        "maximum_size": "28672",
+        "speed": "19200",
+        "disable_flushing": "true"
+    },
+    "bootloader": {
+        "low_fuses": "0xff",
+        "high_fuses": "0xd8",
+        "extended_fuses": "0x05",
+        "path": "bt",
+        "file": "ATmegaBOOT_168_atmega328_bt.hex",
+        "unlock_bits": "0x3F",
+        "lock_bits": "0x0F"
+    },
+    "build": {
+        "mcu": "atmega328p",
+        "f_cpu": "16000000L",
+        "core": "arduino",
+        "variant": "eightanaloginputs"
+    },
+    "id": "bt328"
+}
