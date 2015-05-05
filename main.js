@@ -64,6 +64,8 @@ define(function (require, exports, module) {
     var Options   = require("modules/Preferences/opts");
     var opts = new Options( FileUtils.getNativeModuleDirectoryPath(module) + "/hardware/arduino" );
 
+	
+	
     brackets.arduino.preferences  = new Preferences( FileUtils.getNativeModuleDirectoryPath(module) + "/shared/preferences.json" );
 
     AppInit.appReady(function () {
@@ -78,11 +80,11 @@ define(function (require, exports, module) {
         //load modules
         var SerialMonitor  = require("modules/SerialMonitor/main");
         var PortMenu       = require("modules/Discovery/main");
-
+		var Console = require("modules/Console/main");
         
         var sm = new SerialMonitor();
         var pm = new PortMenu();
-
+		var console = new Console();
 
 
 
