@@ -18,6 +18,8 @@
 "arduino-event-menu-tool-ports"         : open the modal window for the port selection.
 "arduino-event-menu-tool-programmer"    : open the modal window for the programmer selection.
 
+"arduino-event-menu-tool-preferences"   : open the modal window for the user's preferences.
+
 ##########
 
 #Domains
@@ -27,7 +29,7 @@
 
 ##########
 
-#Commands
+#Brackets Commands
 
 "org.arduino.ide.view.serialmonitor.openwindow"         : open the serial monitor panel
 

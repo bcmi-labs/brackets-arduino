@@ -39,7 +39,9 @@ define(function (require, exports, module) {
         Menus               = brackets.getModule("command/Menus"),
         ExtensionUtils      = brackets.getModule("utils/ExtensionUtils"),
         FileUtils           = brackets.getModule("file/FileUtils"),
-        FileSystem           = brackets.getModule("filesystem/FileSystem");
+        FileSystem           = brackets.getModule("filesystem/FileSystem"),
+        Dialogs             = brackets.getModule("widgets/Dialogs"),
+        DefaultDialogs      = brackets.getModule("widgets/DefaultDialogs");
 
     var preferencesWindow           = null,
         preferencesWindowName       = "Arduino Preferences";
@@ -50,6 +52,13 @@ define(function (require, exports, module) {
         preferencesFile             = null,
         preferencesPrefix           = "[arduino ide - preferences]",
         pref = {};
+
+    var prefKey_sketchbook          = "arduino.ide.preferences.sketchbook",
+        prefKey_lang                = "arduino.ide.preferences.lang",
+        prefKey_fontsize            = "arduino.ide.preferences.fontsize",
+        prefKey_verbosebuild        = "arduino.ide.preferences.verbosebuild",
+        prefKey_verboseupload       = "arduino.ide.preferences.verboseupload",
+        prefKey_linenumbers         = "arduino.ide.preferences.linenumbers";
 
 
     /**
@@ -73,6 +82,21 @@ define(function (require, exports, module) {
                 pref = JSON.parse(data);
             }
         });
+
+        brackets.arduino.dispatcher.on("arduino-event-menu-tool-preferences", openPreferencesWindow);
+
+        //OK sketchbook location
+        //TODO language
+        //TODO editor font size
+        //OK verbose
+        //TODO line numbers
+        //TODO verify code after upload
+        //TODO use external editor
+        //TODO check update
+        //TODO update file extension to .ino
+        //TODO save on verifyng
+
+
 
     };
 
@@ -102,6 +126,58 @@ define(function (require, exports, module) {
             callback(err, stat);
         });
     };
+
+
+    var openPreferencesWindow = function($event, data){
+        preferencesWindow = require("text!./html/preferences.html");
+        //preferencesWindow
+        var dSettings = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, preferencesWindowName, preferencesWindow);//.done(function(){});
+        setEventsToUI();
+        setValuesToUI();
+    };
+
+    //append event on the dom element
+    var setEventsToUI = function(){
+        //VERBOSE BUILD
+        $('#pref_chk_verbose_build').change(function(){
+            brackets.arduino.preferences.set( prefKey_verbosebuild, this.checked);
+        });
+
+        //VERBOSE UPLOAD
+        $('#pref_chk_verbose_upload').change(function(){
+            brackets.arduino.preferences.set( prefKey_verboseupload, this.checked);
+        });
+
+        //DISPLAY LINE NUMBERS
+        //$('#pref_chk_line_numbers').change(function(){
+        //    brackets.arduino.preferences.set( prefKey_linenumbers, this.checked);
+        //});
+
+        //SKETCHBOOK
+        $('#pref_btn_sketchbook').click(function(){
+            FileSystem.showOpenDialog(false, true, "Select sketch book folder:","","",function(a, folderSelected, b){
+                if(folderSelected.length>0)
+                {
+                    $('#pref_txt_sketchbook').val(folderSelected[0]);
+                    brackets.arduino.preferences.set( prefKey_sketchbook, folderSelected[0]);
+                }
+            });
+
+        });
+
+    };
+
+    var setValuesToUI = function(){
+        //VERBOSE BUILD
+        $('#pref_chk_verbose_build')[0].checked = brackets.arduino.preferences.get( prefKey_verbosebuild);
+        //VERBOSE UPLOAD
+        $('#pref_chk_verbose_upload')[0].checked = brackets.arduino.preferences.get( prefKey_verboseupload);
+        //DISPLAY LINE NUMBERS
+        //$('#pref_chk_line_numbers')[0].checked = brackets.arduino.preferences.get( prefKey_linenumbers);
+        //SKETCHBOOK
+        $('#pref_txt_sketchbook').val( brackets.arduino.preferences.get( prefKey_sketchbook ) );
+    };
+
 
     return Preferences;
 });
