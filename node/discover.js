@@ -128,8 +128,8 @@
 						}
 						//WIN
 						if(process.platform == "win" || process.platform == "win32" || process.platform == "win64"){
-							bport.vid =  port.pnpId;
-							bport.pid =  port.pnpId;
+							bport.vid =  port.vendorId;
+							bport.pid =  port.productId;
 						}
 						//TODO LINUX
 
