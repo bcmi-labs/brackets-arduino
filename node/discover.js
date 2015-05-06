@@ -33,9 +33,9 @@
 (function () {
 	"use strict";
 	
-	var SerialPort = require('serialport').SerialPort,
+	var Serial = require('serialport'),
 		Args  = require('args-js'),
-		ArduinoSerial = require('arduino-discover-serial'),
+		//ArduinoSerial = require('arduino-discover-serial'),
 		evilscan = require('evilscan'),
 		Async = require('async');
 	
@@ -43,8 +43,11 @@
 		dManager;
 	
 
-	var boardPorts = [];
+	var boardPorts = [],
+		pids = ["0X2A03", "0X2341", "0X1B4F", "0X03EB"];	//Arduino Srl, Arduino Llc, SparckFun, Atmel
 
+
+		pids = [];	//no filter
 
 	//The boardport object.... should be improve as a 'class' with encapusalation
 	//	{
@@ -63,47 +66,100 @@
 	 * @param  {Function} callback [description]
 	 */
 	function serialDiscover(callback){
-		var serialPortList = [];
-		ArduinoSerial.portDetect(function(ports){
-			Async.each(ports,
-				function(port, callback){
-					var bport = {};
-
-					bport.address = port.comName;		//ADDRESS
-					bport.protcol = "serial";			//PROTOCOL
-					//MAC
-					if(process.platform == "darwin"){	//PID & VID
-						bport.vid =  port.vendorId;
-						bport.pid =  port.productId;
-					}
-					//WIN
-					if(process.platform == "win32"){	
-						bport.vid =  port.pnpId;
-						//bport.pid =  ports.;	
-					}
-					//LINUX
-					//TODO
-					
-					//TODO finish implements the funcion
-					//bport.name = resolveNameByVidPid(bport.vid, bport.pid);	//NAME
-					bport.label = port.comName;//( bport.name =  "" || typeof(bport.name) == 'undefined' || !bport.name) ? bport.address : bport.address + " - " + bport.name;
-					bport.manufacturer = port.manufacturer;
-					bport.serial = port.serial;
-
-					serialPortList.push(bport);
-					callback();
-				},
-				function(err){
+		Async.waterfall([
+			function(cbk_1){							//1. detect devices
+				Serial.list(function (err, ports) {
 					if(err)
-						callback(err);
+						cbk_1(err);
 					else
-						callback(null, serialPortList);
+						cbk_1(null, ports);
 				});
+
+			},
+			function(ports, cbk_2){					//2. filter only arduino's devices
+				Async.filter(ports,
+					function(item, cbk_2_1){
+
+						//MACOSX
+						if(process.platform == "mac" || process.platform == "darwin"){
+							if(pids.length == 0)
+								cbk_2_1(true);
+							else
+								if(	pids.length > 0 && pids.indexOf( item.vendorId.toString().toUpperCase()) > -1 )
+									cbk_2_1(true);
+								else
+									cbk_2_1(false);
+						}
+
+						//WIN:
+						if(process.platform == "win" || process.platform == "win32" || process.platform == "win64"){
+
+							item.vendorId  = "0X"+item.pnpId.substring(item.pnpId.indexOf("VID_")+4, item.pnpId.indexOf("VID_")+8);
+							item.productId = "0X"+item.pnpId.substring(item.pnpId.indexOf("PID_")+4, item.pnpId.indexOf("PID_")+8);
+
+							if(pids.length == 0)
+								cbk_2_1(true);
+							else
+								if(pids.length > 0 &&  pids.indexOf( item.vendorId.toString().toUpperCase() ) > -1 )
+									cbk_2_1(true);
+								else
+									cbk_2_1(false);
+						}
+
+						//TODO LINUX
+
+					},
+					function(result){
+						cbk_2(null, result);
+					});
+			},
+			function(filtered, cbk_3){		//3. for every port detected create a new port object and push it to the serial port list
+				var serialPortList = [];
+				Async.each(filtered,
+					function(port, cbk_3_1){
+						var bport = {};
+
+						bport.address = port.comName;		//ADDRESS
+						bport.protcol = "serial";			//PROTOCOL
+						//MACOSX
+						if(process.platform == "mac" || process.platform == "darwin"){
+							bport.vid =  port.vendorId;
+							bport.pid =  port.productId;
+						}
+						//WIN
+						if(process.platform == "win" || process.platform == "win32" || process.platform == "win64"){
+							bport.vid =  port.pnpId;
+							bport.pid =  port.pnpId;
+						}
+						//TODO LINUX
+
+
+						bport.label = port.comName;//( bport.name =  "" || typeof(bport.name) == 'undefined' || !bport.name) ? bport.address : bport.address + " - " + bport.name;
+						bport.manufacturer = port.manufacturer;
+						bport.serial = port.serial;
+
+						serialPortList.push(bport);
+						cbk_3_1();
+					},
+					function(err){
+						if(err)
+							cbk_3(null, []);
+						else
+							cbk_3(null, serialPortList);
+					}
+				);
+			}
+		],
+		function(err, result){
+			if(err)
+				callback(err);
+			else
+				callback(null, result);
 
 		});
 
-	}	
 
+	}
 
 	function networkDiscover(callback){
 		//TODO
