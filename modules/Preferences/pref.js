@@ -129,7 +129,7 @@ define(function (require, exports, module) {
 
 
     var openPreferencesWindow = function($event, data){
-        preferencesWindow = require("text!./html/preferences.html");
+        preferencesWindow = require("text!./html/Preferences.html");
         //preferencesWindow
         var dSettings = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, preferencesWindowName, preferencesWindow);//.done(function(){});
         setEventsToUI();

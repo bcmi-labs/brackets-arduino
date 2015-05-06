@@ -112,7 +112,7 @@ define(function (require, exports, module) {
         file.read(function(err, data, stat){
             callback(err, data, stat);
         });
-    }
+    };
 
     /**
      *
@@ -132,7 +132,7 @@ define(function (require, exports, module) {
                         contents.forEach( function (file, index, array) {    // get the files
 
                             if (file.isFile) {
-                                loadOptionsFile(file, function (err, data, stat){  //read the contents of each file.
+                                loadOptionsFile(file, function (err, data, stat){ //read the contents of each file.
                                     if(!err){
                                         callback(null, JSON.parse(data));
                                     }

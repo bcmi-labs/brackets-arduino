@@ -42,7 +42,7 @@ define(function(require, exports, module){
 		ExtensionUtils = brackets.getModule("utils/ExtensionUtils"),
 		StatusBar = brackets.getModule("widgets/StatusBar");
 
-	var panelHTML = require("text!modules/Console/html/arduinoConsole.html"),
+	var panelHTML = require("text!./html/Console.html"),
 		panel,
 		bTag = $("<div></div>"),
 		pTag = $("<div></div>");
@@ -86,7 +86,7 @@ define(function(require, exports, module){
 
 	AppInit.htmlReady(function () {
         
-        ExtensionUtils.loadStyleSheet(module, "css/style_console.css");
+        ExtensionUtils.loadStyleSheet(module, "css/Console.css");
 
 		StatusBar.addIndicator("pTag", pTag, true, "", "Selected Port");
 		StatusBar.addIndicator("bTag", bTag, true, "", "Selected Board");
