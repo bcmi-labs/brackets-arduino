@@ -46,6 +46,11 @@
 "arduino.ide.serialmonitor.baudrate"        : serial monitor baud rate
 "arduino.ide.serialmonitor.eol"             : serial monitor 'end of file' char
 "arduino.ide.serialmonitor.autoscroll"      : serial monitor autoscroll flag for the text area.
-
+"arduino.ide.preferences.sketchbook"        :
+"arduino.ide.preferences.verbosebuild"      :
+"arduino.ide.preferences.verboseupload"     :
+"arduino.ide.options.target.port"           :
+"arduino.ide.options.target.board"          :
+"arduino.ide.options.target.programmer"     :
 ##########
 
