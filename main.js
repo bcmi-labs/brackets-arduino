@@ -39,10 +39,13 @@ define(function (require, exports, module) {
         NodeDomain      = brackets.getModule("utils/NodeDomain"),
         AppInit         = brackets.getModule("utils/AppInit"),
         FileUtils       = brackets.getModule("file/FileUtils"),
+        FileSystem      = brackets.getModule("filesystem/FileSystem"),
         EventDispatcher = brackets.getModule("utils/EventDispatcher");
 
     var serialmonitorDomainName     = "org-arduino-ide-domain-serialmonitor",
-        discoveryDomainName         = "org-arduino-ide-domain-discovery";
+        discoveryDomainName         = "org-arduino-ide-domain-discovery",
+        filesystemDomainName        = "org-arduino-ide-domain-filesystem",
+        copypasteDomainName         = "org-arduino-ide-domain-copypaste";
 
     brackets.arduino = {
         preferences : {},
@@ -68,23 +71,29 @@ define(function (require, exports, module) {
 	
     brackets.arduino.preferences  = new Preferences( FileUtils.getNativeModuleDirectoryPath(module) + "/shared/preferences.json" );
 
+    brackets.arduino.options.rootdir       = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module));
+    brackets.arduino.options.librariesdir  = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/libraries");
+    brackets.arduino.options.modulesdir    = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/modules");
+    brackets.arduino.options.hardwaredir   = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/hardware");
+
     AppInit.appReady(function () {
 
         //load domains
         brackets.arduino.domains[serialmonitorDomainName]   = new NodeDomain( serialmonitorDomainName, ExtensionUtils.getModulePath(module, "node/serialmonitor"));
         brackets.arduino.domains[discoveryDomainName]       = new NodeDomain( discoveryDomainName, ExtensionUtils.getModulePath(module, "node/discover"));
-
-        //load eventdispatecher
-
+        brackets.arduino.domains[filesystemDomainName]      = new NodeDomain( filesystemDomainName, ExtensionUtils.getModulePath(module, "node/filesystem"));
+        brackets.arduino.domains[copypasteDomainName]       = new NodeDomain( filesystemDomainName, ExtensionUtils.getModulePath(module, "node/copypaste"));
 
         //load modules
-        var SerialMonitor  = require("modules/SerialMonitor/main");
-        var PortMenu       = require("modules/Discovery/main");
-		var Console = require("modules/Console/main");
-        
-        var sm = new SerialMonitor();
-        var pm = new PortMenu();
-		var console = new Console();
+        var SerialMonitor   = require("modules/SerialMonitor/main");
+        var Discovery       = require("modules/Discovery/main");
+		var Console         = require("modules/Console/main");
+        var Menu            = require("modules/Menu/main");
+
+        var serialmonitor   = new SerialMonitor();
+        var discovery       = new Discovery();
+		var console         = new Console();
+        var menu            = new Menu();
 
 
 
