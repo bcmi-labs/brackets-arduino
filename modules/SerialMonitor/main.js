@@ -107,6 +107,7 @@ define(function (require, exports, module) {
         serialDomain.on('serial_operation_error', serialErrorHandler);
 
         brackets.arduino.dispatcher.on("arduino-event-port-change", eventSerialPortChange);
+        brackets.arduino.dispatcher.on("arduino-event-menu-tool-serialmonitor",this.openSerialMonitorWindow);
     }
 
 
