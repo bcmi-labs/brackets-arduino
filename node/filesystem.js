@@ -1,20 +1,15 @@
 (function () {
 	"use strict";
 
-	var //fs = require("fs"),
-		archiver = require("archiver"),   //compress
-		admZip = require("adm-zip"),   //extract
-		fsextra = require("fs-extra");
+	var archiver 	= require("archiver"),   //compress
+		admZip 		= require("adm-zip"),   //extract
+		fsextra 	= require("fs-extra");
 
 	var platform = require("./platform.js").getDefaultPlatform();
 
-	var domainName = "org-arduino-ide-domain-filesystem";
+	var domainName = "org-arduino-ide-domain-filesystem",
+		dManager;
 
-	var dm,
-		PATH_SAMPLES = __dirname.replace("SetMenus\\node","Compiler\\node\\examples"),
-		libsFolder = "C:/Users/Sebastiano/Desktop/testArduino/libs/",
-		libsUserFolder = "C:/Users/Sebastiano/Documents/Arduino/libraries";
-	
 	function readSampleDir(dir)
 	{
 		//dir = PATH_SAMPLES;
@@ -26,7 +21,7 @@
 					group = fsextra.readdirSync(item);
 					fsList.push({"type":item, "files":group});
 				}
-				dm.emitEvent (domainName, "sampleList_data", [fsList]);
+				dManager.emitEvent (domainName, "sampleList_data", [fsList]);
 			}
 		);
 	}
@@ -72,14 +67,14 @@
 	function getPlatLibs()
 	{
 		console.log("GET PLATFORM INTERFACE");
-		dm.emitEvent (domainName, "platform_data", [platform.getUserLibraryDir(), platform.getStandardLibraryPath()]);
+		dManager.emitEvent (domainName, "platform_data", [platform.getUserLibraryDir(), platform.getStandardLibraryPath()]);
 	}
 
 	function init(domainManager){
 		if(!domainManager.hasDomain("fsInterface")){
 			domainManager.registerDomain("fsInterface", {major: 0, minor: 1});
 		}
-		dm = domainManager;
+		dManager = domainManager;
 		
 		
 		domainManager.registerCommand(
@@ -133,10 +128,6 @@
 			false,
 			"Get platform"
 		);
-
-
-
-		
 
 		domainManager.registerEvent(
 			domainName,
