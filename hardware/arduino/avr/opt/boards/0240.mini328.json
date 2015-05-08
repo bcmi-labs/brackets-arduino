@@ -1,11 +1,14 @@
 {
     "name": "Arduino Mini w/ ATmega328",
     "upload": {
+	"tool" : "avrdude",
         "protocol": "arduino",
         "maximum_size": "28672",
+	"maximum_data_size" : "2048",
         "speed": "115200"
     },
     "bootloader": {
+	"tool":"avrdude",
         "low_fuses": "0xff",
         "high_fuses": "0xd8",
         "extended_fuses": "0x05",
@@ -17,6 +20,7 @@
     "build": {
         "mcu": "atmega328p",
         "f_cpu": "16000000L",
+	"board" : "AVR_MINI",
         "core": "arduino",
         "variant": "eightanaloginputs"
     },

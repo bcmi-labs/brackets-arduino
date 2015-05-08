@@ -1,9 +1,17 @@
 {
     "id": "mega2560",
     "name": "Arduino Mega 2560 or Mega ADK",
+    "uid" : [
+        {"vid":"0x2341", "pid":"0x0010"},
+        {"vid":"0x2341", "pid":"0x0042"},
+        {"vid":"0x2a03", "pid":"0x0010"},
+        {"vid":"0x2a03", "pid":"0x0042"}
+    ],
     "upload": {
+	"tool" : "avrdude",
+	"maximum_data_size":"8192",
         "protocol": "wiring",
-        "maximum_size": "258048",
+        "maximum_size": "253952",
         "speed": "115200"
     },
     "bootloader": {
@@ -12,16 +20,16 @@
         "extended_fuses": "0xFD",
         "path": "stk500v2",
         "file": "stk500boot_v2_mega2560.hex",
+	"tool" : "avrdude",
         "unlock_bits": "0x3F",
         "lock_bits": "0x0F"
     },
     "build": {
         "mcu": "atmega2560",
         "f_cpu": "16000000L",
-        "vid": "0x2341",
-        "pid": ["0x0010", "0x0042", "0x003F", "0x0044"],
         "core": "arduino",
-        "variant": "mega"
+        "variant": "mega",
+	"board" : "AVR_MEGA2560"
     },
     "info": {
         "power": {

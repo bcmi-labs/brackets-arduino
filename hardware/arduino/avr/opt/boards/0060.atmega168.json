@@ -1,25 +1,29 @@
 {
-    "name": "Arduino BT w/ ATmega168",
+    "name": "Arduino NG or older w/ ATmega168",
     "upload": {
         "protocol": "arduino",
+	"tool" : "avrdude",
         "maximum_size": "14336",
-        "speed": "19200",
-        "disable_flushing": "true"
+	"maximum_data_size" : "1024",
+        "speed": "19200"
     },
     "bootloader": {
         "low_fuses": "0xff",
         "high_fuses": "0xdd",
         "extended_fuses": "0x00",
-        "path": "bt",
-        "file": "ATmegaBOOT_168.hex",
+        "path": "atmega",
+        "file": "ATmegaBOOT_168_ng.hex",
         "unlock_bits": "0x3F",
-        "lock_bits": "0x0F"
+        "lock_bits": "0x0F",
+	"tool" : "avrdude"
+	
     },
     "build": {
         "mcu": "atmega168",
         "f_cpu": "16000000L",
         "core": "arduino",
-        "variant": "eightanaloginputs"
+	"board" : "AVR_NG",
+        "variant": "standard"
     },
-    "id": "bt"
+    "id": "atmega168"
 }

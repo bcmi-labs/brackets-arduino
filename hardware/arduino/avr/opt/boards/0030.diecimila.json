@@ -1,7 +1,9 @@
 {
-    "name": "Arduino NG or older w/ ATmega168",
+    "name": "Arduino Diecimila or Duemilanove w/ ATmega168",
     "upload": {
         "protocol": "arduino",
+	"tool" : "avrdude",
+	"maximum_data_size" : "1024",
         "maximum_size": "14336",
         "speed": "19200"
     },
@@ -10,15 +12,18 @@
         "high_fuses": "0xdd",
         "extended_fuses": "0x00",
         "path": "atmega",
-        "file": "ATmegaBOOT_168_ng.hex",
+        "file": "ATmegaBOOT_168_diecimila.hex",
         "unlock_bits": "0x3F",
-        "lock_bits": "0x0F"
+        "lock_bits": "0x0F",
+	"tool" : "avrdude"
     },
     "build": {
         "mcu": "atmega168",
         "f_cpu": "16000000L",
         "core": "arduino",
-        "variant": "standard"
+        "variant": "standard",
+	    "board" : "AVR_DUEMILANOVE"
+        
     },
-    "id": "atmega168"
+    "id": "diecimila"
 }

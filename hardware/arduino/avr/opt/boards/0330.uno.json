@@ -2,16 +2,18 @@
     "id": "uno",
     "name": "Arduino Uno",
     "uid" : [
-        {"vid":"0x2a03", "pid":"0x0043"},
         {"vid":"0x2341", "pid":"0x0043"},
-        {"vid":"0x2341", "pid":"0x0001"}
+        {"vid":"0x2341", "pid":"0x0001"},
+        {"vid":"0x2a03", "pid":"0x0043"}
     ],
     "upload": {
+	"tool":"avrdude",
         "protocol": "arduino",
         "maximum_size": "32256",
         "speed": "115200"
     },
     "bootloader": {
+	"tool":"avrdude",
         "low_fuses": "0xff",
         "high_fuses": "0xde",
         "extended_fuses": "0x05",
@@ -23,8 +25,7 @@
     "build": {
         "mcu": "atmega328p",
         "f_cpu": "16000000L",
-        "vid": "0x2a03",
-        "pid": "0x0043",
+	"board":"AVR_UNO",
         "core": "arduino",
         "variant": "standard"
     },

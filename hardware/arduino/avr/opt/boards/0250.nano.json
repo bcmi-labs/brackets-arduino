@@ -1,24 +1,28 @@
 {
-    "name": "Arduino Pro or Pro Mini (3.3V, 8 MHz) w/ ATmega168",
+    "name": "Arduino Nano w/ ATmega168",
     "upload": {
+	"tool":"avrdude",
         "protocol": "arduino",
         "maximum_size": "14336",
+	"maximum_data_size":"1024",
         "speed": "19200"
     },
     "bootloader": {
-        "low_fuses": "0xc6",
+	"tool" :"avrdude",
+        "low_fuses": "0xff",
         "high_fuses": "0xdd",
         "extended_fuses": "0x00",
         "path": "atmega",
-        "file": "ATmegaBOOT_168_pro_8MHz.hex",
+        "file": "ATmegaBOOT_168_diecimila.hex",
         "unlock_bits": "0x3F",
         "lock_bits": "0x0F"
     },
     "build": {
         "mcu": "atmega168",
-        "f_cpu": "8000000L",
+        "f_cpu": "16000000L",
+	"board" : "AVR_NANO",
         "core": "arduino",
-        "variant": "standard"
+        "variant": "eightanaloginputs"
     },
-    "id": "pro"
+    "id": "nano"
 }

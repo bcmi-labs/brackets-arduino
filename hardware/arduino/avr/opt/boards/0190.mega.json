@@ -1,6 +1,14 @@
 {
     "name": "Arduino Mega (ATmega1280)",
+    "uid" : [
+        {"vid":"0x2341", "pid":"0x0010"},
+        {"vid":"0x2341", "pid":"0x0042"},
+        {"vid":"0x2a03", "pid":"0x0010"},
+        {"vid":"0x2a03", "pid":"0x0042"}
+    ],
     "upload": {
+	"tool" : "avrdude",
+	"maximum_data_size":"8192",
         "protocol": "arduino",
         "maximum_size": "126976",
         "speed": "57600"
@@ -10,6 +18,7 @@
         "high_fuses": "0xDA",
         "extended_fuses": "0xF5",
         "path": "atmega",
+	"tool" : "avrdude",
         "file": "ATmegaBOOT_168_atmega1280.hex",
         "unlock_bits": "0x3F",
         "lock_bits": "0x0F"
@@ -18,7 +27,8 @@
         "mcu": "atmega1280",
         "f_cpu": "16000000L",
         "core": "arduino",
-        "variant": "mega"
+        "variant": "mega",
+	"board" : "AVR_MEGA"
     },
     "id": "mega"
 }

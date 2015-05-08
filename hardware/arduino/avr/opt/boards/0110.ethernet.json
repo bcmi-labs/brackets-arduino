@@ -2,10 +2,13 @@
     "name": "Arduino Ethernet",
     "upload": {
         "protocol": "arduino",
+	"tool" : "avrdude",
         "maximum_size": "32256",
+	"maximum_data_size" : "2048",
         "speed": "115200"
     },
     "bootloader": {
+	"tool" : "avrdude",
         "low_fuses": "0xff",
         "high_fuses": "0xde",
         "extended_fuses": "0x05",
@@ -15,8 +18,9 @@
         "lock_bits": "0x0F"
     },
     "build": {
-        "variant": "standard",
+        "variant": "ethernet",
         "mcu": "atmega328p",
+	"board" : "AVR_ETHERNET",
         "f_cpu": "16000000L",
         "core": "arduino"
     },

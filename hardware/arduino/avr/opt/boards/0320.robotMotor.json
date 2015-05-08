@@ -1,12 +1,17 @@
 {
     "name": "Arduino Robot Motor",
     "upload": {
+	"tool" : "avrdude",
         "protocol": "avr109",
         "maximum_size": "28672",
+	"maximum_data_size":"2560",
         "speed": "57600",
-        "disable_flushing": "true"
+        "disable_flushing": "true",
+	"use_1200bps_touch":"true",
+	"wait_for_upload_port":"true"
     },
     "bootloader": {
+	"tool":"avrdude",
         "low_fuses": "0xff",
         "high_fuses": "0xd8",
         "extended_fuses": "0xcb",
@@ -18,10 +23,12 @@
     "build": {
         "mcu": "atmega32u4",
         "f_cpu": "16000000L",
-        "vid": "0x2341",
+        "vid": "0x2a03",
         "pid": "0x8039",
-        "core": "robot",
-        "variant": "robot_motor"
+	"usb_product":"AVR_ROBOT_MOTOR",
+        "core": "arduino",
+        "variant": "robot_motor",
+	"extra_flags":"{usb_flags}"
     },
     "id": "robotMotor"
 }

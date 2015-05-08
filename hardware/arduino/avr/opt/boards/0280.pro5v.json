@@ -1,11 +1,14 @@
 {
-    "name": "Arduino Diecimila or Duemilanove w/ ATmega168",
+    "name": "Arduino Pro or Pro Mini (5V, 16 MHz) w/ ATmega168",
     "upload": {
         "protocol": "arduino",
+	"tool":"avrdude",
         "maximum_size": "14336",
+	"upload.maximum_data_size":"1024",
         "speed": "19200"
     },
     "bootloader": {
+	"tool":"avrdude",
         "low_fuses": "0xff",
         "high_fuses": "0xdd",
         "extended_fuses": "0x00",
@@ -17,8 +20,9 @@
     "build": {
         "mcu": "atmega168",
         "f_cpu": "16000000L",
+	"board":"AVR_PRO",
         "core": "arduino",
         "variant": "standard"
     },
-    "id": "diecimila"
+    "id": "pro5v"
 }

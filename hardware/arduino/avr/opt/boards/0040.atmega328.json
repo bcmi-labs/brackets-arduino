@@ -1,24 +1,29 @@
 {
-    "name": "Arduino Pro or Pro Mini (5V, 16 MHz) w/ ATmega328",
+    "name": "Arduino Duemilanove w/ ATmega328",
     "upload": {
         "protocol": "arduino",
+	"tool" : "avrdude",
         "maximum_size": "30720",
+	"maximum_data_size" : "2048",
         "speed": "57600"
     },
     "bootloader": {
+	"high_fuses":"0xDA",
         "low_fuses": "0xFF",
+	"tool":"avrdude",
+	"unlock_bits" :"0x3F",
+	"lock_bits":"0x0F",
         "high_fuses": "0xDA",
         "extended_fuses": "0x05",
         "path": "atmega",
-        "file": "ATmegaBOOT_168_atmega328.hex",
-        "unlock_bits": "0x3F",
-        "lock_bits": "0x0F"
+        "file": "ATmegaBOOT_168_atmega328.hex"
     },
     "build": {
         "mcu": "atmega328p",
         "f_cpu": "16000000L",
         "core": "arduino",
-        "variant": "standard"
+        "variant": "standard",
+	"board":"AVR_DUEMILANOVE"
     },
-    "id": "pro5v328"
+    "id": "atmega328"
 }

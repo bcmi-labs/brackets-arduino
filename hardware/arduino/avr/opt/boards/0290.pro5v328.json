@@ -1,11 +1,14 @@
 {
-    "name": "Arduino Nano w/ ATmega328",
+    "name": "Arduino Pro or Pro Mini (5V, 16 MHz) w/ ATmega328",
     "upload": {
+	"tool":"avrdude",
         "protocol": "arduino",
         "maximum_size": "30720",
+	"maximum_data_size":"2048",
         "speed": "57600"
     },
     "bootloader": {
+	"tool":"avrdude",
         "low_fuses": "0xFF",
         "high_fuses": "0xDA",
         "extended_fuses": "0x05",
@@ -17,8 +20,9 @@
     "build": {
         "mcu": "atmega328p",
         "f_cpu": "16000000L",
+	"board":"AVR_PRO",
         "core": "arduino",
         "variant": "eightanaloginputs"
     },
-    "id": "nano328"
+    "id": "pro5v328"
 }

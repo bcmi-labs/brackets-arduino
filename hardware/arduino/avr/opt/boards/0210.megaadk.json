@@ -1,0 +1,65 @@
+{
+  "id": "megaadk",
+  "name": "Arduino Mega ADK",
+  "uid": [
+    {
+      "vid": "0x2341",
+      "pid": "0x003f"
+    },
+    {
+      "vid": "0x2341",
+      "pid": "0x0044"
+    },
+    {
+      "vid": "0x2a03",
+      "pid": "0x003f"
+    },
+    {
+      "vid": "0x2a03",
+      "pid": "0x0044"
+    }
+  ],
+  "upload": {
+    "protocol": "wiring",
+    "maximum_size": "253952",
+    "maximum_data_size": "8132",
+    "speed": "115200",
+    "tool": "avrdude"
+  },
+  "bootloader": {
+    "low_fuses": "0xFF",
+    "high_fuses": "0xD8",
+    "extended_fuses": "0xFD",
+    "file": "stk500v2/stk500boot_v2_mega2560.hex",
+    "unlock_bits": "0x3F",
+    "lock_bits": "0x0F",
+    "tool": "avrdude"
+  },
+  "build": {
+    "mcu": "atmega2560",
+    "f_cpu": "16000000L",
+    "core": "arduino",
+    "variant": "mega",
+    "board": "AVR_ADK"
+  },
+  "info": {
+    "power": {
+      "operating": 5,
+      "inputmin": 5,
+      "inputmax": 7
+    },
+    "memory": {
+      "flash": 32,
+      "sram": 2.5,
+      "eeprom": 1
+    },
+    "clockspeed": 16,
+    "io": {
+      "digital": 20,
+      "pwm": 7,
+      "analogin": 12
+    }
+  },
+  "homepage": "http://arduino.org/products/arduino-yun",
+  "vendor": "Arduino Srl"
+}

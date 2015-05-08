@@ -28,12 +28,13 @@
     "build": {
         "mcu": "atmega32u4",
         "f_cpu": "16000000L",
-        "vid": "0x2341",
-        "pid": "0x8041",
+        "vid": "0x2a03",
+        "pid": "0x8001",
         "core": "arduino",
         "variant": "yun",
         "board" : "AVR_YUN",
-        "usb_product" : "Arduino Yun"
+        "usb_product" : "Linino One",
+	"extra_flags":"{usb_flags}"
     },
     "info": {
         "power": {

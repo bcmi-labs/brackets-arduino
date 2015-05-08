@@ -1,16 +1,19 @@
 {
-    "name": "Arduino Pro or Pro Mini (5V, 16 MHz) w/ ATmega168",
+    "name": "Arduino Mini w/ ATmega168",
     "upload": {
+	"tool" : "avrdude",
         "protocol": "arduino",
         "maximum_size": "14336",
+	"maximum_data_size":"1024",
         "speed": "19200"
     },
     "bootloader": {
+	"tool":"avrdude",
         "low_fuses": "0xff",
         "high_fuses": "0xdd",
         "extended_fuses": "0x00",
         "path": "atmega",
-        "file": "ATmegaBOOT_168_diecimila.hex",
+        "file": "ATmegaBOOT_168_ng.hex",
         "unlock_bits": "0x3F",
         "lock_bits": "0x0F"
     },
@@ -18,7 +21,8 @@
         "mcu": "atmega168",
         "f_cpu": "16000000L",
         "core": "arduino",
-        "variant": "standard"
+	"board" : "AVR_MINI",
+        "variant": "eightanaloginputs"
     },
-    "id": "pro5v"
+    "id": "mini"
 }

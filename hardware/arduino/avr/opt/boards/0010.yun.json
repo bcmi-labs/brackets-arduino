@@ -1,60 +1,73 @@
 {
-    "id": "yun",
-    "name": "Arduino Yún",
-    "uid" : [
-              {"vid":"0x2341", "pid":"0x0041"},
-              {"vid":"0x2341", "pid":"0x8041"},
-              {"vid":"0x2a03", "pid":"0x0041"},
-              {"vid":"0x2a03", "pid":"0x8041"}
-            ],
-    "upload": {
-        "protocol": "avr109",
-        "maximum_size": "28672",
-        "maximum_data_size": "2560",
-        "speed": "57600",
-        "tool": "avrdude",
-        "wait_for_upload_port":  true,
-        "use_1200bps_touch":     true,
-        "disable_flushing":      true,
-        "via_ssh": true
+  "id": "yun",
+  "name": "Arduino Yún",
+  "uid": [
+    {
+      "vid": "0x2341",
+      "pid": "0x0041"
     },
-    "bootloader": {
-        "low_fuses": "0xff",
-        "high_fuses": "0xd8",
-        "extended_fuses": "0xfb",
-        "file": "caterina/Caterina-Yun.hex",
-        "unlock_bits": "0x3F",
-        "lock_bits": "0x2F",
-        "tool":"avrdude"
+    {
+      "vid": "0x2341",
+      "pid": "0x8041"
     },
-    "build": {
-        "mcu": "atmega32u4",
-        "f_cpu": "16000000L",
-        "vid": "0x2a03",
-        "pid": "0x8041",
-        "core": "arduino",
-        "variant": "yun",
-        "board" : "AVR_YUN",
-        "usb_product" : "Arduino Yun"
+    {
+      "vid": "0x2a03",
+      "pid": "0x0041"
     },
-    "info": {
-        "power": {
-            "operating":5,
-            "inputmin":5,
-            "inputmax":7
-        },
-        "memory": {
-            "flash":32,
-            "sram":2.5,
-            "eeprom":1
-        },
-        "clockspeed": 16,
-        "io":{
-            "digital":20,
-            "pwm":7,
-            "analogin":12
-        }
+    {
+      "vid": "0x2a03",
+      "pid": "0x8041"
+    }
+  ],
+  "upload": {
+    "protocol": "avr109",
+    "maximum_size": "28672",
+    "maximum_data_size": "2560",
+    "speed": "57600",
+    "tool": "avrdude",
+    "wait_for_upload_port": true,
+    "use_1200bps_touch": true,
+    "disable_flushing": true,
+    "via_ssh": true
+  },
+  "bootloader": {
+    "low_fuses": "0xff",
+    "high_fuses": "0xd8",
+    "extended_fuses": "0xfb",
+    "file": "caterina/Caterina-Yun.hex",
+    "unlock_bits": "0x3F",
+    "lock_bits": "0x2F",
+    "tool": "avrdude"
+  },
+  "build": {
+    "mcu": "atmega32u4",
+    "f_cpu": "16000000L",
+    "vid": "0x2a03",
+    "pid": "0x8041",
+    "core": "arduino",
+    "variant": "yun",
+    "board": "AVR_YUN",
+    "usb_product": "Arduino Yun",
+    "extra_flags": "{usb_flags}"
+  },
+  "info": {
+    "power": {
+      "operating": 5,
+      "inputmin": 5,
+      "inputmax": 7
     },
-    "homepage": "http://arduino.org/products/arduino-yun",
-    "vendor":"Arduino Srl"
+    "memory": {
+      "flash": 32,
+      "sram": 2.5,
+      "eeprom": 1
+    },
+    "clockspeed": 16,
+    "io": {
+      "digital": 20,
+      "pwm": 7,
+      "analogin": 12
+    }
+  },
+  "homepage": "http://arduino.org/products/arduino-yun",
+  "vendor": "Arduino Srl"
 }
