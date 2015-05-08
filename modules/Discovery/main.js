@@ -51,7 +51,7 @@ define(function (require, exports, module) {
     var pref;
     
     //TODO CHANGE NAME
-    function PortMenu () {
+    function Discovery () {
         pref = brackets.arduino.preferences;
         discoveryDomain = brackets.arduino.domains[discoveryDomainName];
 
@@ -150,5 +150,5 @@ define(function (require, exports, module) {
     }
 
 
-    return PortMenu;
+    return Discovery;
 });
