@@ -366,8 +366,7 @@ define(function (require, exports, module) {
      * set the programmer by the user selection, and save it in the target object.
      * @param selectedProgrammer
      */
-    function setProgrammer(selectedProgrammer)
-    {
+    function setProgrammer(selectedProgrammer) {
         if(selectedProgrammer) {
             //TODO write on the status-bar the selected board
             //$("#labelBoard")[0].textContent = selectedPort.name + " on " + selectedBoard.id;
@@ -375,5 +374,46 @@ define(function (require, exports, module) {
             brackets.arduino.preferences.set( "arduino.ide.options.target.programmer", selectedProgrammer.protocol);
         }
     }
+
+
+    Options.prototype.setTargetBoard = function(boardId){
+        var archs = brackets.arduino.options.archs;
+        for(var archIdx in archs){ //loop trough the archs/platforms
+            var boards = archs[archIdx].boards;
+            for(var boardIdx in boards){ //TODO add archs in the option
+                if(boards[boardIdx].id == boardId){
+                    setBoard( boards[boardIdx] );
+                    return;
+                }
+            }
+        }
+    };
+
+    Options.prototype.setTargetPort = function(portId){
+        brackets.arduino.dispatcher.trigger("arduino-event-port-serial-get", function(err, result){
+            if(!err){
+                for(var index in result) {
+                    if (result[index].address == portId) {
+                        setPort(result[index]);
+                        return;
+                    }
+                }
+            }
+        });
+    };
+
+    Options.prototype.setTargetProgrammer = function(programmerId){
+        var archs = brackets.arduino.options.archs;
+        for(var archIdx in archs){ //loop trough the archs/platforms
+            var programmers = archs[archIdx].programmers;
+            for(var progIdx in programmers){
+                if(programmers[progIdx].protocol == programmerId){
+                    setProgrammer( programmers[progIdx] );
+                    return;
+                }
+            }
+       }
+    };
+
     return Options;
 });

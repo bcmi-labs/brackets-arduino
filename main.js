@@ -67,8 +67,6 @@ define(function (require, exports, module) {
     var Options   = require("modules/Preferences/opts");
     var opts = new Options( FileUtils.getNativeModuleDirectoryPath(module) + "/hardware/arduino" );
 
-	
-	
     brackets.arduino.preferences  = new Preferences( FileUtils.getNativeModuleDirectoryPath(module) + "/shared/preferences.json" );
 
     //TODO complete with others platform path: core, user lib, sketchbook...
@@ -96,7 +94,9 @@ define(function (require, exports, module) {
 		var console         = new Console();
         var menu            = new Menu();
 
-
+        opts.setTargetBoard( brackets.arduino.preferences.get("arduino.ide.options.target.board"));
+        opts.setTargetPort( brackets.arduino.preferences.get("arduino.ide.options.target.port"));
+        opts.setTargetProgrammer( brackets.arduino.preferences.get("arduino.ide.options.target.programmer"));
 
     });
 
