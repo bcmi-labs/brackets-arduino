@@ -47,6 +47,8 @@ define(function (require, exports, module) {
         filesystemDomainName        = "org-arduino-ide-domain-filesystem",
         copypasteDomainName         = "org-arduino-ide-domain-copypaste";
 
+    var arduinoHints                = null;
+
     brackets.arduino = {
         preferences : {},
         domains     : {},
@@ -97,7 +99,9 @@ define(function (require, exports, module) {
         opts.setTargetBoard( brackets.arduino.preferences.get("arduino.ide.options.target.board"));
         opts.setTargetPort( brackets.arduino.preferences.get("arduino.ide.options.target.port"));
         opts.setTargetProgrammer( brackets.arduino.preferences.get("arduino.ide.options.target.programmer"));
-
+        setTimeout(function(){
+        arduinoHints  = require("modules/Hints/main");
+        },5000);
     });
 
 

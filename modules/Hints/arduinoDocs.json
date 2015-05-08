@@ -1,0 +1,792 @@
+[
+{
+	"Name":"setup",
+	"Desc":"The setup() function is called when a sketch starts. Use it to initialize variables, pin modes, start using libraries, etc. The setup function will only run once, after each powerup or reset of the Arduino board.",
+	"Syn":
+	{
+		"Syntax":"setup()",
+		"Params":["none"],"Return":" "},
+		"Examples":["void setup()<br>{<br>//your code here<br>}"],
+		"Additional":[" "]
+	},
+{
+	"Name":"loop",
+	"Desc":"After creating a setup() function, which initializes and sets the initial values, the loop() function does precisely what its name suggests, and loops consecutively, allowing your program to change and respond. Use it to actively control the Arduino board.",
+	"Syn":
+	{
+		"Syntax":"loop()",
+		"Params":[" "],"Return":" "},
+		"Examples":["void loop()<br>{<br>//your code here<br>}"],
+		"Additional":[" "]
+	},
+{
+	"Name":"if",
+	"Desc":"if, which is used in conjunction with a comparison operator, tests whether a certain condition has been reached, such as an input being above a certain number.",
+	"Syn":
+	{
+		"Syntax":"if (conditional) and ==, !=, <, > (comparison operators)",
+		"Params":[" "],"Return":" "},
+		"Examples":["if (x > 120)<br>digitalWrite(LEDpin, HIGH);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"for",
+	"Desc":"The for statement is used to repeat a block of statements enclosed in curly braces. An increment counter is usually used to increment and terminate the loop. The for statement is useful for any repetitive operation, and is often used in combination with arrays to operate on collections of data/pins.",
+	"Syn":
+	{
+		"Syntax":"for (initialization; condition; increment) {",
+		"Params":[" "],"Return":" "},
+		"Examples":["for (int i=0; i <= 255; i++){<br>\tanalogWrite(PWMpin, i);<br>\tdelay(10);<br>} "],
+		"Additional":[" "]
+	},
+{
+	"Name":"switch",
+	"Desc":"Like if statements, switch...case controls the flow of programs by allowing programmers to specify different code that should be executed in various conditions. In particular, a switch statement compares the value of a variable to the values specified in case statements. When a case statement is found whose value matches that of the variable, the code in that case statement is run. The break keyword exits the switch statement, and is typically used at the end of each case. Without a break statement, the switch statement will continue executing the following expressions ('falling-through') until a break, or the end of the switch statement is reached.",
+	"Syn":
+	{
+		"Syntax":"switch (var) {<br>case label:<br>//code here<br>break;<br>default:<br>//code here",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":["http://arduino.cc/en/Reference/SwitchCase"]
+	},
+{
+	"Name":"while",
+	"Desc":"while loops will loop continuously, and infinitely, until the expression inside the parenthesis, () becomes false. Something must change the tested variable, or the while loop will never exit. This could be in your code, such as an incremented variable, or an external condition, such as testing a sensor.",
+	"Syn":
+	{
+		"Syntax":"while(expression){<br>//statement(s)<br>}",
+		"Params":["expression - a (boolean) C statement that evaluates to true or false"],"Return":" "},
+		"Examples":["var = 0;<br>while(var < 200){<br>// do something repetitive 200 times<br>var++;<br>}"],
+		"Additional":[" "]
+	},
+{
+	"Name":"break",
+	"Desc":"break is used to exit from a do, for, or while loop, bypassing the normal loop condition. It is also used to exit from a switch statement.",
+	"Syn":
+	{
+		"Syntax":"break;",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"continue",
+	"Desc":"The continue statement skips the rest of the current iteration of a loop (do, for, or while). It continues by checking the conditional expression of the loop, and proceeding with any subsequent iterations.",
+	"Syn":
+	{
+		"Syntax":"continue;",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"return",
+	"Desc":"Terminate a function and return a value from a function to the calling function, if desired.",
+	"Syn":
+	{
+		"Syntax":"return;<br>return value;",
+		"Params":["value: any variable or constant type"],"Return":" "},
+		"Examples":["return 0;"],
+		"Additional":[" "]
+	},
+{
+	"Name":"goto",
+	"Desc":"Transfers program flow to a labeled point in the program",
+	"Syn":
+	{
+		"Syntax":"label: //your code here<br>goto label;",
+		"Params":[" "],"Return":" "},
+		"Examples":["label:<br>goto label;<br>//sends program flow to the label"],
+		"Additional":[" "]
+	},
+{
+	"Name":"HIGH",
+	"Desc":"The meaning of HIGH (in reference to a pin) is somewhat different depending on whether a pin is set to an INPUT or OUTPUT. When a pin is configured as an INPUT with pinMode, and read with digitalRead, the microcontroller will report HIGH if:a voltage greater than 3 volts is present at the pin (5V boards);a voltage greater than 2 volts is present at the pin (3.3V boards);A pin may also be configured as an INPUT with pinMode, and subsequently made HIGH with digitalWrite, this will set the internal 20K pullup resistors, which will steer the input pin to a HIGH reading unless it is pulled LOW by external circuitry. This is how INPUT_PULLUP works as well.<br>When a pin is configured to OUTPUT with pinMode, and set to HIGH with digitalWrite, the pin is at:5 volts (5V boards);<br>3.3 volts (3.3V boards);In this state it can source current, e.g. light an LED that is connected through a series resistor to ground, or to another pin configured as an output, and set to LOW.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"LOW",
+	"Desc":"The meaning of LOW also has a different meaning depending on whether a pin is set to INPUT or OUTPUT. When a pin is configured as an INPUT with pinMode, and read with digitalRead, the microcontroller will report LOW if:<br>a voltage less than 3 volts is present at the pin (5V boards);<br>a voltage less than 2 volts is present at the pin (3.3V boards); When a pin is configured to OUTPUT with pinMode, and set to LOW with digitalWrite, the pin is at 0 volts (both 5V and 3.3V boards). In this state it can sink current, e.g. light an LED that is connected through a series resistor to, +5 volts (or +3.3 volts), or to another pin configured as an output, and set to HIGH.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"INPUT",
+	"Desc":"Arduino (Atmega) pins configured as INPUT with pinMode() are said to be in a high-impedance state. Pins configured as INPUT make extremely small demands on the circuit that they are sampling, equivalent to a series resistor of 100 Megohms in front of the pin. This makes them useful for reading a sensor, but not powering an LED.<br>If you have your pin configured as an INPUT, you will want the pin to have a reference to ground, often accomplished with a pull-down resistor (a resistor going to ground) as described in the Digital Read Serial tutorial.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"INPUT_PULLUP",
+	"Desc":"The Atmega chip on the Arduino has internal pull-up resistors (resistors that connect to power internally) that you can access. If you prefer to use these instead of external pull-down resistors, you can use the INPUT_PULLUP argument in pinMode(). This effectively inverts the behavior, where HIGH means the sensor is off, and LOW means the sensor is on. See the Input Pullup Serial tutorial for an example of this in use.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"OUTPUT",
+	"Desc":"Pins configured as OUTPUT with pinMode() are said to be in a low-impedance state. This means that they can provide a substantial amount of current to other circuits. Atmega pins can source (provide positive current) or sink (provide negative current) up to 40 mA (milliamps) of current to other devices/circuits. This makes them useful for powering LED's but useless for reading sensors. Pins configured as outputs can also be damaged or destroyed if short circuited to either ground or positive power rails. The amount of current provided by an Atmega pin is also not enough to power most relays or motors, and some interface circuitry will be required.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"LED_BUILTIN",
+	"Desc":"Most Arduino boards have a pin connected to an on-board LED in series with a resistor. LED_BUILTIN is a drop-in replacement for manually declaring this pin as a variable. Most boards have this LED connected to digital pin 13.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"false",
+	"Desc":"false is the easier of the two to define. false is defined as 0 (zero).",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"true",
+	"Desc":"true is often said to be defined as 1, which is correct, but true has a wider definition. Any integer which is non-zero is true, in a Boolean sense. So -1, 2 and -200 are all defined as true, too, in a Boolean sense.<br>Note that the true and false constants are typed in lowercase unlike HIGH, LOW, INPUT, & OUTPUT.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"boolean",
+	"Desc":"A boolean holds one of two values, true or false. (Each boolean variable occupies one byte of memory.)",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"pinMode",
+	"Desc":"Configures the specified pin to behave either as an input or an output. See the description of digital pins for details on the functionality of the pins.<br>As of Arduino 1.0.1, it is possible to enable the internal pullup resistors with the mode INPUT_PULLUP. Additionally, the INPUT mode explicitly disables the internal pullups.",
+	"Syn":
+	{
+		"Syntax":"pinMode(pin, mode);",
+		"Params":["pin: the number of the pin whose mode you wish to set<br>mode: INPUT, OUTPUT, or INPUT_PULLUP. (see the digital pins page for a more complete description of the functionality.)"],"Return":"None"},
+		"Examples":["int ledPin = 13;<br>pinMode(ledPin, OUTPUT);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"void",
+	"Desc":"The void keyword is used only in function declarations. It indicates that the function is expected to return no information to the function from which it was called.",
+	"Syn":
+	{
+		"Syntax":"void",
+		"Params":[" "],"Return":" "},
+		"Examples":["void setup();"],
+		"Additional":[" "]
+	},
+{
+	"Name":"char",
+	"Desc":"A data type that takes up 1 byte of memory that stores a character value. Character literals are written in single quotes, like this: 'A' (for multiple characters - strings - use double quotes: 'ABC').<br>Characters are stored as numbers however. You can see the specific encoding in the ASCII chart. This means that it is possible to do arithmetic on characters, in which the ASCII value of the character is used (e.g. 'A' + 1 has the value 66, since the ASCII value of the capital letter A is 65). See Serial.println reference for more on how characters are translated to numbers.<br>The char datatype is a signed type, meaning that it encodes numbers from -128 to 127. For an unsigned, one-byte (8 bit) data type, use the byte data type.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":["char myChar = 'A';"],
+		"Additional":[" "]
+	},
+{
+	"Name":"byte",
+	"Desc":" ",
+	"Syn":
+	{
+		"Syntax":"A byte stores an 8-bit unsigned number, from 0 to 255.",
+		"Params":[" "],"Return":" "},
+		"Examples":["byte b = B10010;"],
+		"Additional":[" "]
+	},
+{
+	"Name":"int",
+	"Desc":"Integers are your primary data-type for number storage.On the Arduino Uno (and other ATMega based boards) an int stores a 16-bit (2-byte) value. This yields a range of -32,768 to 32,767 (minimum value of -2^15 and a maximum value of (2^15) - 1). On the Arduino Due, an int stores a 32-bit (4-byte) value. This yields a range of -2,147,483,648 to 2,147,483,647 (minimum value of -2^31 and a maximum value of (2^31) - 1).int's store negative numbers with a technique called 2's complement math. The highest bit, sometimes referred to as the 'sign' bit, flags the number as a negative number. The rest of the bits are inverted and 1 is added.The Arduino takes care of dealing with negative numbers for you, so that arithmetic operations work transparently in the expected manner. There can be an unexpected complication in dealing with the bitshift right operator (>>) however.",
+	"Syn":
+	{
+		"Syntax":"int var = val;",
+		"Params":["var : your int variable name<br>val : the value you assign to that variable"],"Return":" "},
+		"Examples":["int ledPin = 13;"],
+		"Additional":[" "]
+	},
+{
+	"Name":"word",
+	"Desc":"A word stores a 16-bit unsigned number, from 0 to 65535. Same as an unsigned int.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":["word w = 10000;"],
+		"Additional":[" "]
+	},
+{
+	"Name":"long",
+	"Desc":"Long variables are extended size variables for number storage, and store 32 bits (4 bytes), from -2,147,483,648 to 2,147,483,647.<br>If doing math with integers, at least one of the numbers must be followed by an L, forcing it to be a long. See the Integer Constants page for details.",
+	"Syn":
+	{
+		"Syntax":"long var = val;",
+		"Params":[" "],"Return":" "},
+		"Examples":["long speedOfLight = 186000L;"],
+		"Additional":[" "]
+	},
+{
+	"Name":"short",
+	"Desc":"A short is a 16-bit data-type.<br>On all Arduinos (ATMega and ARM based) a short stores a 16-bit (2-byte) value. This yields a range of -32,768 to 32,767 (minimum value of -2^15 and a maximum value of (2^15) - 1).",
+	"Syn":
+	{
+		"Syntax":"short var = val;",
+		"Params":["var : your short variable name<br>val : the value you assign to that variable"],"Return":" "},
+		"Examples":["short ledPin = 13;"],
+		"Additional":[" "]
+	},
+{
+	"Name":"float",
+	"Desc":"Datatype for floating-point numbers, a number that has a decimal point. Floating-point numbers are often used to approximate analog and continuous values because they have greater resolution than integers. Floating-point numbers can be as large as 3.4028235E+38 and as low as -3.4028235E+38. They are stored as 32 bits (4 bytes) of information.<br>Floats have only 6-7 decimal digits of precision. That means the total number of digits, not the number to the right of the decimal point. Unlike other platforms, where you can get more precision by using a double (e.g. up to 15 digits), on the Arduino, double is the same size as float.<br>Floating point numbers are not exact, and may yield strange results when compared. For example 6.0 / 3.0 may not equal 2.0. You should instead check that the absolute value of the difference between the numbers is less than some small number.<br>Floating point math is also much slower than integer math in performing calculations, so should be avoided if, for example, a loop has to run at top speed for a critical timing function. Programmers often go to some lengths to convert floating point calculations to integer math to increase speed.<br>If doing math with floats, you need to add a decimal point, otherwise it will be treated as an int. See the Floating point constants page for details.",
+	"Syn":
+	{
+		"Syntax":"float var = val;",
+		"Params":["var - your float variable name<br>val - the value you assign to that variable"],"Return":" "},
+		"Examples":["float sensorCalbrate = 1.117;"],
+		"Additional":[" "]
+	},
+{
+	"Name":"double",
+	"Desc":"Double precision floating point number. On the Uno and other ATMEGA based boards, this occupies 4 bytes. That is, the double implementation is exactly the same as the float, with no gain in precision.<br>On the Arduino Due, doubles have 8-byte (64 bit) precision.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"string",
+	"Desc":" ",
+	"Syn":
+	{
+		"Syntax":"Text strings can be represented in two ways. you can use the String data type, which is part of the core as of version 0019, or you can make a string out of an array of type char and null-terminate it. This page described the latter method. For more details on the String object, which gives you more functionality at the cost of more memory, see the String object page.",
+		"Params":[" "],"Return":" "},
+		"Examples":["char Str4[ ] = \"arduino\";"],
+		"Additional":[" "]
+	},
+{
+	"Name":"String",
+	"Desc":"The String class, part of the core as of version 0019, allows you to use and manipulate strings of text in more complex ways than character arrays do. You can concatenate Strings, append to them, search for and replace substrings, and more. It takes more memory than a simple character array, but it is also more useful.<br>For reference, character arrays are referred to as strings with a small s, and instances of the String class are referred to as Strings with a capital S. Note that constant strings, specified in \"double quotes\" are treated as char arrays, not instances of the String class.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"char()",
+	"Desc":"Converts a value to the char data type.",
+	"Syn":
+	{
+		"Syntax":"char(x)",
+		"Params":["x: a value of any type"],"Return":"char"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"byte()",
+	"Desc":"Converts a value to the byte data type.",
+	"Syn":
+	{
+		"Syntax":"byte(x)",
+		"Params":["x: a value of any type"],"Return":"byte"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"int()",
+	"Desc":"Converts a value to the int data type.",
+	"Syn":
+	{
+		"Syntax":"int(x)",
+		"Params":["x: a value of any type"],"Return":"int"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"float()",
+	"Desc":"Converts a value to the float data type.",
+	"Syn":
+	{
+		"Syntax":"float(x)",
+		"Params":["x: a value of any type"],"Return":"float"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"static",
+	"Desc":"The static keyword is used to create variables that are visible to only one function. However unlike local variables that get created and destroyed every time a function is called, static variables persist beyond the function call, preserving their data between function calls.<br>Variables declared as static will only be created and initialized the first time a function is called.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":["static int  place;"],
+		"Additional":[" "]
+	},
+{
+	"Name":"volatile",
+	"Desc":"volatile is a keyword known as a variable qualifier, it is usually used before the datatype of a variable, to modify the way in which the compiler and subsequent program treats the variable.<br>Declaring a variable volatile is a directive to the compiler. The compiler is software which translates your C/C++ code into the machine code, which are the real instructions for the Atmega chip in the Arduino.<br>Specifically, it directs the compiler to load the variable from RAM and not from a storage register, which is a temporary memory location where program variables are stored and manipulated. Under certain conditions, the value for a variable stored in registers can be inaccurate.<br>A variable should be declared volatile whenever its value can be changed by something beyond the control of the code section in which it appears, such as a concurrently executing thread. In the Arduino, the only place that this is likely to occur is in sections of code associated with interrupts, called an interrupt service routine.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":["volatile int state = LOW;"],
+		"Additional":[" "]
+	},
+{
+	"Name":"const",
+	"Desc":"The const keyword stands for constant. It is a variable qualifier that modifies the behavior of the variable, making a variable \"read-only\". This means that the variable can be used just as any other variable of its type, but its value cannot be changed. You will get a compiler error if you try to assign a value to a const variable.<br>Constants defined with the const keyword obey the rules of variable scoping that govern other variables. This, and the pitfalls of using#define, makes the const keyword a superior method for defining constants and is preferred over using #define.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":["const float pi = 3.14;"],
+		"Additional":[" "]
+	},
+{
+	"Name":"define",
+	"Desc":"#define is a useful C component that allows the programmer to give a name to a constant value before the program is compiled. Defined constants in arduino don't take up any program memory space on the chip. The compiler will replace references to these constants with the defined value at compile time.<br>This can have some unwanted side effects though, if for example, a constant name that had been #defined is included in some other constant or variable name. In that case the text would be replaced by the #defined number (or text).<br>In general, the const keyword is preferred for defining constants and should be used instead of #define.<br>Arduino defines have the same syntax as C defines:",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":[" "],"Return":" "},
+		"Examples":["#define ledPin 3"],
+		"Additional":[" "]
+	},
+{
+	"Name":"sizeof",
+	"Desc":"The sizeof operator returns the number of bytes in a variable type, or the number of bytes occupied by an array.",
+	"Syn":
+	{
+		"Syntax":"sizeof(variable)",
+		"Params":["variable: any variable type or array (e.g. int, float, byte)"],"Return":" "},
+		"Examples":["for (i = 0; i < sizeof(ARRAY) - 1; i++){"],
+		"Additional":[" "]
+	},
+{
+	"Name":"PROGMEM",
+	"Desc":"Store data in flash (program) memory instead of SRAM. There's a description of the various types of memory available on an Arduino board.<br>The PROGMEM keyword is a variable modifier, it should be used only with the datatypes defined in pgmspace.h. It tells the compiler \"put this information into flash memory\", instead of into SRAM, where it would normally go.<br>PROGMEM is part of the pgmspace.h library. So you first need to include the library at the top your sketch, like this:<br>#include <avr/pgmspace.h>",
+	"Syn":
+	{
+		"Syntax":"dataType variableName[] PROGMEM = {dataInt0, dataInt1, dataInt3...};<br>program memory dataType - any program memory variable type (see below)<br>variableName - the name for your array of data<br>Note that because PROGMEM is a variable modifier, there is no hard and fast rule about where it should go, so the Arduino compiler accepts all of the definitions below, which are also synonymous. However experiments have indicated that, in various versions of Arduino (having to do with GCC version), PROGMEM may work in one location and not in another. The \"string table\" example below has been tested to work with Arduino 13. Earlier versions of the IDE may work better if PROGMEM is included after the variable name.<br>dataType variableName[] PROGMEM = {};   // use this form<br>dataType PROGMEM variableName[] = {};   // not this one<br>PROGMEM  dataType  variableName[] = {}; // use this form",
+		"Params":[" "],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"digitalWrite",
+	"Desc":"Write a HIGH or a LOW value to a digital pin.<br>If the pin has been configured as an OUTPUT with pinMode(), its voltage will be set to the corresponding value: 5V (or 3.3V on 3.3V boards) for HIGH, 0V (ground) for LOW.<br>If the pin is configured as an INPUT, digitalWrite() will enable (HIGH) or disable (LOW) the internal pullup on the input pin. It is recommended to set the pinMode() to INPUT_PULLUP to enable the internal pull-up resistor. See the digital pins tutorial for more information.<br>NOTE: If you do not set the pinMode() to OUTPUT, and connect an LED to a pin, when calling digitalWrite(HIGH), the LED may appear dim. Without explicitly setting pinMode(), digitalWrite() will have enabled the internal pull-up resistor, which acts like a large current-limiting resistor.",
+	"Syn":
+	{
+		"Syntax":"digitalWrite(pin, value)",
+		"Params":["pin: the pin number<br>value: HIGH or LOW"],"Return":"none"},
+		"Examples":["digitalWrite(ledPin, HIGH);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"digitalRead",
+	"Desc":"Reads the value from a specified digital pin, either HIGH or LOW.",
+	"Syn":
+	{
+		"Syntax":"digitalRead(pin)",
+		"Params":["pin: the number of the digital pin you want to read (int)"],"Return":"HIGH or LOW"},
+		"Examples":["val = digitalRead(PIN);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"analogReference",
+	"Desc":"Configures the reference voltage used for analog input (i.e. the value used as the top of the input range). The options are:<br>DEFAULT: the default analog reference of 5 volts (on 5V Arduino boards) or 3.3 volts (on 3.3V Arduino boards)<br>INTERNAL: an built-in reference, equal to 1.1 volts on the ATmega168 or ATmega328 and 2.56 volts on the ATmega8 (not available on the Arduino Mega)<br>INTERNAL1V1: a built-in 1.1V reference (Arduino Mega only)<br>INTERNAL2V56: a built-in 2.56V reference (Arduino Mega only)<br>EXTERNAL: the voltage applied to the AREF pin (0 to 5V only) is used as the reference.",
+	"Syn":
+	{
+		"Syntax":"analogReference(type)",
+		"Params":["type: which type of reference to use (DEFAULT, INTERNAL, INTERNAL1V1, INTERNAL2V56, or EXTERNAL)."],"Return":"none"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"analogRead",
+	"Desc":"Reads the value from the specified analog pin. The Arduino board contains a 6 channel (8 channels on the Mini and Nano, 16 on the Mega), 10-bit analog to digital converter. This means that it will map input voltages between 0 and 5 volts into integer values between 0 and 1023. This yields a resolution between readings of: 5 volts / 1024 units or, .0049 volts (4.9 mV) per unit. The input range and resolution can be changed using analogReference().<br>It takes about 100 microseconds (0.0001 s) to read an analog input, so the maximum reading rate is about 10,000 times a second.",
+	"Syn":
+	{
+		"Syntax":"analogRead(pin)",
+		"Params":["pin: the number of the analog input pin to read from (0 to 5 on most boards, 0 to 7 on the Mini and Nano, 0 to 15 on the Mega)"],"Return":"int (0 to 1023)"},
+		"Examples":["val = analogRead(analogPin);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"analogWrite",
+	"Desc":"Writes an analog value (PWM wave) to a pin. Can be used to light a LED at varying brightnesses or drive a motor at various speeds. After a call to analogWrite(), the pin will generate a steady square wave of the specified duty cycle until the next call to analogWrite() (or a call to digitalRead() or digitalWrite() on the same pin). The frequency of the PWM signal on most pins is approximately 490 Hz. On the Uno and similar boards, pins 5 and 6 have a frequency of approximately 980 Hz. Pins 3 and 11 on the Leonardo also run at 980 Hz.<br>On most Arduino boards (those with the ATmega168 or ATmega328), this function works on pins 3, 5, 6, 9, 10, and 11. On the Arduino Mega, it works on pins 2 - 13 and 44 - 46. Older Arduino boards with an ATmega8 only support analogWrite() on pins 9, 10, and 11.<br>The Arduino Due supports analogWrite() on pins 2 through 13, plus pins DAC0 and DAC1. Unlike the PWM pins, DAC0 and DAC1 are Digital to Analog converters, and act as true analog outputs.<br>You do not need to call pinMode() to set the pin as an output before calling analogWrite().<br>The analogWrite function has nothing to do with the analog pins or the analogRead function.",
+	"Syn":
+	{
+		"Syntax":"analogWrite(pin, value)",
+		"Params":["pin: the pin to write to.<br>value: the duty cycle: between 0 (always off) and 255 (always on)."],"Return":"none"},
+		"Examples":["analogWrite(ledPin, 125);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"analogReadResolution",
+	"Desc":"analogReadResolution() is an extension of the Analog API for the Arduino Due.<br>Sets the size (in bits) of the value returned by analogRead(). It defaults to 10 bits (returns values between 0-1023) for backward compatibility with AVR based boards.<br>The Due has 12-bit ADC capabilities that can be accessed by changing the resolution to 12. This will return values from analogRead() between 0 and 4095.",
+	"Syn":
+	{
+		"Syntax":"analogReadResolution(bits)",
+		"Params":["bits: determines the resolution (in bits) of the value returned by analogRead() function. You can set this 1 and 32. You can set resolutions higher than 12 but values returned by analogRead() will suffer approximation. See the note below for details."],"Return":"none"},
+		"Examples":["analogReadResolution(10);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"analogWriteResolution",
+	"Desc":"analogWriteResolution() is an extension of the Analog API for the Arduino Due.<br>analogWriteResolution() sets the resolution of the analogWrite() function. It defaults to 8 bits (values between 0-255) for backward compatibility with AVR based boards.<br>The Due has the following hardare capabilities:<br>12 pins which default to 8-bit PWM, like the AVR-based boards. These can be changed to 12-bit resolution.<br>2 pins with 12-bit DAC (Digital-to-Analog Converter)<br>By setting the write resolution to 12, you can use analogWrite() with values between 0 and 4095 to exploit the full DAC resolution or to set the PWM signal without rolling over.",
+	"Syn":
+	{
+		"Syntax":"analogWriteResolution(bits)",
+		"Params":["bits: determines the resolution (in bits) of the values used in the analogWrite() function. The value can range from 1 to 32. If you choose a resolution higher or lower than your board's hardware capabilities, the value used in analogWrite() will be either truncated if it's too high or padded with zeros if it's too low. See the note below for details."],"Return":"none"},
+		"Examples":["  analogWriteResolution(8);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"tone",
+	"Desc":"Generates a square wave of the specified frequency (and 50% duty cycle) on a pin. A duration can be specified, otherwise the wave continues until a call to noTone(). The pin can be connected to a piezo buzzer or other speaker to play tones.<br>Only one tone can be generated at a time. If a tone is already playing on a different pin, the call to tone() will have no effect. If the tone is playing on the same pin, the call will set its frequency.<br>Use of the tone() function will interfere with PWM output on pins 3 and 11 (on boards other than the Mega).<br>It is not possible to generate tones lower than 31Hz. For technical details, see Brett Hagman's notes.<br>NOTE: if you want to play different pitches on multiple pins, you need to call noTone() on one pin before calling tone() on the next pin.",
+	"Syn":
+	{
+		"Syntax":"tone(pin, frequency)<br>tone(pin, frequency, duration)",
+		"Params":["pin: the pin on which to generate the tone<br>frequency: the frequency of the tone in hertz - unsigned int<br>duration: the duration of the tone in milliseconds (optional) - unsigned long"],"Return":"none"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"shiftOut",
+	"Desc":"Shifts out a byte of data one bit at a time. Starts from either the most (i.e. the leftmost) or least (rightmost) significant bit. Each bit is written in turn to a data pin, after which a clock pin is pulsed (taken high, then low) to indicate that the bit is available.<br>Note: if you're interfacing with a device that's clocked by rising edges, you'll need to make sure that the clock pin is low before the call to shiftOut(), e.g. with a call to digitalWrite(clockPin, LOW).<br>This is a software implementation; see also the SPI library, which provides a hardware implementation that is faster but works only on specific pins.",
+	"Syn":
+	{
+		"Syntax":"shiftOut(dataPin, clockPin, bitOrder, value)",
+		"Params":["dataPin: the pin on which to output each bit (int)<br>clockPin: the pin to toggle once the dataPin has been set to the correct value (int)<br>bitOrder: which order to shift out the bits; either MSBFIRST or LSBFIRST.<br>(Most Significant Bit First, or, Least Significant Bit First)<br>value: the data to shift out. (byte)"],"Return":"none"},
+		"Examples":["shiftOut(dataPin, clock, LSBFIRST, data);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"noTone",
+	"Desc":"Stops the generation of a square wave triggered by tone(). Has no effect if no tone is being generated.<br>NOTE: if you want to play different pitches on multiple pins, you need to call noTone() on one pin before calling tone() on the next pin.",
+	"Syn":
+	{
+		"Syntax":"noTone(pin)",
+		"Params":["pin: the pin on which to stop generating the tone"],"Return":"none"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"shiftIn",
+	"Desc":"Shifts in a byte of data one bit at a time. Starts from either the most (i.e. the leftmost) or least (rightmost) significant bit. For each bit, the clock pin is pulled high, the next bit is read from the data line, and then the clock pin is taken low.<br>If you're interfacing with a device that's clocked by rising edges, you'll need to make sure that the clock pin is low before the first call to shiftIn(), e.g. with a call to digitalWrite(clockPin, LOW).<br>Note: this is a software implementation; Arduino also provides an SPI library that uses the hardware implementation, which is faster but only works on specific pins.",
+	"Syn":
+	{
+		"Syntax":"byte incoming = shiftIn(dataPin, clockPin, bitOrder)",
+		"Params":["dataPin: the pin on which to input each bit (int)<br>clockPin: the pin to toggle to signal a read from dataPin<br>bitOrder: which order to shift in the bits; either MSBFIRST or LSBFIRST.<br>(Most Significant Bit First, or, Least Significant Bit First)"],"Return":"the value read (byte)"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"pulseIn",
+	"Desc":"Reads a pulse (either HIGH or LOW) on a pin. For example, if value is HIGH, pulseIn() waits for the pin to go HIGH, starts timing, then waits for the pin to go LOW and stops timing. Returns the length of the pulse in microseconds. Gives up and returns 0 if no pulse starts within a specified time out.<br>The timing of this function has been determined empirically and will probably show errors in longer pulses. Works on pulses from 10 microseconds to 3 minutes in length.",
+	"Syn":
+	{
+		"Syntax":"pulseIn(pin, value)<br>pulseIn(pin, value, timeout)",
+		"Params":["pin: the number of the pin on which you want to read the pulse. (int)<br>value: type of pulse to read: either HIGH or LOW. (int)<br>timeout (optional): the number of microseconds to wait for the pulse to start; default is one second (unsigned long)"],"Return":"the length of the pulse (in microseconds) or 0 if no pulse started before the timeout (unsigned long)"},
+		"Examples":["duration = pulseIn(pin, HIGH);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"millis",
+	"Desc":"Returns the number of milliseconds since the Arduino board began running the current program. This number will overflow (go back to zero), after approximately 50 days.",
+	"Syn":
+	{
+		"Syntax":"millis();",
+		"Params":["None"],"Return":"Number of milliseconds since the program started (unsigned long)"},
+		"Examples":["time = millis();"],
+		"Additional":[" "]
+	},
+{
+	"Name":"micros",
+	"Desc":"Returns the number of microseconds since the Arduino board began running the current program. This number will overflow (go back to zero), after approximately 70 minutes. On 16 MHz Arduino boards (e.g. Duemilanove and Nano), this function has a resolution of four microseconds (i.e. the value returned is always a multiple of four). On 8 MHz Arduino boards (e.g. the LilyPad), this function has a resolution of eight microseconds.<br>Note: there are 1,000 microseconds in a millisecond and 1,000,000 microseconds in a second.",
+	"Syn":
+	{
+		"Syntax":"micros();",
+		"Params":["none"],"Return":"Number of microseconds since the program started (unsigned long)"},
+		"Examples":["time = micros();"],
+		"Additional":[" "]
+	},
+{
+	"Name":"delay",
+	"Desc":"Pauses the program for the amount of time (in miliseconds) specified as parameter. (There are 1000 milliseconds in a second.)",
+	"Syn":
+	{
+		"Syntax":"delay(ms);",
+		"Params":["ms: the number of milliseconds to pause (unsigned long)"],"Return":"none"},
+		"Examples":["delay(1000); //delays one second"],
+		"Additional":[" "]
+	},
+{
+	"Name":"delayMicroseconds",
+	"Desc":"Pauses the program for the amount of time (in microseconds) specified as parameter. There are a thousand microseconds in a millisecond, and a million microseconds in a second.<br>Currently, the largest value that will produce an accurate delay is 16383. This could change in future Arduino releases. For delays longer than a few thousand microseconds, you should use delay() instead.",
+	"Syn":
+	{
+		"Syntax":"delayMicroseconds(us);",
+		"Params":["us: the number of microseconds to pause (unsigned int)"],"Return":"none"},
+		"Examples":["  delayMicroseconds(50); //pauses for 50"],
+		"Additional":[" "]
+	},
+{
+	"Name":"min",
+	"Desc":"Calculates the minimum of two numbers.",
+	"Syn":
+	{
+		"Syntax":"min(x, y)",
+		"Params":["x: the first number, any data type<br>y: the second number, any data type"],"Return":"The smaller of the two numbers."},
+		"Examples":["sensVal = min(sensVal, 100);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"max",
+	"Desc":"Calculates the maximum of two numbers.",
+	"Syn":
+	{
+		"Syntax":"max(x, y)",
+		"Params":["x: the first number, any data type<br>y: the second number, any data type"],"Return":"The larger of the two parameter values."},
+		"Examples":["sensVal = max(senVal, 20);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"abs",
+	"Desc":"Computes the absolute value of a number.",
+	"Syn":
+	{
+		"Syntax":"abs(x)",
+		"Params":["x: the number"],"Return":"x: if x is greater than or equal to 0.<br>-x: if x is less than 0."},
+		"Examples":["abs(a);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"constrain",
+	"Desc":"Constrains a number to be within a range.",
+	"Syn":
+	{
+		"Syntax":"constrain(x, a, b)",
+		"Params":["x: the number to constrain, all data types<br>a: the lower end of the range, all data types<br>b: the upper end of the range, all data types"],"Return":"x: if x is between a and b<br>a: if x is less than a<br>b: if x is greater than b"},
+		"Examples":["sensVal = constrain(sensVal, 10, 150);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"map",
+	"Desc":"Re-maps a number from one range to another. That is, a value of fromLow would get mapped to toLow, a value of fromHigh to toHigh, values in-between to values in-between, etc.<br>Does not constrain values to within the range, because out-of-range values are sometimes intended and useful. The constrain() function may be used either before or after this function, if limits to the ranges are desired.<br>Note that the \"lower bounds\" of either range may be larger or smaller than the \"upper bounds\" so the map() function may be used to reverse a range of numbers, for example<br>y = map(x, 1, 50, 50, 1);<br>The function also handles negative numbers well, so that this example<br>y = map(x, 1, 50, 50, -100);<br>is also valid and works well.<br>The map() function uses integer math so will not generate fractions, when the math might indicate that it should do so. Fractional remainders are truncated, and are not rounded or averaged.",
+	"Syn":
+	{
+		"Syntax":"map(value, fromLow, fromHigh, toLow, toHigh)",
+		"Params":["value: the number to map<br>fromLow: the lower bound of the value's current range<br>fromHigh: the upper bound of the value's current range<br>toLow: the lower bound of the value's target range<br>toHigh: the upper bound of the value's target range"],"Return":"The mapped value."},
+		"Examples":["val = map(val, 0, 1023, 0, 255);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"pow",
+	"Desc":"Calculates the value of a number raised to a power. Pow() can be used to raise a number to a fractional power. This is useful for generating exponential mapping of values or curves.",
+	"Syn":
+	{
+		"Syntax":"pow(base, exponent);",
+		"Params":["base: the number (float)<br>exponent: the power to which the base is raised (float)"],"Return":"The result of the exponentiation (double)"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"sqrt",
+	"Desc":"Calculates the square root of a number.",
+	"Syn":
+	{
+		"Syntax":"sqrt(x);",
+		"Params":["x: the number, any data type"],"Return":"double, the number's square root."},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"sin",
+	"Desc":"Calculates the sine of an angle (in radians). The result will be between -1 and 1.",
+	"Syn":
+	{
+		"Syntax":"sin(rad)",
+		"Params":["rad: the angle in radians (float)"],"Return":"the sine of the angle (double)"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"cos",
+	"Desc":"Calculates the cos of an angle (in radians). The result will be between -1 and 1.",
+	"Syn":
+	{
+		"Syntax":"cos(rad)",
+		"Params":["rad: the angle in radians (float)"],"Return":"The cos of the angle (\"double\")"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"tan",
+	"Desc":"Calculates the tangent of an angle (in radians). The result will be between negative infinity and infinity.",
+	"Syn":
+	{
+		"Syntax":"tan(rad)",
+		"Params":["rad: the angle in radians (float)"],"Return":"The tangent of the angle (double)"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"randomSeed",
+	"Desc":"randomSeed() initializes the pseudo-random number generator, causing it to start at an arbitrary point in its random sequence. This sequence, while very long, and random, is always the same.<br>If it is important for a sequence of values generated by random() to differ, on subsequent executions of a sketch, use randomSeed() to initialize the random number generator with a fairly random input, such as analogRead() on an unconnected pin.<br>Conversely, it can occasionally be useful to use pseudo-random sequences that repeat exactly. This can be accomplished by calling randomSeed() with a fixed number, before starting the random sequence.",
+	"Syn":
+	{
+		"Syntax":"randomSeed(seed)",
+		"Params":["long, int - pass a number to generate the seed."],"Return":"none"},
+		"Examples":["randomSeed(analogRead(0));"],
+		"Additional":[" "]
+	},
+{
+	"Name":"random",
+	"Desc":"The random function generates pseudo-random numbers.",
+	"Syn":
+	{
+		"Syntax":"random(max);<br>random(min, max);",
+		"Params":["min - lower bound of the random value, inclusive (optional)<br>max - upper bound of the random value, exclusive"],"Return":"a random number between min and max-1 (long)"},
+		"Examples":["randNumber = random(300);"],
+		"Additional":[" "]
+	},
+{
+	"Name":"lowByte",
+	"Desc":"Extracts the low-order (rightmost) byte of a variable (e.g. a word).",
+	"Syn":
+	{
+		"Syntax":"lowByte(x);",
+		"Params":["x: a value of any type"],"Return":"byte"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"highByte",
+	"Desc":"Extracts the high-order (leftmost) byte of a word (or the second lowest byte of a larger data type).",
+	"Syn":
+	{
+		"Syntax":"highByte(x);",
+		"Params":["x: a value of any type"],"Return":"byte"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"bitRead",
+	"Desc":"Reads a bit of a number.",
+	"Syn":
+	{
+		"Syntax":"bitRead(x);",
+		"Params":["x: the number from which to read<br>n: which bit to read, starting at 0 for the least-significant (rightmost) bit"],"Return":"the value of the bit (0 or 1)."},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"bitWrite",
+	"Desc":"Writes a bit of a numeric variable.",
+	"Syn":
+	{
+		"Syntax":"bitWritex, n, b);",
+		"Params":["x: the numeric variable to which to write<br>n: which bit of the number to write, starting at 0 for the least-significant (rightmost) bit<br>b: the value to write to the bit (0 or 1)"],"Return":"none"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"bitSet",
+	"Desc":"Sets (writes a 1 to) a bit of a numeric variable.",
+	"Syn":
+	{
+		"Syntax":"bitSet(x, n);",
+		"Params":["x: the numeric variable whose bit to set<br>n: which bit to set, starting at 0 for the least-significant (rightmost) bit"],"Return":"none"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"bitClear",
+	"Desc":"Clears (writes a 0 to) a bit of a numeric variable.",
+	"Syn":
+	{
+		"Syntax":"bitClear(x, n)",
+		"Params":["x: the numeric variable whose bit to clear<br>n: which bit to clear, starting at 0 for the least-significant (rightmost) bit"],"Return":"none"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"bit",
+	"Desc":"Computes the value of the specified bit (bit 0 is 1, bit 1 is 2, bit 2 is 4, etc.).",
+	"Syn":
+	{
+		"Syntax":"bit(n);",
+		"Params":["n: the bit whose value to compute"],"Return":"the value of the bit"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"detachInterrupt",
+	"Desc":"Turns off the given interrupt.",
+	"Syn":
+	{
+		"Syntax":"detachInterrupt(interrupt)<br>detachInterrupt(pin)",
+		"Params":["interrupt: the number of the interrupt to disable (see attachInterrupt() for more details).<br>pin: the pin number of the interrupt to disable (Arduino Due only)"],"Return":" "},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"interrupts",
+	"Desc":"Re-enables interrupts (after they've been disabled by noInterrupts()). Interrupts allow certain important tasks to happen in the background and are enabled by default. Some functions will not work while interrupts are disabled, and incoming communication may be ignored. Interrupts can slightly disrupt the timing of code, however, and may be disabled for particularly critical sections of code.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":["none"],"Return":"none"},
+		"Examples":[" "],
+		"Additional":[" "]
+	},
+{
+	"Name":"noInterrupts",
+	"Desc":"Disables interrupts (you can re-enable them with interrupts()). Interrupts allow certain important tasks to happen in the background and are enabled by default. Some functions will not work while interrupts are disabled, and incoming communication may be ignored. Interrupts can slightly disrupt the timing of code, however, and may be disabled for particularly critical sections of code.",
+	"Syn":
+	{
+		"Syntax":" ",
+		"Params":["none"],"Return":"none"},
+		"Examples":[" "],
+		"Additional":[" "]
+	}
+]

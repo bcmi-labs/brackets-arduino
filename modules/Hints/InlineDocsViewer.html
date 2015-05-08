@@ -1,0 +1,40 @@
+<div class="prop-defn" tabIndex="0">
+    <div class="prop-summary">
+        <h1>{{propName}}</h1>
+        <div>{{{summary}}}</div><br>
+        <div>
+            <b>Syntax:</b><br>
+            <code style="{{SyntaxStyle}}">{{{syntax}}}</code>       
+        </div>
+
+        <div style="{{ReturnStyle}}"><br>
+        <b>Returns:</b><br>
+            {{return}}
+        </div>
+    </div>
+    <div class="divider-holder no-focus">
+        <div class="divider"></div>
+    </div>
+    <div class="prop-values quiet-scrollbars">
+        <div class="scroller" tabIndex="0"> <!-- tabIndex needed: otherwise can't be focused on open or via click -->
+            <b>Parameters</b><br>
+            {{#Params}}
+            {{.}}<br>
+            {{/Params}}<br>
+            <b>Examples</b><br>
+            <dl>{{#Examples}}
+                <dt>{{.}}</dt>
+            {{/Examples}}</dl><br>
+            <b>See Also:</b><br>
+            <dl>{{#Additional}}
+                <a href="https://community.bistudio.com/wiki/{{.}}">{{.}}</a>
+            {{/Additional}}</dl>
+        </div>
+    </div>
+    <div class="content-bottom"></div>
+    <div class="bottom-links" style="{{BottomStyle}}">
+    <a class="bottom-link" id="info" href="{{url}}" title="{{url}}">{{Strings.DOCS_MORE_LINK}}</a>
+    <!--<a class="bottom-link" id="donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=P9CQC3ZRY7JTY" title="License">Donate?</a>-->
+    </div>
+
+</div>
