@@ -19,6 +19,8 @@
 "arduino-event-menu-tool-boards"        : open the modal window for the board selection.
 "arduino-event-menu-tool-ports"         : open the modal window for the port selection.
 "arduino-event-menu-tool-programmer"    : open the modal window for the programmer selection.
+"arduino-event-menu-tool-serialmonitor" : open the panel with the serial monitor.
+
 
 "arduino-event-menu-tool-preferences"   : open the modal window for the user's preferences.
 
@@ -28,6 +30,7 @@
 
 "org-arduino-ide-domain-serialmonitor"      : serial monitor domain name
 "org-arduino-ide-domain-discovery"          : discovery domain name
+"org-arduino-ide-domain-filesystem"         : filesystem domain name
 
 ##########
 
