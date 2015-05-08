@@ -4,7 +4,7 @@
 	var //fs = require("fs"),
 		archiver = require("archiver"),   //compress
 		admZip = require("adm-zip"),   //extract
-		fs = require("fs-extra");
+		fsextra = require("fs-extra");
 
 	var platform = require("./platform.js").getDefaultPlatform();
 
@@ -19,11 +19,11 @@
 	{
 		//dir = PATH_SAMPLES;
 		var fsList = [], group;
-		fs.readdir(dir, function(err,data){
+		fsextra.readdir(dir, function(err,data){
 				for(var i in data)
 				{
 					var item = dir+"/"+data[i];
-					group = fs.readdirSync(item);
+					group = fsextra.readdirSync(item);
 					fsList.push({"type":item, "files":group});
 				}
 				dm.emitEvent (domainName, "sampleList_data", [fsList]);
@@ -34,7 +34,7 @@
 	function importFile(oldf, newf)
 	{
 		//fs.createReadStream(oldf).pipe(fs.createWriteStream(newf));
-		fs.copy(oldf,newf,function(err){
+		fsextra.copy(oldf,newf,function(err){
 			if(err) return console.error(err);
 			console.log("ADD FILE FINE");
 		});
@@ -42,13 +42,24 @@
 
 	function addDir(folder, dest)
 	{
-		fs.ensureDir(libsFolder, function (err) {
-			if(err) return console.err(err);
-			fs.copy(folder,dest, function(err){
+/*
+		fsextra.ensureDir(libsFolder, function (err) {
+			if(err) return console.error(err);
+			fsextra.copy(folder,dest, function(err){
 				if(err) return console.error(err);
 				console.log("Lib added");
 			});
 		});
+
+*/
+		//TODO check if exist the user lib dir
+		//fsextra.exists(dest, function (exist) {
+			//if(exist)
+				fsextra.copy(folder,dest, function(err){
+					if(err) return console.error(err);
+					console.log("Lib added");
+				});
+		//});
 	}
 
 	function addDirFromArchive(archive, dest)

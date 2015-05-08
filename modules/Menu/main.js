@@ -131,43 +131,15 @@ define(function (require, exports, module) {
 
     };
 
-
+    //TODO IMPROVE
     function getPlatformAction($event, userLibrariesFolder, standard)
     {
         //var libsFolder = standard;
-        sketch_importLibraryUserDirectory = userLibrariesFolder;
+        sketch_importLibraryUserDirectory = FileSystem.getDirectoryForPath(userLibrariesFolder);
 
         //TODO get the user folder in the main file, get the lib path, sketchbook and
         ///Users/sergio/Documents/Arduino
     }
-
-    //TODO a che serve?
-    function setMenuActions($event,data){
-        var d1 = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "", createObjects(data));
-        var elm = document.getElementsByClassName("first");
-        if(elm.length > 0)
-        {
-            for(var i in elm)
-                document.getElementById(elm[i].id).onclick= function(evt){
-                    secondLevelAction(evt, data);
-                    console.log("FIRST");
-                };
-        }
-        else
-        {
-            elm = document.getElementsByClassName("second");
-            for(var i in elm)
-                document.getElementById(elm[i].id).onclick= function(evt){
-                    console.log("SECOND");
-                    d1.close();
-                    var filename = evt.target.value.split("/")[evt.target.value.split("/").length-1] + ".ino",
-                        filePath = FileUtils.convertWindowsPathToUnixPath(evt.target.value+"/"+filename);
-                    var fileObjectNative = FileUtils.convertWindowsPathToUnixPath (filePath);
-                    CommandManager.execute(Commands.CMD_ADD_TO_WORKINGSET_AND_OPEN, {fullPath: filePath, paneId: "first-pane"});
-                };
-        }
-    };
-
 
     function bePatient(){
         //window.alert("Be patient :)");
@@ -379,6 +351,8 @@ define(function (require, exports, module) {
 
     function sketchMenu_importLibCreateList() {
         var element;
+
+        //TODO READ ONLY DIR, NOT FILES
         //load ARDUINO LIBRARIES
         brackets.fs.readdir(sketch_importLibraryDirectory.fullPath, function(err, contents){
             if (err === brackets.fs.NO_ERROR) {
@@ -399,6 +373,7 @@ define(function (require, exports, module) {
             //    return console.error(err);
         });
 
+        //TODO READ ONLY DIR, NOT FILES
         //load ARDUINO LIBRARIES
         brackets.fs.readdir(sketch_importLibraryUserDirectory.fullPath, function(err, contents){
             if (err === brackets.fs.NO_ERROR) {
@@ -458,7 +433,6 @@ define(function (require, exports, module) {
     }
 
     //EDIT
-    //TODO NON MI FUNZIONA
     function editMenu_copyForum(){
         var thisEditor = EditorManager.getCurrentFullEditor();
         var selection;
@@ -474,9 +448,50 @@ define(function (require, exports, module) {
         brackets.arduino.dispatcher.trigger("arduino-event-menu-tool-preferences");
     }
 
-    //TODO che fa?
-    function SamplesFunction()
-    {
+
+    //ARDUINO EXAMPLES
+    //TODO IMPROVE setMenuActions, createObjects, SamplesFunction
+    function setMenuActions($event,data){
+        var d1 = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "", createObjects(data));
+        var elm = document.getElementsByClassName("first");
+        if(elm.length > 0)
+        {
+            for(var i in elm)
+                document.getElementById(elm[i].id).onclick= function(evt){
+                    secondLevelAction(evt, data);
+                    console.log("FIRST");
+                };
+        }
+        else
+        {
+            elm = document.getElementsByClassName("second");
+            for(var i in elm)
+                document.getElementById(elm[i].id).onclick= function(evt){
+                    console.log("SECOND");
+                    d1.close();
+                    var filename = evt.target.value.split("/")[evt.target.value.split("/").length-1] + ".ino",
+                        filePath = FileUtils.convertWindowsPathToUnixPath(evt.target.value+"/"+filename);
+                    var fileObjectNative = FileUtils.convertWindowsPathToUnixPath (filePath);
+                    CommandManager.execute(Commands.CMD_ADD_TO_WORKINGSET_AND_OPEN, {fullPath: filePath, paneId: "first-pane"});
+                };
+        }
+    };
+
+    function createObjects(list){
+        var output = "";
+
+        for(var i=0; i<list.length; i++)
+        {
+            var item = list[i].type.split("/")[list[i].type.split("/").length-1];
+            output += "<button id='"+item+"' value='"+list[i].type+"' class='"+cc+"' >"+item+"</button><br>";
+            //document.getElementById(item).onclick = function(){console.log("lino : ")};
+            //document.getElementById("nodeGoto").addEventListener("click", function() {gotoNode(result.name);}, false);
+        }
+        cc = "first";
+        return output
+    };
+
+    function SamplesFunction(){
         /*FileSystem.showOpenDialog(false,false,"Samples",examplesPath,[".ino"], function(d1,data,d2){
          var a1 = 0;
          var a3 = 4;
@@ -489,6 +504,8 @@ define(function (require, exports, module) {
         PATH = module.uri.replace("SetMenus/main.js","Compiler/node/examples");
         fsI.exec("readSampleDir", PATH);
     }
+
+
 
     return Menu;
 });
