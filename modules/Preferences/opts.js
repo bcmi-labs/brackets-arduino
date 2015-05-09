@@ -234,6 +234,7 @@ define(function (require, exports, module) {
             //$("#labelBoard")[0].textContent = selectedPort.name + " on " + selectedPort.address;
             brackets.arduino.options.target.port = selectedPort;
             brackets.arduino.preferences.set( "arduino.ide.options.target.port", selectedPort.address);
+            brackets.arduino.dispatcher.trigger( "arduino-event-port-change", selectedPort);
         }
     }
 

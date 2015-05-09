@@ -80,7 +80,7 @@ define(function (require, exports, module) {
         evt  = brackets.arduino.dispatcher;
 
         serialDomain = brackets.arduino.domains[serialmonitorDomainName];
-
+        serialPort                  = brackets.arduino.options.target.port;
         serialPortRate              = pref.get("arduino.ide.serialmonitor.baudrate");
         serialPortEol               = pref.get("arduino.ide.serialmonitor.eol");
         serialPortScroll            = pref.get("arduino.ide.serialmonitor.autoscroll");
@@ -121,17 +121,6 @@ define(function (require, exports, module) {
         }
     };
 
-
-    SerialMonitor.prototype.setPort = function(port){
-        serialPort = port;
-        //changeParameter();
-    }
-
-    SerialMonitor.prototype.setBoard = function(board){
-        //TODO create a board object to pass as argument
-        //serialPort = board.port;
-    }
-    
     /**
      * [openSerialMonitorWindow description]
      * @return {[type]} [description]
@@ -260,11 +249,11 @@ define(function (require, exports, module) {
         }
     };
 
-    function openSerialPort(port, rate, callback){
+    function openSerialPort(serialPort, rate, callback){
         if( (serialPort && typeof serialPort != "undefined" && serialPort!= "") &&
             (serialPortRate && typeof serialPortRate != "undefined" && serialPortRate!= "")
         ) {
-            serialDomain.exec("open", serialPort, parseInt(serialPortRate))
+            serialDomain.exec("open", serialPort.address, parseInt(serialPortRate))
                 .done( function(){
                     callback(null);
                 })
@@ -278,11 +267,11 @@ define(function (require, exports, module) {
             callback("Serial port or baud rate not specified");
     }
 
-    function closeSerialPort(port, callback){
+    function closeSerialPort(serialPort, callback){
         if( (serialPort && typeof serialPort != "undefined" && serialPort!= "") &&
             (serialPortRate && typeof serialPortRate != "undefined" && serialPortRate!= "")
         ) {
-            serialDomain.exec("close", serialPort)
+            serialDomain.exec("close", serialPort.address)
                 .done(function () {
                     callback(null);
                 })
