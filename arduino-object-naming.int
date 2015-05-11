@@ -15,6 +15,7 @@
 "arduino-event-console-log"             : write log messages on the arduino user console.
 "arduino-event-console-board"   		: write selected board in the status bar
 "arduino-event-console-port"    		: write selected port in the status bar
+"arduino-event-console-clear"			: clear console log
 
 "arduino-event-menu-tool-boards"        : open the modal window for the board selection.
 "arduino-event-menu-tool-ports"         : open the modal window for the port selection.

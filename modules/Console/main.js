@@ -57,6 +57,9 @@ define(function(require, exports, module){
 								$('#logger').html($('#logger').html()+"<span style='color: red;'>"+data+"</span><br />");
 							}
 		},
+		clearLog	=	function($event){
+							$('#logger').empty();
+		},
 		setBoard	=	function($event, data){
 							if(data)
 								document.getElementById("bTag").innerText = data;
@@ -74,6 +77,8 @@ define(function(require, exports, module){
 
 		brackets.arduino.dispatcher.on("arduino-event-console-board", setBoard);
 		brackets.arduino.dispatcher.on("arduino-event-console-port", setPort);
+
+		brackets.arduino.dispatcher.on("arduino-event-console-clear", clearLog);
 	}
 
 	AppInit.htmlReady(function () {
