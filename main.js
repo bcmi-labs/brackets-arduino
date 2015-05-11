@@ -149,7 +149,7 @@ define(function (require, exports, module) {
                     CommandManager.execute(Commands.FILE_SAVE);
                     break;
             case 'toolbar-serial-btn':
-                    alert('toolbar-serial-btn');
+                    brackets.arduino.dispatcher.trigger('arduino-event-menu-tool-serialmonitor','');
                     break;
             case 'toolbar-files-btn':
                     alert('toolbar-files-btn');
