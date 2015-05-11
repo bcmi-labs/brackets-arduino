@@ -1,5 +1,6 @@
 {
     "name": "Arduino Pro or Pro Mini (5V, 16 MHz) w/ ATmega168",
+    "arch":"avr",
     "upload": {
         "protocol": "arduino",
 	"tool":"avrdude",

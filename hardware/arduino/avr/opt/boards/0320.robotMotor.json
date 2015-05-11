@@ -1,5 +1,6 @@
 {
     "name": "Arduino Robot Motor",
+    "arch":"avr",
     "upload": {
 	"tool" : "avrdude",
         "protocol": "avr109",

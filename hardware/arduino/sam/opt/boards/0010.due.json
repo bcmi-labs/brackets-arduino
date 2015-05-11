@@ -1,6 +1,7 @@
 {
     "id": "due",
     "name": "Arduino Due (Native Port)",
+    "arch": "sam",
     "uid": [
             {"vid": "0x2a03", "pid": "0x003e"},
             {"vid": "0x2341", "pid": "0x003e"}

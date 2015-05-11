@@ -1,5 +1,6 @@
 {
     "name": "Arduino Mini w/ ATmega168",
+    "arch":"avr",
     "upload": {
 	"tool" : "avrdude",
         "protocol": "arduino",

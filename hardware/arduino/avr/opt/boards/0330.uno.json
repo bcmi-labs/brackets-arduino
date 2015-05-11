@@ -1,6 +1,7 @@
 {
     "id": "uno",
     "name": "Arduino Uno",
+    "arch":"avr",
     "uid" : [
         {"vid":"0x2341", "pid":"0x0043"},
         {"vid":"0x2341", "pid":"0x0001"},

@@ -1,6 +1,7 @@
 {
     "id": "leonardoeth",
     "name": "Arduino Leonardo ETH",
+    "arch":"avr",
     "uid" : [
         {"vid":"0x2a03", "pid":"0x0040"},
         {"vid":"0x2a03", "pid":"0x8040"}

@@ -1,5 +1,6 @@
 {
     "name": "Arduino Robot Control",
+    "arch":"avr",
     "upload": {
 	"tool":"avrdude",
         "protocol": "avr109",

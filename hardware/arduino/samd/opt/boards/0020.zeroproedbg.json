@@ -1,6 +1,7 @@
 {
   "id": "zeroproedbg",
   "name": "Arduino Zero Pro (Programming Port)",
+  "arch": "samd",
   "uid": [
     {"vid": "0x03eb", "pid": "0x2111"}
   ],

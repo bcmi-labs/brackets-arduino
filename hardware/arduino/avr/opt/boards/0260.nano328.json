@@ -1,5 +1,6 @@
 {
     "name": "Arduino Nano w/ ATmega328",
+    "arch":"avr",
     "upload": {
 	"tool":"avrdude",
         "protocol": "arduino",
