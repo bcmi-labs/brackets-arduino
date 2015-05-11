@@ -115,18 +115,58 @@ define(function (require, exports, module) {
 
         var arduinoButtons = arduinoLogo+"<a id='toolbar-verify-btn' class='toolbar-btn' href='#' title='Verify'></a><a id='toolbar-upload-btn' class='toolbar-btn' href='#' title='Upload'></a><span id='toolbar-sep2'></span><a id='toolbar-new-btn' class='toolbar-btn' href='#' title='New'></a><a id='toolbar-open-btn' class='toolbar-btn' href='#' title='Open'></a><a id='toolbar-save-btn' class='toolbar-btn' href='#' title='Save'></a><a id='toolbar-serial-btn' class='toolbar-btn' href='#' title='Serial Monitor'></a><a id='toolbar-files-btn' class='toolbar-btn' href='#' title='Files'></a>";
 
+        $('.working-set-splitview-btn').remove();
+
         $('.buttons').html(arduinoButtons);
-        $('.bottom-buttons').html("<a id='toolbar-luna-btn' href='#' title='Luna'></a>");
-        $('#project-files-container').remove();
-        $('#project-files-header').remove();
+        $('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a><a id='toolbar-luna-btn' class='toolbar-btn' href='#' title='Luna'></a>");
+        
+        
 
         $('.toolbar-btn').click(function(evt){
             evt.preventDefault();
-            alert('ciao');
-            CommandManager.execute(Commands.FILE_NEW);     
+            toolbarHandler(this.id);
         });
 
         ExtensionUtils.loadStyleSheet(module, "main.css");
         
     });
+
+    function toolbarHandler(btnid){
+        switch(btnid) {
+            case 'toolbar-verify-btn':
+                    alert('toolbar-verify-btn');
+                    break;
+            case 'toolbar-upload-btn':
+                    alert('toolbar-upload-btn');
+                    break;
+            case 'toolbar-new-btn':
+                    CommandManager.execute(Commands.FILE_NEW);
+                    break;
+            case 'toolbar-open-btn':
+                    CommandManager.execute(Commands.FILE_OPEN);
+                    break;
+            case 'toolbar-save-btn':
+                    CommandManager.execute(Commands.FILE_SAVE);
+                    break;
+            case 'toolbar-serial-btn':
+                    alert('toolbar-serial-btn');
+                    break;
+            case 'toolbar-files-btn':
+                    alert('toolbar-files-btn');
+                    break;
+            case 'toolbar-toggle-btn':
+                    if($('#sidebar').is(':visible')){
+                        $('#sidebar').hide();
+                        $('.main-view .content').css('right', '0px');
+                    }
+                    else{
+                        $('.main-view .content').css('right', '200px');   
+                        $('#sidebar').show();
+                    }
+
+                    break;
+            default:
+                console.log(btnid+' clicked');
+            }
+    }
 });

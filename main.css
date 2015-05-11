@@ -76,39 +76,46 @@
 		font-weight: bold;
 }
 
-.selectionExtension-visible { display: none !important; }
+.selectionExtension-visible, .filetree-selection-extension { display: none !important; }
 
 .not-editor { background: #f8f8f8 url('./icons/no_content_bg_arduino.png') no-repeat center 45% !important; }
 
 /* SideBar */
 
+#project-files-container {
+	margin-top: 10px;
+	color: #ffffff;
+}
+
+#project-files-header {
+	color: #ffffff;
+}
+
 span.working-set-header-title { background: none; }
-#sidebar li.selected { background-color: #17a0a4;}
-#project-files-container { color: #ffffff; }
+#sidebar li.selected { background-color: #17a0a4; }
 
 .open-files-container, .forced-hidden {
 	background-color: #17a0a4;
 	display: block !important; 
 	border: none;
+	margin-top: 30px;
 }
+
+div.sidebar-selection-extension.selectionExtension-visible.forced-hidden { left: 0px !important; right: 191px !important; }
+
+.open-files-container li { padding-top: 5px;}
 .open-files-container li.selected .extension { color: #f9ff00;}
 .open-files-container li.selected a { color: #f9ff00; }
 
-.working-set-splitview-btn {
-	background: url('./icons/apri.png') no-repeat;
-	top: 9px;
-	left: 12px;
-	right: 100%;
-	width: 38px;
-	height: 38px;
-	padding: 0;
-}
+/*
 .working-set-splitview-btn:hover {
 	border: none;
 	width: 38px;
 	height: 38px;
 	outline: none !important;
 }
+*/
+
 
 /* Main-Toolbar Icons */
 
@@ -127,99 +134,110 @@ span.working-set-header-title { background: none; }
 #main-toolbar { background-color: #17a0a4; }
 
 #main-toolbar .buttons>a, #main-toolbar .bottom-buttons>a {
-	width: 38px;
+	width: 75px;
 	height: 38px;
 }
 
-#main-toolbar .buttons>a {
-	margin: 16px 0px 0px 3px;
+#main-toolbar .buttons>a, #main-toolbar .bottom-buttons>a {
+	margin: 16px 0px 0px 0px;
 }
 
+#main-toolbar .buttons>a:hover {
+	display: block;
+}
 #main-toolbar .bottom-buttons>a {
 	margin-bottom: 16px;	
 }
 
 #toolbar-arduino-logo {
-	background: url('./icons/arduino-logo.png') center no-repeat;
-	background-size: 40px;
+	background: url('./icons/arduino.png') center no-repeat;
     cursor:pointer;
     border: none;
 }
+
+#toolbar-arduino-logo:hover {
+	background: url('./icons/arduino_over.png') center no-repeat;
+}
+
 
 #toolbar-sep2 {height: 30px; display: block; }
 
 #toolbar-verify-btn {
-	background: url('./icons/verify.png') no-repeat;
+	background: url('./icons/verify.png') center no-repeat;
     cursor:pointer;
     border: none;
 }
 #toolbar-verify-btn:hover {
-	background: url('./icons/verify_over.png') no-repeat;
+	background: url('./icons/verify_over.png') center no-repeat;
 }
 
 #toolbar-upload-btn {
-	background: url('./icons/upload.png') no-repeat;
+	background: url('./icons/upload.png') center no-repeat;
     cursor:pointer;
     border: none;
 }
 #toolbar-upload-btn:hover {
-	background: url('./icons/upload_over.png') no-repeat;
+	background: url('./icons/upload_over.png') center no-repeat;
 }
 
 #toolbar-sep2 {height: 60px; display: block; }
 
 #toolbar-new-btn {
-	background: url('./icons/new.png') no-repeat;
+	background: url('./icons/new.png') center no-repeat;
     cursor:pointer;
     border: none;
 }
 #toolbar-new-btn:hover {
-	background: url('./icons/new_over.png') no-repeat;
+	background: url('./icons/new_over.png') center no-repeat;
 }
 
 #toolbar-open-btn {
-	background: url('./icons/open.png') no-repeat;
+	background: url('./icons/open.png') center no-repeat;
     cursor:pointer;
     border: none;
 }
 #toolbar-open-btn:hover {
-	background: url('./icons/open_over.png') no-repeat;
+	background: url('./icons/open_over.png') center no-repeat;
 }
 
 #toolbar-save-btn {
-	background: url('./icons/save.png') no-repeat;
+	background: url('./icons/save.png') center no-repeat;
     cursor:pointer;
     border: none;
 }
 #toolbar-save-btn:hover {
-	background: url('./icons/save_over.png') no-repeat;
+	background: url('./icons/save_over.png') center no-repeat;
 }
 
 #toolbar-serial-btn {
-	background: url('./icons/serial.png') no-repeat;
+	background: url('./icons/serial.png') center no-repeat;
     cursor:pointer;
     border: none;
 }
 #toolbar-serial-btn:hover {
-	background: url('./icons/serial_over.png') no-repeat;
+	background: url('./icons/serial_over.png') center no-repeat;
 }
 
 #toolbar-files-btn {
-	background: url('./icons/files.png') no-repeat;
+	background: url('./icons/files.png') center no-repeat;
     cursor:pointer;
     border: none;
 }
 #toolbar-files-btn:hover {
-	background: url('./icons/files_over.png') no-repeat;
+	background: url('./icons/files_over.png') center no-repeat;
+}
+
+#toolbar-toggle-btn {
+	background: url('./icons/apri.png') center no-repeat;
 }
 
 #toolbar-luna-btn {
-	background: url('./icons/luna.png') no-repeat;
+	background: url('./icons/luna.png') center no-repeat;
     cursor:pointer;
     border: none;
 }
 #toolbar-luna-btn:hover {
-	background: url('./icons/luna_over.png') no-repeat;
+	background: url('./icons/luna_over.png') center no-repeat;
 }
 
 #status-bar > * {
