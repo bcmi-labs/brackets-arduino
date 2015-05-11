@@ -119,8 +119,9 @@ define(function (require, exports, module) {
         $('.working-set-splitview-btn').remove();
 
         $('.buttons').html(arduinoButtons);
-        $('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a><a id='toolbar-luna-btn' class='toolbar-btn' href='#' title='Luna'></a>");
+        //$('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a><a id='toolbar-luna-btn' class='toolbar-btn' href='#' title='Luna'></a>");
         
+        $('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a>");
         
 
         $('.toolbar-btn').click(function(evt){
@@ -135,10 +136,10 @@ define(function (require, exports, module) {
     function toolbarHandler(btnid){
         switch(btnid) {
             case 'toolbar-verify-btn':
-                    alert('toolbar-verify-btn');
+                    brackets.arduino.dispatcher.trigger('arduino-event-build','');
                     break;
             case 'toolbar-upload-btn':
-                    alert('toolbar-upload-btn');
+                    brackets.arduino.dispatcher.trigger('arduino-event-upload','');
                     break;
             case 'toolbar-new-btn':
                     CommandManager.execute(Commands.FILE_NEW);

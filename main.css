@@ -240,6 +240,8 @@ div.sidebar-selection-extension.selectionExtension-visible.forced-hidden { left:
 	background: url('./icons/luna_over.png') center no-repeat;
 }
 
+#status-bar { background: #dfeaeb; }
+
 #status-bar > * {
 	display: block !important;
 	background: #dfeaeb;

@@ -1,11 +1,10 @@
-
 <div id="plugin-serialmonitor">
-    <div id="title">Serial Monitor </div>
+    <div id="title"><h3>Serial Monitor</h3></div>
         <div id="console_serialMonitor">
             <div id="options">
                 <div class="form-inline text-center">
                     <input type="checkbox" id="scroll" checked=true />AutoScroll
-                    <select id="baud" class="">
+                    <select id="baud" class="selectpicker">
                         <option value="" disabled selected>Select baud rate</option>
                         <option value="300">300</option>
                         <option value="1200">1200</option>
@@ -29,14 +28,16 @@
                 </div>
             </div>
             <div id="send" class="form-inline">
+                <label class="labserial">Message</label>
                 <input type="text" id="message_input">
-                <input type="button" id="send_button" class="button" value="Send">
+                <input type="button" id="send_button" class="btn" value="Send">
             </div>
-            <div class="form-group">
+            <div id="logarea" class="form-group">
+                <label class="labserial">Log</label>
                 <textarea id="console_log" readonly rows="5"></textarea>
             </div>
-            <div class="form-group">
-                <input type="button" id="clear_button" class="button" value="Clear">
+            <div id="cleardiv" class="form-group">
+                <input type="button" id="clear_button" class="btn" value="Clear Log and Message">
             </div>
         </div>
     </div>

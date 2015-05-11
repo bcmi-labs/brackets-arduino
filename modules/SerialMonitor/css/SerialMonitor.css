@@ -1,35 +1,35 @@
 #title{
     width: 100%;
     resize: none;
-    background-color: #006699;
     font-size: 100%;
     color: #ffffff;
-    font-family: sans-serif;
     font-weight: bold;
     text-align: center;
 }
 
+#title h3 { color: #ffffff; }
+
 #plugin-serialmonitor{
-  /* background-color: #006699; 
-     background-color: #006468;
-     background-color: #00777C;*/
      background-color: #17a1a5; 
      height: 28%;
+     border: 1px solid #dfeae3;
 }
 
 #console_serialMonitor{
     height: 100px;
     vertical-align: top;
     margin-left: 2%;
+    margin-top: 15px;
 }
 
 #send{
     vertical-align: middle;
+    margin-top: 10px;
 }
 
 #message_input{
     width: 90%; 
-    vertical-align: middle;  
+    margin-left: 15px;
 }
 
 #console_log{
@@ -38,21 +38,28 @@
     resize: none;
     display: block;
     overflow-y: auto;
+    margin-left: 15px;
 }
 
+.labserial {
+  color: #ffffff;
+  font-weight: bold;
+  margin-left: 15px;
+}
+
+/*
 #clear_button{
     float: right; 
     margin-right:1%;
 }
-
-/*
-#options{
-    position: relative;
-    height: auto;
-    display: inline;
-    margin-left: 2%;
-}
 */
+
+#options, #logarea {
+    margin-top: 10px;
+}
+
+#cleardiv { margin-left: 15px; text-align: center; }
+
 /*
 #eol, #baud{
     float: right;
