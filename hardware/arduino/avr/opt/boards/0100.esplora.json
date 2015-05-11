@@ -1,6 +1,7 @@
 {
     "id": "esplora",
     "name": "Arduino Esplora",
+    "arch":"avr",
     "uid" : [
               {"vid":"0x2341", "pid":"0x003c"},
               {"vid":"0x2341", "pid":"0x803c"},

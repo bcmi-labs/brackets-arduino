@@ -1,5 +1,6 @@
 {
     "name": "Arduino Pro or Pro Mini (3.3V, 8 MHz) w/ ATmega328",
+    "arch":"avr",
     "upload": {
 	"tool":"avrdude",
         "protocol": "arduino",

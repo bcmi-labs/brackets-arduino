@@ -1,5 +1,6 @@
 {
     "name": "LilyPad Arduino USB",
+    "arch":"avr",
     "upload": {
 	"tool" : "avrdude",
         "protocol": "avr109",

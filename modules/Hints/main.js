@@ -1,10 +1,10 @@
 /**
- *  BASED ON Anthony "Zanven" Poschen
- *  https://github.com/zanven42/brackets-sqf
+ *  BASED ON https://github.com/zanven42/brackets-sqf
+ *  BY Anthony "Zanven" Poschen
+ *  UNDER MIT LICENSE
  *
- *  MODIFIED BY Arduino.org Team
+ *  MODIFIED BY Arduino.org Team - 05/2015
  */
-
 
 define(function (require, exports, module) {
     'use strict';
@@ -16,45 +16,24 @@ var AppInit          = brackets.getModule("utils/AppInit"),
     CodeHintManager  = brackets.getModule("editor/CodeHintManager"),
     EditorManager    = brackets.getModule("editor/EditorManager"),
     DocumentManager  = brackets.getModule("document/DocumentManager"),
-	PreferencesManager	= brackets.getModule("preferences/PreferencesManager"),
 	InlineDocsViewer = require("./InlineDocsViewer");
 
-var ARDUINO_CMD_ID 	 = "brackets.arduino",
- 	prefs 			 = PreferencesManager.getExtensionPrefs(ARDUINO_CMD_ID);
-	
-// Set preferences if they are empty ? TO TEST!!
-//if(!prefs.get("linuxpath")) prefs.set("linuxpath", "C:/boooh");
-//if(!prefs.get("winpath")) prefs.set("winpath", "/usr/share/arduino/libraries/");
-//if(!prefs.get("macpath")) prefs.set("macpath", "/Applications/Arduino.app/Contents/Java/libraries/");
-	
+var ARDUINO_CMD_ID 	 = "brackets.arduino";
+
 //Load syntax tips from keywords.json
 var hintwords = [], arduinoKeys = [], isKeyword = false, libraryKeys = [], libraryPaths = [],
 	constants = { "HIGH": true, "LOW": true, "INPUT": true, "OUTPUT": true, "INPUT_PULLUP": true, "LED_BUILTIN": true };
     
     // Get Arduino Words
-    var keywords = JSON.parse(require('text!./arduinoHints.json'));
+    var keywords = JSON.parse(require('text!./data/arduinoHints.json'));
     for (var i in keywords) {
         arduinoKeys.push(i.substring(0, i.lastIndexOf("|")-1));
         hintwords.push(i);
     }
     
-    var OS = brackets.platform, OSpath;
-    OSpath = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/libraries").fullPath;//brackets.arduino.options.librariesdir.fullPath || "";
-    /*switch (OS) {
-        case "linux" :
-			OSpath = prefs.get("linuxpath");
-            break;
-        case "win" :
-			OSpath = prefs.get("winpath");
-            break;
-        case "mac" :
-			OSpath = prefs.get("macpath");
-            break;
-        default :
-			OSpath = null;
-			console.log("OS not detected. Can't use default path to look for libraries.");
-    }
-	*/
+    var OS = brackets.platform,
+        OSpath = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/libraries").fullPath;//brackets.arduino.options.librariesdir.fullPath || "";
+
     CodeMirror.defineMode("ino", function(config) {
         var indentUnit = config.indentUnit;
         function getTokenToCursor(token) {
@@ -353,7 +332,7 @@ var hintwords = [], arduinoKeys = [], isKeyword = false, libraryKeys = [], libra
         };
     });
 
-    var docs = JSON.parse(require('text!./arduinoDocs.json'));
+    var docs = JSON.parse(require('text!./data/arduinoDocs.json'));
     function inlineProvider(hosteditor,pos){
         var sel = hosteditor.getSelection();
         
@@ -370,29 +349,15 @@ var hintwords = [], arduinoKeys = [], isKeyword = false, libraryKeys = [], libra
                 array = docs[i];
             }
         }
-        if(array && array.Additional)
-            for(var i = 0; i < array.Additional.length; ++i) {
-                if ($.inArray(array.Additional[i], hintwords) == -1) {
-                    array.Additional.splice(i, 1);
-                }
-
-                var statement = capitalizeFirstLetter(array.Name),
-                    url_ref = "http://labs.arduino.org/tiki-index.php?page=";
-                var inlineWidget = new InlineDocsViewer(array.Name, "ino", {
-                    SUMMARY: array.Desc,
-                    SYNTAX: array.Syn,
-                    URL: url_ref + statement,
-                    EXAMPLES: array.Examples,
-                    ADDITIONAL: array.Additional
-                });
-                inlineWidget.load(hosteditor);
-                result.resolve(inlineWidget);
-                return result.promise();
+        for(var i = 0; i < array.Additional.length; ++i){
+            if($.inArray(array.Additional[i],hintwords) == -1) {
+                array.Additional.splice(i,1);
+            }
         }
-    }
-
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
+        var inlineWidget = new InlineDocsViewer(array.Name,"ino",{SUMMARY:array.Desc, SYNTAX: array.Syn, URL:"http://labs.arduino.org/tiki-index.php?page="+ array.Name,EXAMPLES: array.Examples, ADDITIONAL: array.Additional});
+        inlineWidget.load(hosteditor);
+        result.resolve(inlineWidget);
+        return result.promise();
     }
 
 	CodeMirror.defineMIME("text/x-ino", "ino");

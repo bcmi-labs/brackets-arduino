@@ -1,5 +1,6 @@
 {
   "name": "Arduino NG or older w/ ATmega8",
+  "arch":"avr",
   "upload": {
     "protocol": "arduino",
     "tool": "avrdude",

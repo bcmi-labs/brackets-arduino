@@ -1,6 +1,7 @@
 {
     "id": "duedbg",
     "name": "Arduino Due (Programming Port)",
+	"arch": "sam",
     "uid": [
             {"vid": "0x2a03", "pid": "0x003d"},
             {"vid": "0x2341", "pid": "0x003d"}

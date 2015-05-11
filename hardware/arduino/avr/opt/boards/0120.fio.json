@@ -1,5 +1,6 @@
 {
     "name": "Arduino Fio",
+    "arch":"avr",
     "upload": {
 	"tool" : "avrdude",
         "protocol": "arduino",

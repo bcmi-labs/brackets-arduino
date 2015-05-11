@@ -1,6 +1,7 @@
 {
   "id": "zeropro",
   "name": "Arduino Zero Pro (Native USB Port)",
+  "arch": "samd",
   "uid": [
     {"vid": "0x2a03", "pid": "0x804d"},
     {"vid": "0x2a03", "pid": "0x004d"}

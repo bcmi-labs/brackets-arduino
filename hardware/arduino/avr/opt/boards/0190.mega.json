@@ -1,5 +1,6 @@
 {
     "name": "Arduino Mega (ATmega1280)",
+    "arch":"avr",
     "uid" : [
         {"vid":"0x2341", "pid":"0x0010"},
         {"vid":"0x2341", "pid":"0x0042"},
