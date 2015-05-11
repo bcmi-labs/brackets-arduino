@@ -1,10 +1,3 @@
-/**
- *  BASED ON Anthony "Zanven" Poschen
- *  https://github.com/zanven42/brackets-sqf
- *
- *  MODIFIED BY Arduino.org Team
- */
-
 define(function (require, exports, module) {
     'use strict';
     var ExtensionUtils      = brackets.getModule("utils/ExtensionUtils"),
@@ -13,10 +6,10 @@ define(function (require, exports, module) {
         NativeApp           = brackets.getModule("utils/NativeApp"),
         Strings             = brackets.getModule("strings");
     
-    var inlineEditorTemplate = require("text!./InlineDocsViewer.html");
+    var inlineEditorTemplate = require("text!./html/InlineDocsViewer.html");
     var SCROLL_LINE_HEIGHT = 40;
     
-    ExtensionUtils.loadStyleSheet(module, "./WebPlatformDocs.less");
+    ExtensionUtils.loadStyleSheet(module, "./css/WebPlatformDocs.less");
     
     function InlineDocsViewer(PropName, language, PropDetails) {
         InlineWidget.call(this);
