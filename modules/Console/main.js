@@ -49,21 +49,13 @@ define(function(require, exports, module){
 
 	var writeLog 	= 	function($event, data){
 							if(data){
-								var line = document.createElement('span');
-								line.innerHTML = data + "<br>";
-								line.setAttribute("style", "color:white");
-								document.getElementById("logger").appendChild(line);
-								document.getElementById("logger").scrollTop = document.getElementById("logger").scrollHeight;
-								}
+								$('#logger').html($('#logger').html()+"<span style='color: black;'>"+data+"</span><br />");
+							}
 						},
 		writeError	=	function($event, data){
 							if(data){
-								var line = document.createElement('span');
-								line.innerHTML = data + "<br>";
-								line.setAttribute("style", "color:red");
-								document.getElementById("logger").appendChild(line);
-								document.getElementById("logger").scrollTop = document.getElementById("logger").scrollHeight;
-								}
+								$('#logger').html($('#logger').html()+"<span style='color: red;'>"+data+"</span><br />");
+							}
 		},
 		setBoard	=	function($event, data){
 							if(data)

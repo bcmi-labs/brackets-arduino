@@ -45,17 +45,20 @@
     margin-right:1%;
 }
 
+/*
 #options{
     position: relative;
     height: auto;
     display: inline;
     margin-left: 2%;
 }
-
+*/
+/*
 #eol, #baud{
     float: right;
     margin-right: 2%
 }
+*/
 
 .serial-console-icon {
     background: url("../img/icon-off.png");

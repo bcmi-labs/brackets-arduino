@@ -34,13 +34,15 @@ define(function (require, exports, module) {
     'use strict';
 	var ExtensionUtils  = brackets.getModule("utils/ExtensionUtils"),
     	CommandManager  = brackets.getModule("command/CommandManager"),
+        Commands        = brackets.getModule("command/Commands"),
         Menus           = brackets.getModule("command/Menus"),
         EditorManager   = brackets.getModule("editor/EditorManager"),
         NodeDomain      = brackets.getModule("utils/NodeDomain"),
         AppInit         = brackets.getModule("utils/AppInit"),
         FileUtils       = brackets.getModule("file/FileUtils"),
         FileSystem      = brackets.getModule("filesystem/FileSystem"),
-        EventDispatcher = brackets.getModule("utils/EventDispatcher");
+        EventDispatcher = brackets.getModule("utils/EventDispatcher"),
+        DocumentManager = brackets.getModule("document/DocumentManager");
 
     var serialmonitorDomainName     = "org-arduino-ide-domain-serialmonitor",
         discoveryDomainName         = "org-arduino-ide-domain-discovery",
@@ -106,7 +108,25 @@ define(function (require, exports, module) {
         setTimeout(function(){
         arduinoHints  = require("modules/Hints/main");
         },5000);
+
+        // Main-Toolbar Buttons
+
+        var arduinoLogo = "<a id='toolbar-arduino-logo' href='http://www.arduino.org' target='_blank' alt='Arduino.org'></a><span id='toolbar-sep1'></span>";
+
+        var arduinoButtons = arduinoLogo+"<a id='toolbar-verify-btn' class='toolbar-btn' href='#' title='Verify'></a><a id='toolbar-upload-btn' class='toolbar-btn' href='#' title='Upload'></a><span id='toolbar-sep2'></span><a id='toolbar-new-btn' class='toolbar-btn' href='#' title='New'></a><a id='toolbar-open-btn' class='toolbar-btn' href='#' title='Open'></a><a id='toolbar-save-btn' class='toolbar-btn' href='#' title='Save'></a><a id='toolbar-serial-btn' class='toolbar-btn' href='#' title='Serial Monitor'></a><a id='toolbar-files-btn' class='toolbar-btn' href='#' title='Files'></a>";
+
+        $('.buttons').html(arduinoButtons);
+        $('.bottom-buttons').html("<a id='toolbar-luna-btn' href='#' title='Luna'></a>");
+        $('#project-files-container').remove();
+        $('#project-files-header').remove();
+
+        $('.toolbar-btn').click(function(evt){
+            evt.preventDefault();
+            alert('ciao');
+            CommandManager.execute(Commands.FILE_NEW);     
+        });
+
+        ExtensionUtils.loadStyleSheet(module, "main.css");
+        
     });
-
-
 });

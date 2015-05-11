@@ -8,27 +8,28 @@
 	background-color: #00878f;
 }*/
 
-#logger
-{
-    width:96%;
-    height:75%;
-    padding: 4px;
+#console {
+    background-color: #f9ff00;
+    min-height:160px;
+    padding-top: 10px;
+    margin-left: 27px;
+}
+
+#logger {
+    width: 97%;
+    height: 135px;
+    padding: 2px;
+    border: none;
     border:1px solid #EEE; border-right:0 solid;
-    overflow:auto;
-    background-color: #00878f;
+    overflow: scroll;
+    background-color: #ffffff;
+    margin: 1px 0px 3px 11px;
 }
 
-#console{
-	background-color: #f9ff00;
-	height:auto;
-	min-height:160px;
-	padding-top: 15px;
-	padding-left: 15px;
-}
-
-.info{
-	height:5%;
-	font-size: small;
-	text-align: right;
-	padding-right: 10px;
+.info {
+    height:5%;
+    font-size: small;
+    text-align: right;
+    /*padding-right: 10px;*/
+    width: 97%;
 }
