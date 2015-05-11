@@ -15,7 +15,8 @@
       "archiver" : ">=0.14.3",
       "fs-extra" : ">=0.16.5",
       "adm-zip" : ">=0.4.7",
-      "copy-paste": "*"
+      "copy-paste": "*",
+      "wrench" : "1.5.8"
   }
 }
   

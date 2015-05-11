@@ -31,6 +31,7 @@
 "org-arduino-ide-domain-serialmonitor"      : serial monitor domain name
 "org-arduino-ide-domain-discovery"          : discovery domain name
 "org-arduino-ide-domain-filesystem"         : filesystem domain name
+"org-arduino-ide-domain-compiler"           : compiler domain name
 
 ##########
 
