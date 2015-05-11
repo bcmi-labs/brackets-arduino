@@ -41,7 +41,8 @@ define(function (require, exports, module) {
         FileUtils           = brackets.getModule("file/FileUtils"),
         FileSystem           = brackets.getModule("filesystem/FileSystem"),
         Dialogs             = brackets.getModule("widgets/Dialogs"),
-        DefaultDialogs      = brackets.getModule("widgets/DefaultDialogs");
+        DefaultDialogs      = brackets.getModule("widgets/DefaultDialogs"),
+        ViewCommandHandlers = brackets.getModule("view/ViewCommandHandlers");
 
     var preferencesWindow           = null,
         preferencesWindowName       = "Arduino Preferences";
@@ -87,7 +88,7 @@ define(function (require, exports, module) {
 
         //OK sketchbook location
         //TODO language
-        //TODO editor font size
+        //OK editor font size
         //OK verbose
         //TODO line numbers
         //TODO verify code after upload
@@ -127,7 +128,6 @@ define(function (require, exports, module) {
         });
     };
 
-
     var openPreferencesWindow = function($event, data){
         preferencesWindow = require("text!./html/Preferences.html");
         //preferencesWindow
@@ -165,6 +165,14 @@ define(function (require, exports, module) {
 
         });
 
+        //EDITOR FONT SIZE
+        $("#pref_ddl_fontsize").change(function(){
+            var selected = $( "#pref_ddl_fontsize option:selected" ).val();
+            brackets.arduino.preferences.set( prefKey_fontsize, parseInt(selected));
+            ViewCommandHandlers.setFontSize( selected + "px" );
+        });
+
+
     };
 
     var setValuesToUI = function(){
@@ -176,6 +184,8 @@ define(function (require, exports, module) {
         //$('#pref_chk_line_numbers')[0].checked = brackets.arduino.preferences.get( prefKey_linenumbers);
         //SKETCHBOOK
         $('#pref_txt_sketchbook').val( brackets.arduino.preferences.get( prefKey_sketchbook ) );
+        //EDITOR FONT SIZE
+        $("#pref_ddl_fontsize").val( brackets.arduino.preferences.get( prefKey_fontsize ) );
     };
 
 

@@ -40,7 +40,8 @@ define(function (require, exports, module) {
         AppInit         = brackets.getModule("utils/AppInit"),
         FileUtils       = brackets.getModule("file/FileUtils"),
         FileSystem      = brackets.getModule("filesystem/FileSystem"),
-        EventDispatcher = brackets.getModule("utils/EventDispatcher");
+        EventDispatcher = brackets.getModule("utils/EventDispatcher"),
+        ViewCommandHandlers = brackets.getModule("view/ViewCommandHandlers");
 
     var serialmonitorDomainName     = "org-arduino-ide-domain-serialmonitor",
         discoveryDomainName         = "org-arduino-ide-domain-discovery",
@@ -84,7 +85,7 @@ define(function (require, exports, module) {
         brackets.arduino.domains[serialmonitorDomainName]   = new NodeDomain( serialmonitorDomainName, ExtensionUtils.getModulePath(module, "node/serialmonitor"));
         brackets.arduino.domains[discoveryDomainName]       = new NodeDomain( discoveryDomainName, ExtensionUtils.getModulePath(module, "node/discover"));
         brackets.arduino.domains[filesystemDomainName]      = new NodeDomain( filesystemDomainName, ExtensionUtils.getModulePath(module, "node/filesystem"));
-        brackets.arduino.domains[copypasteDomainName]       = new NodeDomain( copypasteDomainName, ExtensionUtils.getModulePath(module, "node/copypaste")),
+        brackets.arduino.domains[copypasteDomainName]       = new NodeDomain( copypasteDomainName, ExtensionUtils.getModulePath(module, "node/copypaste"));
 		brackets.arduino.domains[compilerDomainName] = new NodeDomain( compilerDomainName, ExtensionUtils.getModulePath(module, "node/compiler"));
 
         //load modules
@@ -103,9 +104,10 @@ define(function (require, exports, module) {
         opts.setTargetBoard( brackets.arduino.preferences.get("arduino.ide.options.target.board"));
         opts.setTargetPort( brackets.arduino.preferences.get("arduino.ide.options.target.port"));
         opts.setTargetProgrammer( brackets.arduino.preferences.get("arduino.ide.options.target.programmer"));
-        setTimeout(function(){
+        var prefsize = brackets.arduino.preferences.get("arduino.ide.preferences.fontsize");
+        ViewCommandHandlers.setFontSize( prefsize + "px" );
+
         arduinoHints  = require("modules/Hints/main");
-        },5000);
     });
 
 
