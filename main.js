@@ -45,7 +45,8 @@ define(function (require, exports, module) {
     var serialmonitorDomainName     = "org-arduino-ide-domain-serialmonitor",
         discoveryDomainName         = "org-arduino-ide-domain-discovery",
         filesystemDomainName        = "org-arduino-ide-domain-filesystem",
-        copypasteDomainName         = "org-arduino-ide-domain-copypaste";
+        copypasteDomainName         = "org-arduino-ide-domain-copypaste",
+		compilerDomainName          = "org-arduino-ide-domain-compiler";
 
     var arduinoHints                = null;
 
@@ -83,18 +84,21 @@ define(function (require, exports, module) {
         brackets.arduino.domains[serialmonitorDomainName]   = new NodeDomain( serialmonitorDomainName, ExtensionUtils.getModulePath(module, "node/serialmonitor"));
         brackets.arduino.domains[discoveryDomainName]       = new NodeDomain( discoveryDomainName, ExtensionUtils.getModulePath(module, "node/discover"));
         brackets.arduino.domains[filesystemDomainName]      = new NodeDomain( filesystemDomainName, ExtensionUtils.getModulePath(module, "node/filesystem"));
-        brackets.arduino.domains[copypasteDomainName]       = new NodeDomain( copypasteDomainName, ExtensionUtils.getModulePath(module, "node/copypaste"));
+        brackets.arduino.domains[copypasteDomainName]       = new NodeDomain( copypasteDomainName, ExtensionUtils.getModulePath(module, "node/copypaste")),
+		brackets.arduino.domains[compilerDomainName] = new NodeDomain( compilerDomainName, ExtensionUtils.getModulePath(module, "node/compiler"));
 
         //load modules
         var SerialMonitor   = require("modules/SerialMonitor/main");
         var Discovery       = require("modules/Discovery/main");
 		var Console         = require("modules/Console/main");
         var Menu            = require("modules/Menu/main");
+		var Compiler        = require("modules/Compiler/main");
 
         var serialmonitor   = new SerialMonitor();
         var discovery       = new Discovery();
 		var console         = new Console();
         var menu            = new Menu();
+		var compiler 		= new Compiler();
 
         opts.setTargetBoard( brackets.arduino.preferences.get("arduino.ide.options.target.board"));
         opts.setTargetPort( brackets.arduino.preferences.get("arduino.ide.options.target.port"));
