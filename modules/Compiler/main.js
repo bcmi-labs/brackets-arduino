@@ -106,6 +106,7 @@ define(function (require, exports, module) {
         //TODO  come gestirlo ?
         //options.device.upload.protocol = brackets.arduino.options.target.programmer;
 
+        brackets.arduino.dispatcher.trigger("arduino-event-console-clear");
         compilerDomain.exec("compile",options,sketch_dir,false);
     }
 
@@ -123,6 +124,7 @@ define(function (require, exports, module) {
         //TODO  come gestirlo ?
         //options.device.upload.protocol = brackets.arduino.options.target.programmer;
 
+        brackets.arduino.dispatcher.trigger("arduino-event-console-clear");
         compilerDomain.exec("compile",options,sketch_dir,true);
     }
 

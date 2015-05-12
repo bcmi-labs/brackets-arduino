@@ -12,23 +12,12 @@ var path = require('path');
 
 console.log("os = " , process.platform);
 
-var nodeDir = __dirname.substring(0, __dirname.lastIndexOf("\\"));
-var nodeDir2 = __dirname.substring(0, __dirname.lastIndexOf((process.platform == 'win32') ? '\\' : '/'));
-var nodeDir3 = __dirname.substring(0, __dirname.lastIndexOf(path.sep));
+var nodeDir = __dirname.substring(0, __dirname.lastIndexOf(path.sep));
 
 var settings = {
-    datapath:  nodeDir+((process.platform == 'win32') ? "\\node_modules\\arduinodata\\libraries" : "/node_modules/arduinodata/libraries" ), //"/node_modules/arduinodata/libraries",
-    boardpath: nodeDir+"/node_modules/arduinodata/boards",
-	programmerspath: nodeDir+"/node_modules/arduinodata/programmers",
+    datapath:  nodeDir+((process.platform == 'win32') ? "\\node_modules\\arduinodata\\libraries" : "/node_modules/arduinodata/libraries" ),
     sketchtemplate: "sketchtemplate.ino"
 };
-
-console.log("DIRNAME : "+__dirname);
-console.log("NODE DIR 1 : "+ nodeDir);
-console.log("NODE DIR 2 : "+ nodeDir2);
-console.log("SEPARATOR : "+ path.sep);
-console.log("NODE DIR 3 : "+ nodeDir3);
-console.log("SETTINGS TEST " +JSON.stringify(settings));
 
 function Platform() {
     this.os = process.platform;
@@ -42,10 +31,7 @@ function Platform() {
     }
 
     this.getReposPath = function() {
-        if(this.os == 'darwin')
-            return this.getUserHome() + '/Library/Applicant Support/Brackets/extensions/user';
-        else if(this.os == 'win' || this.os == 'win32' || this.os == 'win64')
-                return this.getUserHome() + '/AppData/Roaming/Brackets/extensions/user';
+        return this.getUserHome()+((process.platform =='win32')? "\\AppData\\Roaming\\Brackets\\extensions\\user" : "/Library/Applicant Support/Brackets/extensions/user");
         //TODO linux case
     }
 
@@ -57,62 +43,43 @@ function Platform() {
     }
 
     this.getUserSketchesDir = function() {
-        if(settings.user_sketches_dir) return settings.user_sketches_dir;
-        if(this.os == 'darwin') {
-            return this.getUserHome()+'/Documents/Arduino';
-        }
-        if(this.os == 'win' || this.os == 'win32' || this.os == 'win64') {
-            return this.getUserHome()+'/Documents/Arduino';
-        }
         //TODO linux case
         //return this.getUserHome() + '/Sketchbook';
+
+        return this.getUserHome()+((process.platform =='win32') ? '\\Documents\\Arduino' : "/Documents/Arduino");
     }
 
     this.getUserLibraryDir = function() {
-
-        return this.getUserSketchesDir() + '/libraries';
+        return this.getUserSketchesDir()+((process.platform =='win32')? '\\libraries' : "/libraries");
     }
 
-    //this.root = this.getReposPath();
-    this.root = nodeDir.substring(0, nodeDir.lastIndexOf("\\"));
+    this.root = nodeDir.substring(0, nodeDir.lastIndexOf(path.sep));
 
     this.getStandardLibraryPath = function() {
-        return this.root + '/libraries';
-    }
-
-    this.getCorePathOLD = function() {
-        return this.root + '/hardware/arduino/cores/'+this.device.build.core;
+        return this.root+((process.platform =='win32')? '\\libraries' : "/libraries");
     }
 
 	this.getCorePath = function(opt) {
-        return this.root + '/hardware/arduino/'+opt.device.arch+'/cores/'+opt.device.build.core;
+        return this.root+((process.platform =='win32')? '\\hardware\\arduino\\' : '/hardware/arduino/')+opt.device.arch+((process.platform =='win32')? '\\cores\\' : '/cores/')+opt.device.build.core;
     }
 
-    this.getVariantPathOLD = function() {
-        return this.root + '/hardware/arduino/variants/'+this.device.build.variant;
-    }
 
 	this.getVariantPath = function(opt) {
-		//var ark = opt.device.build.board.substring(0,opt.device.build.board.indexOf("_")).toLowerCase();
-        return this.root + '/hardware/arduino/'+opt.device.arch+'/variants/'+opt.device.build.variant;
+        return this.root+((process.platform =='win32')? '\\hardware\\arduino\\' : '/hardware/arduino/')+opt.device.arch+((process.platform =='win32')? '\\variants\\' : '/variants/')+opt.device.build.variant;
     }
 
     this.getCompilerBinaryPath = function() {
-        return this.root + '/hardware/tools/avr/bin';
+        return this.root+((process.platform =='win32')? '\\hardware\\tools\\avr\\bin' : '/hardware/tools/avr/bin');
     }
 
     this.getAvrDudeBinary = function() {
-        if(this.os == 'linux') {
-            return this.root + '/hardware/tools/avrdude';
-        }
-        return this.root + '/hardware/tools/avr/bin/avrdude';
+        // ALTERNATIVES //
+        //return this.getCompilerBinaryPath()+((process.platform =='win32')? '\\avrdude' : '/avrdude');
+        return this.root+((process.platform =='win32')? '\\hardware\\tools\\avr\\bin\\avrdude' : '/hardware/tools/avr/bin/avrdude');
     }
 
     this.getAvrDudeConf = function() {
-        if(this.os == 'linux') {
-            return this.root + '/hardware/tools/avrdude.conf';
-        }
-        return this.root + '/hardware/tools/avr/etc/avrdude.conf';
+        return this.root+((process.platform =='win32')? '\\hardware\\tools\\avr\\etc\\avrdude.conf' : '/hardware/tools/avr/etc/avrdude.conf');
     }
 
     this.isInstalled = function() {
@@ -133,6 +100,7 @@ exports.getDefaultPlatform = function() {
     return _default;
 }
 
+/*
 exports.getPlatform = function(device) {
     if(device.id == 'digispark-pro') return Object.create(_digispark_pro).init(device);
     if(device.id == 'digispark-tiny') return Object.create(_digispark_pro).init(device);
@@ -142,7 +110,7 @@ exports.getPlatform = function(device) {
     if(device.id == 'flora') return Object.create(_flora).init(device);
     return Object.create(_default).init(device);
 }
-
+*/
 
 exports.getSettings = function() {
     var cln = {};

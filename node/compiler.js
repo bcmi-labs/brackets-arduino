@@ -1,3 +1,11 @@
+/**
+ *  BASED ON
+ *  https://github.com/joshmarinacci/ElectronIDE
+ *  BY Josh Marinacci
+ *
+ *  MODIFIED BY Arduino.org Team
+ */
+
 (function () {
     "use strict";
 
@@ -9,12 +17,11 @@
 
     var uploader        = require('./compiler/uploader');
     var platform        = require('./compiler/platform');
-    //var boards          = require('./compiler/boards').loadBoards();
     var LIBRARIES       = require('./compiler/libraries');
 
     var domainName = "org-arduino-ide-domain-compiler";
 
-    var dm, upPort, upBoard, prg = "arduino";
+    var dm, prg = "arduino";
 
     var hexFile;
 
@@ -161,6 +168,7 @@
                     err.output = stdout + stderr;
                     if(debug) debug(err);
                     cb(err);
+                    dm.emitEvent (domainName, "console-error", error);
                     return;
                 }
                 if(cb) cb();
@@ -248,7 +256,10 @@
         try {
             item(function(err) {
                 console.log("--------------------");
-                if(err) return cb(err);
+                if(err) {
+                    dm.emitEvent (domainName, "console-error", err);
+                    return cb(err);
+                }
                 processList(list,cb, publish);
             });
         } catch(err) {
@@ -262,6 +273,7 @@
                 errno: err.errno,
                 code: err.code
             });
+            dm.emitEvent (domainName, "console-error", err);
         }
     }
 
@@ -305,6 +317,7 @@
 
 
         function debug(message) {
+        /*  TEMPORARILY DIABLED
             var args = Array.prototype.slice.call(arguments);
             console.log("message = " + message + args.join(" ")+'\n');
             if(message instanceof Error) {
@@ -314,6 +327,7 @@
                 //publish({type:"compile", message:args.join(" ")});
                 publish("debug  :" + args.join(" ") + "");
             }
+        */
         }
 
 //Temp        checkfile(options.platform.getCompilerBinaryPath());
@@ -476,11 +490,21 @@
         if(up)
             tasks.push(function(cb){
                     debug("uploading sketch on board");
-                    var pub = function(){console.log("pub");},
-                        cb = function(data){console.log("sketch correctly loaded");
+                    var pub = function(){
+                            console.log("pub");
                             dm.emitEvent (domainName, "console-log", "sketch correctly loaded");
+                        },
+                        cb = function(data){
+                            if(data.type == 'error') {
+                                dm.emitEvent(domainName, "console-error", data.message);
+                            }
+                            else
+                            {
+                                dm.emitEvent(domainName, "console-log", data.message);
+                            }
+                            console.log("fine");
+                            //dm.emitEvent (domainName, "console-log", "sketch correctly loaded");
                         };
-                        //uploader.upload(hexFile,options.port,options,pub,cb);
                         uploader.upload(hexFile,options,pub,cb);
                 });
 
@@ -511,7 +535,6 @@
 
     function compileCPP(options, outdir, includepaths, cfile,debug, cb) {
         debug("compiling ",cfile);
-        console.log("Compiler Binary Path", options.platform.getCompilerBinaryPath());
         var cmd = [
             options.platform.getCompilerBinaryPath()+"\\avr-g++",
             "-c",

@@ -7,7 +7,6 @@ var SerialPort2 = require('serialport');
 //function runAVRDude(hexfile, portpath, options, debug, cb) {
 function runAVRDude(hexfile, options, debug, cb) {
     debug("running AVR dude");
-	console.log("[ SEBBA PORTA ] : " + options.port)
     if(options.platform.useSerial()) {
         var uploadcmd = [
             options.platform.getAvrDudeBinary(),    	//[ /hardware/tools/avr/bin/avrdude]
@@ -114,9 +113,7 @@ function customizeUpload(cmd, prg){
 	var index;
 	switch(prg)
 	{
-		case 'stk500v1': 
-		//	eliminare -D 
-		//	eliminare -b
+		case 'stk500v1':
 			index = searchStringInArray('-D', cmd);
 			if(index > -1)
 				cmd.splice(index,1);
@@ -125,10 +122,7 @@ function customizeUpload(cmd, prg){
 				cmd.splice(index,1);
 			break;
 		case 'stk500v2':
-		case 'usbasp':		
-		//	modificare -P
-		//	eliminare -D 
-		//	eliminare -b
+		case 'usbasp':
 			index = searchStringInArray('-D', cmd);
 			if(index > -1)
 				cmd.splice(index,1);
@@ -142,9 +136,6 @@ function customizeUpload(cmd, prg){
 		case 'usbtiny':
 		case 'arduinoisp':
 		case 'arduinoasisp':
-		//	eliminare -D 
-		//	eliminare -b
-		//	eliminare -P (??)
 			index = searchStringInArray('-D', cmd);
 			if(index > -1)
 				cmd.splice(index,1);
@@ -156,9 +147,6 @@ function customizeUpload(cmd, prg){
 				cmd.splice(index,1);
 			break;
 		case 'dapa':
-		//	aggiungere -F	
-		//	eliminare -D	
-		//	eliminare -P	
 			index = searchStringInArray('-D', cmd);
 			if(index > -1)
 				cmd.splice(index,1);
