@@ -235,6 +235,7 @@ define(function (require, exports, module) {
             brackets.arduino.options.target.port = selectedPort;
             brackets.arduino.preferences.set( "arduino.ide.options.target.port", selectedPort.address);
             brackets.arduino.dispatcher.trigger( "arduino-event-port-change", selectedPort);
+            brackets.arduino.dispatcher.trigger( "arduino-event-console-port", selectedPort.address);
         }
     }
 
@@ -303,6 +304,7 @@ define(function (require, exports, module) {
             //$("#labelBoard")[0].textContent = selectedPort.name + " on " + selectedBoard.id;
             brackets.arduino.options.target.board = selectedBoard;
             brackets.arduino.preferences.set( "arduino.ide.options.target.board", selectedBoard.id);
+            brackets.arduino.dispatcher.trigger( "arduino-event-console-board", selectedBoard.name);
         }
     }
 
