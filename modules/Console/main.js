@@ -44,8 +44,8 @@ define(function(require, exports, module){
 
 	var panelHTML = require("text!./html/Console.html"),
 		panel,
-		bTag = $('<div style="font-weight: bold"></div>'),
-		pTag = $('<div style="font-weight: bold"></div>');
+		bTag = $('<div style="font-weight: bold">Select board</div>'),
+		pTag = $('<div style="font-weight: bold">Select port</div>');
 
 	bTag.click(function(){
 		brackets.arduino.dispatcher.trigger("arduino-event-menu-tool-boards","");
