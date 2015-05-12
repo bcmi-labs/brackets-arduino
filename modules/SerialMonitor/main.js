@@ -112,9 +112,6 @@ define(function (require, exports, module) {
 
 
     var eventSerialPortChange = function($event, port){
-        //TODO at this moment port is a string, but may be an object in the future
-        //TODO [idea] the port selected by the user could be stored in the global brackets.arduino.options.target_board/port. instead of the 'port' argument, i should use the global object
-
         if(port && port!= serialPort){
             serialPort = port;
             changeParameter();
@@ -146,16 +143,26 @@ define(function (require, exports, module) {
         if (serialMonitorPanel.isVisible()) {
             serialMonitorPanel.hide();
             closeSerialPort(serialPort, function(err){
-                if(err) //TODO send error to arudino console.
+                if(err) { //TODO send error to arudino console.
                     console.error(serialMonitorPrefix + " Error in serial port closing: ", err);
+                    brackets.arduino.dispatcher.trigger( "arduino-event-console-error" , serialMonitorPrefix + " Error in serial port closing: " + err.toString());
+                }
+                else{
+                    brackets.arduino.dispatcher.trigger("arduino-event-console-log", serialMonitorPrefix + " Serial monitor disconnected from " + serialPort.address);
+                }
             });
 
         } 
         else {
             serialMonitorPanel.show();
             openSerialPort(serialPort, serialPortRate, function(err){
-                if(err) //TODO send error to arudino console.
+                if(err) { //TODO send error to arudino console.
                     console.error(serialMonitorPrefix + " Error in serial port opening: ", err);
+                    brackets.arduino.dispatcher.trigger("arduino-event-console-error", serialMonitorPrefix + " Error in serial port opening: " + err.toString());
+                }
+                else{
+                    brackets.arduino.dispatcher.trigger("arduino-event-console-log", serialMonitorPrefix + " Serial monitor connected to " + serialPort.address);
+                }
             });
         }
     };
@@ -199,34 +206,33 @@ define(function (require, exports, module) {
     
 
     function changeParameter()  {
-/*
-        serialDomain.exec("close", serialPort)
-            .done(function(){
-                clear();
-                serialDomain.exec("open", serialPort, parseInt(serialPortRate))
-                    .done()
-                    .fail(function(err) {
-                        //TODO i18n error message
-                            console.error( serialMonitorPrefix + " Error in serial port opening: ", err);
-                    });
-            })
-            .fail(function(err) {
-            //TODO i18n error message
-                console.error( serialMonitorPrefix + " Error in serial port closing: ", err);
-            });
-*/
+
         if (serialMonitorPanel.isVisible()) {
             closeSerialPort(serialPort, function (err) {
                 if (!err)
                     openSerialPort(serialPort, serialPortRate, function (err) {
-                        if (!err)
+                        if (!err){
                             clear();
-                        else
-                        //TODO send error to arudino console.
+                            brackets.arduino.dispatcher.trigger( "arduino-event-console-log" , serialMonitorPrefix + " Serial monitor connected to " + serialPort.address);
+                        }
+                        else {
                             console.error(serialMonitorPrefix + " Error in serial port opening: ", err);
+                            brackets.arduino.dispatcher.trigger( "arduino-event-console-error" , serialMonitorPrefix + " Error in serial port opening: " + err.toString());
+                        }
                     });
-                else //TODO send error to arudino console.
-                    console.error(serialMonitorPrefix + " Error in serial port closing: ", err);
+                else {
+                    //console.error(serialMonitorPrefix + " Error in serial port closing: ", err);
+                    openSerialPort(serialPort, serialPortRate, function (err) {
+                        if (!err) {
+                            clear();
+                            brackets.arduino.dispatcher.trigger("arduino-event-console-log", serialMonitorPrefix + " Serial monitor connected to " + serialPort.address);
+                        }
+                        else {
+                            console.error(serialMonitorPrefix + " Error in serial port opening: ", err);
+                            brackets.arduino.dispatcher.trigger("arduino-event-console-error", serialMonitorPrefix + " Error in serial port closing: " + err.toString());
+                        }
+                    });
+                }
             });
         }
     };
@@ -240,8 +246,6 @@ define(function (require, exports, module) {
                     callback(null);
                 })
                 .fail(function(err) {
-                    //TODO i18n error message
-                    //console.error( serialMonitorPrefix + " Error in serial port opening: ", err);
                     callback(err);
                 });
         }
@@ -258,8 +262,6 @@ define(function (require, exports, module) {
                     callback(null);
                 })
                 .fail(function (err) {
-                    //TODO i18n error message
-                    //console.error( serialMonitorPrefix + " Error in serial port closing: ", err);
                     callback(err);
                 });
         }
@@ -297,7 +299,13 @@ define(function (require, exports, module) {
                     case "NLCR":    message += "\r\n";  break;
                     case "NA":      message += "";      break;
                 }
-                serialDomain.exec("send", message);
+                serialDomain.exec("send", message)
+                    .done(function (){
+                        serialMonitorPanel.$panel.find("#message_input")[0].value = "";
+                    })
+                    .fail(function(){
+
+                    });
             }
         });
                
