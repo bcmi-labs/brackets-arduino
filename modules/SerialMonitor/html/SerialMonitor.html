@@ -1,56 +1,40 @@
-<div id="plugin-serialmonitor">
-    <div id="title"><h3>Serial Monitor</h3></div>
-        <div id="console_serialMonitor">
-            <div id="options">
-                <div class="form-inline text-center">
-                    <input type="checkbox" id="scroll" checked=true />AutoScroll
-                    <select id="baud" class="selectpicker">
-                        <option value="" disabled selected>Select baud rate</option>
-                        <option value="300">300</option>
-                        <option value="1200">1200</option>
-                        <option value="2400">2400</option>
-                        <option value="4800">4800</option>
-                        <option value="9600">9600</option>
-                        <option value="14400">14400</option>
-                        <option value="19200">19200</option>
-                        <option value="28800">28800</option>
-                        <option value="38400">38400</option>
-                        <option value="57600">57600</option>
-                        <option value="115200">115200</option>
-                    </select>
-                    <select id="eol">
-                        <option value="" disabled selected>Select end of line</option>
-                        <option value="NA">No line ending</option>
-                        <option value="NL">New line</option>
-                        <option value="CR">Carriage return</option>
-                        <option value="NLCR">Both NL &amp; CR</option>      
-                    </select>
-                </div>
-            </div>
-            <div id="send" class="form-inline">
-                <label class="labserial">Message</label>
-                <input type="text" id="message_input">
-                <input type="button" id="send_button" class="btn" value="Send">
-            </div>
-            <div id="logarea" class="form-group">
-                <label class="labserial">Log</label>
-                <textarea id="console_log" readonly rows="5"></textarea>
-            </div>
-            <div id="cleardiv" class="form-group">
-                <input type="button" id="clear_button" class="btn" value="Clear Log and Message">
-            </div>
+<div id="plugin-serialmonitor" class="modal-bar">
+    <label class="serial_title">Serial Monitor</label>
+    <div id="options">
+        <div class="form-inline text-center">
+            <label class="serial_label">AutoScroll</label><input type="checkbox" id="scroll" checked=true />&nbsp;&nbsp;|&nbsp;&nbsp;
+            <label class="serial_label">Baud Rate</label>
+            <select id="baud" class="selectpicker">
+                <option value="" disabled selected>Select baud rate</option>
+                <option value="300">300</option>
+                <option value="1200">1200</option>
+                <option value="2400">2400</option>
+                <option value="4800">4800</option>
+                <option value="9600">9600</option>
+                <option value="14400">14400</option>
+                <option value="19200">19200</option>
+                <option value="28800">28800</option>
+                <option value="38400">38400</option>
+                <option value="57600">57600</option>
+                <option value="115200">115200</option>
+            </select>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <label class="serial_label">End of Line</label>
+            <select id="eol">
+                <option value="" disabled selected>Select end of line</option>
+                <option value="NA">No line ending</option>
+                <option value="NL">New line</option>
+                <option value="CR">Carriage return</option>
+                <option value="NLCR">Both NL &amp; CR</option>      
+            </select>
         </div>
     </div>
+    <div id="send" class="form-inline">
+        <label class="serial_label">Message</label><br />
+        <input type="text" id="message_input" /><a class="btn" id="send_button" title="Send Message" /><a id="clear_button" class="btn" title="Clear Log and Message" />
+        <!--<input type="button" id="send_button" value="Send">-->
+    </div>
+    <div id="logarea" class="form-group">
+        <label class="serial_label">Log</label>
+        <textarea id="console_log" readonly rows="5"></textarea>
+    </div>
 </div>
-
-<!--
-<script>
-    $("#baud").change(function() {
-      val = $(this).val();
-    });
-
-    $("#eol").change(function() {
-      val = $(this).val();
-    });
-</script>
--->

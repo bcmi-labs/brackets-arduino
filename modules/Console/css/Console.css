@@ -1,28 +1,22 @@
-/*#logger{
-    height:75%; 
-    width:96%;
-    resize: none;
-    display: block;
-    overflow: auto;
-	color: white;
-	background-color: #00878f;
-}*/
+.console_title {
+    color: #17a0a4;
+    font-weight: bold;
+}
 
 #console {
-    background-color: #f9ff00;
-    min-height:160px;
+    min-height:180px;
     padding-top: 10px;
     margin-left: 27px;
 }
 
 #logger {
+    background-color: #ffffff;
     width: 97%;
     height: 135px;
     padding: 2px;
     border: none;
     border:1px solid #EEE; border-right:0 solid;
     overflow: scroll;
-    background-color: #ffffff;
     margin: 1px 0px 3px 11px;
 }
 
@@ -30,6 +24,5 @@
     height:5%;
     font-size: small;
     text-align: right;
-    /*padding-right: 10px;*/
     width: 97%;
 }

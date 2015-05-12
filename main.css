@@ -30,9 +30,24 @@
  *
  */
 
+body { font-family: Verdana; }
+
 #problems-panel {
     width: 97%;
     margin-left: 27px;
+}
+
+.modal-bar {
+	margin-left: 27px;
+}
+
+.bottom-link {
+	margin-bottom: 10px;
+	border-bottom: 1px solid #9c9e9e !important;
+}
+
+.inline-widget {
+	margin-left: 27px;
 }
 
 #sidebar, #main-view {
@@ -227,8 +242,8 @@ div.sidebar-selection-extension.selectionExtension-visible.forced-hidden { left:
 	background: url('./icons/files_over.png') center no-repeat;
 }
 
-#toolbar-toggle-btn {
-	background: url('./icons/apri.png') center no-repeat;
+#toolbar-split-btn {
+	background-image: url('./icons/apri.png') center no-repeat;
 }
 
 #toolbar-luna-btn {

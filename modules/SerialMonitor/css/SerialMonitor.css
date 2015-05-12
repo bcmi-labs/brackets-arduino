@@ -1,94 +1,57 @@
-#title{
-    width: 100%;
-    resize: none;
-    font-size: 100%;
-    color: #ffffff;
-    font-weight: bold;
-    text-align: center;
+#plugin-serialmonitor {
+    padding-top: 10px;
+    height: 300px !important;
 }
 
-#title h3 { color: #ffffff; }
-
-#plugin-serialmonitor{
-     background-color: #17a1a5; 
-     height: 28%;
-     border: 1px solid #dfeae3;
+input#scroll {
+  width: 13px;
 }
 
-#console_serialMonitor{
-    height: 100px;
-    vertical-align: top;
-    margin-left: 2%;
-    margin-top: 15px;
-}
-
-#send{
-    vertical-align: middle;
+#options {
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #message_input{
-    width: 90%; 
+    width: 86%;
     margin-left: 15px;
+    height: 27px;
 }
 
 #console_log{
-    height:100%; 
-    width:90%;
+    width: 95%;
     resize: none;
-    display: block;
-    overflow-y: auto;
+    overflow: scroll;
     margin-left: 15px;
+    background-color: #ffffff;
 }
 
-.labserial {
-  color: #ffffff;
+.serial_title {
   font-weight: bold;
-  margin-left: 15px;
+}
+.serial_label, .serial_title {
+  color: #17a0a4;
 }
 
-/*
-#clear_button{
-    float: right; 
-    margin-right:1%;
+a#send_button {
+    background: url('send.png') center 50% no-repeat;
+    cursor:pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
 }
-*/
-
-#options, #logarea {
-    margin-top: 10px;
-}
-
-#cleardiv { margin-left: 15px; text-align: center; }
-
-/*
-#eol, #baud{
-    float: right;
-    margin-right: 2%
-}
-*/
-
-.serial-console-icon {
-    background: url("../img/icon-off.png");
-    background-size: 22px;
-    background-position: center;
+a#send_button:hover {
+    background: url('send_over.png') center no-repeat;
 }
 
-.serial-console-icon-on {
-    background: url("../img/icon-on.png");
-    background-size: 22px;
-    background-position: center;
+a#clear_button {
+    background: url('clear.png') center no-repeat;
+    cursor:pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
+    margin-left: 5px;
 }
-
-.button {
-  -webkit-border-radius: 10;
-  -moz-border-radius: 10;
-  border-radius: 10px;
-  font-family: Arial;
-  color: #006468;
-  background: #ffffff;
-  /*padding: 10px 20px 10px 20px;*/
-  text-decoration: none;
-  float: right; 
-  margin-right:1%;
-  padding: 0.5% 1.1%;
+a#clear_button:hover {
+    background: url('clear_over.png') center no-repeat;
 }

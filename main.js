@@ -121,8 +121,9 @@ define(function (require, exports, module) {
         $('.buttons').html(arduinoButtons);
         //$('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a><a id='toolbar-luna-btn' class='toolbar-btn' href='#' title='Luna'></a>");
         
-        $('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a>");
+        //$('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a>");
         
+        $('.bottom-buttons').html("<div id='toolbar-split-btn' class='working-set-splitview-btn btn-alt-quiet splitview-icon-none' title='Open/close Sidebar'></div>");
 
         $('.toolbar-btn').click(function(evt){
             evt.preventDefault();
@@ -154,9 +155,6 @@ define(function (require, exports, module) {
                     brackets.arduino.dispatcher.trigger('arduino-event-menu-tool-serialmonitor','');
                     break;
             case 'toolbar-files-btn':
-                    alert('toolbar-files-btn');
-                    break;
-            case 'toolbar-toggle-btn':
                     if($('#sidebar').is(':visible')){
                         $('#sidebar').hide();
                         $('.main-view .content').css('right', '0px');
@@ -165,8 +163,7 @@ define(function (require, exports, module) {
                         $('.main-view .content').css('right', '200px');   
                         $('#sidebar').show();
                     }
-
-                    break;
+                    break;                    
             default:
                 console.log(btnid+' clicked');
             }
