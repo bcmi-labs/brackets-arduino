@@ -66,7 +66,7 @@ define(function (require, exports, module) {
 
     //TODO HOW TO GET THE REAL PATH
     var examplesPath 	= "C:\\Program Files (x86)\\Arduino\\examples",
-        sketchesPath 	= "C:\\Users\\Sebastiano\\Documents\\Arduino\\SKETCH";
+        sketchesPath 	= "C:\\Users\\user\\Documents\\Arduino\\SKETCH";
 
     //Menus IDs
     var ARDUINO_MENU_FILE_ID 	= "arduino.ide.menu.file",
@@ -113,7 +113,6 @@ define(function (require, exports, module) {
         copypasteDomain  = brackets.arduino.domains[copypasteDomainName];
 
         sketch_importLibraryDirectory       = brackets.arduino.options.librariesdir;
-        //sketch_importLibraryUserDirectory   = FileSystem.getDirectoryForPath("/Users/sergio/Desktop/TEST"); //TODO this is for TEST ONLY
 
         //Menus.removeMenu(Menus.AppMenuBar.FIND_MENU);
         Menus.removeMenu(Menus.AppMenuBar.NAVIGATE_MENU);
@@ -135,10 +134,10 @@ define(function (require, exports, module) {
     function getPlatformAction($event, userLibrariesFolder, standard)
     {
         //var libsFolder = standard;
-        sketch_importLibraryUserDirectory = FileSystem.getDirectoryForPath(userLibrariesFolder);
+        sketch_importLibraryUserDirectory = FileSystem.getDirectoryForPath(FileUtils.convertWindowsPathToUnixPath(userLibrariesFolder));
 
         //TODO get the user folder in the main file, get the lib path, sketchbook and
-        ///Users/sergio/Documents/Arduino
+        ///Users/user/Documents/Arduino
     }
 
     function bePatient(){
@@ -204,57 +203,57 @@ define(function (require, exports, module) {
         EditMenu.addMenuItem(ARDUINO_MENU_EDIT_FIND_SELECTED);
 
         /*
-                EditMenu.addMenuItem(Commands.EDIT_UNDO);
-                EditMenu.addMenuItem(Commands.EDIT_REDO);
-                EditMenu.addMenuDivider("arduino.menu.edit.divider1");
-                EditMenu.addMenuItem(Commands.EDIT_CUT);
-                EditMenu.addMenuItem(Commands.EDIT_COPY);
-                EditMenu.addMenuItem(ARDUINO_MENU_EDIT_COPY_FORUM);
-                EditMenu.addMenuItem(ARDUINO_MENU_EDIT_COPY_HTML);
-                EditMenu.addMenuItem(Commands.EDIT_PASTE);
-                EditMenu.addMenuItem(Commands.EDIT_SELECT_ALL);
-                EditMenu.addMenuDivider("arduino.menu.edit.divider2");
-                EditMenu.addMenuItem(Commands.EDIT_LINE_COMMENT);
-                EditMenu.addMenuItem(Commands.EDIT_INDENT);
-                EditMenu.addMenuItem(Commands.EDIT_UNINDENT);
-                EditMenu.addMenuItem(Commands.CMD_FIND);
-                EditMenu.addMenuItem(Commands.CMD_FIND_NEXT);
-                EditMenu.addMenuItem(Commands.CMD_FIND_PREVIOUS);
-                EditMenu.addMenuItem(ARDUINO_MENU_EDIT_FIND_SELECTED);
+         EditMenu.addMenuItem(Commands.EDIT_UNDO);
+         EditMenu.addMenuItem(Commands.EDIT_REDO);
+         EditMenu.addMenuDivider("arduino.menu.edit.divider1");
+         EditMenu.addMenuItem(Commands.EDIT_CUT);
+         EditMenu.addMenuItem(Commands.EDIT_COPY);
+         EditMenu.addMenuItem(ARDUINO_MENU_EDIT_COPY_FORUM);
+         EditMenu.addMenuItem(ARDUINO_MENU_EDIT_COPY_HTML);
+         EditMenu.addMenuItem(Commands.EDIT_PASTE);
+         EditMenu.addMenuItem(Commands.EDIT_SELECT_ALL);
+         EditMenu.addMenuDivider("arduino.menu.edit.divider2");
+         EditMenu.addMenuItem(Commands.EDIT_LINE_COMMENT);
+         EditMenu.addMenuItem(Commands.EDIT_INDENT);
+         EditMenu.addMenuItem(Commands.EDIT_UNINDENT);
+         EditMenu.addMenuItem(Commands.CMD_FIND);
+         EditMenu.addMenuItem(Commands.CMD_FIND_NEXT);
+         EditMenu.addMenuItem(Commands.CMD_FIND_PREVIOUS);
+         EditMenu.addMenuItem(ARDUINO_MENU_EDIT_FIND_SELECTED);
          */
     }
 
     function createFileMenu() {
         Menus.removeMenu(Menus.AppMenuBar.FILE_MENU);
 
-         var FileMenu2 = Menus.addMenu("File", ARDUINO_MENU_FILE_ID, Menus.FIRST);
-         //settingsFile;
-         //FileUtils;
-         CommandManager.register("Open samples", ARDUINO_MENU_FILE_OPEN_SKETCH_FOLDER, SamplesFunction);
-         CommandManager.register("Load [coming soon (A)]", ARDUINO_MENU_FILE_LOAD, bePatient);
-         CommandManager.register("Load by programmer [coming soon]", ARDUINO_MENU_FILE_LOAD_BY_PROGRAMMER, bePatient);
-         CommandManager.register("Page Settings [In the future]", ARDUINO_MENU_FILE_PAGE_SETTINGS, bePatient);
-         CommandManager.register("Print [In the future]", ARDUINO_MENU_FILE_PRINT, bePatient);
-         CommandManager.register("Preferences", ARDUINO_MENU_FILE_SETTINGS, fileMenu_showPreferences);
+        var FileMenu2 = Menus.addMenu("File", ARDUINO_MENU_FILE_ID, Menus.FIRST);
+        //settingsFile;
+        //FileUtils;
+        CommandManager.register("Open samples", ARDUINO_MENU_FILE_OPEN_SKETCH_FOLDER, SamplesFunction);
+        CommandManager.register("Load [coming soon (A)]", ARDUINO_MENU_FILE_LOAD, bePatient);
+        CommandManager.register("Load by programmer [coming soon]", ARDUINO_MENU_FILE_LOAD_BY_PROGRAMMER, bePatient);
+        CommandManager.register("Page Settings [In the future]", ARDUINO_MENU_FILE_PAGE_SETTINGS, bePatient);
+        CommandManager.register("Print [In the future]", ARDUINO_MENU_FILE_PRINT, bePatient);
+        CommandManager.register("Preferences", ARDUINO_MENU_FILE_SETTINGS, fileMenu_showPreferences);
 
-         FileMenu2.addMenuItem(Commands.FILE_NEW);
-         FileMenu2.addMenuItem(Commands.FILE_OPEN);
-         FileMenu2.addMenuItem(ARDUINO_MENU_FILE_OPEN_SKETCH_FOLDER);
-         FileMenu2.addMenuItem(Commands.FILE_OPEN_FOLDER); //cartella esempi
-         FileMenu2.addMenuItem(Commands.FILE_CLOSE);
-         FileMenu2.addMenuItem(Commands.FILE_SAVE);
-         FileMenu2.addMenuItem(Commands.FILE_SAVE_AS);
-         FileMenu2.addMenuItem(ARDUINO_MENU_FILE_LOAD);
-         FileMenu2.addMenuItem(ARDUINO_MENU_FILE_LOAD_BY_PROGRAMMER);
-         FileMenu2.addMenuDivider("arduino.menu.file.divider1");
-         FileMenu2.addMenuItem(ARDUINO_MENU_FILE_PAGE_SETTINGS);
-         FileMenu2.addMenuItem(ARDUINO_MENU_FILE_PRINT);
-         FileMenu2.addMenuDivider("arduino.menu.file.divider2")
-         FileMenu2.addMenuItem(ARDUINO_MENU_FILE_SETTINGS);
-         FileMenu2.addMenuDivider("arduino.menu.file.divider3")
+        FileMenu2.addMenuItem(Commands.FILE_NEW);
+        FileMenu2.addMenuItem(Commands.FILE_OPEN);
+        FileMenu2.addMenuItem(ARDUINO_MENU_FILE_OPEN_SKETCH_FOLDER);
+        FileMenu2.addMenuItem(Commands.FILE_OPEN_FOLDER); //cartella esempi
+        FileMenu2.addMenuItem(Commands.FILE_CLOSE);
+        FileMenu2.addMenuItem(Commands.FILE_SAVE);
+        FileMenu2.addMenuItem(Commands.FILE_SAVE_AS);
+        FileMenu2.addMenuItem(ARDUINO_MENU_FILE_LOAD);
+        FileMenu2.addMenuItem(ARDUINO_MENU_FILE_LOAD_BY_PROGRAMMER);
+        FileMenu2.addMenuDivider("arduino.menu.file.divider1");
+        FileMenu2.addMenuItem(ARDUINO_MENU_FILE_PAGE_SETTINGS);
+        FileMenu2.addMenuItem(ARDUINO_MENU_FILE_PRINT);
+        FileMenu2.addMenuDivider("arduino.menu.file.divider2")
+        FileMenu2.addMenuItem(ARDUINO_MENU_FILE_SETTINGS);
+        FileMenu2.addMenuDivider("arduino.menu.file.divider3")
 
-         //TODO SHOW FILE.QUIT ONLY IF IS NOT MACOSX
-         FileMenu2.addMenuItem(Commands.FILE_QUIT);
+        //TODO SHOW FILE.QUIT ONLY IF IS NOT MACOSX
+        FileMenu2.addMenuItem(Commands.FILE_QUIT);
     }
 
     //TOOL
@@ -287,13 +286,13 @@ define(function (require, exports, module) {
 
                 //TODO MAKE 'SAVE CLOSE' DIALOG IF FILE ALREADY EXISTS.
                 /*
-                destFile.exists(function(err, exist){
-                    if(exist){
-                        var dlg = Dialogs.showModalDialog(Dialogs.DIALOG_ID_SAVE_CLOSE, "Overwrite?", "The file already exists, overwrite? ");
-                        dlg.done(function(res){
-                        })
-                }
-                */
+                 destFile.exists(function(err, exist){
+                 if(exist){
+                 var dlg = Dialogs.showModalDialog(Dialogs.DIALOG_ID_SAVE_CLOSE, "Overwrite?", "The file already exists, overwrite? ");
+                 dlg.done(function(res){
+                 })
+                 }
+                 */
                 brackets.fs.copyFile(srcFile.fullPath, destFile.fullPath, function(err, src, dest){
                     if (err === brackets.fs.NO_ERROR)
                         brackets.arduino.dispatcher.trigger("arduino-event-console-log", menuPrefix + srcFile.name + " successfully imported.");

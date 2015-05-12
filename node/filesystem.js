@@ -5,7 +5,7 @@
 		admZip 		= require("adm-zip"),   //extract
 		fsextra 	= require("fs-extra");
 
-	var platform = require("./platform.js").getDefaultPlatform();
+	var platform = require("./compiler/platform.js").getDefaultPlatform();
 
 	var domainName = "org-arduino-ide-domain-filesystem",
 		dManager;
