@@ -145,15 +145,6 @@ define(function (require, exports, module) {
 
         if (serialMonitorPanel.isVisible()) {
             serialMonitorPanel.hide();
-            document.getElementById('serial-console-icon').className  = "serial-console-icon";
-            /*serialDomain.exec("close", serialPort)
-                .done( clear )
-                .fail(function(err) {
-                    clear();
-                    //TODO i18n error message
-                    console.error( serialMonitorPrefix + " Error in serial port opening: ", err);
-                });
-            */
             closeSerialPort(serialPort, function(err){
                 if(err) //TODO send error to arudino console.
                     console.error(serialMonitorPrefix + " Error in serial port closing: ", err);
@@ -162,15 +153,6 @@ define(function (require, exports, module) {
         } 
         else {
             serialMonitorPanel.show();
-            document.getElementById('serial-console-icon').className  = "serial-console-icon-on";
-            /*
-            serialDomain.exec("open", serialPort, parseInt(serialPortRate))
-                .done(  )
-                .fail( function( err ) {
-                    //TODO i18n error message
-                    console.error( serialMonitorPrefix + " Error in serial port opening: ", err);
-                });
-            */
             openSerialPort(serialPort, serialPortRate, function(err){
                 if(err) //TODO send error to arudino console.
                     console.error(serialMonitorPrefix + " Error in serial port opening: ", err);
