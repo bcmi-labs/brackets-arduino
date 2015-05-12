@@ -44,8 +44,8 @@ define(function(require, exports, module){
 
 	var panelHTML = require("text!./html/Console.html"),
 		panel,
-		bTag = $("<div></div>"),
-		pTag = $("<div></div>");
+		bTag = $('<div style="font-weight: bold"></div>'),
+		pTag = $('<div style="font-weight: bold"></div>');
 
 	var writeLog 	= 	function($event, data){
 							if(data){
