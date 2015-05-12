@@ -17,16 +17,24 @@
     </div>
     <div class="prop-values quiet-scrollbars">
         <div class="scroller" tabIndex="0"> <!-- tabIndex needed: otherwise can't be focused on open or via click -->
-            <b>Parameters</b><br>
-            {{#Params}}
-            {{.}}<br>
-            {{/Params}}<br>
-            <b>Examples</b><br>
+            <b>Parameters</b>
+            <br>
+                {{#Params}}
+                {{{.}}}
+            <br>
+                {{/Params}}
+            <br>
+            <b>Examples</b>
+            <br>
             <dl>{{#Examples}}
-                <dt>{{.}}</dt>
-            {{/Examples}}</dl><br>
-            <b>See Also:</b><br>
+                <dt><code>{{{.}}}</code></dt>
+                {{/Examples}}
+            </dl>
+            <br>
+            <b>See Also:</b>
+            <br>
             <dl>{{#Additional}}
+                <a href="{{baseurl}}{{.}}" >  {{.}}</a>
             {{/Additional}}</dl>
         </div>
     </div>

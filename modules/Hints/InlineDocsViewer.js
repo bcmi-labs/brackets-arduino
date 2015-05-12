@@ -23,6 +23,7 @@ define(function (require, exports, module) {
             Examples      : PropDetails.EXAMPLES,
             Additional    : PropDetails.ADDITIONAL,
             url           : PropDetails.URL,
+            baseurl       : PropDetails.BASEURL,
             BottomStyle   : bottom_style,
             SyntaxStyle   : syntax_style,
             ReturnStyle   : return_style,

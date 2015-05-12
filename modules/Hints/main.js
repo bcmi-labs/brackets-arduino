@@ -349,12 +349,23 @@ var hintwords = [], arduinoKeys = [], isKeyword = false, libraryKeys = [], libra
                 array = docs[i];
             }
         }
+/*
         for(var i = 0; i < array.Additional.length; ++i){
             if($.inArray(array.Additional[i],hintwords) == -1) {
                 array.Additional.splice(i,1);
             }
         }
-        var inlineWidget = new InlineDocsViewer(array.Name,"ino",{SUMMARY:array.Desc, SYNTAX: array.Syn, URL:"http://labs.arduino.org/tiki-index.php?page="+ array.Name,EXAMPLES: array.Examples, ADDITIONAL: array.Additional});
+        */
+        var inlineWidget = new InlineDocsViewer(    array.Name,
+                                                    "ino",
+                                                    {   SUMMARY:array.Desc,
+                                                        SYNTAX: array.Syn,
+                                                        URL:"http://labs.arduino.org/tiki-index.php?page="+ array.Name,
+                                                        BASEURL:"http://labs.arduino.org/tiki-index.php?page=",
+                                                        EXAMPLES: array.Examples,
+                                                        ADDITIONAL: array.Additional
+                                                    }
+                                                );
         inlineWidget.load(hosteditor);
         result.resolve(inlineWidget);
         return result.promise();
