@@ -47,6 +47,15 @@ define(function(require, exports, module){
 		bTag = $('<div style="font-weight: bold"></div>'),
 		pTag = $('<div style="font-weight: bold"></div>');
 
+	bTag.click(function(){
+		brackets.arduino.dispatcher.trigger("arduino-event-menu-tool-boards","");
+	});
+
+	pTag.click(function(){
+		brackets.arduino.dispatcher.trigger("arduino-event-menu-tool-ports","");
+	});
+
+
 	var writeLog 	= 	function($event, data){
 							if(data){
 								$('#logger').html($('#logger').html()+"<span style='color: black;'>"+data+"</span><br />");
