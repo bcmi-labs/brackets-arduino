@@ -356,19 +356,21 @@ var hintwords = [], arduinoKeys = [], isKeyword = false, libraryKeys = [], libra
             }
         }
         */
-        var inlineWidget = new InlineDocsViewer(    array.Name,
-                                                    "ino",
-                                                    {   SUMMARY:array.Desc,
-                                                        SYNTAX: array.Syn,
-                                                        URL:"http://labs.arduino.org/tiki-index.php?page="+ array.Name,
-                                                        BASEURL:"http://labs.arduino.org/tiki-index.php?page=",
-                                                        EXAMPLES: array.Examples,
-                                                        ADDITIONAL: array.Additional
-                                                    }
-                                                );
-        inlineWidget.load(hosteditor);
-        result.resolve(inlineWidget);
-        return result.promise();
+        if(array){
+            var inlineWidget = new InlineDocsViewer(    array.Name,
+                                                        "ino",
+                                                        {   SUMMARY:array.Desc,
+                                                            SYNTAX: array.Syn,
+                                                            URL:"http://labs.arduino.org/tiki-index.php?page="+ array.Name,
+                                                            BASEURL:"http://labs.arduino.org/tiki-index.php?page=",
+                                                            EXAMPLES: array.Examples,
+                                                            ADDITIONAL: array.Additional
+                                                        }
+                                                    );
+            inlineWidget.load(hosteditor);
+            result.resolve(inlineWidget);
+            return result.promise();
+        }
     }
 
 	CodeMirror.defineMIME("text/x-ino", "ino");

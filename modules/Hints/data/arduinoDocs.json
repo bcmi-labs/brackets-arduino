@@ -7,7 +7,7 @@
       "Params": ["none"],
       "Return": " "
     },
-    "Examples": ["void setup()<br>{<br>//your code here<br>}"],
+    "Examples": ["void setup() {<br>&emsp;&nbsp;//your code here<br>}"],
     "Additional": [" "]
   },
   {
@@ -18,7 +18,7 @@
       "Params": [" "],
       "Return": " "
     },
-    "Examples": ["void loop()<br>{<br>//your code here<br>}"],
+    "Examples": ["void loop() {<br>&emsp;&nbsp;//your code here<br>}"],
     "Additional": [" "]
   },
   {
@@ -29,7 +29,7 @@
       "Params": [" "],
       "Return": " "
     },
-    "Examples": ["if (x > 120)<br>digitalWrite(LEDpin, HIGH);"],
+    "Examples": ["if (x > 120)<br>&emsp;&nbsp;digitalWrite(LEDpin, HIGH);"],
     "Additional": [" "]
   },
   {
@@ -40,14 +40,14 @@
       "Params": [" "],
       "Return": " "
     },
-    "Examples": ["for (int i=0; i <= 255; i++){<br>\tanalogWrite(PWMpin, i);<br>\tdelay(10);<br>} "],
+    "Examples": ["for (int i=0; i <= 255; i++) {<br>&emsp;&nbsp;analogWrite(PWMpin, i);<br>&emsp;&nbsp;delay(10);<br>} "],
     "Additional": [" "]
   },
   {
     "Name": "switch",
     "Desc": "Works like an if else structure, but is more conveniente when you need to select between three or more alternatives. Program controls jumps to the case with the same value as the expression. The break keyword exits the switch statement, and is typically used at the end of each case. Without it, the switch statement will continue executing the following expressions until a break, or the end of the switch statement is reached.",
     "Syn": {
-      "Syntax": "switch (var) {<br>case label:<br>//code here<br>break;<br>default:<br>//code here",
+      "Syntax": "switch (var) {<br>&emsp;&nbsp;case label:<br>&emsp;&nbsp;//code here<br>&emsp;&nbsp;break;<br>&emsp;&nbsp;default:<br>&emsp;&nbsp;//code here<br>}",
       "Params": [" "],
       "Return": " "
     },
@@ -58,11 +58,11 @@
     "Name": "while",
     "Desc": "The structure executes a series of statements continuously while the expression is true. The expression must be updated during the repetitions or the program will never 'break out' of while(). The statement can be an incremented variable, or an external condition.",
     "Syn": {
-      "Syntax": "while(expression){<br>//statement(s)<br>}",
+      "Syntax": "while(expression){<br>&emsp;&nbsp;//statement(s)<br>}",
       "Params": ["expression - a (boolean) C statement that evaluates to true or false"],
       "Return": " "
     },
-    "Examples": ["var = 0;<br>while(var < 200){<br>// do something repetitive 200 times<br>var++;<br>}"],
+    "Examples": ["var = 0;<br>while(var < 200) {&emsp;&nbsp;<br>// do something repetitive 200 times<br>&emsp;&nbsp;var++;<br>}"],
     "Additional": [" "]
   },
   {
@@ -106,7 +106,7 @@
       "Params": [" "],
       "Return": " "
     },
-    "Examples": ["label:<br>goto label;<br>//sends program flow to the label"],
+    "Examples": ["label:<br>&emsp;&nbsp;goto label;<br>&emsp;&nbsp;//sends program flow to the label"],
     "Additional": [" "]
   },
   {
@@ -227,7 +227,7 @@
       "Params": [" "],
       "Return": " "
     },
-    "Examples": ["void setup();"],
+    "Examples": ["void setup() {}"],
     "Additional": [" "]
   },
   {
@@ -436,7 +436,7 @@
       "Params": ["variable: any variable type or array (e.g. int, float, byte)"],
       "Return": " "
     },
-    "Examples": ["for (i = 0; i < sizeof(ARRAY) - 1; i++){"],
+    "Examples": ["for (i = 0; i < sizeof(ARRAY) - 1; i++) {<br>&emsp;&nbsp;//your code here<br>}"],
     "Additional": [" "]
   },
   {
@@ -623,7 +623,7 @@
       "Params": ["us: the number of microseconds to pause (unsigned int)"],
       "Return": "none"
     },
-    "Examples": ["  delayMicroseconds(50); //pauses for 50"],
+    "Examples": ["delayMicroseconds(50); //pauses for 50"],
     "Additional": [" "]
   },
   {
@@ -795,7 +795,7 @@
     "Name": "bitWrite",
     "Desc": "This command writes a determined bit of a number.",
     "Syn": {
-      "Syntax": "bitWritex, n, b);",
+      "Syntax": "bitWrite(x, n, b);",
       "Params": ["x: the numeric variable to which to write<br>n: which bit of the number to write, starting at 0 for the least-significant (rightmost) bit<br>b: the value to write to the bit (0 or 1)"],
       "Return": "none"
     },
@@ -839,7 +839,7 @@
     "Name": "detachInterrupt",
     "Desc": "DetachInterrupt() method disables a specific interrupt.",
     "Syn": {
-      "Syntax": "detachInterrupt(interrupt)<br>detachInterrupt(pin)",
+      "Syntax": "detachInterrupt(interrupt);<br>detachInterrupt(pin);",
       "Params": ["interrupt: the number of the interrupt to disable (see attachInterrupt() for more details).<br>pin: the pin number of the interrupt to disable (Arduino Due only)"],
       "Return": " "
     },
@@ -850,7 +850,7 @@
     "Name": "attachInterrupt",
     "Desc": "This command specifies a named Interrupt Service Routine (ISR) to call when an interrupt occurs.<br> Most Arduino boards have two external interrupts: int. 0 (on digital pin 2) and int.1 (on digital pin 3).<br> There are some Arduino board that have others interrupt.",
     "Syn": {
-      "Syntax": "attachInterrupt(interrupt,function, mode)<br>attachInterrupt(pin,ISR, mode) (Arduino Due only)",
+      "Syntax": "attachInterrupt(interrupt,function, mode);<br>attachInterrupt(pin,ISR, mode); //(Arduino Due only)",
       "Params": ["interrupt: the number of the external interrupt to enable.<br> pin: the pin number of the interrupt to enable<br> ISR: the name of the function to be called whenever the interrupt event happens. This function must take no parameters and return nothing.<br>mode: there are four valid mode: LOW, CHANGE, RISING, FALLING. <br>(for more details www.arduino.org)"],
       "Return": ""
     },
