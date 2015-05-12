@@ -1,16 +1,34 @@
+/**
+ *  BASED ON
+ *  https://github.com/joshmarinacci/ElectronIDE
+ *  BY Josh Marinacci
+ *
+ *  MODIFIED BY Arduino.org Team
+ */
+
 var fs = require('fs');
 var http = require('http');
+var path = require('path');
 
 console.log("os = " , process.platform);
 
 var nodeDir = __dirname.substring(0, __dirname.lastIndexOf("\\"));
+var nodeDir2 = __dirname.substring(0, __dirname.lastIndexOf((process.platform == 'win32') ? '\\' : '/'));
+var nodeDir3 = __dirname.substring(0, __dirname.lastIndexOf(path.sep));
+
 var settings = {
-    datapath:  nodeDir+"/node_modules/arduinodata/libraries",
+    datapath:  nodeDir+((process.platform == 'win32') ? "\\node_modules\\arduinodata\\libraries" : "/node_modules/arduinodata/libraries" ), //"/node_modules/arduinodata/libraries",
     boardpath: nodeDir+"/node_modules/arduinodata/boards",
 	programmerspath: nodeDir+"/node_modules/arduinodata/programmers",
     sketchtemplate: "sketchtemplate.ino"
 };
 
+console.log("DIRNAME : "+__dirname);
+console.log("NODE DIR 1 : "+ nodeDir);
+console.log("NODE DIR 2 : "+ nodeDir2);
+console.log("SEPARATOR : "+ path.sep);
+console.log("NODE DIR 3 : "+ nodeDir3);
+console.log("SETTINGS TEST " +JSON.stringify(settings));
 
 function Platform() {
     this.os = process.platform;
@@ -20,7 +38,7 @@ function Platform() {
     }
 
     this.getUserHome = function() {
-        return process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+        return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
     }
 
     this.getReposPath = function() {
@@ -51,6 +69,7 @@ function Platform() {
     }
 
     this.getUserLibraryDir = function() {
+
         return this.getUserSketchesDir() + '/libraries';
     }
 
@@ -66,8 +85,7 @@ function Platform() {
     }
 
 	this.getCorePath = function(opt) {
-		//var ark = opt.device.build.board.substring(0,opt.device.build.board.indexOf("_")).toLowerCase();
-        return this.root + '/hardware/arduino/'+opt.device.ark+'/cores/'+opt.device.build.core;
+        return this.root + '/hardware/arduino/'+opt.device.arch+'/cores/'+opt.device.build.core;
     }
 
     this.getVariantPathOLD = function() {
@@ -76,23 +94,27 @@ function Platform() {
 
 	this.getVariantPath = function(opt) {
 		//var ark = opt.device.build.board.substring(0,opt.device.build.board.indexOf("_")).toLowerCase();
-        return this.root + '/hardware/arduino/'+opt.device.ark+'/variants/'+opt.device.build.variant;
+        return this.root + '/hardware/arduino/'+opt.device.arch+'/variants/'+opt.device.build.variant;
     }
+
     this.getCompilerBinaryPath = function() {
         return this.root + '/hardware/tools/avr/bin';
     }
+
     this.getAvrDudeBinary = function() {
         if(this.os == 'linux') {
             return this.root + '/hardware/tools/avrdude';
         }
         return this.root + '/hardware/tools/avr/bin/avrdude';
     }
+
     this.getAvrDudeConf = function() {
         if(this.os == 'linux') {
             return this.root + '/hardware/tools/avrdude.conf';
         }
         return this.root + '/hardware/tools/avr/etc/avrdude.conf';
     }
+
     this.isInstalled = function() {
         return fs.exists(this.root, null);
     }
@@ -106,98 +128,6 @@ _default.init = function(device) {
 }
 
 
-/*
-var _digispark_pro = Object.create(_default);
-_digispark_pro.init = function(device) {
-    var digifix = '/Digistump/hardware/digistump/avr'
-    this.id = 'digispark';
-    this.device = device;
-    this.droot = this.getReposPath() + '/hardware/'+ this.id;
-    this.getCorePath = function() { return this.droot + digifix + '/cores/'+this.device.build.core;}
-    this.getStandardLibraryPath = function() {   return this.droot + digifix +'/libraries';  }
-    this.getVariantPath = function() { return this.droot + digifix+ '/variants/'+this.device.build.core;   }
-    this.getAvrDudeBinary = function() { return this.droot + digifix+ '/tools/avrdude'; }
-    this.parentPlatform = _default;
-    this.isInstalled = function() { return fs.existsSync(this.droot); }
-    this.installIfNeeded = function(cb,update) {
-        var self = this;
-        this.parentPlatform.installIfNeeded(function() {
-            if(self.isInstalled()) {
-                cb();
-                return;
-            }
-            var zippath = 'unknown path';
-            if(self.os == 'darwin') {
-                zippath = 'http://digispark.s3.amazonaws.com/digisparkpro_mac.zip';
-            }
-            if(self.os == 'linux') {
-                zippath = 'http://digispark.s3.amazonaws.com/digisparkpro_linux.zip';
-            }
-            if(self.os == 'win32') {
-                zippath = 'http://sourceforge.net/projects/digistump/files/Digistump1.5Addons-v09.zip/download';
-            }
-            var path = self.droot;
-            util.downloadUnzipTo(zippath,path,update, cb);
-        },update);
-    }
-    return this;
-}
-
-
-var _trinket3 = Object.create(_default);
-_trinket3.init = function(device) {
-    this.device = device;
-    this.id = 'trinket3';
-    this.hroot = this.getReposPath() + '/hardware/'+ this.id;
-    this.parentPlatform = _default;
-    this.getVariantPath = function() {   return this.hroot + '/hardware/attiny/variants/' + this.device.build.variant;  }
-    this.isInstalled = function() { return fs.existsSync(this.hroot);  }
-    this.installIfNeeded = function(cb,update) {
-        var self = this;
-        this.parentPlatform.installIfNeeded(function() {
-            if(self.isInstalled()) {
-                cb();
-                return;
-            }
-            var zippath = 'http://learn.adafruit.com/system/assets/assets/000/010/777/original/trinkethardwaresupport.zip?1378321062';
-            var path = self.hroot;
-            util.downloadUnzipTo(zippath,path,update, function() {
-                var confpath = 'http://learn.adafruit.com/system/assets/assets/000/010/980/original/avrdudeconfmac.zip?1379342581';
-                util.downloadUnzipTo(confpath,path, update, cb);
-            });
-        },update);
-    }
-
-    this.useSerial = function() { return false; }
-    this.getAvrDudeConf = function() { return this.hroot + '/avrdude.conf'; }
-    this.getProgrammerId = function() { return 'usbtiny'; }
-    return this;
-}
-
-
-var _flora = Object.create(_default);
-_flora.init = function(device) {
-    this.device = device;
-    this.id = 'flora';
-    this.hroot = this.getReposPath() + '/hardware/' + this.id;
-    this.parentPlatform = _default;
-    this.getVariantPath = function() {   return this.hroot;  }
-    this.isInstalled = function() { return fs.existsSync(this.hroot);  }
-    this.installIfNeeded = function(cb,update) {
-        var self = this;
-        this.parentPlatform.installIfNeeded(function() {
-            if(self.isInstalled()) {
-                cb();
-                return;
-            }
-            var remote_path = 'http://learn.adafruit.com/system/assets/assets/000/009/337/original/pins_arduino.h';
-            var local_path = self.hroot;
-            util.downloadTo(remote_path, local_path, 'pins_arduino.h', update, cb);
-        },update);
-    }
-    return this;
-}
-*/
 
 exports.getDefaultPlatform = function() {
     return _default;
@@ -212,6 +142,7 @@ exports.getPlatform = function(device) {
     if(device.id == 'flora') return Object.create(_flora).init(device);
     return Object.create(_default).init(device);
 }
+
 
 exports.getSettings = function() {
     var cln = {};
@@ -233,6 +164,7 @@ exports.setSettings = function(newset, cb) {
 }
 
 var SETTINGS_FILE = __dirname+"/settings.json";
+
 exports.loadSettings = function() {
     console.log("LOADING SETTINGS",SETTINGS_FILE);
     if(!fs.existsSync(SETTINGS_FILE)) return;

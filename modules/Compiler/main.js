@@ -71,12 +71,6 @@ define(function (require, exports, module) {
         compilerDomain = brackets.arduino.domains[compilerDomainName];
 
         /*
-        serialPortRate              = pref.get("arduino.ide.serialmonitor.baudrate");
-        serialPortEol               = pref.get("arduino.ide.serialmonitor.eol");
-        serialPortScroll            = pref.get("arduino.ide.serialmonitor.autoscroll");
-        */
-
-
         buildIcon = $("<a id='build-icon' class='build-icon' href='#'></a>");
         buildIcon.attr("title", "Build");
         buildIcon.appendTo($("#main-toolbar .buttons"));
@@ -86,10 +80,7 @@ define(function (require, exports, module) {
         uploadIcon.attr("title", "Upload");
         uploadIcon.appendTo($("#main-toolbar .buttons"));
         uploadIcon.on("click", onUploadIconClick);
-
-
-        //REGISTER COMMANDS and ADD MENU ITEMS
-        //CommandManager.register("Serial Monitor", cmdOpenSerialMonitorWindow, this.openSerialMonitorWindow);
+        */
 
         //TODO: it would be better to get the menu items and their position in a configuration file
         //TODO: it would be better to put this item in the TOOL menu
@@ -97,16 +88,11 @@ define(function (require, exports, module) {
         //viewMenu.addMenuItem( cmdOpenSerialMonitorWindow, null, Menus.FIRST);
 
 
-        //ATTACH EVENT HANDLER
-        /*
-        serialDomain.on('serial_data', serialDataHandler);
-        serialDomain.on('serial_operation_error', serialErrorHandler);
-        */
-
-        //brackets.arduino.dispatcher.on("arduino-event-port-change", eventSerialPortChange);
-
         compilerDomain.on("console-log", eventConsoleData);
         compilerDomain.on("console-error", eventConsoleErr);
+
+        brackets.arduino.dispatcher.on("arduino-event-build", onBuildIconClick);
+        brackets.arduino.dispatcher.on("arduino-event-upload", onUploadIconClick);
     }
 
     function onBuildIconClick()
@@ -114,7 +100,12 @@ define(function (require, exports, module) {
         var sketch_dir = DocumentManager.getCurrentDocument().file._parentPath;
         options.name = DocumentManager.getCurrentDocument().file._name.split(".")[0];
         options.device = brackets.arduino.options.target.board;
-        options.platform = brackets.arduino.options.target.board;
+        //TEMPORARY DISABLED
+        //options.platform = brackets.arduino.options.target.board;
+
+        //TODO  come gestirlo ?
+        //options.device.upload.protocol = brackets.arduino.options.target.programmer;
+
         compilerDomain.exec("compile",options,sketch_dir,false);
     }
 
@@ -123,9 +114,14 @@ define(function (require, exports, module) {
         var sketch_dir = DocumentManager.getCurrentDocument().file._parentPath;
         options.name = DocumentManager.getCurrentDocument().file._name.split(".")[0];
         options.device = brackets.arduino.options.target.board;
-        options.platform = brackets.arduino.options.target.board;
+
+        //TEMPORARY DISABLED
+        //options.platform = brackets.arduino.options.target.board;
 
         options.port = brackets.arduino.options.target.port.address;
+
+        //TODO  come gestirlo ?
+        //options.device.upload.protocol = brackets.arduino.options.target.programmer;
 
         compilerDomain.exec("compile",options,sketch_dir,true);
     }
@@ -144,29 +140,6 @@ define(function (require, exports, module) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
     };
 
-    function getInoFile(){
-        var list = DocumentManager.getAllOpenDocuments(),
-            inofile =[],
-            i=0;
-        if(list.length >0) {
-            list.forEach(function (file) {
-                if (file.file._name.toLowerCase().endsWith('.ino'))
-                //if(file.file._name.split(".")[file.file._name.split(".").length-1] == "ino")
-                {
-                    var elm = [file.file._parentPath, file.file._name];
-                    inofile.push(elm);
-                    /*inofile[i].push(file.file._parentPath);
-                     inofile[i].push(file.file._name);
-                     i++;*/
-                }
-            });
-            return inofile[0];
-        }
-        else
-        {
-            alert ("no file detected! \n Open a .ino file please");
-        }
-    }
 
     return Compiler;
 });

@@ -13,14 +13,8 @@
     var LIBRARIES       = require('./compiler/libraries');
 
     var domainName = "org-arduino-ide-domain-compiler";
-    var t_options = {userlibs: platform.getSettings().userlibs};
 
     var dm, upPort, upBoard, prg = "arduino";
-
-    var standardLibraryPath =__dirname+'/libraries';
-    var corePathsAVR = __dirname+'/hardware/arduino/avr/cores/arduino';
-    var CorePath = __dirname+'/hardware/arduino/avr/cores/arduino';
-    var variantPathsAVR = __dirname+"/hardware/arduino/avr/variants/";
 
     var hexFile;
 
@@ -287,9 +281,6 @@
         var BUILD_DIR       = os.tmpdir(),   // Right ???
             userSketchesDir = BUILD_DIR;
 
-        //var sketch = ino[1].split(".")[0];
-        //t_options.name = sketch;
-
 
         platform;
 
@@ -297,23 +288,18 @@
         //t_options.device.upload.protocol = prg;
 
         var outdir = BUILD_DIR + '/' + 'build' + new Date().getTime();
-        //var options = t_options;
-        //var options = "";
 
-        //options.name = sketch;
-        //options.device = brackets.arduino.options.target.board;
-        options.platform = platform.getDefaultPlatform(); //TODO  <--------- get the correct platform
+        options.platform = platform.getDefaultPlatform();
 
-        //var sketchDir = ino[0];
         var sketchPath = sketchDir;
         var finalcb = finalEvent;
         var publish = publishEvent;
 
-        console.log("compiling to");
+        /*console.log("compiling to");
         console.log("sketchpath ", sketchPath);
         console.log("outdir = ", outdir);
-        //console.log("options = ", options);
-        console.log("sketchdir = ", sketchDir);
+        console.log("options = ", options);
+        console.log("sketchdir = ", sketchDir);*/
 
         var errorHit = false;
 
@@ -502,8 +488,6 @@
     }
 
 
-
-    /*[R : ok]*/
     function compileFiles(options, outdir, includepaths, cfiles,debug, cb) {
         function comp(file,cb) {
             var fname = file.substring(file.lastIndexOf('/')+1);
@@ -524,7 +508,7 @@
 
         async.mapSeries(cfiles, comp, cb);
     }
-    /*[R : ok]*/
+
     function compileCPP(options, outdir, includepaths, cfile,debug, cb) {
         debug("compiling ",cfile);
         console.log("Compiler Binary Path", options.platform.getCompilerBinaryPath());
@@ -541,10 +525,13 @@
             "-mmcu="+options.device.build.mcu,
             "-DF_CPU="+options.device.build.f_cpu,
             "-MMD",
-            "-DARDUINO=158", //105",
-            "-DUSB_VID="+options.device.build.vid,
-            "-DUSB_PID="+options.device.build.pid[0],
+            "-DARDUINO=158"
         ];
+
+        if(options.device.build.vid)
+            cmd.push('-DUSB_VID='+options.device.build.vid)
+        if(options.device.build.pid)
+            cmd.push('-DUSB_PID='+options.device.build.pid)
 
         includepaths.forEach(function(path){
             cmd.push('-I'+path);
@@ -560,7 +547,7 @@
 
         dm.emitEvent (domainName, "console-log", filename+" compiled");
     }
-    /*[R : ok]*/
+
     function compileC(options, outdir, includepaths, cfile, debug, cb) {
         debug("compiling ",cfile);
         var cmd = [
@@ -574,17 +561,21 @@
             '-mmcu='+options.device.build.mcu,
             '-DF_CPU='+options.device.build.f_cpu,
             '-MMD',//output dependency info
-            '-DARDUINO=158',
-            '-DUSB_VID='+options.device.build.vid,
-            '-DUSB_PID='+options.device.build.pid[0]
-        ];
+            '-DARDUINO=158'
+            ];
+
+        if(options.device.build.vid)
+            cmd.push('-DUSB_VID='+options.device.build.vid)
+        if(options.device.build.pid)
+            cmd.push('-DUSB_PID='+options.device.build.pid)
+
         includepaths.forEach(function(path){
             cmd.push("-I"+path);
         })
         cmd.push(cfile); //add the actual c file
         cmd.push('-o');
         var filename = cfile.substring(cfile.lastIndexOf('/')+1);
-        
+
         cmd.push(outdir+'/'+filename+'.o');
 
         exec(cmd, cb, debug);
@@ -614,85 +605,6 @@
             }]
         );
 
-        /*
-        // TEST
-        domainManager.registerCommand(
-            domainName,
-            "setPort",
-            setPort,
-            false,
-            "Set uploading port",
-            [{ name:"port",
-                type:"string",
-                description:"Name of port"
-            }]
-        );
-
-        // TEST
-        domainManager.registerCommand(
-            domainName,
-            "setBoard",
-            setBoard,
-            false,
-            "Set current board",
-            [{ name:"board",
-                type:"string",
-                description:"Name of board"
-            }]
-        );
-
-        //PROVA [OK ! ]
-        domainManager.registerCommand(
-            domainName,
-            "pbDetector",
-            pbDetector,
-            false
-        );
-
-        //PROVA
-        domainManager.registerCommand(
-            domainName,
-            "setProgrammer",
-            setProgrammer,
-            false,
-            "Set the programmer",
-            [{
-                name:"programmer",
-                type:"string",
-                description:"Name of programmer"
-            }]
-        );
-        //PROVA
-        domainManager.registerCommand(
-            domainName,
-            "getProgrammer",
-            getProgrammer,
-            false,
-            "Get the programmers list",
-            [{
-                name:"programmer",
-                type:"object",
-                description:"List of programmer"
-            }]
-        );
-
-        domainManager.registerCommand(
-            domainName,
-            "writeBootloader",
-            writeBootloader,
-            false,
-            "Write the bootloader"
-        );
-
-        domainManager.registerCommand(
-            domainName,
-            "getBoards",
-            getBoards,
-            false,
-            "Get the list of all boards availables"
-        );
-        */
-
 //---------------------------- EVENTI ----------------------------
 
         domainManager.registerEvent(
@@ -703,65 +615,18 @@
                 description:"building outputs"
             }]
         );
-
+//TODO gestione errori
         domainManager.registerEvent(
             domainName,
-            "port_data",
-            [{  name:"pdata",
-                type:"object",
-                description:"port"
+            "console-error",
+            [{  name:"cdata",
+                type:"string",
+                description:"building outputs"
             }]
         );
 
-        domainManager.registerEvent(
-            domainName,
-            "portList_data",
-            [{  name:"pdata",
-                type:"object",
-                description:"port list"
-            }]
-        );
-
-        domainManager.registerEvent(
-            domainName,
-            "boardList_data",
-            [{  name:"bdata",
-                type:"object",
-                description:"board list"
-            }]
-        );
-
-        domainManager.registerEvent(
-            domainName,
-            "pbDetect_data",
-            [{  name:"pbdata",
-                type:"object",
-                description:"port & board detected list"
-            }]
-        );
-
-        domainManager.registerEvent(
-            domainName,
-            "boardsList_data",
-            [{  name:"bListdata",
-                type:"object",
-                description:"Boards list"
-            }]
-        );
-
-        domainManager.registerEvent(
-            domainName,
-            "programmers_data",
-            [{  name:"prgsdata",
-                type:"object",
-                description:"programmerslist"
-            }]
-        );
     }
 
     exports.init = init;
-//	pre_compile2();
-    /*
-    pbDetector();
-    */
+
 }());
