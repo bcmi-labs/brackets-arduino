@@ -8,7 +8,7 @@
       "Return": " "
     },
     "Examples": ["void setup() {<br>&emsp;&nbsp;//your code here<br>}"],
-    "Additional": [" "]
+    "Additional": ["loop"]
   },
   {
     "Name": "loop",
@@ -19,7 +19,7 @@
       "Return": " "
     },
     "Examples": ["void loop() {<br>&emsp;&nbsp;//your code here<br>}"],
-    "Additional": [" "]
+    "Additional": ["setup"]
   },
   {
     "Name": "if",
@@ -30,7 +30,7 @@
       "Return": " "
     },
     "Examples": ["if (x > 120)<br>&emsp;&nbsp;digitalWrite(LEDpin, HIGH);"],
-    "Additional": [" "]
+    "Additional": ["else","switchcase","Comparison+Operators"]
   },
   {
     "Name": "for",
@@ -41,7 +41,7 @@
       "Return": " "
     },
     "Examples": ["for (int i=0; i <= 255; i++) {<br>&emsp;&nbsp;analogWrite(PWMpin, i);<br>&emsp;&nbsp;delay(10);<br>} "],
-    "Additional": [" "]
+    "Additional": ["While", "DoWhile"]
   },
   {
     "Name": "switch",
@@ -52,7 +52,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": ["http://arduino.cc/en/Reference/SwitchCase"]
+    "Additional": ["If","Else"]
   },
   {
     "Name": "while",
@@ -63,7 +63,7 @@
       "Return": " "
     },
     "Examples": ["var = 0;<br>while(var < 200) {&emsp;&nbsp;<br>// do something repetitive 200 times<br>&emsp;&nbsp;var++;<br>}"],
-    "Additional": [" "]
+    "Additional": ["For","DoWhile"]
   },
   {
     "Name": "break",
@@ -74,7 +74,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["For","SwitchCase","While"]
   },
   {
     "Name": "continue",
@@ -85,7 +85,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["while","for","if"]
   },
   {
     "Name": "return",
@@ -96,7 +96,7 @@
       "Return": " "
     },
     "Examples": ["return 0;"],
-    "Additional": [" "]
+    "Additional": [""]
   },
   {
     "Name": "goto",
@@ -118,7 +118,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["pinMode","int","boolean"]
   },
   {
     "Name": "LOW",
@@ -129,7 +129,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["pinMode","int","boolean"]
   },
   {
     "Name": "INPUT",
@@ -140,7 +140,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["pinMode","int","boolean"]
   },
   {
     "Name": "INPUT_PULLUP",
@@ -151,7 +151,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["pinMode","int","boolean"]
   },
   {
     "Name": "OUTPUT",
@@ -162,7 +162,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["pinMode","int","boolean"]
   },
   {
     "Name": "LED_BUILTIN",
@@ -173,7 +173,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["pinMode","int","boolean"]
   },
   {
     "Name": "false",
@@ -184,7 +184,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["pinMode","int","boolean"]
   },
   {
     "Name": "true",
@@ -195,7 +195,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["pinMode","int","boolean"]
   },
   {
     "Name": "boolean",
@@ -217,7 +217,7 @@
       "Return": "None"
     },
     "Examples": ["int ledPin = 13;<br>pinMode(ledPin, OUTPUT);"],
-    "Additional": [" "]
+    "Additional": ["Constants","digitalWrite","digitalRead"]
   },
   {
     "Name": "void",
@@ -239,7 +239,7 @@
       "Return": " "
     },
     "Examples": ["char myChar = 'A';"],
-    "Additional": [" "]
+    "Additional": ["unsignedChar","byte","array"]
   },
   {
     "Name": "byte",
@@ -250,7 +250,7 @@
       "Return": " "
     },
     "Examples": ["byte b = B10010;"],
-    "Additional": [" "]
+    "Additional": ["char","unsigned char","int","unsigned int","long","unsigned long","float","double","array","short"]
   },
   {
     "Name": "int",
@@ -261,7 +261,7 @@
       "Return": " "
     },
     "Examples": ["int ledPin = 13;"],
-    "Additional": [" "]
+    "Additional": ["long","unsignedLong","unsignedInt","byte","float","double","short"]
   },
   {
     "Name": "word",
@@ -272,7 +272,7 @@
       "Return": " "
     },
     "Examples": ["word w = 10000;"],
-    "Additional": [" "]
+    "Additional": ["long","unsignedLong","int","unsignedInt","byte","float","double","short"]
   },
   {
     "Name": "long",
@@ -283,7 +283,7 @@
       "Return": " "
     },
     "Examples": ["long speedOfLight = 186000L;"],
-    "Additional": [" "]
+    "Additional": ["word","unsignedLong","int","unsignedInt","byte","float","double","short"]
   },
   {
     "Name": "short",
@@ -294,7 +294,7 @@
       "Return": " "
     },
     "Examples": ["short ledPin = 13;"],
-    "Additional": [" "]
+    "Additional": ["word","unsignedLong","int","unsignedInt","byte","float","double","long"]
   },
   {
     "Name": "float",
@@ -305,7 +305,7 @@
       "Return": " "
     },
     "Examples": ["float sensorCalbrate = 1.117;"],
-    "Additional": [" "]
+    "Additional": ["word","unsignedLong","int","unsignedInt","byte","short","double","long"]
   },
   {
     "Name": "double",
@@ -316,7 +316,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["word","unsignedLong","int","unsignedInt","byte","short","float","long"]
   },
   {
     "Name": "string",
@@ -327,7 +327,7 @@
       "Return": " "
     },
     "Examples": ["char Str4[ ] = \"arduino\";"],
-    "Additional": [" "]
+    "Additional": ["Array","PROGMEM","StringObject"]
   },
   {
     "Name": "String",
@@ -338,7 +338,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["String","Comparison+Operators"]
   },
   {
     "Name": "char()",
@@ -349,7 +349,7 @@
       "Return": "char"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["unsignedChar","byte","Array"]
   },
   {
     "Name": "byte()",
@@ -360,7 +360,7 @@
       "Return": "byte"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["char","unsignedChar","int","unsignedInt","long","unsignedLong","float","double","array","short"]
   },
   {
     "Name": "int()",
@@ -371,7 +371,7 @@
       "Return": "int"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["char","unsignedChar","byte","unsignedInt","long","unsignedLong","float","double","array","short"]
   },
   {
     "Name": "float()",
@@ -382,7 +382,7 @@
       "Return": "float"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["char","unsignedChar","byte","unsignedInt","long","unsignedLong","int","double","array","short"]
   },
   {
     "Name": "static",
@@ -404,7 +404,7 @@
       "Return": " "
     },
     "Examples": ["volatile int state = LOW;"],
-    "Additional": [" "]
+    "Additional": ["static"]
   },
   {
     "Name": "const",
@@ -439,7 +439,7 @@
     "Examples": ["for (i = 0; i < sizeof(ARRAY) - 1; i++) {<br>&emsp;&nbsp;//your code here<br>}"],
     "Additional": [" "]
   },
-  {
+{
     "Name": "PROGMEM",
     "Desc": "Store data in flash (program) memory instead of SRAM. There's a description of the various types of memory available on an Arduino board.<br>The PROGMEM keyword is a variable modifier, it should be used only with the datatypes defined in pgmspace.h. It tells the compiler \"put this information into flash memory\", instead of into SRAM, where it would normally go.<br>PROGMEM is part of the pgmspace.h library. So you first need to include the library at the top your sketch, like this:<br>#include <avr/pgmspace.h>",
     "Syn": {
@@ -448,7 +448,7 @@
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["Array","String"]
   },
   {
     "Name": "digitalWrite",
@@ -459,7 +459,7 @@
       "Return": "none"
     },
     "Examples": ["digitalWrite(ledPin, HIGH);"],
-    "Additional": [" "]
+    "Additional": ["Constants","DigitalRead","PinMode"]
   },
   {
     "Name": "digitalRead",
@@ -470,7 +470,7 @@
       "Return": "HIGH or LOW"
     },
     "Examples": ["val = digitalRead(PIN);"],
-    "Additional": [" "]
+    "Additional": ["Constants","DigitalWrite","PinMode"]
   },
   {
     "Name": "analogReference",
@@ -481,7 +481,7 @@
       "Return": "none"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["AnalogRead","AnalogWrite","AnalogReadResolution","AnalogWriteResolution"]
   },
   {
     "Name": "analogRead",
@@ -492,7 +492,7 @@
       "Return": "int (0 to 1023)"
     },
     "Examples": ["val = analogRead(analogPin);"],
-    "Additional": [" "]
+    "Additional": ["AnalogReference","AnalogWrite","AnalogReadResolution","AnalogWriteResolution"]
   },
   {
     "Name": "analogWrite",
@@ -503,7 +503,7 @@
       "Return": "none"
     },
     "Examples": ["analogWrite(ledPin, 125);"],
-    "Additional": [" "]
+    "Additional": ["AnalogRead","AnalogReference","AnalogReadResolution","AnalogWriteResolution"]
   },
   {
     "Name": "analogReadResolution",
@@ -514,7 +514,7 @@
       "Return": "none"
     },
     "Examples": ["analogReadResolution(10);"],
-    "Additional": [" "]
+    "Additional": ["AnalogReference","AnalogRead","AnalogWrite","AnalogWriteResolution"]
   },
   {
     "Name": "analogWriteResolution",
@@ -525,7 +525,7 @@
       "Return": "none"
     },
     "Examples": ["  analogWriteResolution(8);"],
-    "Additional": [" "]
+    "Additional": ["AnalogReference","AnalogRead","AnalogWrite","AnalogReadResolution"]
   },
   {
     "Name": "tone",
@@ -536,7 +536,7 @@
       "Return": "none"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["NoTone"]
   },
   {
     "Name": "shiftOut",
@@ -547,7 +547,7 @@
       "Return": "none"
     },
     "Examples": ["shiftOut(dataPin, clock, LSBFIRST, data);"],
-    "Additional": [" "]
+    "Additional": ["ShiftIn"]
   },
   {
     "Name": "noTone",
@@ -558,7 +558,7 @@
       "Return": "none"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["Tone"]
   },
   {
     "Name": "shiftIn",
@@ -569,7 +569,7 @@
       "Return": "the value read (byte)"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["ShiftOut"]
   },
   {
     "Name": "pulseIn",
@@ -602,7 +602,7 @@
       "Return": "Number of microseconds since the program started (unsigned long)"
     },
     "Examples": ["time = micros();"],
-    "Additional": [" "]
+    "Additional": ["Millis"]
   },
   {
     "Name": "delay",
@@ -613,7 +613,7 @@
       "Return": "none"
     },
     "Examples": ["delay(1000); //delays one second"],
-    "Additional": [" "]
+    "Additional": ["DelayMicroseconds"]
   },
   {
     "Name": "delayMicroseconds",
@@ -623,8 +623,8 @@
       "Params": ["us: the number of microseconds to pause (unsigned int)"],
       "Return": "none"
     },
-    "Examples": ["delayMicroseconds(50); //pauses for 50"],
-    "Additional": [" "]
+    "Examples": ["  delayMicroseconds(50); //pauses for 50"],
+    "Additional": ["Delay"]
   },
   {
     "Name": "min",
@@ -635,7 +635,7 @@
       "Return": "The smaller of the two numbers."
     },
     "Examples": ["sensVal = min(sensVal, 100);"],
-    "Additional": [" "]
+    "Additional": ["Max"]
   },
   {
     "Name": "max",
@@ -646,7 +646,7 @@
       "Return": "The larger of the two parameter values."
     },
     "Examples": ["sensVal = max(senVal, 20);"],
-    "Additional": [" "]
+    "Additional": ["Min"]
   },
   {
     "Name": "abs",
@@ -657,7 +657,7 @@
       "Return": "x: if x is greater than or equal to 0.<br>-x: if x is less than 0."
     },
     "Examples": ["abs(a);"],
-    "Additional": [" "]
+    "Additional": ["Constrain"]
   },
   {
     "Name": "constrain",
@@ -668,7 +668,7 @@
       "Return": "x: if x is between a and b<br>a: if x is less than a<br>b: if x is greater than b"
     },
     "Examples": ["sensVal = constrain(sensVal, 10, 150);"],
-    "Additional": [" "]
+    "Additional": ["Abs","Map"]
   },
   {
     "Name": "map",
@@ -679,7 +679,7 @@
       "Return": "The mapped value."
     },
     "Examples": ["val = map(val, 0, 1023, 0, 255);"],
-    "Additional": [" "]
+    "Additional": ["Constrain"]
   },
   {
     "Name": "pow",
@@ -690,7 +690,7 @@
       "Return": "The result of the exponentiation (double)"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["Sqrt","Float","Double"]
   },
   {
     "Name": "sqrt",
@@ -701,7 +701,7 @@
       "Return": "double, the number's square root."
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["Pow"]
   },
   {
     "Name": "sin",
@@ -712,7 +712,7 @@
       "Return": "the sine of the angle (double)"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["Cos","Tan"]
   },
   {
     "Name": "cos",
@@ -723,7 +723,7 @@
       "Return": "The cos of the angle (\"double\")"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["Sin","Tan"]
   },
   {
     "Name": "tan",
@@ -734,7 +734,7 @@
       "Return": "The tangent of the angle (double)"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["Cos","Sin"]
   },
   {
     "Name": "randomSeed",
@@ -745,7 +745,7 @@
       "Return": "none"
     },
     "Examples": ["randomSeed(analogRead(0));"],
-    "Additional": [" "]
+    "Additional": ["Random"]
   },
   {
     "Name": "random",
@@ -756,7 +756,7 @@
       "Return": "a random number between min and max-1 (long)"
     },
     "Examples": ["randNumber = random(300);"],
-    "Additional": [" "]
+    "Additional": ["RandomSeed"]
   },
   {
     "Name": "lowByte",
@@ -767,7 +767,7 @@
       "Return": "byte"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["HighByte","Bit","BitRead","BitWrite","BitSet","BitClear"]
   },
   {
     "Name": "highByte",
@@ -778,7 +778,7 @@
       "Return": "byte"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["LowByte","Bit","BitRead","BitWrite","BitSet","BitClear"]
   },
   {
     "Name": "bitRead",
@@ -789,18 +789,18 @@
       "Return": "the value of the bit (0 or 1)."
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["HighByte","LowByte","Bit","BitWrite","BitSet","BitClear"]
   },
   {
     "Name": "bitWrite",
     "Desc": "This command writes a determined bit of a number.",
     "Syn": {
-      "Syntax": "bitWrite(x, n, b);",
+      "Syntax": "bitWritex, n, b);",
       "Params": ["x: the numeric variable to which to write<br>n: which bit of the number to write, starting at 0 for the least-significant (rightmost) bit<br>b: the value to write to the bit (0 or 1)"],
       "Return": "none"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["HighByte","LowByte","Bit","BitRead","BitSet","BitClear "]
   },
   {
     "Name": "bitSet",
@@ -811,7 +811,7 @@
       "Return": "none"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["HighByte","LowByte","Bit","BitWrite","BitRead","BitClear "]
   },
   {
     "Name": "bitClear",
@@ -822,7 +822,7 @@
       "Return": "none"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["HighByte","LowByte","Bit","BitRead","BitWrite","BitSet"]
   },
   {
     "Name": "bit",
@@ -833,29 +833,29 @@
       "Return": "the value of the bit"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["HighByte","LowByte","BitClear","BitRead","BitWrite","BitSet"]
   },
   {
     "Name": "detachInterrupt",
     "Desc": "DetachInterrupt() method disables a specific interrupt.",
     "Syn": {
-      "Syntax": "detachInterrupt(interrupt);<br>detachInterrupt(pin);",
+      "Syntax": "detachInterrupt(interrupt)<br>detachInterrupt(pin)",
       "Params": ["interrupt: the number of the interrupt to disable (see attachInterrupt() for more details).<br>pin: the pin number of the interrupt to disable (Arduino Due only)"],
       "Return": " "
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["AttachInterrupt","Interrupt","NoInterrupt"]
   },
   {
     "Name": "attachInterrupt",
     "Desc": "This command specifies a named Interrupt Service Routine (ISR) to call when an interrupt occurs.<br> Most Arduino boards have two external interrupts: int. 0 (on digital pin 2) and int.1 (on digital pin 3).<br> There are some Arduino board that have others interrupt.",
     "Syn": {
-      "Syntax": "attachInterrupt(interrupt,function, mode);<br>attachInterrupt(pin,ISR, mode); //(Arduino Due only)",
+      "Syntax": "attachInterrupt(interrupt,function, mode)<br>attachInterrupt(pin,ISR, mode) (Arduino Due only)",
       "Params": ["interrupt: the number of the external interrupt to enable.<br> pin: the pin number of the interrupt to enable<br> ISR: the name of the function to be called whenever the interrupt event happens. This function must take no parameters and return nothing.<br>mode: there are four valid mode: LOW, CHANGE, RISING, FALLING. <br>(for more details www.arduino.org)"],
       "Return": ""
     },
     "Examples": [""],
-    "Additional": [""]
+    "Additional": ["DetachInterrupt","Interrupt","NoInterrupt"]
   },
   {
     "Name": "interrupts",
@@ -866,7 +866,7 @@
       "Return": "none"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["AttachInterrupt","DetachInterrupt","NoInterrupt"]
   },
   {
     "Name": "noInterrupts",
@@ -877,6 +877,6 @@
       "Return": "none"
     },
     "Examples": [" "],
-    "Additional": [" "]
+    "Additional": ["AttachInterrupt","DetachInterrupt","Interrupt"]
   }
 ]
