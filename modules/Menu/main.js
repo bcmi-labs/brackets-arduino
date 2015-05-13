@@ -481,7 +481,7 @@ define(function (require, exports, module) {
             PATH = "C:\\Program Files (x86)\\Arduino\\examples";
         var SAMPLE_PATH = PATH1.replace("dev/src","Compiler/node/examples");
         PATH = module.uri.replace("SetMenus/main.js","Compiler/node/examples");
-        fsI.exec("readSampleDir", PATH);
+        filesystemDomain.exec("readSampleDir", PATH);
     }
 
 
