@@ -288,6 +288,7 @@ define(function (require, exports, module) {
     }
 
     function sketchMenu_VerifyCompile(){
+        brackets.arduino.dispatcher.trigger("arduino-event-console-clear");
         brackets.arduino.dispatcher.trigger('arduino-event-build');
     }
 
@@ -420,6 +421,7 @@ define(function (require, exports, module) {
     }
 
     function fileMenu_Upload(){
+        brackets.arduino.dispatcher.trigger("arduino-event-console-clear");
         brackets.arduino.dispatcher.trigger('arduino-event-upload');
     }
 
