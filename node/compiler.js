@@ -13,7 +13,8 @@
         async           = require('async'),
         wrench          = require('wrench'),
         os              = require('os'),
-        child_process   = require('child_process');
+        child_process   = require('child_process'),
+        path            = require('path');
 
     var uploader        = require('./compiler/uploader');
     var platform        = require('./compiler/platform');
@@ -72,7 +73,7 @@
         //loop through all sketch files
         fs.readdirSync(sketchPath).forEach(function(file){
             if(file.toLowerCase().endsWith('.ino')) {
-                var code = fs.readFileSync(sketchPath+'\\'+file).toString();
+                var code = fs.readFileSync(sketchPath+ path.sep + file).toString();
                 generateDecs(code).forEach(function(dec){
                     funcdecs.push(dec);
                 });
@@ -141,14 +142,14 @@
         });
     }
 
-    function listdir(path) {
-        return fs.readdirSync(path)
+    function listdir(p_path) {
+        return fs.readdirSync(p_path)
             .filter(function(file) {
                 if(file.startsWith('.')) return false;
                 return true;
             })
             .map(function(file) {
-                return path+'/'+file;
+                return p_path + path.sep + file;
             });
     }
 
@@ -178,13 +179,13 @@
 
     function linkFile(options, file, outdir, cb, debug) {
         var cmd = [
-            options.platform.getCompilerBinaryPath()+'/avr-ar',
+            options.platform.getCompilerBinaryPath() + path.sep + 'avr-ar',
             'rcs',
-            outdir+'/core.a',
+            outdir + path.sep + 'core.a',
             file,
         ];
         exec(cmd, cb, debug);
-        var filename = file.split("/");
+        var filename = file.split(path.sep);
 
         dm.emitEvent (domainName, "console-log", filename[filename.length-1]+" linked to core.a");
     }
@@ -192,18 +193,18 @@
     function linkElfFile(options, libofiles, outdir, cb, debug) {
         //link everything into the .elf file
         var elfcmd = [
-            options.platform.getCompilerBinaryPath()+'/avr-gcc', //gcc
+            options.platform.getCompilerBinaryPath() + path.sep + 'avr-gcc', //gcc
             '-Os', //??
             '-Wl,--gc-sections', //not using relax yet
             '-mmcu='+options.device.build.mcu, //the mcu, ex: atmega168
             '-o', //??
-            outdir+'/'+options.name+'.cpp.elf',
-            outdir+'/'+options.name+'.cpp.o',
+            outdir + path.sep + options.name+'.cpp.elf',
+            outdir + path.sep + options.name+'.cpp.o',
         ];
 
         elfcmd = elfcmd.concat(libofiles);
         elfcmd = elfcmd.concat([
-            outdir+'/core.a',
+            outdir + path.sep + 'core.a',
             '-L'+outdir,
             '-lm',
         ]);
@@ -216,7 +217,7 @@
 
     function extractEEPROMData(options, outdir, cb, debug) {
         var eepcmd = [
-            options.platform.getCompilerBinaryPath()+'/avr-objcopy',
+            options.platform.getCompilerBinaryPath() + path.sep + 'avr-objcopy',
             '-O',
             'ihex',
             '-j',
@@ -225,8 +226,8 @@
             '--no-change-warnings',
             '--change-section-lma',
             '.eeprom=0',
-            outdir+'/'+options.name+'.cpp.elf',
-            outdir+'/'+options.name+'.eep',
+            outdir + path.sep + options.name+'.cpp.elf',
+            outdir + path.sep + options.name+'.eep',
         ];
 
         exec(eepcmd, cb, debug);
@@ -234,13 +235,13 @@
 
     function buildHexFile(options, outdir, cb, debug) {
         var hexcmd = [
-            options.platform.getCompilerBinaryPath()+'/avr-objcopy',
+            options.platform.getCompilerBinaryPath() + path.sep + 'avr-objcopy',
             '-O',
             'ihex',
             '-R',
             '.eeprom',
-            outdir+'/'+options.name+'.cpp.elf',
-            outdir+'/'+options.name+'.cpp.hex',
+            outdir + path.sep + options.name+'.cpp.elf',
+            outdir + path.sep + options.name+'.cpp.hex',
         ];
         hexFile = hexcmd[hexcmd.length-1];
         exec(hexcmd, cb, debug);
@@ -299,7 +300,7 @@
         //TEMPORANEAMENTE DISATTIVATO
         //t_options.device.upload.protocol = prg;
 
-        var outdir = BUILD_DIR + '/' + 'build' + new Date().getTime();
+        var outdir = BUILD_DIR  + path.sep +  'build' + new Date().getTime();
 
         options.platform = platform.getDefaultPlatform();
 
@@ -344,7 +345,7 @@
 
         var tasks = [];
 
-        var cfile = outdir + '/' + options.name + '.cpp';
+        var cfile = outdir  + path.sep +  options.name + '.cpp';
         var cfiles = [];
         var includepaths = [];
         var libextra = [];
@@ -360,14 +361,14 @@
             //compile sketch files
             function copyToDir(file, indir, outdir) {
                 console.log("copying ",file);
-                var text = fs.readFileSync(indir+'\\'+file);
-                fs.writeFileSync(outdir+'\\'+file,text);
+                var text = fs.readFileSync(indir + path.sep + file);
+                fs.writeFileSync(outdir + path.sep + file,text);
             }
 
             fs.readdirSync(sketchDir).forEach(function(file) {
                 if(file.toLowerCase().endsWith('.h')) copyToDir(file,sketchDir,sketchPath);
                 if(file.toLowerCase().endsWith('.cpp')) copyToDir(file,sketchDir,sketchPath);
-                cfiles.push(sketchPath+'/'+file);
+                cfiles.push(sketchPath + path.sep + file);
             });
 
             if(cb) cb();
@@ -385,7 +386,7 @@
 
             debug("standard arduino libs = ",options.platform.getStandardLibraryPath());
             fs.readdirSync(options.platform.getStandardLibraryPath()).forEach(function(lib) {
-                librarypaths.push(options.platform.getStandardLibraryPath()+'/'+lib);
+                librarypaths.push(options.platform.getStandardLibraryPath() + path.sep + lib);
             });
 
             //includepaths.push(corePathsAVR);
@@ -420,13 +421,13 @@
                 paths.forEach(function(path) {
                     wrench.readdirSyncRecursive(path)
                         .filter(function(filename) {
-                            if(filename.startsWith('examples/')) return false;
+                            if(filename.startsWith('examples' + path.sep )) return false;
                             if(filename.toLowerCase().endsWith('.c')) return true;
                             if(filename.toLowerCase().endsWith('.cpp')) return true;
                             return false;
                         })
                         .forEach(function(filename) {
-                            cfiles.push(path+'/'+filename);
+                            cfiles.push(path + path.sep + filename);
                         })
                     ;
                 });
@@ -466,7 +467,7 @@
                         if(file.endsWith('.cpp')) return true;
                         return false;
                     }).map(function(filename) {
-                        libofiles.push(outdir+'/'+filename.substring(filename.lastIndexOf('/')+1) + '.o');
+                        libofiles.push(outdir + path.sep + filename.substring(filename.lastIndexOf( path.sep )+1) + '.o');
                     });
                 });
             });
@@ -495,13 +496,14 @@
                             dm.emitEvent (domainName, "console-log", "sketch correctly loaded");
                         },
                         cb = function(data){
-                            if(data.type == 'error') {
-                                dm.emitEvent(domainName, "console-error", data.message);
-                            }
-                            else
-                            {
-                                dm.emitEvent(domainName, "console-log", data.message);
-                            }
+                            if(data)
+                                if(data.type == 'error') {
+                                    dm.emitEvent(domainName, "console-error", data.message);
+                                }
+                                else
+                                {
+                                    dm.emitEvent(domainName, "console-log", data.message);
+                                }
                             console.log("fine");
                             //dm.emitEvent (domainName, "console-log", "sketch correctly loaded");
                         };
@@ -514,10 +516,10 @@
 
     function compileFiles(options, outdir, includepaths, cfiles,debug, cb) {
         function comp(file,cb) {
-            var fname = file.substring(file.lastIndexOf('/')+1);
+            var fname = file.substring(file.lastIndexOf( path.sep )+1);
             if(fname.startsWith('.')) return cb(null, null);
             if(file.toLowerCase().endsWith('examples')) return cb(null,null);
-            if(file.toLowerCase().endsWith('/avr-libc')) return cb(null,null);
+            if(file.toLowerCase().endsWith( + path.sep + 'avr-libc')) return cb(null,null);
             if(file.toLowerCase().endsWith('.c')) {
                 compileC(options,outdir, includepaths, file,debug, cb);
                 return;
@@ -536,7 +538,7 @@
     function compileCPP(options, outdir, includepaths, cfile,debug, cb) {
         debug("compiling ",cfile);
         var cmd = [
-            options.platform.getCompilerBinaryPath()+"\\avr-g++",
+            options.platform.getCompilerBinaryPath() + path.sep + "avr-g++",
             "-c",
             "-g",
             "-Os",
@@ -562,9 +564,9 @@
 
         cmd.push(cfile); //add the actual c++ file
         cmd.push('-o'); //output object file
-        var filename = cfile.substring(cfile.lastIndexOf('\\')+1);
-        var filename_cut = filename.substring(filename.lastIndexOf("/")+1);
-        cmd.push(outdir+'/'+filename_cut+'.o');
+        var filename = cfile.substring(cfile.lastIndexOf(path.sep)+1);
+        var filename_cut = filename.substring(filename.lastIndexOf( path.sep )+1);
+        cmd.push(outdir + path.sep + filename_cut+'.o');
 
         exec(cmd,cb, debug);
 
@@ -574,7 +576,7 @@
     function compileC(options, outdir, includepaths, cfile, debug, cb) {
         debug("compiling ",cfile);
         var cmd = [
-            options.platform.getCompilerBinaryPath()+"/avr-gcc", //gcc
+            options.platform.getCompilerBinaryPath() + path.sep + "avr-gcc", //gcc
             "-c", //compile, don't link
             '-g', //include debug info and line numbers
             '-Os', //optimize for size
@@ -597,9 +599,9 @@
         })
         cmd.push(cfile); //add the actual c file
         cmd.push('-o');
-        var filename = cfile.substring(cfile.lastIndexOf('/')+1);
+        var filename = cfile.substring(cfile.lastIndexOf( path.sep )+1);
 
-        cmd.push(outdir+'/'+filename+'.o');
+        cmd.push(outdir + path.sep + filename+'.o');
 
         exec(cmd, cb, debug);
         dm.emitEvent (domainName, "console-log", filename+" compiled");
