@@ -30,7 +30,7 @@
  *
  */
 
-body { font-family: Verdana; }
+body, .main-view { font-family: Verdana !important; }
 
 #problems-panel {
     width: 97%;
