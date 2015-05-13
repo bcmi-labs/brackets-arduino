@@ -137,9 +137,11 @@ define(function (require, exports, module) {
     function toolbarHandler(btnid){
         switch(btnid) {
             case 'toolbar-verify-btn':
+                    CommandManager.execute(Commands.FILE_SAVE);
                     brackets.arduino.dispatcher.trigger('arduino-event-build','');
                     break;
             case 'toolbar-upload-btn':
+                    CommandManager.execute(Commands.FILE_SAVE);
                     brackets.arduino.dispatcher.trigger('arduino-event-upload','');
                     break;
             case 'toolbar-new-btn':
