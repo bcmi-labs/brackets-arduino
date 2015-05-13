@@ -52,7 +52,9 @@ function runAVRDude(hexfile, options, debug, cb) {
 							console.log(error);
 							var err = new Error("there was a problem running " + uploadcmd.join(" "));
 							err.cmd = uploadcmd;
-							err.output = stdout + stderr;
+							//err.output = stdout + stderr;
+							err.message = stdout + stderr;   ///  creare direttamente in new Error (row 53)
+							err.type = "error";
 							console.log(stdout);
 							console.log(stderr)
 							debug(err);

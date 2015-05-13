@@ -274,12 +274,14 @@
                 errno: err.errno,
                 code: err.code
             });
-            dm.emitEvent (domainName, "console-error", err);
+
         }
     }
 
     function publishEvent(mex){
-        //console.log("EVENT : " + JSON.stringify(mex));
+        console.log("EVENT : " + JSON.stringify(mex));
+        //TODO mex.message is a development string, not for user purposes
+        dm.emitEvent (domainName, "console-error", mex.message);
     }
 
     function finalEvent(){
@@ -318,7 +320,7 @@
 
 
         function debug(message) {
-        /*  TEMPORARILY DIABLED
+        //  TEMPORARILY DIABLED
             var args = Array.prototype.slice.call(arguments);
             console.log("message = " + message + args.join(" ")+'\n');
             if(message instanceof Error) {
@@ -328,7 +330,6 @@
                 //publish({type:"compile", message:args.join(" ")});
                 publish("debug  :" + args.join(" ") + "");
             }
-        */
         }
 
 //Temp        checkfile(options.platform.getCompilerBinaryPath());
@@ -491,21 +492,17 @@
         if(up)
             tasks.push(function(cb){
                     debug("uploading sketch on board");
-                    var pub = function(){
-                            console.log("pub");
-                            dm.emitEvent (domainName, "console-log", "sketch correctly loaded");
+                    var pub = function(data){
+                            if(data)
+                                if(data.type == 'upload')
+                                    dm.emitEvent(domainName, "console-log", data.message);
+                                else
+                                    dm.emitEvent(domainName, "console-error", data.message);
+
                         },
                         cb = function(data){
                             if(data)
-                                if(data.type == 'error') {
-                                    dm.emitEvent(domainName, "console-error", data.message);
-                                }
-                                else
-                                {
-                                    dm.emitEvent(domainName, "console-log", data.message);
-                                }
-                            console.log("fine");
-                            //dm.emitEvent (domainName, "console-log", "sketch correctly loaded");
+                                dm.emitEvent(domainName, "console-log", data.output);
                         };
                         uploader.upload(hexFile,options,pub,cb);
                 });
