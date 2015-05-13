@@ -60,11 +60,16 @@ define(function(require, exports, module){
 							if(data){
 								$('#logger').html($('#logger').html()+"<span style='color: black;'>"+data+"</span><br />");
 							}
-						},
+		},
 		writeError	=	function($event, data){
 							if(data){
 								$('#logger').html($('#logger').html()+"<span style='color: red;'>"+data+"</span><br />");
 							}
+		},
+		writeSuccess	=	function($event, data){
+			if(data){
+				$('#logger').html($('#logger').html()+"<span style='color: green;'>"+data+"</span><br />");
+			}
 		},
 		clearLog	=	function($event){
 							$('#logger').empty();
@@ -72,10 +77,14 @@ define(function(require, exports, module){
 		setBoard	=	function($event, data){
 							if(data)
 								document.getElementById("bTag").innerText = data;
-						},
+		},
 		setPort		=	function($event, data){
 							if(data)
 								document.getElementById("pTag").innerText = data;
+		},
+		showHideConsole=function($event){
+			if(panel.isVisible()) panel.hide();
+			else panel.show();
 		};
 
 
@@ -83,11 +92,17 @@ define(function(require, exports, module){
 	{
 		brackets.arduino.dispatcher.on("arduino-event-console-log", writeLog);
 		brackets.arduino.dispatcher.on("arduino-event-console-error", writeError);
+		brackets.arduino.dispatcher.on("arduino-event-console-success", writeSuccess);
 
 		brackets.arduino.dispatcher.on("arduino-event-console-board", setBoard);
 		brackets.arduino.dispatcher.on("arduino-event-console-port", setPort);
 
 		brackets.arduino.dispatcher.on("arduino-event-console-clear", clearLog);
+
+		brackets.arduino.dispatcher.on("arduino-event-console-show", showHideConsole);
+
+		if(brackets.arduino.preferences.get("arduino.ide.preferences.consoleshow"))
+			panel.show();
 	}
 
 	AppInit.htmlReady(function () {
@@ -98,7 +113,6 @@ define(function(require, exports, module){
 		StatusBar.addIndicator("bTag", bTag, true, "", "Selected Board");
 
 		panel = WorkspaceManager.createBottomPanel("console.panel", $(panelHTML));
-		panel.show();
 
 	});
 

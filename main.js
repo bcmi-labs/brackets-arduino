@@ -114,7 +114,15 @@ define(function (require, exports, module) {
 
         var arduinoLogo = "<a id='toolbar-arduino-logo' href='http://www.arduino.org' target='_blank' alt='Arduino.org'></a><span id='toolbar-sep1'></span>";
 
-        var arduinoButtons = arduinoLogo+"<a id='toolbar-verify-btn' class='toolbar-btn' href='#' title='Verify'></a><a id='toolbar-upload-btn' class='toolbar-btn' href='#' title='Upload'></a><span id='toolbar-sep2'></span><a id='toolbar-new-btn' class='toolbar-btn' href='#' title='New'></a><a id='toolbar-open-btn' class='toolbar-btn' href='#' title='Open'></a><a id='toolbar-save-btn' class='toolbar-btn' href='#' title='Save'></a><a id='toolbar-serial-btn' class='toolbar-btn' href='#' title='Serial Monitor'></a><a id='toolbar-files-btn' class='toolbar-btn' href='#' title='Files'></a>";
+        var arduinoButtons = arduinoLogo+   "<a id='toolbar-verify-btn' class='toolbar-btn' href='#' title='Verify'></a>" +
+                                            "<a id='toolbar-upload-btn' class='toolbar-btn' href='#' title='Upload'></a>" +
+                                                "<span id='toolbar-sep2'></span>" +
+                                            "<a id='toolbar-new-btn' class='toolbar-btn' href='#' title='New'></a>" +
+                                            "<a id='toolbar-open-btn' class='toolbar-btn' href='#' title='Open'></a>" +
+                                            "<a id='toolbar-save-btn' class='toolbar-btn' href='#' title='Save'></a>" +
+                                            "<a id='toolbar-serial-btn' class='toolbar-btn' href='#' title='Serial Monitor'></a>" +
+                                            "<a id='toolbar-files-btn' class='toolbar-btn' href='#' title='Files'></a>" +
+                                            "<a id='toolbar-console-btn' class='toolbar-btn' href='#' title='Console'></a>";
 
         $('.working-set-splitview-btn').remove();
 
@@ -122,7 +130,7 @@ define(function (require, exports, module) {
         //$('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a><a id='toolbar-luna-btn' class='toolbar-btn' href='#' title='Luna'></a>");
         
         //$('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a>");
-        
+
         $('.bottom-buttons').html("<div id='toolbar-split-btn' class='working-set-splitview-btn btn-alt-quiet splitview-icon-none' title='Open/close Sidebar'></div>");
 
         $('.toolbar-btn').click(function(evt){
@@ -138,11 +146,11 @@ define(function (require, exports, module) {
         switch(btnid) {
             case 'toolbar-verify-btn':
                     CommandManager.execute(Commands.FILE_SAVE);
-                    brackets.arduino.dispatcher.trigger('arduino-event-build','');
+                    brackets.arduino.dispatcher.trigger('arduino-event-build');
                     break;
             case 'toolbar-upload-btn':
                     CommandManager.execute(Commands.FILE_SAVE);
-                    brackets.arduino.dispatcher.trigger('arduino-event-upload','');
+                    brackets.arduino.dispatcher.trigger('arduino-event-upload');
                     break;
             case 'toolbar-new-btn':
                     CommandManager.execute(Commands.FILE_NEW);
@@ -154,8 +162,11 @@ define(function (require, exports, module) {
                     CommandManager.execute(Commands.FILE_SAVE);
                     break;
             case 'toolbar-serial-btn':
-                    brackets.arduino.dispatcher.trigger('arduino-event-menu-tool-serialmonitor','');
+                    brackets.arduino.dispatcher.trigger('arduino-event-menu-tool-serialmonitor');
                     break;
+            case 'toolbar-console-btn':
+                    brackets.arduino.dispatcher.trigger('arduino-event-console-show');
+                break;
             case 'toolbar-files-btn':
                     if($('#sidebar').is(':visible')){
                         $('#sidebar').hide();

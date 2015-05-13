@@ -224,6 +224,15 @@ div.sidebar-selection-extension.selectionExtension-visible.forced-hidden { left:
 	background: url('./icons/save_over.png') center no-repeat;
 }
 
+#toolbar-console-btn {
+	background: url('./icons/console.png') center no-repeat;
+	cursor:pointer;
+	border: none;
+}
+#toolbar-console-btn:hover {
+	background: url('./icons/console_over.png') center no-repeat;
+}
+
 #toolbar-serial-btn {
 	background: url('./icons/serial.png') center no-repeat;
     cursor:pointer;
