@@ -1,7 +1,19 @@
-<div id="btnDiv" style="background:#94FF4B; width:50%; height:100%; float:left">
+<div id="btnDiv">
+	<center>
+    	<a id="includeLibFolderBtn" class="btn btn-primary">Include Lib from Folder</a>&nbsp;&nbsp;
+    	<a id="includeLibArchiveBtn" class="btn btn-primary">Include Lib from Archive</a>
+	</center>
+</div>
+<div id="listDiv">
+	<center><label class='section_title'>Imported Libraries</label></center>
+	<table id="lib_table" class="table table-striped">
+		<thead>
+			<th><label class='label_title'>Name</label></th>
+			<th><label class='label_title'>Type</label></th>
+			<th></th>
+		</thead>
+		<tbody id="libs_body">
 
-    <button id="includeLibFolderBtn">Include Lib from Folder</button>
-    <button id="includeLibArchiveBtn">Include Lib from Archive</button>
-</div>
-<div id="listDiv" style="background:#3939ED; width:50%; height:100%; float:right">
-</div>
+		</tbody>
+	</table>
+<div>

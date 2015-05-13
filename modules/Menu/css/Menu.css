@@ -1,0 +1,19 @@
+#listDiv {
+    margin-top: 15px;
+}
+
+.label_title, .section_title {
+    color: #17a0a4;
+}
+
+.section_title {
+    font-weight: bold;
+}
+
+img.arduino_lib {
+    content: url('../img/arduinolib.png') center no-repeat;
+}
+
+img.user_lib {
+    content: url('../img/userlib.jpeg') center no-repeat;
+}

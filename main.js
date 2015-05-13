@@ -120,19 +120,15 @@ define(function (require, exports, module) {
                                             "<a id='toolbar-new-btn' class='toolbar-btn' href='#' title='New'></a>" +
                                             "<a id='toolbar-open-btn' class='toolbar-btn' href='#' title='Open'></a>" +
                                             "<a id='toolbar-save-btn' class='toolbar-btn' href='#' title='Save'></a>" +
-                                            "<a id='toolbar-serial-btn' class='toolbar-btn' href='#' title='Serial Monitor'></a>" +
-                                            "<a id='toolbar-files-btn' class='toolbar-btn' href='#' title='Files'></a>" +
-                                            "<a id='toolbar-console-btn' class='toolbar-btn' href='#' title='Console'></a>";
+                                            "<a id='toolbar-console-btn' class='toolbar-btn' href='#' title='Console'></a>" +
+                                            "<a id='toolbar-serial-btn' class='toolbar-btn' href='#' title='Serial Monitor'></a>";
+                                            //"<a id='toolbar-files-btn' class='toolbar-btn' href='#' title='Files'></a>";
 
         $('.working-set-splitview-btn').remove();
 
         $('.buttons').html(arduinoButtons);
-        //$('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a><a id='toolbar-luna-btn' class='toolbar-btn' href='#' title='Luna'></a>");
+        $('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a>");
         
-        //$('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a>");
-
-        $('.bottom-buttons').html("<div id='toolbar-split-btn' class='working-set-splitview-btn btn-alt-quiet splitview-icon-none' title='Open/close Sidebar'></div>");
-
         $('.toolbar-btn').click(function(evt){
             evt.preventDefault();
             toolbarHandler(this.id);
@@ -167,7 +163,7 @@ define(function (require, exports, module) {
             case 'toolbar-console-btn':
                     brackets.arduino.dispatcher.trigger('arduino-event-console-show');
                 break;
-            case 'toolbar-files-btn':
+            case 'toolbar-toggle-btn':
                     if($('#sidebar').is(':visible')){
                         $('#sidebar').hide();
                         $('.main-view .content').css('right', '0px');

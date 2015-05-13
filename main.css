@@ -37,7 +37,7 @@ body { font-family: Verdana; }
     margin-left: 27px;
 }
 
-.modal-bar {
+.modal-bar, .pane-header {
 	margin-left: 27px;
 }
 
@@ -242,26 +242,8 @@ div.sidebar-selection-extension.selectionExtension-visible.forced-hidden { left:
 	background: url('./icons/serial_over.png') center no-repeat;
 }
 
-#toolbar-files-btn {
-	background: url('./icons/files.png') center no-repeat;
-    cursor:pointer;
-    border: none;
-}
-#toolbar-files-btn:hover {
-	background: url('./icons/files_over.png') center no-repeat;
-}
-
-#toolbar-split-btn {
-	background-image: url('./icons/apri.png') center no-repeat;
-}
-
-#toolbar-luna-btn {
-	background: url('./icons/luna.png') center no-repeat;
-    cursor:pointer;
-    border: none;
-}
-#toolbar-luna-btn:hover {
-	background: url('./icons/luna_over.png') center no-repeat;
+#toolbar-toggle-btn {
+	background: url('./icons/apri.png') center no-repeat;
 }
 
 #status-bar { background: #dfeaeb; }
