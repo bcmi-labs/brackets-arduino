@@ -62,6 +62,10 @@ body, .main-view { font-family: Verdana !important; }
 	margin-left: 27px;
 }
 
+#sidebar {
+	font-family: Verdana !important;
+}
+
 #sidebar, #main-view {
 	right: 200px;
 	left: 100%;
