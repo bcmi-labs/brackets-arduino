@@ -11,7 +11,7 @@ function runAVRDude(hexfile, options, debug, cb) {
         var uploadcmd = [
             options.platform.getAvrDudeBinary(),    	//[ /hardware/tools/avr/bin/avrdude]
             '-C'+options.platform.getAvrDudeConf(),		//[ /hardware/tools/avr/etc/avrdude.conf]
-            '-v','-v','-v', '-v', //super verbose
+            //'-v','-v','-v', '-v', //super verbose
             '-p'+options.device.build.mcu,
             '-c'+options.device.upload.protocol,
             //'-P'+portpath,
@@ -20,6 +20,10 @@ function runAVRDude(hexfile, options, debug, cb) {
             '-D', //don't erase
             '-Uflash:w:'+hexfile+':i'
         ];
+
+		if(options.verboseupload)
+			cmd.push('-v','-v','-v', '-v');
+
     } else {
         var uploadcmd = [
             options.platform.getAvrDudeBinary(),	
@@ -228,7 +232,7 @@ exports.writeBootloader = function(port, options){
         var uploadcmd = [
             options.platform.getAvrDudeBinary(),
             '-C'+options.platform.getAvrDudeConf(),
-            '-v','-v','-v', '-v',
+            //'-v','-v','-v', '-v',
             '-p'+options.device.build.mcu,
             '-c'+options.device.upload.protocol,
             '-P'+port,
@@ -239,6 +243,9 @@ exports.writeBootloader = function(port, options){
             '-Uhfuse:w:'+options.device.bootloader.high_fuses+":m",
             '-Ulfuse:w:'+options.device.bootloader.low_fuses+":m"           
         ];
+
+	if(options.verboseupload)
+		cmd.push('-v','-v','-v', '-v');
 		
 	console.log("******************************************");
     console.log("writing bootloader \n", uploadcmd.join(' '));

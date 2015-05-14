@@ -103,6 +103,8 @@ define(function (require, exports, module) {
         //TEMPORARY DISABLED
         //options.platform = brackets.arduino.options.target.board;
 
+        options.verbosebuild = brackets.arduino.preferences.get("arduino.ide.preferences.verbosebuild");
+
         //TODO  come gestirlo ?
         //options.device.upload.protocol = brackets.arduino.options.target.programmer;
 
@@ -115,6 +117,9 @@ define(function (require, exports, module) {
         var sketch_dir = DocumentManager.getCurrentDocument().file._parentPath;
         options.name = DocumentManager.getCurrentDocument().file._name.split(".")[0];
         options.device = brackets.arduino.options.target.board;
+
+        options.verbosebuild = brackets.arduino.preferences.get("arduino.ide.preferences.verbosebuild");
+        options.verboseupload = brackets.arduino.preferences.get("arduino.ide.preferences.verboseupload");
 
         //TEMPORARY DISABLED
         //options.platform = brackets.arduino.options.target.board;

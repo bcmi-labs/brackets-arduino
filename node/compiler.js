@@ -539,7 +539,7 @@
             "-c",
             "-g",
             "-Os",
-            "-w",
+            //"-w",
             "-fno-exceptions",
             "-ffunction-sections",
             "-fdata-sections",
@@ -549,6 +549,9 @@
             "-MMD",
             "-DARDUINO=158"
         ];
+
+        if(options.verbosebuild)
+            cmd.push('-w');
 
         if(options.device.build.vid)
             cmd.push('-DUSB_VID='+options.device.build.vid)
@@ -577,7 +580,7 @@
             "-c", //compile, don't link
             '-g', //include debug info and line numbers
             '-Os', //optimize for size
-            '-w', //'-Wall', //turn on verbose warnings
+            //'-w', //'-Wall', //turn on verbose warnings
             '-ffunction-sections',// put each function in it's own section
             '-fdata-sections',
             '-mmcu='+options.device.build.mcu,
@@ -585,6 +588,9 @@
             '-MMD',//output dependency info
             '-DARDUINO=158'
             ];
+
+        if(options.verbosebuild)
+            cmd.push('-w');
 
         if(options.device.build.vid)
             cmd.push('-DUSB_VID='+options.device.build.vid)
