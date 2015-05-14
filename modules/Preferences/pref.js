@@ -59,7 +59,8 @@ define(function (require, exports, module) {
         prefKey_fontsize            = "arduino.ide.preferences.fontsize",
         prefKey_verbosebuild        = "arduino.ide.preferences.verbosebuild",
         prefKey_verboseupload       = "arduino.ide.preferences.verboseupload",
-        prefKey_linenumbers         = "arduino.ide.preferences.linenumbers";
+        prefKey_linenumbers         = "arduino.ide.preferences.linenumbers",
+        prefKey_chckupdate          = "arduino.ide.preferences.checkupdate";
 
 
     /**
@@ -93,7 +94,7 @@ define(function (require, exports, module) {
         //TODO line numbers
         //TODO verify code after upload
         //TODO use external editor
-        //TODO check update
+        //OK check update
         //TODO update file extension to .ino
         //TODO save on verifyng
 
@@ -162,7 +163,6 @@ define(function (require, exports, module) {
                     brackets.arduino.preferences.set( prefKey_sketchbook, folderSelected[0]);
                 }
             });
-
         });
 
         //EDITOR FONT SIZE
@@ -172,6 +172,10 @@ define(function (require, exports, module) {
             ViewCommandHandlers.setFontSize( selected + "px" );
         });
 
+        //CHECK FOR UPDATE
+        $('#pref_chk_checkupdate').change(function(){
+            brackets.arduino.preferences.set( prefKey_chckupdate, this.checked);
+        });
 
     };
 
@@ -186,6 +190,8 @@ define(function (require, exports, module) {
         $('#pref_txt_sketchbook').val( brackets.arduino.preferences.get( prefKey_sketchbook ) );
         //EDITOR FONT SIZE
         $("#pref_ddl_fontsize").val( brackets.arduino.preferences.get( prefKey_fontsize ) );
+        //CHECK FOR UPDATE
+        $("#pref_chk_checkupdate")[0].checked = brackets.arduino.preferences.get( prefKey_chckupdate );
     };
 
 

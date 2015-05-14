@@ -7,6 +7,7 @@
   "arduino.ide.preferences.verboseupload": false,
   "arduino.ide.preferences.fontsize": 14,
   "arduino.ide.preferences.consoleshow": true,
+  "arduino.ide.preferences.checkupdate": true,
   "arduino.ide.options.target.port": "",
   "arduino.ide.options.target.board": "uno",
   "arduino.ide.options.target.programmer": ""

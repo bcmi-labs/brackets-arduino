@@ -53,6 +53,7 @@ define(function (require, exports, module) {
     var arduinoHints                = null;
 
     brackets.arduino = {
+        version     : 2000000,  //version symbolize XXX.YYY.ZZZ
         preferences : {},
         domains     : {},
         dispatcher  : {},
@@ -108,13 +109,21 @@ define(function (require, exports, module) {
         var prefsize = brackets.arduino.preferences.get("arduino.ide.preferences.fontsize");
         ViewCommandHandlers.setFontSize( prefsize + "px" );
 
-        arduinoHints  = require("modules/Hints/main");
+        arduinoHints    = require("modules/Hints/main");
+
+
+        if(brackets.arduino.preferences.get("arduino.ide.preferences.checkupdate")) {
+            var chk = require("modules/Extra/checkupdate");
+            chk.checkLatest(brackets.arduino.version);
+        }
+
+
+
 
         // Main-Toolbar Buttons
-
         var arduinoLogo = "<a id='toolbar-arduino-logo' href='http://www.arduino.org' target='_blank' alt='Arduino.org'></a><span id='toolbar-sep1'></span>";
 
-        var arduinoButtons = arduinoLogo+   "<a id='toolbar-verify-btn' class='toolbar-btn' href='#' title='Verify'></a>" +
+        var arduinoButtons = arduinoLogo +  "<a id='toolbar-verify-btn' class='toolbar-btn' href='#' title='Verify'></a>" +
                                             "<a id='toolbar-upload-btn' class='toolbar-btn' href='#' title='Upload'></a>" +
                                                 "<span id='toolbar-sep2'></span>" +
                                             "<a id='toolbar-new-btn' class='toolbar-btn' href='#' title='New'></a>" +
