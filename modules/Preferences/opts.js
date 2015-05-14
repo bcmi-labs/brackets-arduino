@@ -131,7 +131,7 @@ define(function (require, exports, module) {
                     else
                         contents.forEach( function (file, index, array) {    // get the files
 
-                            if (file.isFile) {
+                            if (file.isFile && FileUtils.getFileExtension(file.fullPath) == "json") {
                                 loadOptionsFile(file, function (err, data, stat){ //read the contents of each file.
                                     if(!err){
                                         callback(null, JSON.parse(data));
