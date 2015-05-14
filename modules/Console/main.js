@@ -58,17 +58,17 @@ define(function(require, exports, module){
 
 	var writeLog 	= 	function($event, data){
 							if(data){
-								$('#logger').html($('#logger').html()+"<span style='color: black;'>"+data+"</span><br />");
+								$('#logger').html($('#logger').html()+"["+new Date()+"] - <span style='color: black;'>"+data+"</span><br />");
 							}
 		},
 		writeError	=	function($event, data){
-							if(data){
-								$('#logger').html($('#logger').html()+"<span style='color: red;'>"+data+"</span><br />");
+							if(data){								
+								$('#logger').html($('#logger').html()+"["+new Date()+"] - <span style='color: red;'>"+data+"</span><br />");
 							}
 		},
 		writeSuccess	=	function($event, data){
 			if(data){
-				$('#logger').html($('#logger').html()+"<span style='color: green;'>"+data+"</span><br />");
+				$('#logger').html($('#logger').html()+"["+new Date()+"] - <span style='color: green;'>"+data+"</span><br />");
 			}
 		},
 		clearLog	=	function($event){
