@@ -183,7 +183,7 @@ define(function (require, exports, module) {
                         $('.main-view .content').css('right', '200px');   
                         $('#sidebar').show();
                     }
-                    break;                    
+                    break;
             default:
                 console.log(btnid+' clicked');
             }

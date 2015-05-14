@@ -11,6 +11,7 @@
     display: block;
     overflow-y: scroll;
     height: 230px;
+    z-index: -1000;
 }
 
 th {

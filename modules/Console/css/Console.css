@@ -5,6 +5,7 @@
 
 #console {
     min-height:180px;
+    max-height:180px;
     padding-top: 10px;
     margin-left: 27px;
     display: block;

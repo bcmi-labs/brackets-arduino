@@ -326,7 +326,7 @@ define(function (require, exports, module) {
     }
 
     function sketchMenu_importLibCreateList() {
-
+        
         var libs_arr = [];
 
         //load ARDUINO LIBRARIES
@@ -374,7 +374,7 @@ define(function (require, exports, module) {
     }
 
     function clickButton(evt) {
-        sketch_importLibraryDialog.close();
+        //sketch_importLibraryDialog.close();
         //"include" lib into the user code from ARDUINO LIBRARIES
         brackets.fs.readdir(sketch_importLibraryDirectory.fullPath+"/"+evt.target.id+"/src", function(err, conts) {
             if (err === brackets.fs.NO_ERROR) {

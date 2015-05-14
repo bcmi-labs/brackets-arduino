@@ -32,6 +32,16 @@
 
 body, .main-view { font-family: Verdana !important; }
 
+.escbtn {
+	float: right;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.escbtn:hover {
+	color: #9c9e9e;
+}
+
 #problems-panel {
     width: 97%;
     margin-left: 27px;
@@ -74,6 +84,7 @@ body, .main-view { font-family: Verdana !important; }
 
 #sidebar {
 	font-family: Verdana !important;
+	font-weight: normal !important;
 }
 
 #sidebar, #main-view {
