@@ -16,7 +16,8 @@ var AppInit          = brackets.getModule("utils/AppInit"),
     CodeHintManager  = brackets.getModule("editor/CodeHintManager"),
     EditorManager    = brackets.getModule("editor/EditorManager"),
     DocumentManager  = brackets.getModule("document/DocumentManager"),
-	InlineDocsViewer = require("./InlineDocsViewer");
+	InlineDocsViewer = require("./InlineDocsViewer"),
+    CodeMirror      = brackets.getModule("thirdparty/CodeMirror2/lib/codemirror");
 
 var ARDUINO_CMD_ID 	 = "brackets.arduino";
 
