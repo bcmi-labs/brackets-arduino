@@ -364,7 +364,7 @@ define(function (require, exports, module) {
                 var libs_body = $('#libs_body').html();
                 
                 $.each(libs_arr, function(index, value){
-                    libs_body = libs_body+"<tr><td>"+value['name']+"</td><td class='cbtn'><a id='"+value['name']+"'><img class='"+value['type']+"' /></a></td><td><img id='"+value['name']+"' class='add_btn' /></td></tr>";
+                    libs_body = libs_body+"<tr><td>"+value['name']+"</td><td class='cbtn'><a id='"+value['name']+"'><img class='"+value['type']+"' /></a></td><td class='cbtn'><img id='"+value['name']+"' class='add_btn' /></td></tr>";
                 });
 
                 $('#libs_body').html(libs_body);

@@ -49,8 +49,18 @@ body, .main-view { font-family: Verdana !important; }
 	color: #ffffff;
 }
 
-.template.modal .modal-header{
+.template.modal .modal-header {
 	background: #17a0a4;
+}
+
+.dialog-message{
+	margin-bottom: 0px;
+	display: block;
+}
+
+.template.modal .btn.primary {
+	background: #17a0a4;
+	border: 1px solid #17a0a4;
 }
 
 .bottom-link {

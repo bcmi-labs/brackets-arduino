@@ -43,9 +43,9 @@ define(function (require, exports, module) {
         optionsDir             = null,
         optionsPrefix          = "[arduino ide - options]";
 
-    var optionBoardSelectMessage        = "Select your board...",
-        optionProgrammerSelectMessage   = "Select your programmer...",
-        optionPortSelectMessage         = "Select your port...",
+    var optionBoardSelectMessage        = "No board selected...",
+        optionProgrammerSelectMessage   = "No programmer selected...",
+        optionPortSelectMessage         = "No port selected...",
 
         listBoardsDetectedHTML          = "<option disabled selected>" + optionBoardSelectMessage + "</option>",
         listProgrammersDetectedHTML     = "<option disabled selected>" + optionProgrammerSelectMessage + "</option>",
@@ -176,7 +176,7 @@ define(function (require, exports, module) {
                     listPortsDetectedHTML += '<option value="' + result[index].address + '">' + result[index].label + '</option>';
 
                 //TODO create an HTML template for the modal
-                portsDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Port Select", "<select id='portSelector'>"+listPortsDetectedHTML+"</select><p id='btnHoldplace'></p>");
+                portsDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Port select", "<center>Select your port<select id='portSelector'>"+listPortsDetectedHTML+"</select></center><p id='btnHoldplace'></p>");
 
                 var prevSelection = brackets.arduino.options.target.port.address || brackets.arduino.preferences.get("arduino.ide.options.target.port");
 
@@ -256,7 +256,7 @@ define(function (require, exports, module) {
         }
 
         //TODO create an HTML template for the modal
-        boardsDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Board Select", "<select id='boardSelector'>"+listBoardsDetectedHTML+"</select>");
+        boardsDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Board select", "<center>Select your board<select id='boardSelector'>"+listBoardsDetectedHTML+"</select></center>");
 
         var prevSelection = brackets.arduino.options.target.board.id || brackets.arduino.preferences.get("arduino.ide.options.target.board");
 
@@ -327,7 +327,7 @@ define(function (require, exports, module) {
         }
 
         //TODO create an HTML template for the modal
-        programmersDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Programmer Select", "<select id='programmerSelector'>"+listProgrammersDetectedHTML+"</select>");
+        programmersDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Programmer select", "<center>Select your programmer<select id='programmerSelector'>"+listProgrammersDetectedHTML+"</select></center>");
 
         var prevSelection = brackets.arduino.options.target.programmer.protocol || brackets.arduino.preferences.get("arduino.ide.options.target.programmer");
 

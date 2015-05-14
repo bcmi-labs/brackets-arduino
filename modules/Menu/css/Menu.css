@@ -1,18 +1,45 @@
-#listDiv {
-    margin-top: 15px;
+#btnDiv {
+	height: 80px;
 }
 
-.section_title, th {
-    color: #17a0a4;
+#btnDiv a {
+	padding: 2px;
+}
+
+#listDiv {
+    display: block;
+    overflow-y: scroll;
+    height: 230px;
+}
+
+.table {
+	margin-top: 10px;
+}
+
+th {
+	color: #17a0a4;
+}
+
+#libs_body {
+	padding-top: 5px;
+}
+
+.section_title {
+	color: #17a0a4;
+	margin-top: 15px;
 }
 
 .section_title {
 	font-weight: bold;
 }
 
+.tbody {
+	margin-top: 10px;
+}
+
 .cbtn {
 	width: 40px;
-	text-align: center;
+	padding-left: 0px;
 }
 
 img.arduino_lib {
