@@ -2,12 +2,17 @@
     margin-top: 15px;
 }
 
-.label_title, .section_title {
+.section_title, th {
     color: #17a0a4;
 }
 
 .section_title {
-    font-weight: bold;
+	font-weight: bold;
+}
+
+.cbtn {
+	width: 40px;
+	text-align: center;
 }
 
 img.arduino_lib {
@@ -15,5 +20,11 @@ img.arduino_lib {
 }
 
 img.user_lib {
-    content: url('../img/userlib.jpeg') center no-repeat;
+    content: url('../img/userlib.png') center no-repeat;
+}
+
+img.add_btn {
+	content: url('../img/add.png') center no-repeat;	
+	cursor: pointer;
+	border: none;
 }

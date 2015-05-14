@@ -41,6 +41,18 @@ body, .main-view { font-family: Verdana !important; }
 	margin-left: 27px;
 }
 
+.template.modal {
+	border-color: #17a0a4;
+}
+
+.template.modal .dialog-title {
+	color: #ffffff;
+}
+
+.template.modal .modal-header{
+	background: #17a0a4;
+}
+
 .bottom-link {
 	margin-bottom: 10px;
 	border-bottom: 1px solid #9c9e9e !important;
@@ -54,7 +66,8 @@ body, .main-view { font-family: Verdana !important; }
 	right: 200px;
 	left: 100%;
 	width: 48px;
-	text-align: center;
+	text-align: left;
+	font-weight: normal;
 }
 #main-toolbar {
 	left: 0px;
@@ -119,8 +132,8 @@ span.working-set-header-title { background: none; }
 div.sidebar-selection-extension.selectionExtension-visible.forced-hidden { left: 0px !important; right: 191px !important; }
 
 .open-files-container li { padding-top: 5px;}
-.open-files-container li.selected .extension { color: #f9ff00;}
-.open-files-container li.selected a { color: #f9ff00; }
+.open-files-container li.selected .extension { color: #fecd08;}
+.open-files-container li.selected a { color: #fecd08; }
 
 /*
 .working-set-splitview-btn:hover {
@@ -130,7 +143,9 @@ div.sidebar-selection-extension.selectionExtension-visible.forced-hidden { left:
 	outline: none !important;
 }
 */
-
+.working-set-option-btn {
+	right: 12px;
+}
 
 /* Main-Toolbar Icons */
 

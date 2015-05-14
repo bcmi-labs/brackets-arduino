@@ -331,40 +331,44 @@ define(function (require, exports, module) {
 
         //load ARDUINO LIBRARIES
         sketch_importLibraryDirectory.getContents(function(err, contents, stats){
-            if(!err && err != 'NotFound'){
+            if(!err){
                 contents.forEach(function(file, index, array){    // get the files
                     if(!file.isFile) {
-                        //libs_body = libs_body+"<tr><td>"+file.name+"</td><td><a id='"+file.name+"'href'#' class='btn btn-primary'>Add</a></td></tr>";
                         var farr = [];
                         farr['name'] = file.name;
                         farr['type'] = 'arduino_lib';
                         libs_arr.push(farr);
                     }
                 });
+            }
 
-                //load USER LIBRARIES
-                sketch_importLibraryUserDirectory.getContents(function(err, contents, stats){
-                    if(!err && err != 'NotFound'){
-                        contents.forEach(function(file, index, array){
-                            if (!file.isFile) {
-                                //libs_body = libs_body+"<tr><td>"+file.name+"</td><td><a id='"+file.name+"'href'#' class='btn btn-primary'>Add</a></td></tr>";
-                                var farr = [];
-                                farr['name'] = file.name;
-                                farr['type'] = 'user_lib';
-                                libs_arr.push(farr);
-                            }
-                        });
-                    }
-                });
+            //load USER LIBRARIES
+            sketch_importLibraryUserDirectory.getContents(function(err, contents, stats){
+                if(!err){
+                    contents.forEach(function(file, index, array){
+                        if (!file.isFile) {
+                            var farr = [];
+                            farr['name'] = file.name;
+                            farr['type'] = 'user_lib';
+                            libs_arr.push(farr);
+                        }
+                    });
+                }
+            });
             
-                libs_arr.sort();
+            if(libs_arr.length > 0){
+                libs_arr.sort(function(a, b) { 
+                    return a.name.localeCompare(b.name);
+                });
+
                 var libs_body = $('#libs_body').html();
                 
                 $.each(libs_arr, function(index, value){
-                    libs_body = libs_body+"<tr><td>"+value['name']+"</td><td><img class='"+value['type']+"' /></td><td><a id='"+value['name']+"'href'#' class='btn btn-primary'>Add</a></td></tr>";
+                    libs_body = libs_body+"<tr><td>"+value['name']+"</td><td class='cbtn'><a id='"+value['name']+"'><img class='"+value['type']+"' /></a></td><td><img id='"+value['name']+"' class='add_btn' /></td></tr>";
                 });
 
                 $('#libs_body').html(libs_body);
+                $('.add_btn').click(clickButton);
             }
         });
     }
