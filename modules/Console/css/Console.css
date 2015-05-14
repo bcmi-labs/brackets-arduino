@@ -28,3 +28,7 @@
     text-align: right;
     width: 97%;
 }
+
+div#bTag, div#pTag {
+    cursor: pointer;
+}
