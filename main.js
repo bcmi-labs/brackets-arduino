@@ -54,6 +54,7 @@ define(function (require, exports, module) {
 
     brackets.arduino = {
         version     : 2000000,  //version symbolize XXX.YYY.ZZZ
+        hversion    : "2.0.0",
         preferences : {},
         domains     : {},
         dispatcher  : {},

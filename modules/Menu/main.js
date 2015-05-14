@@ -67,7 +67,8 @@ define(function (require, exports, module) {
     var ARDUINO_MENU_FILE_ID 	= "arduino.ide.menu.file",
         ARDUINO_MENU_EDIT_ID 	= "arduino.ide.menu.edit",
         ARDUINO_MENU_TOOLS_ID 	= "arduino.ide.menu.tools",
-        ARDUINO_MENU_SKETCH_ID 	= "arduino.ide.menu.sketch";
+        ARDUINO_MENU_SKETCH_ID 	= "arduino.ide.menu.sketch",
+        ARDUINO_MENU_HELP_ID 	= "arduino.ide.menu.help";
 
     //Tool Menu IDs
     var ARDUINO_MENU_TOOL_AUTO_FORMATTING 		    = "arduino.ide.menu.tool.auto_formatting",
@@ -98,6 +99,11 @@ define(function (require, exports, module) {
         ARDUINO_MENU_EDIT_COPY_HTML 				= "arduino.ide.menu.edit.copy_html",
         ARDUINO_MENU_EDIT_FIND_SELECTED 			= "arduino.ide.menu.edit.find_selected";
 
+
+    //Edit Menu IDs
+    var ARDUINO_MENU_HELP_ABOUT 			        = "arduino.ide.menu.help.about";
+
+
     /**
      * This module set the brackets menu
      */
@@ -117,6 +123,7 @@ define(function (require, exports, module) {
         createSketchMenu();
         createEditMenu();
         createFileMenu();
+        createHelpMenu();
 
         filesystemDomain.exec("getPlatform");
         filesystemDomain.on("sampleList_data", setMenuActions);
@@ -199,6 +206,7 @@ define(function (require, exports, module) {
         EditMenu.addMenuItem(ARDUINO_MENU_EDIT_FIND_SELECTED);
     }
 
+
     function createFileMenu() {
         Menus.removeMenu(Menus.AppMenuBar.FILE_MENU);
 
@@ -230,6 +238,17 @@ define(function (require, exports, module) {
 
         //TODO SHOW FILE.QUIT ONLY IF IS NOT MACOSX
         FileMenu2.addMenuItem(Commands.FILE_QUIT);
+    }
+
+
+    function createHelpMenu() {
+        var HelpMenu = Menus.getMenu(Menus.AppMenuBar.HELP_MENU, ARDUINO_MENU_HELP_ID);
+
+        CommandManager.register("About Arduino", ARDUINO_MENU_HELP_ABOUT, helpMenu_showAboutDialog);
+
+        HelpMenu.addMenuDivider("arduino.menu.help.divider1");
+        HelpMenu.addMenuItem(ARDUINO_MENU_HELP_ABOUT);
+
     }
 
     //TOOL
@@ -429,7 +448,37 @@ define(function (require, exports, module) {
         brackets.arduino.dispatcher.trigger('arduino-event-upload');
     }
 
-
+    function helpMenu_showAboutDialog(){
+        var template = require("text!./html/aboutDialog.html");
+        var info = {
+            hversion : brackets.arduino.hversion,
+            twitter  : {
+                desc    : "Twitter",
+                name    : "ArduinoOrg",
+                url     : "https://twitter.com/ArduinoOrg"
+            },
+            facebook : {
+                desc    : "Facebook",
+                name    : "arduino.org",
+                url     : "https://www.facebook.com/arduino.org"
+            },
+            github : {
+                desc : "GitHub",
+                name : "arduino-org",
+                url  : "http://github.com/arduino-org"
+            },
+            site: {
+                desc : "Web Site",
+                url  : "http://arduino.org/"
+            },
+            labs : {
+                desc : "Labs",
+                url  : "http://labs.arduino.org"
+            }
+        }
+        var html = Mustache.render(template, info);
+        Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Arduino!", html);
+    }
 
     //ARDUINO EXAMPLES
     function setMenuActions($event,data){
