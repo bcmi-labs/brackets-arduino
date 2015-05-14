@@ -4,6 +4,7 @@
 
 #btnDiv a {
 	padding: 2px;
+	overflow: hidden;
 }
 
 #listDiv {
@@ -12,16 +13,8 @@
     height: 230px;
 }
 
-.table {
-	margin-top: 10px;
-}
-
 th {
 	color: #17a0a4;
-}
-
-#libs_body {
-	padding-top: 5px;
 }
 
 .section_title {
