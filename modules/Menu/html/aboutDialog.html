@@ -1,7 +1,11 @@
 <div class="show-about">
     <div class="version">
-        <h4>{{hversion}}</h4>
+        <h4>{{revision.hversion}} - {{revision.cycle}}</h4>
     </div>
+    <div>
+        <a href="{{source}}">Source code</a>
+    </div>
+
     <div class="ref_site"><a href="{{site.url}}">{{site.desc}}</a></div>
     <div class="ref_labs"><a href="{{labs.url}}">{{labs.desc}}</a></div>
     <div class="ref_social_twitter">{{twitter.desc}} <a href="{{twitter.url}}">@{{twitter.name}}</a></div>

@@ -1,0 +1,10 @@
+{
+  "version"	    :	2000000,
+  "hversion"	: 	"2.0.0",
+  "cycle"		: 	"alpha",
+  "source"      :   "",
+  "changelog"	:	[],
+  "url"		    : 	"http://arduino.org/downloads",
+  "message"	    :	"",
+  "error"		:	""
+}
