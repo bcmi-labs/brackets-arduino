@@ -126,7 +126,7 @@ define(function (require, exports, module) {
 
         if(brackets.arduino.preferences.get("arduino.ide.preferences.checkupdate")) {
             var chk = require("modules/Extra/checkupdate");
-            chk.checkLatest(brackets.arduino.version);
+            chk.checkLatest(brackets.arduino.revision.version);
         }
 
         // Main-Toolbar Buttons
