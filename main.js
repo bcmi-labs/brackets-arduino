@@ -64,7 +64,7 @@ define(function (require, exports, module) {
     //var Locale                     = require("modules/Localization/strings");
 
     brackets.arduino = {
-        revision    : require("shared/revision"),
+        revision    : require("modules/Extra/revision"),
         strings     : require("modules/Localization/strings"),
         preferences : {},
         domains     : {},

@@ -11,7 +11,7 @@ define(function (require, exports, module) {
 
     var getLatest = function(current_version){
         $.ajax({
-            url: "http://download.arduino.org/latest",
+            url: "http://download.arduino.org/revision",
             method: "GET",
             data: {"version": parseInt(current_version)},
             success: function(data, status, xhr){
