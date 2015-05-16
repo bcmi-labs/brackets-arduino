@@ -37,12 +37,15 @@ define({
 
     "ARDUINO_MENU_HELP_ABOUT"               : "Arduino",
 
-    /* DIALOGS */
+    /* DIALOGS and WINDOWS */
     "ARDUINO_DIALOG_SELECT_FILE"            : "Seleziona file",
     "ARDUINO_DIALOG_SELECT_FOLDER"          : "Seleziona cartella",
     "ARDUINO_DIALOG_SELECT_ARCHIVE"         : "Seleziona archivio zip",
     "ARDUINO_DIALOG_IMPORT_LIBS"            : "Importa librerie",
     "ARDUINO_DIALOG_ARDUINO"                : "Arduino",
+    "ARDUINO_DIALOG_TITLE_CONSOLE"          : "Console",
+    "ARDUINO_DIALOG_TITLE_SERIALMONITOR"    : "Monitor seriale",
+
 
     /* MESSAGES */
     "ARDUINO_MESSAGE_OK"                : "Ok",

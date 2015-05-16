@@ -42,12 +42,14 @@ define({
     "ARDUINO_DIALOG_SELECT_ARCHIVE"         : "Seleziona zip archive",
     "ARDUINO_DIALOG_IMPORT_LIBS"            : "Import libraries",
     "ARDUINO_DIALOG_ARDUINO"                : "Arduino",
+    "ARDUINO_DIALOG_TITLE_CONSOLE"          : "Console",
+    "ARDUINO_DIALOG_TITLE_SERIALMONITOR"    : "Monitor seriale",
 
     /* MESSAGES */
     "ARDUINO_MESSAGE_OK"                : "Ok",
-    "ARDUINO_MESSAGE_CANCEL"            : "Annulla",
-    "ARDUINO_MESSAGE_SUCCESS_LOAD"      : "Caricamento completato",
-    "ARDUINO_MESSAGE_ERROR_LOAD"        : "Errore di caricamento",
+    "ARDUINO_MESSAGE_CANCEL"            : "Cancel",
+    "ARDUINO_MESSAGE_SUCCESS_LOAD"      : "Successfully loaded",
+    "ARDUINO_MESSAGE_ERROR_LOAD"        : "Loading error",
 
     /* EXTRAS */
     "ARDUINO_EXTRA_COMING_SOON"         : "Coming soon",
