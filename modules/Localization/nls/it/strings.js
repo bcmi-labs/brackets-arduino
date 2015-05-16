@@ -46,6 +46,13 @@ define({
     "ARDUINO_DIALOG_TITLE_CONSOLE"          : "Console",
     "ARDUINO_DIALOG_TITLE_SERIALMONITOR"    : "Monitor seriale",
 
+    "ARDUINO_DIALOG_TITLE_SELECT_PORT"      : "Seleziona porta",
+    "ARDUINO_DIALOG_TITLE_SELECT_BOARD"     : "Seleziona scheda",
+    "ARDUINO_DIALOG_TITLE_SELECT_PROGRAMMER": "Seleziona programmatore",
+    "ARDUINO_DIALOG_MSG_SELECT_PORT"        : "Seleziona la tua porta",
+    "ARDUINO_DIALOG_MSG_SELECT_BOARD"       : "Seleziona la tua scheda",
+    "ARDUINO_DIALOG_MSG_SELECT_PROGRAMMER"  : "Seleziona il tuo programmatore",
+
     /* MESSAGES */
     "ARDUINO_MESSAGE_OK"                : "Ok",
     "ARDUINO_MESSAGE_CANCEL"            : "Annulla",

@@ -45,6 +45,13 @@ define({
     "ARDUINO_DIALOG_TITLE_CONSOLE"          : "Console",
     "ARDUINO_DIALOG_TITLE_SERIALMONITOR"    : "Monitor seriale",
 
+    "ARDUINO_DIALOG_TITLE_SELECT_PORT"      : "Select port",
+    "ARDUINO_DIALOG_TITLE_SELECT_BOARD"     : "Select board",
+    "ARDUINO_DIALOG_TITLE_SELECT_PROGRAMMER": "Select programmer",
+    "ARDUINO_DIALOG_MSG_SELECT_PORT"        : "Select your port",
+    "ARDUINO_DIALOG_MSG_SELECT_BOARD"       : "Select your board",
+    "ARDUINO_DIALOG_MSG_SELECT_PROGRAMMER"  : "Select yout programmer",
+
     /* MESSAGES */
     "ARDUINO_MESSAGE_OK"                : "Ok",
     "ARDUINO_MESSAGE_CANCEL"            : "Cancel",
