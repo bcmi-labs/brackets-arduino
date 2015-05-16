@@ -50,7 +50,11 @@ define({
     "ARDUINO_DIALOG_TITLE_SELECT_PROGRAMMER": "Select programmer",
     "ARDUINO_DIALOG_MSG_SELECT_PORT"        : "Select your port",
     "ARDUINO_DIALOG_MSG_SELECT_BOARD"       : "Select your board",
-    "ARDUINO_DIALOG_MSG_SELECT_PROGRAMMER"  : "Select yout programmer",
+    "ARDUINO_DIALOG_MSG_SERIALPORTS"            : "Serial ports",
+    "ARDUINO_DIALOG_MSG_NETPORTS"               : "Network ports",
+    "ARDUINO_DIALOG_MSG_PORT_NO_SELECTION"      : "No port selected...",
+    "ARDUINO_DIALOG_MSG_BOARD_NO_SELECTION"     : "No board selected...",
+    "ARDUINO_DIALOG_MSG_PROGRAMMER_NO_SELECTION": "No programmer selected...",
 
     /* MESSAGES */
     "ARDUINO_MESSAGE_OK"                : "Ok",

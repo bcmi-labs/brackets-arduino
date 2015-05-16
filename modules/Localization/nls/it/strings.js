@@ -52,6 +52,11 @@ define({
     "ARDUINO_DIALOG_MSG_SELECT_PORT"        : "Seleziona la tua porta",
     "ARDUINO_DIALOG_MSG_SELECT_BOARD"       : "Seleziona la tua scheda",
     "ARDUINO_DIALOG_MSG_SELECT_PROGRAMMER"  : "Seleziona il tuo programmatore",
+    "ARDUINO_DIALOG_MSG_SERIALPORTS"            : "Porte seriali",
+    "ARDUINO_DIALOG_MSG_NETPORTS"               : "Porte di rete",
+    "ARDUINO_DIALOG_MSG_PORT_NO_SELECTION"      : "Nessuna porta selezionata...",
+    "ARDUINO_DIALOG_MSG_BOARD_NO_SELECTION"     : "Nessuna scheda selezionata...",
+    "ARDUINO_DIALOG_MSG_PROGRAMMER_NO_SELECTION": "Nessun programmatore selezionato...",
 
     /* MESSAGES */
     "ARDUINO_MESSAGE_OK"                : "Ok",
