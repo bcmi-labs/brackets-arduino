@@ -51,8 +51,24 @@ define({
     "ARDUINO_MESSAGE_SUCCESS_LOAD"      : "Successfully loaded",
     "ARDUINO_MESSAGE_ERROR_LOAD"        : "Loading error",
 
+    /* SITE URL and SOCIAL */
+    "ARDUINO_SITE_SITENAME"             : "Web site",
+    "ARDUINO_SITE_SITEURL"              : "http://arduino.org/",
+    "ARDUINO_SITE_LABSNAME"             : "Labs",
+    "ARDUINO_SITE_LABSURL"              : "http://labs.arduino.org/",
+    "ARDUINO_SITE_GITHUBDESC"           : "GitHub",
+    "ARDUINO_SITE_GITHUBNAME"           : "arduino-org",
+    "ARDUINO_SITE_GITHUBURL"            : "http://github.com/arduino-org",
+    "ARDUINO_SITE_TWITTERDESC"          : "Twitter",
+    "ARDUINO_SITE_TWITTERNAME"          : "ArduinoOrg",
+    "ARDUINO_SITE_TWITTERURL"           : "https://twitter.com/ArduinoOrg",
+    "ARDUINO_SITE_FACEBOOKDESC"         : "Facebook",
+    "ARDUINO_SITE_FACEBOOKNAME"         : "arduino.org",
+    "ARDUINO_SITE_FACEBOOKURL"          : "https://www.facebook.com/arduino.org",
+
     /* EXTRAS */
     "ARDUINO_EXTRA_COMING_SOON"         : "Coming soon",
-    "ARDUINO_EXTRA_WIP"                 : "Work in progress"
+    "ARDUINO_EXTRA_WIP"                 : "Work in progress",
+    "ARDUINO_EXTRA_SOURCE"              : "Source code"
 
 });

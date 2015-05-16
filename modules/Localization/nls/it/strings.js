@@ -46,14 +46,29 @@ define({
     "ARDUINO_DIALOG_TITLE_CONSOLE"          : "Console",
     "ARDUINO_DIALOG_TITLE_SERIALMONITOR"    : "Monitor seriale",
 
-
     /* MESSAGES */
     "ARDUINO_MESSAGE_OK"                : "Ok",
     "ARDUINO_MESSAGE_CANCEL"            : "Annulla",
     "ARDUINO_MESSAGE_SUCCESS_LOAD"      : "Caricamento completato",
     "ARDUINO_MESSAGE_ERROR_LOAD"        : "Errore di caricamento",
 
+    /* SITE URL and SOCIAL */
+    "ARDUINO_SITE_SITENAME"             : "Sito web",
+    /*"ARDUINO_SITE_SITEURL"              : "http://arduino.org/",
+    "ARDUINO_SITE_LABSNAME"             : "Labs",
+    "ARDUINO_SITE_LABSURL"              : "http://labs.arduino.org/",
+    "ARDUINO_SITE_GITHUBDESC"           : "GitHub",
+    "ARDUINO_SITE_GITHUBNAME"           : "arduino-org",
+    "ARDUINO_SITE_GITHUBURL"            : "http://github.com/arduino-org",
+    "ARDUINO_SITE_TWITTERDESC"          : "Twitter",
+    "ARDUINO_SITE_TWITTERNAME"          : "ArduinoOrg",
+    "ARDUINO_SITE_TWITTERURL"           : "https://twitter.com/ArduinoOrg",
+    "ARDUINO_SITE_FACEBOOKDESC"         : "Facebook",
+    "ARDUINO_SITE_FACEBOOKNAME"         : "arduino.org",
+    "ARDUINO_SITE_FACEBOOKURL"          : "https://www.facebook.com/arduino.org",*/
+
     /* EXTRAS */
     "ARDUINO_EXTRA_COMING_SOON"         : "Disponibile a breve",
-    "ARDUINO_EXTRA_WIP"                 : "In lavorazione"
+    "ARDUINO_EXTRA_WIP"                 : "In lavorazione",
+    "ARDUINO_EXTRA_SOURCE"              : "Codice sorgente"
 });
