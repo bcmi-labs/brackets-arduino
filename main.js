@@ -92,6 +92,7 @@ define(function (require, exports, module) {
     brackets.arduino.options.librariesdir  = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/libraries");
     brackets.arduino.options.modulesdir    = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/modules");
     brackets.arduino.options.hardwaredir   = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/hardware");
+    brackets.arduino.options.examples      = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/examples");
 
     AppInit.appReady(function () {
 

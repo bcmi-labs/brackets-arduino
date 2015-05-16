@@ -205,7 +205,6 @@ define(function (require, exports, module) {
         EditMenu.addMenuItem(ARDUINO_MENU_EDIT_FIND_SELECTED);
     }
 
-
     function createFileMenu() {
         Menus.removeMenu(Menus.AppMenuBar.FILE_MENU);
 
@@ -238,7 +237,6 @@ define(function (require, exports, module) {
         //TODO SHOW FILE.QUIT ONLY IF IS NOT MACOSX
         FileMenu2.addMenuItem(Commands.FILE_QUIT);
     }
-
 
     function createHelpMenu() {
         var HelpMenu = Menus.getMenu(Menus.AppMenuBar.HELP_MENU, ARDUINO_MENU_HELP_ID);
@@ -521,20 +519,20 @@ define(function (require, exports, module) {
     };
 
     function fileMenu_SampleFolder(){
-        /*FileSystem.showOpenDialog(false,false,"Samples",examplesPath,[".ino"], function(d1,data,d2){
-         var a1 = 0;
-         var a3 = 4;
-         CommandManager.execute(Commands.CMD_ADD_TO_WORKINGSET_AND_OPEN, {fullPath: data[0], paneId: "first-pane"});
-         });	*/
+        //TODO: open examples inside the libraries / user libraries path.
+        //NOTE this only open generic arduino example, not libraries and user libraries examples.
+        var test = "/Users/sergio/Desktop/TEST/"
+        //FileSystem.showOpenDialog(false, true, Strings.ARDUINO_DIALOG_SELECT_FOLDER, test  /*brackets.arduino.options.examples.fullPath*/, "" , function(a, dirSelected, b){
+            ProjectManager.openProject(brackets.arduino.options.examples.fullPath)
+                .done(function(){
+                    brackets.arduino.dispatcher.trigger("arduino-event-console-success", menuPrefix + brackets.arduino.options.examples.fullPath + " " + Strings.ARDUINO_MESSAGE_SUCCESS_LOAD)
+                })
+                .fail(function(err){
+                    brackets.arduino.dispatcher.trigger("arduino-event-console-err", menuPrefix + Strings.ARDUINO_MESSAGE_ERROR_LOAD + " " + err);
+            });
+        //});
 
-        var PATH1 = FileUtils.getNativeBracketsDirectoryPath(),
-            PATH = "C:\\Program Files (x86)\\Arduino\\examples";
-        var SAMPLE_PATH = PATH1.replace("dev/src","Compiler/node/examples");
-        PATH = module.uri.replace("SetMenus/main.js","Compiler/node/examples");
-        filesystemDomain.exec("readSampleDir", PATH);
     }
-
-
 
     return Menu;
 });

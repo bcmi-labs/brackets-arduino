@@ -44,6 +44,12 @@ define({
     "ARDUINO_DIALOG_IMPORT_LIBS"            : "Importa librerie",
     "ARDUINO_DIALOG_ARDUINO"                : "Arduino",
 
+    /* MESSAGES */
+    "ARDUINO_MESSAGE_OK"                : "Ok",
+    "ARDUINO_MESSAGE_CANCEL"            : "Annulla",
+    "ARDUINO_MESSAGE_SUCCESS_LOAD"      : "Caricamento completato",
+    "ARDUINO_MESSAGE_ERROR_LOAD"        : "Errore di caricamento",
+
     /* EXTRAS */
     "ARDUINO_EXTRA_COMING_SOON"         : "Disponibile a breve",
     "ARDUINO_EXTRA_WIP"                 : "In lavorazione"
