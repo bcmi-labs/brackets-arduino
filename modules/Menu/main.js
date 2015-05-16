@@ -445,9 +445,10 @@ define(function (require, exports, module) {
         brackets.arduino.dispatcher.trigger('arduino-event-upload');
     }
 
+    //HELP
     function helpMenu_showAboutDialog(){
         var template = require("text!./html/aboutDialog.html");
-        var info = {
+        /*var info = {
             revision : brackets.arduino.revision,
             twitter  : {
                 desc    : "Twitter",
@@ -472,7 +473,9 @@ define(function (require, exports, module) {
                 desc : "Labs",
                 url  : "http://labs.arduino.org"
             }
-        }
+        }*/
+        var info = $.extend({}, brackets.arduino.revision, Strings);
+
         var html = Mustache.render(template, info);
         Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO_DIALOG_ARDUINO, html);
     }
