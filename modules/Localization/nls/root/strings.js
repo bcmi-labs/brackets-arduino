@@ -134,8 +134,8 @@ define({
             },
             "FACEBOOK": {
                 "TITLE"     : "Facebook",
-                "NAME"      : "https://www.facebook.com/arduino.org",
-                "URL"       : "arduino.org"
+                "NAME"      : "arduino.org",
+                "URL"       : "https://www.facebook.com/arduino.org"
             },
             "GITHUB": {
                 "TITLE"     : "GitHub",
