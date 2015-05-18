@@ -78,6 +78,13 @@ define({
             },
             "CONSOLE": {
                 "TITLE"                 : "Console"
+            },
+            "DOCS": {
+                "PARAMETERS"         : "Parametri",
+                "EXAMPLES"           : "Esempi",
+                "SYNTAX"             : "Sintassi",
+                "RETURNS"            : "Ritorno",
+                "SEEALSO"            : "Vedi anche"
             }
         },
         "DIALOG": {
