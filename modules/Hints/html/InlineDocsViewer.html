@@ -3,12 +3,12 @@
         <h1>{{propName}}</h1>
         <div>{{{summary}}}</div><br>
         <div>
-            <b>Syntax:</b><br>
+            <b>{{ArduinoStrings.ARDUINO.PANEL.DOCS.SYNTAX}}:</b><br>
             <code style="{{SyntaxStyle}}">{{{syntax}}}</code>       
         </div>
 
         <div style="{{ReturnStyle}}"><br>
-        <b>Returns:</b><br>
+        <b>{{ArduinoStrings.ARDUINO.PANEL.DOCS.RETURNS}}:</b><br>
             {{return}}
         </div>
     </div>
@@ -17,21 +17,21 @@
     </div>
     <div class="prop-values quiet-scrollbars">
         <div class="scroller" tabIndex="0"> <!-- tabIndex needed: otherwise can't be focused on open or via click -->
-            <b>Parameters</b>
+            <b>{{ArduinoStrings.ARDUINO.PANEL.DOCS.PARAMETERS}}</b>
             <br>
                 {{#Params}}
                 {{{.}}}
             <br>
                 {{/Params}}
             <br>
-            <b>Examples</b>
+            <b>{{ArduinoStrings.ARDUINO.PANEL.DOCS.EXAMPLES}}</b>
             <br>
             <dl>{{#Examples}}
                 <dt><code>{{{.}}}</code></dt>
                 {{/Examples}}
             </dl>
             <br>
-            <b>See Also:</b>
+            <b>{{ArduinoStrings.ARDUINO.PANEL.DOCS.SEEALSO}}:</b>
             <br>
             <dl>{{#Additional}}
                 <a href="{{baseurl}}{{.}}" >  {{.}}</a>
