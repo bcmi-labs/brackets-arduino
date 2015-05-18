@@ -21,7 +21,7 @@ input#scroll {
 #console_log{
     width: 95%;
     resize: none;
-    overflow: scroll;
+    overflow-y: scroll;
     margin-left: 15px;
     background-color: #ffffff;
 }
