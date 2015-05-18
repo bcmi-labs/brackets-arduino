@@ -1,52 +1,38 @@
-<html>
-    <head>
-        <title>Preferences</title>
-    </head>
-    <body>
-            <br>
-            <input type="text" id="pref_txt_sketchbook" value="">
-            <input type="button" id="pref_btn_sketchbook" value="Browse">
-            <!-- http://www.i18nguy.com/unicode/language-identifiers.html -->
-            <!--
-            <br><br>
-            Language :
-            <select id="pref_ddl_language">
-                <option value="it-IT">Italian</option>
-                <option value="en-GB">English</option>
-                <option value="fr-FR">French</option>
-                <option value="es-ES">Spanish</option>
-            </select>
-            (Require IDE restart)
-            -->
-            <br><br>
-            Show verbose output during:  
-            <input type="checkbox" id="pref_chk_verbose_build" class="checkboxes">Building
+<div>
+    <center>
+        <div class="form-inline">
+            Load your preferences file <input type="text" id="pref_txt_sketchbook" value="">
+            <input type="button" id="pref_btn_sketchbook" value="Browse" class="btn primary">
+        </div>
+
+        
+        <div class="form-inline">
+            Show verbose output during <input type="checkbox" id="pref_chk_verbose_build" class="checkboxes">Building
             <input type="checkbox" id="pref_chk_verbose_upload" class="checkboxes">Loading
-            <br><br>
-            Editor Font size (px):
-            <select name="fontsize" id="pref_ddl_fontsize">
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>
-                <option value="22">22</option>
-            </select>
-            <br><br>
+        </div>
+
+        <div class="form-inline">
+        Editor Font size (px):<select name="fontsize" id="pref_ddl_fontsize">
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                            </select>
+        </div>
+        <div class="form-inline">
             <input type="checkbox" id="pref_chk_checkupdate" class="checkboxes">Check for update
-            <!--
-            <br><br>
-            <input type="checkbox" id="pref_chk_line_numbers" class="checkboxes">Shows line number
-            -->
-    </body>
-</html>
+        </div>
+    </center>
+</div>

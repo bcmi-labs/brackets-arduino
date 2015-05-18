@@ -32,12 +32,13 @@ th {
 }
 
 .cbtn {
-	width: 40px;
+	width: 30px;
 	padding-left: 0px;
 }
 
 img.arduino_lib {
     content: url('../img/arduinolib.png') center no-repeat;
+    width: 50%;
 }
 
 img.user_lib {
