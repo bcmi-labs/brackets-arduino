@@ -82,7 +82,7 @@ define({
         },
         "DIALOG": {
             "LATEST" : {
-                "TITLE"             : "Download latest version",
+                "TITLE"             : "Get the latest version",
                 "LBL_DOWNLOAD_IT"   : "Download from",
                 "LBL_DOWNLOAD_HERE" : "here",
                 "LBL_CHANGELOG"     : "Changelog",
