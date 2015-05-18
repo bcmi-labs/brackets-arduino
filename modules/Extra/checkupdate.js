@@ -9,14 +9,18 @@ define(function (require, exports, module) {
 
 
 
-    var getLatest = function(current_version){
+    var getLatest = function(current_version, showIfLatest){   //if showIfLatest is true, will show a message like, 'Your version is up to date'
         $.ajax({
-            url: "http://download.arduino.org/latest",
+            url: "http://download.arduino.org/revision",
             method: "GET",
             data: {"version": parseInt(current_version)},
             success: function(data, status, xhr){
-                if(status == 'success' && data.version > current_version )
-                    showLatest(data);
+                if(status == 'success')
+                    if(data.version > current_version )
+                        showLatest(data);
+                    //else
+                        //if(showIfLatest)
+                        //TODO SHOW UP TO DATE MESSAGE
             },
             error: function(err){alert(JSON.stringify(err));},
             dataType: "json"
@@ -26,9 +30,11 @@ define(function (require, exports, module) {
     var showLatest = function(latest){
         var template = require("text!./html/showLatest.html");
 
-        var html = Mustache.render(template, latest);
+        var info = $.extend({}, latest, brakets.arduino.strings);
 
-        Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Get latest version", html);
+        var html = Mustache.render(template, info);
+
+        Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, /*TODO LOCALIZE THIS*/"Get latest version", html);
     }
 
 

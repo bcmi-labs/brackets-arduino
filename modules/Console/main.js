@@ -44,8 +44,10 @@ define(function(require, exports, module){
 
 	var panelHTML = require("text!./html/Console.html"),
 		panel,
-		bTag = $('<div style="font-weight: bold">Select board</div>'),
-		pTag = $('<div style="font-weight: bold">Select port</div>');
+		bTag = $('<div style="font-weight: bold"></div>'),
+		pTag = $('<div style="font-weight: bold"></div>');
+
+	var Strings;
 
 	bTag.click(function(){
 		brackets.arduino.dispatcher.trigger("arduino-event-menu-tool-boards","");
@@ -58,18 +60,18 @@ define(function(require, exports, module){
 
 	var writeLog 	= 	function($event, data){
 							if(data){
-								$('#logger').html($('#logger').html()+"["+new Date()+"] - <span style='color: black;'>"+data+"</span><br />");
+								$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: black;'>"+data+"</span><br />");
 							}
 		},
 		writeError	=	function($event, data){
 							if(data){								
-								$('#logger').html($('#logger').html()+"["+new Date()+"] - <span style='color: red;'>"+data+"</span><br />");
+								$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: red;'>"+data+"</span><br />");
 							}
 		},
 		writeSuccess	=	function($event, data){
-			if(data){
-				$('#logger').html($('#logger').html()+"["+new Date()+"] - <span style='color: green;'>"+data+"</span><br />");
-			}
+							if(data){
+								$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: green;'>"+data+"</span><br />");
+							}
 		},
 		clearLog	=	function($event){
 							$('#logger').empty();
@@ -90,6 +92,11 @@ define(function(require, exports, module){
 
 	function Console()
 	{
+		Strings = brackets.arduino.strings;
+
+		bTag.html(Strings.ARDUINO.STATUS_BAR.DEF_LBL_BOARD);
+		pTag.html(Strings.ARDUINO.STATUS_BAR.DEF_LBL_PORT);
+
 		brackets.arduino.dispatcher.on("arduino-event-console-log", writeLog);
 		brackets.arduino.dispatcher.on("arduino-event-console-error", writeError);
 		brackets.arduino.dispatcher.on("arduino-event-console-success", writeSuccess);
@@ -109,8 +116,8 @@ define(function(require, exports, module){
         
         ExtensionUtils.loadStyleSheet(module, "css/Console.css");
 
-		StatusBar.addIndicator("pTag", pTag, true, "", "Selected Port");
-		StatusBar.addIndicator("bTag", bTag, true, "", "Selected Board");
+		StatusBar.addIndicator("pTag", pTag, true, "", "");
+		StatusBar.addIndicator("bTag", bTag, true, "", "");
 
 		panel = WorkspaceManager.createBottomPanel("console.panel", $(panelHTML));
 

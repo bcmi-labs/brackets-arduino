@@ -39,19 +39,20 @@ define(function (require, exports, module) {
         Dialogs             = brackets.getModule("widgets/Dialogs"),
         DefaultDialogs      = brackets.getModule("widgets/DefaultDialogs");
 
+    /*var optionBoardSelectMessage        = "No board selected...",
+        optionProgrammerSelectMessage   = "No programmer selected...",
+        optionPortSelectMessage         = "No port selected...",
+     */
+    var listBoardsDetectedHTML,          //= "<option disabled selected>" + optionBoardSelectMessage + "</option>",
+        listProgrammersDetectedHTML,     //= "<option disabled selected>" + optionProgrammerSelectMessage + "</option>",
+        listPortsDetectedHTML;           //= "<option disabled selected>" + optionPortSelectMessage + "</option>";
+
+
+    var portsDialog, boardsDialog, programmersDialog;
     var optionsDirName         = null,
         optionsDir             = null,
         optionsPrefix          = "[arduino ide - options]";
-
-    var optionBoardSelectMessage        = "No board selected...",
-        optionProgrammerSelectMessage   = "No programmer selected...",
-        optionPortSelectMessage         = "No port selected...",
-
-        listBoardsDetectedHTML          = "<option disabled selected>" + optionBoardSelectMessage + "</option>",
-        listProgrammersDetectedHTML     = "<option disabled selected>" + optionProgrammerSelectMessage + "</option>",
-        listPortsDetectedHTML           = "<option disabled selected>" + optionPortSelectMessage + "</option>";
-
-    var portsDialog, boardsDialog, programmersDialog;
+    var Strings;
 
     /**
      * This module read all files of the core
@@ -59,6 +60,7 @@ define(function (require, exports, module) {
      * @param {String} hardwareDirectoryPath absolute path to the harwdare/arduino directory
      */
     function Options (hardwareDirectoryPath) {
+        Strings = brackets.arduino.strings;
         brackets.arduino.options.archs  = {};
         optionsDirName = hardwareDirectoryPath;
 
@@ -100,6 +102,9 @@ define(function (require, exports, module) {
             });
         });
 
+        listBoardsDetectedHTML          = "<option disabled selected>" + Strings.ARDUINO.DIALOG.BOARD.OPT_DEFAULT + "</option>";
+        listProgrammersDetectedHTML     = "<option disabled selected>" + Strings.ARDUINO.DIALOG.PROGRAMMER.OPT_DEFAULT + "</option>";
+        listPortsDetectedHTML           = "<option disabled selected>" + Strings.ARDUINO.DIALOG.PORT.OPT_DEFAULT + "</option>";
 
         brackets.arduino.dispatcher.on("arduino-event-menu-tool-ports", portListEvent);
         brackets.arduino.dispatcher.on("arduino-event-menu-tool-boards", boardListEvent);
@@ -171,12 +176,12 @@ define(function (require, exports, module) {
         brackets.arduino.dispatcher.trigger("arduino-event-port-serial-get", function(err, result){
             if(!err){
                 //result contains the list port
-                listPortsDetectedHTML +='<option disabled> Serial ports</option>';
+                listPortsDetectedHTML +="<option disabled> "+Strings.ARDUINO.DIALOG.PORT.OPT_SERIAL+"</option>";
                 for(var index in result)
                     listPortsDetectedHTML += '<option value="' + result[index].address + '">' + result[index].label + '</option>';
 
                 //TODO create an HTML template for the modal
-                portsDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Port select", "<center>Select your port<select id='portSelector'>"+listPortsDetectedHTML+"</select></center><p id='btnHoldplace'></p>");
+                portsDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.PORT.TITLE, "<center>"+ Strings.ARDUINO.DIALOG.PORT.LBL_SELECT +"<select id='portSelector'>"+listPortsDetectedHTML+"</select></center><p id='btnHoldplace'></p>");
 
                 var prevSelection = brackets.arduino.options.target.port.address || brackets.arduino.preferences.get("arduino.ide.options.target.port");
 
@@ -200,7 +205,7 @@ define(function (require, exports, module) {
 
                 document.getElementById("btnHoldplace").appendChild(opt);
 */
-                listPortsDetectedHTML = "<option disabled selected>" + optionPortSelectMessage + "</option>";
+                listPortsDetectedHTML = "<option disabled selected>" + Strings.ARDUINO.DIALOG.PORT.OPT_DEFAULT + "</option>";
             }
             else{
                 //TODO error to the arduino console.
@@ -256,7 +261,7 @@ define(function (require, exports, module) {
         }
 
         //TODO create an HTML template for the modal
-        boardsDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Board select", "<center>Select your board<select id='boardSelector'>"+listBoardsDetectedHTML+"</select></center>");
+        boardsDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.BOARD.TITLE, "<center>"+ Strings.ARDUINO.DIALOG.BOARD.LBL_SELECT +"<select id='boardSelector'>"+listBoardsDetectedHTML+"</select></center>");
 
         var prevSelection = brackets.arduino.options.target.board.id || brackets.arduino.preferences.get("arduino.ide.options.target.board");
 
@@ -277,7 +282,7 @@ define(function (require, exports, module) {
 
 //                document.getElementById("btnHoldplace").appendChild(opt);
 
-        listBoardsDetectedHTML = "<option disabled selected>" + optionBoardSelectMessage + "</option>";
+        listBoardsDetectedHTML = "<option disabled selected>" + Strings.ARDUINO.DIALOG.BOARD.OPT_DEFAULT + "</option>";
 
     }
 
@@ -327,7 +332,7 @@ define(function (require, exports, module) {
         }
 
         //TODO create an HTML template for the modal
-        programmersDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Programmer select", "<center>Select your programmer<select id='programmerSelector'>"+listProgrammersDetectedHTML+"</select></center>");
+        programmersDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.PROGRAMMER.TITLE, "<center>"+ Strings.ARDUINO.DIALOG.PROGRAMMER.LBL_SELECT +"<select id='programmerSelector'>"+listProgrammersDetectedHTML+"</select></center>");
 
         var prevSelection = brackets.arduino.options.target.programmer.protocol || brackets.arduino.preferences.get("arduino.ide.options.target.programmer");
 
@@ -348,7 +353,7 @@ define(function (require, exports, module) {
 
 //                document.getElementById("btnHoldplace").appendChild(opt);
 
-        listProgrammersDetectedHTML = "<option disabled selected>" + optionProgrammerSelectMessage + "</option>";
+        listProgrammersDetectedHTML = "<option disabled selected>" + Strings.ARDUINO.DIALOG.PROGRAMMER.OPT_DEFAULT + "</option>";
 
     }
 

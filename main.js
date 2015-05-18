@@ -30,6 +30,14 @@
  *
  */
 
+/*require.config({
+    paths: {
+        "text" : "lib/text",
+        "i18n" : "lib/i18n"
+    },
+    locale: brackets.getLocale()
+});
+*/
 define(function (require, exports, module) {
     'use strict';
 	var ExtensionUtils  = brackets.getModule("utils/ExtensionUtils"),
@@ -50,10 +58,14 @@ define(function (require, exports, module) {
         copypasteDomainName         = "org-arduino-ide-domain-copypaste",
 		compilerDomainName          = "org-arduino-ide-domain-compiler";
 
+
+
     var arduinoHints                = null;
+    //var Locale                     = require("modules/Localization/strings");
 
     brackets.arduino = {
-        version     : 2000000,  //version symbolize XXX.YYY.ZZZ
+        revision    : require("modules/Extra/revision"),
+        strings     : require("modules/Localization/strings"),
         preferences : {},
         domains     : {},
         dispatcher  : {},
@@ -80,6 +92,7 @@ define(function (require, exports, module) {
     brackets.arduino.options.librariesdir  = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/libraries");
     brackets.arduino.options.modulesdir    = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/modules");
     brackets.arduino.options.hardwaredir   = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/hardware");
+    brackets.arduino.options.examples      = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/examples");
 
     AppInit.appReady(function () {
 
@@ -114,11 +127,8 @@ define(function (require, exports, module) {
 
         if(brackets.arduino.preferences.get("arduino.ide.preferences.checkupdate")) {
             var chk = require("modules/Extra/checkupdate");
-            chk.checkLatest(brackets.arduino.version);
+            chk.checkLatest(brackets.arduino.revision.version);
         }
-
-
-
 
         // Main-Toolbar Buttons
         var arduinoLogo = "<a id='toolbar-arduino-logo' href='http://www.arduino.org' target='_blank' alt='Arduino.org'></a><span id='toolbar-sep1'></span>";
