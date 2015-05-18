@@ -120,9 +120,9 @@ define({
         },
         "WEB": {
             "SITE": {
-                "TITLE"     : "Sito web",
-                "URL"       : "http://arduino.org"
-            },
+                "TITLE"     : "Arduino Sito Web"/*,
+                "URL"       : "http://arduino.org"*/
+            }/*,
             "LABS": {
                 "TITLE"     : "Arduino Labs",
                 "URL"       : "http://labs.arduino.org"
@@ -134,14 +134,14 @@ define({
             },
             "FACEBOOK": {
                 "TITLE"     : "Facebook",
-                "NAME"      : "https://www.facebook.com/arduino.org",
-                "URL"       : "arduino.org"
+                "NAME"      : "arduino.org",
+                "URL"       : "https://www.facebook.com/arduino.org"
             },
             "GITHUB": {
                 "TITLE"     : "GitHub",
                 "NAME"      : "arduino-org",
                 "URL"       : "http://github.com/arduino-org"
-            }
+            }*/
         },
         "MESSAGE": {
             "OK"                : "Ok",
