@@ -3,10 +3,10 @@
 /*global $, define, brackets */
 define(function (require, exports, module) {
     var ExtensionUtils  = brackets.getModule("utils/ExtensionUtils");
-    var toolbar_top_template,/*    = require("text!./html/toolbar-top.html");*/
-        toolbar_bottom_template,/* = require("text!./html/toolbar-bottom.html");*/
-        toolbar_top_html,/*        = Mustache.render(toolbar_top_template, brackets.arduino.strings.ARDUINO.TOOLBAR);*/
-        toolbar_bottom_html;/*     = Mustache.render(toolbar_bottom_template, brackets.arduino.strings.ARDUINO.TOOLBAR);*/
+    var toolbar_top_template,
+        toolbar_bottom_template,
+        toolbar_top_html,
+        toolbar_bottom_html;
 
     var Strings, Dispatcher;
 
@@ -21,7 +21,7 @@ define(function (require, exports, module) {
 
     module.exports.load = function(){
 
-        ExtensionUtils.loadStyleSheet(module, "./css/main.css");
+        ExtensionUtils.loadStyleSheet(module, "./css/toolbar.css");
 
         $('.buttons').html(toolbar_top_html);
         $('.bottom-buttons').html(toolbar_bottom_html);
@@ -31,8 +31,7 @@ define(function (require, exports, module) {
             toolbarHandler(this.id);
         });
     };
-
-
+    
     function toolbarHandler(btnid){
         switch(btnid) {
             case 'toolbar-verify-btn':
