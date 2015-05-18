@@ -94,8 +94,8 @@ define(function(require, exports, module){
 	{
 		Strings = brackets.arduino.strings;
 
-		bTag.html(Strings.ARDUINO_DIALOG_TITLE_SELECT_BOARD);
-		pTag.html(Strings.ARDUINO_DIALOG_TITLE_SELECT_PORT);
+		bTag.html(Strings.ARDUINO.STATUS_BAR.DEF_LBL_BOARD);
+		pTag.html(Strings.ARDUINO.STATUS_BAR.DEF_LBL_PORT);
 
 		brackets.arduino.dispatcher.on("arduino-event-console-log", writeLog);
 		brackets.arduino.dispatcher.on("arduino-event-console-error", writeError);

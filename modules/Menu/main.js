@@ -150,18 +150,18 @@ define(function (require, exports, module) {
 
     //CREATE MENUS
     function createToolMenu() {
-        var ToolsMenu = Menus.addMenu(Strings.ARDUINO_MENU_TOOLS, ARDUINO_MENU_TOOLS_ID, Menus.FIRST);
+        var ToolsMenu = Menus.addMenu(Strings.ARDUINO.MENU.TOOLS.TITLE, ARDUINO_MENU_TOOLS_ID, Menus.FIRST);
 
-        CommandManager.register(Strings.ARDUINO_MENU_TOOLS_AUTOFORMATTING + " [" + Strings.ARDUINO_EXTRA_COMING_SOON + "]", ARDUINO_MENU_TOOL_AUTO_FORMATTING, bePatient);
-        CommandManager.register(Strings.ARDUINO_MENU_TOOLS_STORESKETCH + " [" + Strings.ARDUINO_EXTRA_COMING_SOON + "]", ARDUINO_MENU_TOOL_STORE_SKETCH, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_AUTO_FORMATTING  + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_AUTO_FORMATTING, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_STORE_SKETCH + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_STORE_SKETCH, bePatient);
         //CommandManager.register("Fix encoding and reload [Coming Soon (A)]", ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD, bePatient);
-        CommandManager.register(Strings.ARDUINO_MENU_TOOLS_SERIALMONITOR, ARDUINO_MENU_TOOL_SERIAL_MONITOR, toolMenu_SerialMonitor);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_SERIAL_MONITOR, ARDUINO_MENU_TOOL_SERIAL_MONITOR, toolMenu_SerialMonitor);
 
-        CommandManager.register(Strings.ARDUINO_MENU_TOOLS_SELECTBOARD, ARDUINO_MENU_TOOL_SELECT_BOARD, toolMenu_SelectBoardPanel);
-        CommandManager.register(Strings.ARDUINO_MENU_TOOLS_SELECTPORT, ARDUINO_MENU_TOOL_SELECT_PORT, toolMenu_SelectPortPanel);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_BOARD, ARDUINO_MENU_TOOL_SELECT_BOARD, toolMenu_SelectBoardPanel);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_PORT, ARDUINO_MENU_TOOL_SELECT_PORT, toolMenu_SelectPortPanel);
 
-        CommandManager.register(Strings.ARDUINO_MENU_TOOLS_SELECTPROGRAMMER, ARDUINO_MENU_TOOL_SELECT_PROGRAMMER, toolMenu_SelectProgrammerPanel);
-        CommandManager.register(Strings.ARDUINO_MENU_TOOLS_BURNBOOTLOADER + " [" + Strings.ARDUINO_EXTRA_COMING_SOON + "]", ARDUINO_MENU_TOOL_WRITE_BOOTLOADER, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_PROGRAMMER, ARDUINO_MENU_TOOL_SELECT_PROGRAMMER, toolMenu_SelectProgrammerPanel);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_BURN_BOOTLOADER + " [" +Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_WRITE_BOOTLOADER, bePatient);
 
         ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_AUTO_FORMATTING);
         ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_STORE_SKETCH);
@@ -176,12 +176,12 @@ define(function (require, exports, module) {
     }
 
     function createSketchMenu() {
-        var SketchMenu = Menus.addMenu(Strings.ARDUINO_MENU_SKETCH, ARDUINO_MENU_SKETCH_ID, Menus.FIRST);
+        var SketchMenu = Menus.addMenu(Strings.ARDUINO.MENU.SKETCH.TITLE, ARDUINO_MENU_SKETCH_ID, Menus.FIRST);
 
-        CommandManager.register(Strings.ARDUINO_MENU_SKETCH_BUILD, ARDUINO_MENU_SKETCH_VERIFY_COMPILE, sketchMenu_VerifyCompile);
-        CommandManager.register(Strings.ARDUINO_MENU_SKETCH_ADDFILE, ARDUINO_MENU_SKETCH_ADD_FILE, sketchMenu_AddFile);
-        CommandManager.register(Strings.ARDUINO_MENU_SKETCH_IMPORTLIB + " [" + Strings.ARDUINO_EXTRA_WIP +"]", ARDUINO_MENU_SKETCH_IMPORT_LIBS, sketchMenu_ImportLibs);
-        CommandManager.register(Strings.ARDUINO_MENU_SKETCH_SHOWFOLDER + " [" + Strings.ARDUINO_EXTRA_COMING_SOON + "]", ARDUINO_MENU_SKETCH_OPEN_SKETCH_FOLDER, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_BUILD, ARDUINO_MENU_SKETCH_VERIFY_COMPILE, sketchMenu_VerifyCompile);
+        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_ADD_FILE, ARDUINO_MENU_SKETCH_ADD_FILE, sketchMenu_AddFile);
+        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_IMPORT_LIB + " [" + Strings.ARDUINO.EXTRAS.WIP +"]", ARDUINO_MENU_SKETCH_IMPORT_LIBS, sketchMenu_ImportLibs);
+        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_SHOW_FOLDER + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_SKETCH_OPEN_SKETCH_FOLDER, bePatient);
 
         SketchMenu.addMenuItem(ARDUINO_MENU_SKETCH_VERIFY_COMPILE);
         SketchMenu.addMenuDivider("arduino.menu.sketch.divider1");
@@ -195,9 +195,9 @@ define(function (require, exports, module) {
 
         var EditMenu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);//Menus.addMenu("Edit", ARDUINO_MENU_EDIT_ID, Menus.FIRST);
 
-        CommandManager.register(Strings.ARDUINO_MENU_EDIT_COPYFORUM, ARDUINO_MENU_EDIT_COPY_FORUM, editMenu_copyForum);
-        CommandManager.register(Strings.ARDUINO_MENU_EDIT_COPYHTML + " [" + Strings.ARDUINO_EXTRA_COMING_SOON + "]", ARDUINO_MENU_EDIT_COPY_HTML, bePatient);
-        CommandManager.register(Strings.ARDUINO_MENU_EDIT_FINDSELECTED+ " [" + Strings.ARDUINO_EXTRA_COMING_SOON + "]", ARDUINO_MENU_EDIT_FIND_SELECTED, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.EDIT.ITEM_COPY_FORUM, ARDUINO_MENU_EDIT_COPY_FORUM, editMenu_copyForum);
+        CommandManager.register(Strings.ARDUINO.MENU.EDIT.ITEM_COPY_HTML + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_EDIT_COPY_HTML, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.EDIT.ITED_FIND_SELECTED + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_EDIT_FIND_SELECTED, bePatient);
 
         EditMenu.addMenuDivider("arduino.menu.edit.divider1");
         EditMenu.addMenuItem(ARDUINO_MENU_EDIT_COPY_FORUM);
@@ -208,15 +208,15 @@ define(function (require, exports, module) {
     function createFileMenu() {
         Menus.removeMenu(Menus.AppMenuBar.FILE_MENU);
 
-        var FileMenu2 = Menus.addMenu(Strings.ARDUINO_MENU_FILE, ARDUINO_MENU_FILE_ID, Menus.FIRST);
+        var FileMenu2 = Menus.addMenu(Strings.ARDUINO.MENU.FILE.TITLE, ARDUINO_MENU_FILE_ID, Menus.FIRST);
         //settingsFile;
         //FileUtils;
-        CommandManager.register(Strings.ARDUINO_MENU_FILE_OPENSAMPLES, ARDUINO_MENU_FILE_OPEN_SAMPLE_FOLDER, fileMenu_SampleFolder);
-        CommandManager.register(Strings.ARDUINO_MENU_FILE_UPLOAD, ARDUINO_MENU_FILE_UPLOAD, fileMenu_Upload);
-        CommandManager.register(Strings.ARDUINO_MENU_FILE_UPLOADUSEPROGR + " [" + Strings.ARDUINO_EXTRA_COMING_SOON + "]", ARDUINO_MENU_FILE_UPLOAD_BY_PROGRAMMER, bePatient);
-        CommandManager.register(Strings.ARDUINO_MENU_FILE_PRINTPAGESETTING  + " [" + Strings.ARDUINO_EXTRA_COMING_SOON + "]", ARDUINO_MENU_FILE_PAGE_SETTINGS, bePatient);
-        CommandManager.register(Strings.ARDUINO_MENU_FILE_PRINT + " [" + Strings.ARDUINO_EXTRA_COMING_SOON + "]", ARDUINO_MENU_FILE_PRINT, bePatient);
-        CommandManager.register(Strings.ARDUINO_MENU_FILE_PREFERENCES, ARDUINO_MENU_FILE_SETTINGS, fileMenu_showPreferences);
+        CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_OPEN_SAMPLES, ARDUINO_MENU_FILE_OPEN_SAMPLE_FOLDER, fileMenu_SampleFolder);
+        CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_UPLOAD, ARDUINO_MENU_FILE_UPLOAD, fileMenu_Upload);
+        CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_UPLOAD_USE_PROGR + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_FILE_UPLOAD_BY_PROGRAMMER, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_PRINT_PAGE_SETTING  + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_FILE_PAGE_SETTINGS, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_PRINT + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_FILE_PRINT, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_PREFERENCES, ARDUINO_MENU_FILE_SETTINGS, fileMenu_showPreferences);
 
         FileMenu2.addMenuItem(Commands.FILE_NEW);
         FileMenu2.addMenuItem(Commands.FILE_OPEN);
@@ -241,7 +241,7 @@ define(function (require, exports, module) {
     function createHelpMenu() {
         var HelpMenu = Menus.getMenu(Menus.AppMenuBar.HELP_MENU, ARDUINO_MENU_HELP_ID);
 
-        CommandManager.register(Strings.ARDUINO_MENU_HELP_ABOUT, ARDUINO_MENU_HELP_ABOUT, helpMenu_showAboutDialog);
+        CommandManager.register(Strings.ARDUINO.MENU.HELP.ITEM_ABOUT, ARDUINO_MENU_HELP_ABOUT, helpMenu_showAboutDialog);
 
         HelpMenu.addMenuDivider("arduino.menu.help.divider1");
         HelpMenu.addMenuItem(ARDUINO_MENU_HELP_ABOUT);
@@ -270,7 +270,7 @@ define(function (require, exports, module) {
 
         var destPath = FileSystem.getDirectoryForPath(DocumentManager.getCurrentDocument().file._parentPath);
 
-        FileSystem.showOpenDialog(false, false, Strings.ARDUINO_DIALOG_SELECT_FILE,"","",function(a, selectedFile, b){
+        FileSystem.showOpenDialog(false, false, Strings.ARDUINO.DIALOG.GENERIC.TITLE_SELECT_FILE,"","",function(a, selectedFile, b){
             if(selectedFile.length > 0) {
                 //var suf = FileUtils.getBaseName(selectedFile[0]);
                 var srcFile = FileSystem.getFileForPath(selectedFile[0]);
@@ -297,7 +297,7 @@ define(function (require, exports, module) {
     }
 
     function sketchMenu_ImportLibs(){
-        sketch_importLibraryDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO_DIALOG_IMPORT_LIBS, sketch_importLibraryPanel);
+        sketch_importLibraryDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.IMPORT_LIBRARIES.TITLE, sketch_importLibraryPanel);
         $("#includeLibFolderBtn").click(sketchMenu_importLibFolder);
         $("#includeLibArchiveBtn").click(sketchMenu_importLibArchive);
         sketchMenu_importLibCreateList();
@@ -311,7 +311,7 @@ define(function (require, exports, module) {
     function sketchMenu_importLibFolder(){
         //var libsFolder = "C:/Users/Sebastiano/Desktop/testArduino/libs/"; //get Libs folder (platform.js ???)
 
-        FileSystem.showOpenDialog(false, true, Strings.ARDUINO_DIALOG_SELECT_FOLDER,"","",function(a, dirSelected, b) {
+        FileSystem.showOpenDialog(false, true, Strings.ARDUINO.DIALOG.GENERIC.TITLE_SELECT_FOLDER,"","",function(a, dirSelected, b) {
             //var suf = fileSelected[0].split("/")[fileSelected[0].split("/").length-1];
             if (dirSelected.length > 0) {
                 var srcDir = FileSystem.getDirectoryForPath(dirSelected[0]);
@@ -325,7 +325,7 @@ define(function (require, exports, module) {
     }
 
     function sketchMenu_importLibArchive(){
-        FileSystem.showOpenDialog(false, false, Strings.ARDUINO_DIALOG_SELECT_ARCHIVE,"","",function(a, fileSelected, b){
+        FileSystem.showOpenDialog(false, false, Strings.ARDUINO.DIALOG.GENERIC.TITLE_SELECT_FILE,"","",function(a, fileSelected, b){
 
             var srcArchive = FileSystem.getFileForPath(fileSelected[0]);
             if( FileUtils.getFileExtension(srcArchive.fullPath) == "zip" )
@@ -448,36 +448,11 @@ define(function (require, exports, module) {
     //HELP
     function helpMenu_showAboutDialog(){
         var template = require("text!./html/aboutDialog.html");
-        /*var info = {
-            revision : brackets.arduino.revision,
-            twitter  : {
-                desc    : "Twitter",
-                name    : "ArduinoOrg",
-                url     : "https://twitter.com/ArduinoOrg"
-            },
-            facebook : {
-                desc    : "Facebook",
-                name    : "arduino.org",
-                url     : "https://www.facebook.com/arduino.org"
-            },
-            github : {
-                desc : "GitHub",
-                name : "arduino-org",
-                url  : "http://github.com/arduino-org"
-            },
-            site: {
-                desc : "Web Site",
-                url  : "http://arduino.org/"
-            },
-            labs : {
-                desc : "Labs",
-                url  : "http://labs.arduino.org"
-            }
-        }*/
+
         var info = $.extend({}, brackets.arduino.revision, Strings);
 
         var html = Mustache.render(template, info);
-        Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO_DIALOG_ARDUINO, html);
+        Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.ABOUT.TITLE, html);
     }
 
     //ARDUINO EXAMPLES
@@ -524,14 +499,13 @@ define(function (require, exports, module) {
     function fileMenu_SampleFolder(){
         //TODO: open examples inside the libraries / user libraries path.
         //NOTE this only open generic arduino example, not libraries and user libraries examples.
-        var test = "/Users/sergio/Desktop/TEST/"
         //FileSystem.showOpenDialog(false, true, Strings.ARDUINO_DIALOG_SELECT_FOLDER, test  /*brackets.arduino.options.examples.fullPath*/, "" , function(a, dirSelected, b){
             ProjectManager.openProject(brackets.arduino.options.examples.fullPath)
                 .done(function(){
-                    brackets.arduino.dispatcher.trigger("arduino-event-console-success", menuPrefix + brackets.arduino.options.examples.fullPath + " " + Strings.ARDUINO_MESSAGE_SUCCESS_LOAD)
+                    brackets.arduino.dispatcher.trigger("arduino-event-console-success", menuPrefix + brackets.arduino.options.examples.fullPath + " " + Strings.ARDUINO.MESSAGE.SUCCESS_LOAD)
                 })
                 .fail(function(err){
-                    brackets.arduino.dispatcher.trigger("arduino-event-console-err", menuPrefix + Strings.ARDUINO_MESSAGE_ERROR_LOAD + " " + err);
+                    brackets.arduino.dispatcher.trigger("arduino-event-console-err", menuPrefix + Strings.ARDUINO.MESSAGE.ERROR_LOAD + " " + err);
             });
         //});
 
