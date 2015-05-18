@@ -7,8 +7,6 @@ define(function (require, exports, module) {
 
     ExtensionUtils.loadStyleSheet(module, "./css/showLatest.css");
 
-
-
     var getLatest = function(current_version, showIfLatest){   //if showIfLatest is true, will show a message like, 'Your version is up to date'
         $.ajax({
             url: "http://download.arduino.org/revision",
@@ -29,12 +27,10 @@ define(function (require, exports, module) {
 
     var showLatest = function(latest){
         var template = require("text!./html/showLatest.html");
-
         var info = $.extend({}, latest, brakets.arduino.strings);
-
         var html = Mustache.render(template, info);
 
-        Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, /*TODO LOCALIZE THIS*/"Get latest version", html);
+        Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, brakets.arduino.strings.ARDUINO.DIALOG.LATEST.TITLE, html);
     }
 
 
