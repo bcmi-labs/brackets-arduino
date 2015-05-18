@@ -97,8 +97,8 @@ body, .main-view { font-family: Verdana !important; }
 #main-toolbar {
 	left: 0px;
 	right: 200px;
-	width: 75px;
-	padding: 15px;
+	width: 55px;
+	padding: 5px;
 }
 .main-view .content {
 	right: 200px;
@@ -189,7 +189,7 @@ div.sidebar-selection-extension.selectionExtension-visible.forced-hidden { left:
 #main-toolbar { background-color: #17a0a4; }
 
 #main-toolbar .buttons>a, #main-toolbar .bottom-buttons>a {
-	width: 75px;
+	width: 55px;
 	height: 38px;
 }
 
