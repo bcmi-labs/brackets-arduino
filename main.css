@@ -44,11 +44,11 @@ body, .main-view { font-family: Verdana !important; }
 
 #problems-panel {
     width: 97%;
-    margin-left: 27px;
+    margin-left: 7px;
 }
 
 .modal-bar, .pane-header {
-	margin-left: 27px;
+	margin-left: 7px;
 }
 
 .template.modal {
