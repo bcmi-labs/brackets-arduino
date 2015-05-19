@@ -128,7 +128,7 @@ body, .main-view { font-family: Verdana !important; }
 
 .selectionExtension-visible, .filetree-selection-extension { display: none !important; }
 
-.not-editor { background: #f8f8f8 url('../img/no_content_bg_arduino.png') no-repeat center 45% !important; }
+.not-editor { background: #f8f8f8 url('./img/no_content_bg_arduino.png') no-repeat center 45% !important; }
 
 /* SideBar */
 
