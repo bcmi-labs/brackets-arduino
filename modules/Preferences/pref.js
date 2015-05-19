@@ -33,8 +33,6 @@
 define(function (require, exports, module) {
     "use strict";
 
-    //TODO gui to manage the user preferences.
-
     var CommandManager      = brackets.getModule("command/CommandManager"),
         Menus               = brackets.getModule("command/Menus"),
         ExtensionUtils      = brackets.getModule("utils/ExtensionUtils"),
@@ -44,8 +42,7 @@ define(function (require, exports, module) {
         DefaultDialogs      = brackets.getModule("widgets/DefaultDialogs"),
         ViewCommandHandlers = brackets.getModule("view/ViewCommandHandlers");
 
-    var preferencesWindow           = null,
-        preferencesWindowName       = "Arduino Preferences";
+    var preferencesWindow           = null
 
     var cmdOpenPreferencesWindow    = "org.arduino.ide.view.preferences.openwindow";
     
@@ -130,9 +127,12 @@ define(function (require, exports, module) {
     };
 
     var openPreferencesWindow = function($event, data){
+        var data = brackets.arduino.strings.ARDUINO.DIALOG.PREFERENCE
         preferencesWindow = require("text!./html/Preferences.html");
+        var preferencesWindowHTML =  Mustache.render( preferencesWindow, data);
+
         //preferencesWindow
-        var dSettings = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, preferencesWindowName, preferencesWindow);//.done(function(){});
+        var dSettings = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, data.TITLE, preferencesWindowHTML);//.done(function(){});
         setEventsToUI();
         setValuesToUI();
     };

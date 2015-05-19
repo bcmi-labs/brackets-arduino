@@ -1,18 +1,18 @@
 <div>
     <center>
         <div class="form-inline">
-            Load your preferences file <input type="text" id="pref_txt_sketchbook" value="">
-            <input type="button" id="pref_btn_sketchbook" value="Browse" class="btn primary">
+            {{LBL_SKETCHBOOK_PATH}}<input type="text" id="pref_txt_sketchbook" value="">
+            <input type="button" id="pref_btn_sketchbook" value="{{BTN_SKETCHBOOK_BROWSE}}" class="btn primary">
         </div>
 
         
         <div class="form-inline">
-            Show verbose output during <input type="checkbox" id="pref_chk_verbose_build" class="checkboxes">Building
-            <input type="checkbox" id="pref_chk_verbose_upload" class="checkboxes">Loading
+            {{LBL_VERBOSE_OUTPUT}} <input type="checkbox" id="pref_chk_verbose_build" class="checkboxes">{{LBL_BUILD}}
+            <input type="checkbox" id="pref_chk_verbose_upload" class="checkboxes">{{LBL_UPLOAD}}
         </div>
 
         <div class="form-inline">
-        Editor Font size (px):<select name="fontsize" id="pref_ddl_fontsize">
+            {{LBL_BUILD}}:<select name="fontsize" id="pref_ddl_fontsize">
                                 <option value="7">7</option>
                                 <option value="8">8</option>
                                 <option value="9">9</option>
@@ -32,7 +32,7 @@
                             </select>
         </div>
         <div class="form-inline">
-            <input type="checkbox" id="pref_chk_checkupdate" class="checkboxes">Check for update
+            <input type="checkbox" id="pref_chk_checkupdate" class="checkboxes">{{LBL_CHECK_UPDATE}}
         </div>
     </center>
 </div>
