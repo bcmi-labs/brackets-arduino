@@ -61,16 +61,19 @@ define(function(require, exports, module){
 	var writeLog 	= 	function($event, data){
 							if(data){
 								$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: black;'>"+data+"</span><br />");
+								$('#logger').scrollTop($('#logger')[0].scrollHeight);
 							}
 		},
 		writeError	=	function($event, data){
 							if(data){								
 								$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: red;'>"+data+"</span><br />");
+								$('#logger').scrollTop($('#logger')[0].scrollHeight);
 							}
 		},
 		writeSuccess	=	function($event, data){
 							if(data){
 								$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: green;'>"+data+"</span><br />");
+								$('#logger').scrollTop($('#logger')[0].scrollHeight);
 							}
 		},
 		clearLog	=	function($event){
