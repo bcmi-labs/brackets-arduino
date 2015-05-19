@@ -58,7 +58,7 @@ define(function (require, exports, module) {
 
     var menuPrefix         = "[arduino ide - menu] ";
 
-    var sketch_importLibraryPanel           = require("text!./html/importLibrary.html"),
+    var sketch_importLibraryPanel           = null,//require("text!./html/importLibrary.html"),
         sketch_importLibraryDialog          = null,     //dialog window for import arduino libraries and select zip or folder
         sketch_importLibraryDirectory       = null,     //arduino libraries directory
         sketch_importLibraryUserDirectory   = null;   //user libraries directory
@@ -216,7 +216,7 @@ define(function (require, exports, module) {
         CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_UPLOAD_USE_PROGR + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_FILE_UPLOAD_BY_PROGRAMMER, bePatient);
         CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_PRINT_PAGE_SETTING  + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_FILE_PAGE_SETTINGS, bePatient);
         CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_PRINT + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_FILE_PRINT, bePatient);
-        CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_PREFERENCES, ARDUINO_MENU_FILE_SETTINGS, fileMenu_showPreferences);
+        CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_PREFERENCES + " [" + Strings.ARDUINO.EXTRAS.WIP + "]", ARDUINO_MENU_FILE_SETTINGS, fileMenu_showPreferences);
 
         FileMenu2.addMenuItem(Commands.FILE_NEW);
         FileMenu2.addMenuItem(Commands.FILE_OPEN);
@@ -297,7 +297,10 @@ define(function (require, exports, module) {
     }
 
     function sketchMenu_ImportLibs(){
-        sketch_importLibraryDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.IMPORT_LIBRARIES.TITLE, sketch_importLibraryPanel);
+        sketch_importLibraryPanel         = require("text!./html/importLibrary.html");
+        var sketch_importLibraryPanelHTML = Mustache.render(sketch_importLibraryPanel, Strings.ARDUINO.DIALOG.IMPORT_LIBRARIES);
+
+        sketch_importLibraryDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.IMPORT_LIBRARIES.TITLE, sketch_importLibraryPanelHTML);
         $("#includeLibFolderBtn").click(sketchMenu_importLibFolder);
         $("#includeLibArchiveBtn").click(sketchMenu_importLibArchive);
         sketchMenu_importLibCreateList();
