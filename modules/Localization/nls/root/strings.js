@@ -118,7 +118,20 @@ define({
             "IMPORT_LIBRARIES": {
                 "TITLE"         : "Import libraries",
                 "BTN_FOLDER"    : "Import folder",
-                "BTN_ARCHIVE"   : "Import zip archive"
+                "BTN_ARCHIVE"   : "Import zip archive",
+                "LBL_IMPORTED"  : "Imported Libraries",
+                "TH_NAME"       : "Name",
+                "TH_ADD"        : "Add"
+            },
+            "PREFERENCE" : {
+                "TITLE"                     : "Preferences",
+                "LBL_SKETCHBOOK_PATH"       : "Sketchbook path",
+                "LBL_VERBOSE_OUTPUT"        : "Show verbose output during",
+                "LBL_BUILD"                 : "Building",
+                "LBL_UPLOAD"                : "Upload",
+                "LBL_FONT_SIZE"             : "Editor font size",
+                "LBL_CHECK_UPDATE"          : "Check for update at startup",
+                "BTN_SKETCHBOOK_BROWSE"     : "Browse"
             },
             "GENERIC" :{
                 "TITLE_SELECT_FILE":    "Select file",

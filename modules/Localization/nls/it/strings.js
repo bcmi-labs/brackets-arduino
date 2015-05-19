@@ -118,7 +118,20 @@ define({
             "IMPORT_LIBRARIES": {
                 "TITLE"         : "Importa librerie",
                 "BTN_FOLDER"    : "Importa da cartella",
-                "BTN_ARCHIVE"   : "Importa da archivio zip"
+                "BTN_ARCHIVE"   : "Importa da archivio zip",
+                "LBL_IMPORTED"  : "Librerie importate",
+                "TH_NAME"       : "Nome",
+                "TH_ADD"        : "Aggiungi"
+            },
+            "PREFERENCE" : {
+                "TITLE"                     : "Preferenze",
+                "LBL_SKETCHBOOK_PATH"       : "Percorso della cartella degli sketch",
+                "LBL_VERBOSE_OUTPUT"        : "Mostra un output dettagliato durante",
+                "LBL_BUILD"                 : "Compilazione",
+                "LBL_UPLOAD"                : "Caricamento",
+                "LBL_FONT_SIZE"             : "Dimensioni font dell'editor (px)",
+                "LBL_CHECK_UPDATE"          : "Controlla aggiornamenti all'avvio",
+                "BTN_SKETCHBOOK_BROWSE"     : "Sfoglia"
             },
             "GENERIC" :{
                 "TITLE_SELECT_FILE":    "Seleziona file",
