@@ -192,13 +192,8 @@ define(function (require, exports, module) {
      * @param  {String} error the string sent by the board
      */
     var serialErrorHandler = function($event, error){
-        //TODO send the error to the Arduino Console (not brackets debug console)
-        //console.error(serialMonitorPrefix + " " + error);
         if(error){
-            $('#console_log').html($('#console_log').html()+"["+new Date().toLocaleString()+"] - <span style='color: red;'>"+error+"</span><br />");
-
-            if($('#scroll').is(':checked'))
-                $('#console_log').scrollTop($('#console_log')[0].scrollHeight);
+            brackets.arduino.dispatcher.trigger("arduino-event-console-error", serialMonitorPrefix + " Error in serial port closing: " + err.toString());
         }
     }
 

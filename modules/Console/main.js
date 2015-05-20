@@ -57,22 +57,23 @@ define(function(require, exports, module){
 		brackets.arduino.dispatcher.trigger("arduino-event-menu-tool-ports","");
 	});
 
-	var writeLog 	= 	function($event, data){
+		var writeLog 	= function($event, data){
 							if(data){
-								$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: black;'>"+data+"</span><br />");
-								$('#logger').scrollTop($('#logger')[0].scrollHeight);
-							}
-		},
-		writeError	=	function($event, data){
-							if(data){								
-								$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: red;'>"+data+"</span><br />");
-								$('#logger').scrollTop($('#logger')[0].scrollHeight);
-							}
-		},
-		writeSuccess	=	function($event, data){
-							if(data){
-								$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: green;'>"+data+"</span><br />");
-								$('#logger').scrollTop($('#logger')[0].scrollHeight);
+								var logtype = $event.type;
+							 	switch(logtype){
+							 		case 'arduino-event-console-log':
+							 				$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: black;'>"+data+"</span><br />");
+							 				break;
+							 		case 'arduino-event-console-error':
+							 				$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: red;'>"+data+"</span><br />");
+							 				break;
+							 		case 'arduino-event-console-success':
+							 				$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: green;'>"+data+"</span><br />");
+							 				break;
+							 		default:
+							 				break;
+							 	}
+							 	$('#logger').scrollTop($('#logger')[0].scrollHeight);
 							}
 		},
 		clearLog	=	function($event){
@@ -86,9 +87,11 @@ define(function(require, exports, module){
 							if(data)
 								document.getElementById("pTag").innerText = data;
 		},
-		showHideConsole=function($event){
-			if(panel.isVisible()) panel.hide();
-			else panel.show();
+		showHideConsole = function($event){
+							if(panel.isVisible())
+								panel.hide();
+							else
+								panel.show();
 		};
 
 
@@ -100,8 +103,8 @@ define(function(require, exports, module){
 		pTag.html(Strings.ARDUINO.STATUS_BAR.DEF_LBL_PORT);
 
 		brackets.arduino.dispatcher.on("arduino-event-console-log", writeLog);
-		brackets.arduino.dispatcher.on("arduino-event-console-error", writeError);
-		brackets.arduino.dispatcher.on("arduino-event-console-success", writeSuccess);
+		brackets.arduino.dispatcher.on("arduino-event-console-error", writeLog);
+		brackets.arduino.dispatcher.on("arduino-event-console-success", writeLog);
 
 		brackets.arduino.dispatcher.on("arduino-event-console-board", setBoard);
 		brackets.arduino.dispatcher.on("arduino-event-console-port", setPort);
