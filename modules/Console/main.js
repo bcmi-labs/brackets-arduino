@@ -57,7 +57,6 @@ define(function(require, exports, module){
 		brackets.arduino.dispatcher.trigger("arduino-event-menu-tool-ports","");
 	});
 
-
 	var writeLog 	= 	function($event, data){
 							if(data){
 								$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: black;'>"+data+"</span><br />");
@@ -128,4 +127,4 @@ define(function(require, exports, module){
 
 	return Console;
 
-})
+});

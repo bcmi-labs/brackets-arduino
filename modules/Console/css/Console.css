@@ -3,10 +3,10 @@
     font-weight: bold;
     z-index: 1000;
     top: 18px;
-    padding-left: 15px;
+    padding-left: 8px;
     position: relative;
     background: #dfe2e2;
-    width: 59px;
+    width: 100px;
 }
 
 #console {
@@ -26,6 +26,12 @@
     border:1px solid #EEE; border-right:0 solid;
     overflow-y: scroll;
     z-index: 999;
+
+    -moz-user-select: text;
+    -khtml-user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 }
 
 .info {

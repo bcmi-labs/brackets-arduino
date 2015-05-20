@@ -139,7 +139,10 @@ define(function (require, exports, module) {
 
         $('.working-set-splitview-btn').remove();
 
-        
+        //Console log - logmsg.click event
+        $('.logmsg').click(function(evt){
+            alert('ciao');
+        });
     });
 
 });
