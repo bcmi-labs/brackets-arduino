@@ -6,7 +6,7 @@
     padding-left: 8px;
     position: relative;
     background: #dfe2e2;
-    width: 100px;
+    width: 60px;
 }
 
 #console {
@@ -23,7 +23,8 @@
     height: 100%;
     padding-top: 20px;
     border: none;
-    border:1px solid #EEE; border-right:0 solid;
+    /*border:1px solid #EEE; border-right:0 solid;*/
+    border: 1px solid #b2b5b5;
     overflow-y: scroll;
     z-index: 999;
 

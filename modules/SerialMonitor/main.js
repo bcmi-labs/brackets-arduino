@@ -193,7 +193,13 @@ define(function (require, exports, module) {
      */
     var serialErrorHandler = function($event, error){
         //TODO send the error to the Arduino Console (not brackets debug console)
-        console.error(serialMonitorPrefix + " " + error);
+        //console.error(serialMonitorPrefix + " " + error);
+        if(error){
+            $('#console_log').html($('#console_log').html()+"["+new Date().toLocaleString()+"] - <span style='color: red;'>"+error+"</span><br />");
+
+            if($('#scroll').is(':checked'))
+                $('#console_log').scrollTop($('#console_log')[0].scrollHeight);
+        }
     }
 
     /**

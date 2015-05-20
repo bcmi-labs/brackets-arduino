@@ -1,6 +1,9 @@
 #plugin-serialmonitor {
     padding-top: 10px;
-    height: 300px !important;
+    display: block;
+    padding-bottom: 56px;
+    margin-left: 7px;
+    display: block;
 }
 
 input#scroll {
@@ -18,12 +21,25 @@ input#scroll {
     height: 27px;
 }
 
-#console_log{
-    width: 95%;
-    resize: none;
-    overflow-y: scroll;
+#logarea {
+    height: 100%;
+}
+
+#console_log {
+    width: 96%;
+    overflow-y: scroll !important;
     margin-left: 15px;
     background-color: #ffffff;
+    padding-top: 0px;
+    border: 1px solid #b2b5b5;
+    min-height: 130px;
+    height: 60%;
+
+    -moz-user-select: text;
+    -khtml-user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 }
 
 .serial_title {
