@@ -2,7 +2,10 @@
  maxerr: 50, browser: true */
 /*global $, define, brackets */
 define(function (require, exports, module) {
-    var ExtensionUtils  = brackets.getModule("utils/ExtensionUtils");
+    var ExtensionUtils  = brackets.getModule("utils/ExtensionUtils"),
+        CommandManager  = brackets.getModule("command/CommandManager"),
+        Commands        = brackets.getModule("command/Commands");
+
     var toolbar_top_template,
         toolbar_bottom_template,
         toolbar_top_html,
