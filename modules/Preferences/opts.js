@@ -380,6 +380,7 @@ define(function (require, exports, module) {
 
 
     Options.prototype.setTargetBoard = function(boardId){
+        setTimeout(function(){//TODO horrible!!! call this method with an async series mechanism
         var archs = brackets.arduino.options.archs;
         for(var archIdx in archs){ //loop trough the archs/platforms
             var boards = archs[archIdx].boards;
@@ -390,32 +391,37 @@ define(function (require, exports, module) {
                 }
             }
         }
+        }, 1500);
     };
 
     Options.prototype.setTargetPort = function(portId){
-        brackets.arduino.dispatcher.trigger("arduino-event-port-serial-get", function(err, result){
-            if(!err){
-                for(var index in result) {
-                    if (result[index].address == portId) {
-                        setPort(result[index]);
+        setTimeout(function() {//TODO horrible!!! call this method with an async series mechanism
+            brackets.arduino.dispatcher.trigger("arduino-event-port-serial-get", function (err, result) {
+                if (!err) {
+                    for (var index in result) {
+                        if (result[index].address == portId) {
+                            setPort(result[index]);
+                            return;
+                        }
+                    }
+                }
+            });
+        },1500);
+    };
+
+    Options.prototype.setTargetProgrammer = function(programmerId){
+        setTimeout(function() {//TODO horrible!!! call this method with an async series mechanism
+            var archs = brackets.arduino.options.archs;
+            for (var archIdx in archs) { //loop trough the archs/platforms
+                var programmers = archs[archIdx].programmers;
+                for (var progIdx in programmers) {
+                    if (programmers[progIdx].protocol == programmerId) {
+                        setProgrammer(programmers[progIdx]);
                         return;
                     }
                 }
             }
-        });
-    };
-
-    Options.prototype.setTargetProgrammer = function(programmerId){
-        var archs = brackets.arduino.options.archs;
-        for(var archIdx in archs){ //loop trough the archs/platforms
-            var programmers = archs[archIdx].programmers;
-            for(var progIdx in programmers){
-                if(programmers[progIdx].protocol == programmerId){
-                    setProgrammer( programmers[progIdx] );
-                    return;
-                }
-            }
-       }
+        },1500);
     };
 
     return Options;
