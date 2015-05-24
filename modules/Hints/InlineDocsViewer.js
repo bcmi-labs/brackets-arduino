@@ -1,3 +1,11 @@
+/**
+ *  BASED ON https://github.com/zanven42/brackets-sqf
+ *  BY Anthony "Zanven" Poschen
+ *  UNDER MIT LICENSE
+ *
+ *  MODIFIED BY Arduino.org Team - 05/2015
+ */
+
 define(function (require, exports, module) {
     'use strict';
     var ExtensionUtils      = brackets.getModule("utils/ExtensionUtils"),
@@ -27,7 +35,8 @@ define(function (require, exports, module) {
             BottomStyle   : bottom_style,
             SyntaxStyle   : syntax_style,
             ReturnStyle   : return_style,
-            Strings       : Strings
+            Strings       : Strings,
+            ArduinoStrings: brackets.arduino.strings
         };
         
         var html = Mustache.render(inlineEditorTemplate, templateVars);

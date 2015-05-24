@@ -1,0 +1,151 @@
+/*
+ * This file is part of Arduino
+ *
+ * Arduino is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * As a special exception, you may use this file as part of a free software
+ * library without restriction.  Specifically, if other files instantiate
+ * templates or use macros or inline functions from this file, or you compile
+ * this file and link it with other files to produce an executable, this
+ * file does not by itself cause the resulting executable to be covered by
+ * the GNU General Public License.  This exception does not however
+ * invalidate any other reasons why the executable file might be covered by
+ * the GNU General Public License.
+ *
+ * Copyright 2015 Arduino Srl (http://www.arduino.org/)
+ *
+ * authors: arduino.org team - support@arduino.org
+ *
+ */
+
+#main-toolbar {
+	left: 0px;
+	right: 200px;
+	width: 55px;
+	padding: 5px;
+}
+/* Main-Toolbar Icons */
+
+#main-toolbar {
+	text-align: left;
+	padding: 0px;
+	margin: 0px;
+}
+
+#main-toolbar .buttons>a:hover, #main-toolbar .bottom-buttons>a:hover {
+	outline: none !important;
+}
+
+#toolbar-parfait { display: none !important; }
+
+#main-toolbar { background-color: #17a0a4; }
+
+#main-toolbar .buttons>a, #main-toolbar .bottom-buttons>a {
+	width: 55px;
+	height: 38px;
+}
+
+#main-toolbar .buttons>a, #main-toolbar .bottom-buttons>a {
+	margin: 16px 0px 0px 0px;
+}
+
+#main-toolbar .buttons>a:hover {
+	display: block;
+}
+#main-toolbar .bottom-buttons>a {
+	margin-bottom: 16px;	
+}
+
+#toolbar-arduino-logo {
+	background: url('../img/arduino.png') center no-repeat;
+    cursor:pointer;
+    border: none;
+}
+
+#toolbar-arduino-logo:hover {
+	background: url('../img/arduino_over.png') center no-repeat;
+}
+
+
+#toolbar-sep2 {height: 30px; display: block; }
+
+#toolbar-verify-btn {
+	background: url('../img/verify.png') center no-repeat;
+    cursor:pointer;
+    border: none;
+}
+#toolbar-verify-btn:hover {
+	background: url('../img/verify_over.png') center no-repeat;
+}
+
+#toolbar-upload-btn {
+	background: url('../img/upload.png') center no-repeat;
+    cursor:pointer;
+    border: none;
+}
+#toolbar-upload-btn:hover {
+	background: url('../img/upload_over.png') center no-repeat;
+}
+
+#toolbar-sep2 {height: 60px; display: block; }
+
+#toolbar-new-btn {
+	background: url('../img/new.png') center no-repeat;
+    cursor:pointer;
+    border: none;
+}
+#toolbar-new-btn:hover {
+	background: url('../img/new_over.png') center no-repeat;
+}
+
+#toolbar-open-btn {
+	background: url('../img/open.png') center no-repeat;
+    cursor:pointer;
+    border: none;
+}
+#toolbar-open-btn:hover {
+	background: url('../img/open_over.png') center no-repeat;
+}
+
+#toolbar-save-btn {
+	background: url('../img/save.png') center no-repeat;
+    cursor:pointer;
+    border: none;
+}
+#toolbar-save-btn:hover {
+	background: url('../img/save_over.png') center no-repeat;
+}
+
+#toolbar-console-btn {
+	background: url('../img/console.png') center no-repeat;
+	cursor:pointer;
+	border: none;
+}
+#toolbar-console-btn:hover {
+	background: url('../img/console_over.png') center no-repeat;
+}
+
+#toolbar-serial-btn {
+	background: url('../img/serial.png') center no-repeat;
+    cursor:pointer;
+    border: none;
+}
+#toolbar-serial-btn:hover {
+	background: url('../img/serial_over.png') center no-repeat;
+}
+
+#toolbar-toggle-btn {
+	background: url('../img/apri.png') center no-repeat;
+}

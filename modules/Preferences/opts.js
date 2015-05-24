@@ -1,28 +1,23 @@
 /*
  * This file is part of Arduino
  *
- * Arduino is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * As a special exception, you may use this file as part of a free software
- * library without restriction.  Specifically, if other files instantiate
- * templates or use macros or inline functions from this file, or you compile
- * this file and link it with other files to produce an executable, this
- * file does not by itself cause the resulting executable to be covered by
- * the GNU General Public License.  This exception does not however
- * invalidate any other reasons why the executable file might be covered by
- * the GNU General Public License.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * Copyright 2015 Arduino Srl (http://www.arduino.org/)
  *
@@ -39,19 +34,20 @@ define(function (require, exports, module) {
         Dialogs             = brackets.getModule("widgets/Dialogs"),
         DefaultDialogs      = brackets.getModule("widgets/DefaultDialogs");
 
+    /*var optionBoardSelectMessage        = "No board selected...",
+        optionProgrammerSelectMessage   = "No programmer selected...",
+        optionPortSelectMessage         = "No port selected...",
+     */
+    var listBoardsDetectedHTML,          //= "<option disabled selected>" + optionBoardSelectMessage + "</option>",
+        listProgrammersDetectedHTML,     //= "<option disabled selected>" + optionProgrammerSelectMessage + "</option>",
+        listPortsDetectedHTML;           //= "<option disabled selected>" + optionPortSelectMessage + "</option>";
+
+
+    var portsDialog, boardsDialog, programmersDialog;
     var optionsDirName         = null,
         optionsDir             = null,
         optionsPrefix          = "[arduino ide - options]";
-
-    var optionBoardSelectMessage        = "No board selected...",
-        optionProgrammerSelectMessage   = "No programmer selected...",
-        optionPortSelectMessage         = "No port selected...",
-
-        listBoardsDetectedHTML          = "<option disabled selected>" + optionBoardSelectMessage + "</option>",
-        listProgrammersDetectedHTML     = "<option disabled selected>" + optionProgrammerSelectMessage + "</option>",
-        listPortsDetectedHTML           = "<option disabled selected>" + optionPortSelectMessage + "</option>";
-
-    var portsDialog, boardsDialog, programmersDialog;
+    var Strings;
 
     /**
      * This module read all files of the core
@@ -59,6 +55,7 @@ define(function (require, exports, module) {
      * @param {String} hardwareDirectoryPath absolute path to the harwdare/arduino directory
      */
     function Options (hardwareDirectoryPath) {
+        Strings = brackets.arduino.strings;
         brackets.arduino.options.archs  = {};
         optionsDirName = hardwareDirectoryPath;
 
@@ -100,6 +97,9 @@ define(function (require, exports, module) {
             });
         });
 
+        listBoardsDetectedHTML          = "<option disabled selected>" + Strings.ARDUINO.DIALOG.BOARD.OPT_DEFAULT + "</option>";
+        listProgrammersDetectedHTML     = "<option disabled selected>" + Strings.ARDUINO.DIALOG.PROGRAMMER.OPT_DEFAULT + "</option>";
+        listPortsDetectedHTML           = "<option disabled selected>" + Strings.ARDUINO.DIALOG.PORT.OPT_DEFAULT + "</option>";
 
         brackets.arduino.dispatcher.on("arduino-event-menu-tool-ports", portListEvent);
         brackets.arduino.dispatcher.on("arduino-event-menu-tool-boards", boardListEvent);
@@ -171,12 +171,12 @@ define(function (require, exports, module) {
         brackets.arduino.dispatcher.trigger("arduino-event-port-serial-get", function(err, result){
             if(!err){
                 //result contains the list port
-                listPortsDetectedHTML +='<option disabled> Serial ports</option>';
+                listPortsDetectedHTML +="<option disabled> "+Strings.ARDUINO.DIALOG.PORT.OPT_SERIAL+"</option>";
                 for(var index in result)
                     listPortsDetectedHTML += '<option value="' + result[index].address + '">' + result[index].label + '</option>';
 
                 //TODO create an HTML template for the modal
-                portsDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Port select", "<center>Select your port<select id='portSelector'>"+listPortsDetectedHTML+"</select></center><p id='btnHoldplace'></p>");
+                portsDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.PORT.TITLE, "<center>"+ Strings.ARDUINO.DIALOG.PORT.LBL_SELECT +"<select id='portSelector'>"+listPortsDetectedHTML+"</select></center><p id='btnHoldplace'></p>");
 
                 var prevSelection = brackets.arduino.options.target.port.address || brackets.arduino.preferences.get("arduino.ide.options.target.port");
 
@@ -200,7 +200,7 @@ define(function (require, exports, module) {
 
                 document.getElementById("btnHoldplace").appendChild(opt);
 */
-                listPortsDetectedHTML = "<option disabled selected>" + optionPortSelectMessage + "</option>";
+                listPortsDetectedHTML = "<option disabled selected>" + Strings.ARDUINO.DIALOG.PORT.OPT_DEFAULT + "</option>";
             }
             else{
                 //TODO error to the arduino console.
@@ -256,7 +256,7 @@ define(function (require, exports, module) {
         }
 
         //TODO create an HTML template for the modal
-        boardsDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Board select", "<center>Select your board<select id='boardSelector'>"+listBoardsDetectedHTML+"</select></center>");
+        boardsDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.BOARD.TITLE, "<center>"+ Strings.ARDUINO.DIALOG.BOARD.LBL_SELECT +"<select id='boardSelector'>"+listBoardsDetectedHTML+"</select></center>");
 
         var prevSelection = brackets.arduino.options.target.board.id || brackets.arduino.preferences.get("arduino.ide.options.target.board");
 
@@ -277,7 +277,7 @@ define(function (require, exports, module) {
 
 //                document.getElementById("btnHoldplace").appendChild(opt);
 
-        listBoardsDetectedHTML = "<option disabled selected>" + optionBoardSelectMessage + "</option>";
+        listBoardsDetectedHTML = "<option disabled selected>" + Strings.ARDUINO.DIALOG.BOARD.OPT_DEFAULT + "</option>";
 
     }
 
@@ -327,7 +327,7 @@ define(function (require, exports, module) {
         }
 
         //TODO create an HTML template for the modal
-        programmersDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Programmer select", "<center>Select your programmer<select id='programmerSelector'>"+listProgrammersDetectedHTML+"</select></center>");
+        programmersDialog = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.PROGRAMMER.TITLE, "<center>"+ Strings.ARDUINO.DIALOG.PROGRAMMER.LBL_SELECT +"<select id='programmerSelector'>"+listProgrammersDetectedHTML+"</select></center>");
 
         var prevSelection = brackets.arduino.options.target.programmer.protocol || brackets.arduino.preferences.get("arduino.ide.options.target.programmer");
 
@@ -348,7 +348,7 @@ define(function (require, exports, module) {
 
 //                document.getElementById("btnHoldplace").appendChild(opt);
 
-        listProgrammersDetectedHTML = "<option disabled selected>" + optionProgrammerSelectMessage + "</option>";
+        listProgrammersDetectedHTML = "<option disabled selected>" + Strings.ARDUINO.DIALOG.PROGRAMMER.OPT_DEFAULT + "</option>";
 
     }
 
@@ -380,6 +380,7 @@ define(function (require, exports, module) {
 
 
     Options.prototype.setTargetBoard = function(boardId){
+        setTimeout(function(){//TODO horrible!!! call this method with an async series mechanism
         var archs = brackets.arduino.options.archs;
         for(var archIdx in archs){ //loop trough the archs/platforms
             var boards = archs[archIdx].boards;
@@ -390,32 +391,37 @@ define(function (require, exports, module) {
                 }
             }
         }
+        }, 1500);
     };
 
     Options.prototype.setTargetPort = function(portId){
-        brackets.arduino.dispatcher.trigger("arduino-event-port-serial-get", function(err, result){
-            if(!err){
-                for(var index in result) {
-                    if (result[index].address == portId) {
-                        setPort(result[index]);
+        setTimeout(function() {//TODO horrible!!! call this method with an async series mechanism
+            brackets.arduino.dispatcher.trigger("arduino-event-port-serial-get", function (err, result) {
+                if (!err) {
+                    for (var index in result) {
+                        if (result[index].address == portId) {
+                            setPort(result[index]);
+                            return;
+                        }
+                    }
+                }
+            });
+        },1500);
+    };
+
+    Options.prototype.setTargetProgrammer = function(programmerId){
+        setTimeout(function() {//TODO horrible!!! call this method with an async series mechanism
+            var archs = brackets.arduino.options.archs;
+            for (var archIdx in archs) { //loop trough the archs/platforms
+                var programmers = archs[archIdx].programmers;
+                for (var progIdx in programmers) {
+                    if (programmers[progIdx].protocol == programmerId) {
+                        setProgrammer(programmers[progIdx]);
                         return;
                     }
                 }
             }
-        });
-    };
-
-    Options.prototype.setTargetProgrammer = function(programmerId){
-        var archs = brackets.arduino.options.archs;
-        for(var archIdx in archs){ //loop trough the archs/platforms
-            var programmers = archs[archIdx].programmers;
-            for(var progIdx in programmers){
-                if(programmers[progIdx].protocol == programmerId){
-                    setProgrammer( programmers[progIdx] );
-                    return;
-                }
-            }
-       }
+        },1500);
     };
 
     return Options;

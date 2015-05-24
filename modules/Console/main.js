@@ -1,28 +1,23 @@
 /*
  * This file is part of Arduino
  *
- * Arduino is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * As a special exception, you may use this file as part of a free software
- * library without restriction.  Specifically, if other files instantiate
- * templates or use macros or inline functions from this file, or you compile
- * this file and link it with other files to produce an executable, this
- * file does not by itself cause the resulting executable to be covered by
- * the GNU General Public License.  This exception does not however
- * invalidate any other reasons why the executable file might be covered by
- * the GNU General Public License.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * Copyright 2015 Arduino Srl (http://www.arduino.org/) support@arduino.org
  *
@@ -44,8 +39,10 @@ define(function(require, exports, module){
 
 	var panelHTML = require("text!./html/Console.html"),
 		panel,
-		bTag = $('<div style="font-weight: bold">Select board</div>'),
-		pTag = $('<div style="font-weight: bold">Select port</div>');
+		bTag = $('<div style="font-weight: bold"></div>'),
+		pTag = $('<div style="font-weight: bold"></div>');
+
+	var Strings;
 
 	bTag.click(function(){
 		brackets.arduino.dispatcher.trigger("arduino-event-menu-tool-boards","");
@@ -55,21 +52,24 @@ define(function(require, exports, module){
 		brackets.arduino.dispatcher.trigger("arduino-event-menu-tool-ports","");
 	});
 
-
-	var writeLog 	= 	function($event, data){
+		var writeLog 	= function($event, data){
 							if(data){
-								$('#logger').html($('#logger').html()+"["+new Date()+"] - <span style='color: black;'>"+data+"</span><br />");
+								var logtype = $event.type;
+							 	switch(logtype){
+							 		case 'arduino-event-console-log':
+							 				$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: black;'>"+data+"</span><br />");
+							 				break;
+							 		case 'arduino-event-console-error':
+							 				$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: red;'>"+data+"</span><br />");
+							 				break;
+							 		case 'arduino-event-console-success':
+							 				$('#logger').html($('#logger').html()+"["+new Date().toLocaleString()+"] - <span style='color: green;'>"+data+"</span><br />");
+							 				break;
+							 		default:
+							 				break;
+							 	}
+							 	$('#logger').scrollTop($('#logger')[0].scrollHeight);
 							}
-		},
-		writeError	=	function($event, data){
-							if(data){								
-								$('#logger').html($('#logger').html()+"["+new Date()+"] - <span style='color: red;'>"+data+"</span><br />");
-							}
-		},
-		writeSuccess	=	function($event, data){
-			if(data){
-				$('#logger').html($('#logger').html()+"["+new Date()+"] - <span style='color: green;'>"+data+"</span><br />");
-			}
 		},
 		clearLog	=	function($event){
 							$('#logger').empty();
@@ -82,17 +82,24 @@ define(function(require, exports, module){
 							if(data)
 								document.getElementById("pTag").innerText = data;
 		},
-		showHideConsole=function($event){
-			if(panel.isVisible()) panel.hide();
-			else panel.show();
+		showHideConsole = function($event){
+							if(panel.isVisible())
+								panel.hide();
+							else
+								panel.show();
 		};
 
 
 	function Console()
 	{
+		Strings = brackets.arduino.strings;
+
+		bTag.html(Strings.ARDUINO.STATUS_BAR.DEF_LBL_BOARD);
+		pTag.html(Strings.ARDUINO.STATUS_BAR.DEF_LBL_PORT);
+
 		brackets.arduino.dispatcher.on("arduino-event-console-log", writeLog);
-		brackets.arduino.dispatcher.on("arduino-event-console-error", writeError);
-		brackets.arduino.dispatcher.on("arduino-event-console-success", writeSuccess);
+		brackets.arduino.dispatcher.on("arduino-event-console-error", writeLog);
+		brackets.arduino.dispatcher.on("arduino-event-console-success", writeLog);
 
 		brackets.arduino.dispatcher.on("arduino-event-console-board", setBoard);
 		brackets.arduino.dispatcher.on("arduino-event-console-port", setPort);
@@ -109,8 +116,8 @@ define(function(require, exports, module){
         
         ExtensionUtils.loadStyleSheet(module, "css/Console.css");
 
-		StatusBar.addIndicator("pTag", pTag, true, "", "Selected Port");
-		StatusBar.addIndicator("bTag", bTag, true, "", "Selected Board");
+		StatusBar.addIndicator("pTag", pTag, true, "", "");
+		StatusBar.addIndicator("bTag", bTag, true, "", "");
 
 		panel = WorkspaceManager.createBottomPanel("console.panel", $(panelHTML));
 
@@ -118,4 +125,4 @@ define(function(require, exports, module){
 
 	return Console;
 
-})
+});

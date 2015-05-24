@@ -1,28 +1,23 @@
 /*
  * This file is part of Arduino
  *
- * Arduino is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * As a special exception, you may use this file as part of a free software
- * library without restriction.  Specifically, if other files instantiate
- * templates or use macros or inline functions from this file, or you compile
- * this file and link it with other files to produce an executable, this
- * file does not by itself cause the resulting executable to be covered by
- * the GNU General Public License.  This exception does not however
- * invalidate any other reasons why the executable file might be covered by
- * the GNU General Public License.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * Copyright 2015 Arduino Srl (http://www.arduino.org/)
  *
@@ -60,7 +55,8 @@ define(function (require, exports, module) {
 
 
 
-    var arduinoHints                = null;
+    var arduinoHints                = null,
+        arduinoToolbar              = null;
     //var Locale                     = require("modules/Localization/strings");
 
     brackets.arduino = {
@@ -92,6 +88,7 @@ define(function (require, exports, module) {
     brackets.arduino.options.librariesdir  = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/libraries");
     brackets.arduino.options.modulesdir    = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/modules");
     brackets.arduino.options.hardwaredir   = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/hardware");
+    brackets.arduino.options.examples      = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/examples");
 
     AppInit.appReady(function () {
 
@@ -100,7 +97,7 @@ define(function (require, exports, module) {
         brackets.arduino.domains[discoveryDomainName]       = new NodeDomain( discoveryDomainName, ExtensionUtils.getModulePath(module, "node/discover"));
         brackets.arduino.domains[filesystemDomainName]      = new NodeDomain( filesystemDomainName, ExtensionUtils.getModulePath(module, "node/filesystem"));
         brackets.arduino.domains[copypasteDomainName]       = new NodeDomain( copypasteDomainName, ExtensionUtils.getModulePath(module, "node/copypaste"));
-		brackets.arduino.domains[compilerDomainName] = new NodeDomain( compilerDomainName, ExtensionUtils.getModulePath(module, "node/compiler"));
+		brackets.arduino.domains[compilerDomainName]        = new NodeDomain( compilerDomainName, ExtensionUtils.getModulePath(module, "node/compiler"));
 
         //load modules
         var SerialMonitor   = require("modules/SerialMonitor/main");
@@ -115,6 +112,8 @@ define(function (require, exports, module) {
         var menu            = new Menu();
 		var compiler 		= new Compiler();
 
+        ExtensionUtils.loadStyleSheet(module, "main.css");
+
         opts.setTargetBoard( brackets.arduino.preferences.get("arduino.ide.options.target.board"));
         opts.setTargetPort( brackets.arduino.preferences.get("arduino.ide.options.target.port"));
         opts.setTargetProgrammer( brackets.arduino.preferences.get("arduino.ide.options.target.programmer"));
@@ -123,78 +122,22 @@ define(function (require, exports, module) {
 
         arduinoHints    = require("modules/Hints/main");
 
-
         if(brackets.arduino.preferences.get("arduino.ide.preferences.checkupdate")) {
             var chk = require("modules/Extra/checkupdate");
             chk.checkLatest(brackets.arduino.revision.version);
         }
 
         // Main-Toolbar Buttons
-        var arduinoLogo = "<a id='toolbar-arduino-logo' href='http://www.arduino.org' target='_blank' alt='Arduino.org'></a><span id='toolbar-sep1'></span>";
-
-        var arduinoButtons = arduinoLogo +  "<a id='toolbar-verify-btn' class='toolbar-btn' href='#' title='Verify'></a>" +
-                                            "<a id='toolbar-upload-btn' class='toolbar-btn' href='#' title='Upload'></a>" +
-                                                "<span id='toolbar-sep2'></span>" +
-                                            "<a id='toolbar-new-btn' class='toolbar-btn' href='#' title='New'></a>" +
-                                            "<a id='toolbar-open-btn' class='toolbar-btn' href='#' title='Open'></a>" +
-                                            "<a id='toolbar-save-btn' class='toolbar-btn' href='#' title='Save'></a>" +
-                                            "<a id='toolbar-console-btn' class='toolbar-btn' href='#' title='Console'></a>" +
-                                            "<a id='toolbar-serial-btn' class='toolbar-btn' href='#' title='Serial Monitor'></a>";
-                                            //"<a id='toolbar-files-btn' class='toolbar-btn' href='#' title='Files'></a>";
+        arduinoToolbar = require("modules/Toolbar/main");
+        arduinoToolbar.init(brackets.arduino.strings, brackets.arduino.dispatcher);
+        arduinoToolbar.load();
 
         $('.working-set-splitview-btn').remove();
 
-        $('.buttons').html(arduinoButtons);
-        $('.bottom-buttons').html("<a id='toolbar-toggle-btn' class='toolbar-btn' href='#' title='Open/Close Sidebar'></a>");
-        
-        $('.toolbar-btn').click(function(evt){
-            evt.preventDefault();
-            toolbarHandler(this.id);
+        //Console log - logmsg.click event
+        $('.logmsg').click(function(evt){
+            alert('ciao');
         });
-
-        ExtensionUtils.loadStyleSheet(module, "main.css");
-        
     });
 
-    function toolbarHandler(btnid){
-        switch(btnid) {
-            case 'toolbar-verify-btn':
-                    CommandManager.execute(Commands.FILE_SAVE);
-                    brackets.arduino.dispatcher.trigger("arduino-event-console-clear");
-                    brackets.arduino.dispatcher.trigger('arduino-event-build');
-                    break;
-            case 'toolbar-upload-btn':
-                    CommandManager.execute(Commands.FILE_SAVE);
-                    brackets.arduino.dispatcher.trigger("arduino-event-console-clear");
-                    brackets.arduino.dispatcher.trigger('arduino-event-upload');
-                    break;
-            case 'toolbar-new-btn':
-                    CommandManager.execute(Commands.FILE_NEW);
-                    break;
-            case 'toolbar-open-btn':
-                    CommandManager.execute(Commands.FILE_OPEN);
-                    break;
-            case 'toolbar-save-btn':
-                    CommandManager.execute(Commands.FILE_SAVE);
-                    break;
-            case 'toolbar-serial-btn':
-                    brackets.arduino.dispatcher.trigger('arduino-event-menu-tool-serialmonitor');
-                    break;
-            case 'toolbar-console-btn':
-                    brackets.arduino.dispatcher.trigger('arduino-event-console-show');
-                break;
-            case 'toolbar-toggle-btn':
-                    if($('#sidebar').is(':visible')){
-                        $('#sidebar').hide();
-                        $('.main-view .content').css('right', '0px');
-                    }
-                    else{
-                        $('.main-view .content').css('right', '200px');   
-                        $('#sidebar').show();
-                    }
-                    break;
-            default:
-                console.log(btnid+' clicked');
-            }
-    }
 });
