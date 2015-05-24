@@ -18,7 +18,7 @@
 
     var uploader        = require('./compiler/uploader');
     var platform        = require('./compiler/platform');
-    var LIBRARIES       = require('./compiler/libraries');
+    //var LIBRARIES       = require('./compiler/libraries');
 
     var domainName = "org-arduino-ide-domain-compiler";
 
@@ -99,47 +99,28 @@
     }
 
     function calculateLibs(list, paths, libs, debug, cb, plat) {
-        LIBRARIES.install(list,function() {
             //install libs if needed, and add to the include paths
             list.forEach(function(libname){
-                if(libname == 'Arduino') return; //already included, skip it
+                if(libname == 'Arduino') return;
                 debug('scanning lib',libname);
-                if(LIBRARIES.isUserLib(libname,plat)) {
+
+                //TODO user lib import
+                /*if(LIBRARIES.isUserLib(libname,plat)) {
                     console.log("it's a user lib");
                     var lib = LIBRARIES.getUserLib(libname,plat);
-                    lib.getIncludePaths(plat).forEach(function(path) {
-                        paths.push(path);
+                    lib.getIncludePaths(plat).forEach(function(ppath) {
+                        paths.push(ppath);
                     });
                     libs.push(lib);
                     return;
-                }
+                }*/
+                paths.push(plat.getStandardLibraryPath() + path.sep + libname + path.sep + "src");
 
-                var lib = LIBRARIES.getById(libname.toLowerCase());
-                if(!lib) {
-                    debug("ERROR. couldn't find library",libname);
-                    throw new Error("Missing Library! " + libname);
-                }
-                if(!lib.isInstalled()) {
-                    throw new Error("library should already be installed! " + libname);
-                }
-                debug("include path = ",lib.getIncludePaths(plat));
-                lib.getIncludePaths(plat).forEach(function(path) { paths.push(path); });
-                libs.push(lib);
-                if(lib.dependencies) {
-                    console.log("deps = ",lib.dependencies);
-                    lib.dependencies.map(function(libname) {
-                        return LIBRARIES.getById(libname);
-                    }).map(function(lib){
-                        console.log("looking at lib",lib);
-                        debug("include path = ",lib.getIncludePaths(plat));
-                        lib.getIncludePaths(plat).forEach(function(path) { paths.push(path); });
-                        libs.push(lib);
-                    })
-                }
+                //lib.getIncludePaths(plat).forEach(function(ppath) { paths.push(ppath); });
+                plat.getUserLibraryDir()+path.sep+libname;
+                libs.push({"campo1": "valore1", "campo2": "valore2"});
             });
-
             if(cb) cb();
-        });
     }
 
     function listdir(p_path) {
@@ -296,6 +277,7 @@
         var BUILD_DIR       = os.tmpdir(),   // Right ???
             userSketchesDir = BUILD_DIR;
 
+        var curlib;
 
         platform;
 
@@ -325,10 +307,10 @@
             console.log("message = " + message + args.join(" ")+'\n');
             if(message instanceof Error) {
                 errorHit = true;
-                publish({type:'error', message: args.join(" ") + message.output});
+                //publish({type:'error', message: args.join(" ") + message.output});
             } else {
                 //publish({type:"compile", message:args.join(" ")});
-                publish("debug  :" + args.join(" ") + "");
+               // publish("debug  :" + args.join(" ") + "");
             }
         }
 
@@ -349,10 +331,11 @@
         var cfile = outdir  + path.sep +  options.name + '.cpp';
         var cfiles = [];
         var includepaths = [];
+        var includedLibs = [];
         var libextra = [];
         var plat = options.platform;
 
-        //generate the CPP file and copy all files to the output directory
+        //1. generate the CPP file and copy all files to the output directory
         tasks.push(function(cb) {
             debug("generating",cfile);
 
@@ -375,10 +358,11 @@
             if(cb) cb();
         });
 
-        // scan for the included libs make sure they are all installed collect their include paths
+        //2. scan for the included libs make sure they are all installed collect their include paths
         tasks.push(function(cb) {
 
-            var includedLibs = detectLibs(fs.readFileSync(cfile).toString());
+            includedLibs = detectLibs(fs.readFileSync(cfile).toString());
+
             debug('========= scanned for included libs',includedLibs);
 
             //assemble library paths
@@ -390,20 +374,19 @@
                 librarypaths.push(options.platform.getStandardLibraryPath() + path.sep + lib);
             });
 
-            //includepaths.push(corePathsAVR);
             includepaths.push(options.platform.getCorePath(options));
 
-            //includepaths.push(variantPathsAVR);
             includepaths.push(options.platform.getVariantPath(options));
 
-            includepaths.push(sketchDir);
+//            includepaths.push(sketchDir);
 
             console.log("include path =",includepaths);
             console.log("includedlibs = ", includedLibs);
             calculateLibs(includedLibs,includepaths,libextra, debug, cb, plat);
+            //if(cb) cb();
         });
 
-        //actually compile code
+        //4. actually compile code
         tasks.push(function(cb) {
             console.log("moving on now");
             debug("include paths = ", JSON.stringify(includepaths,null, '   '));
@@ -411,16 +394,71 @@
             compileFiles(options,outdir,includepaths,cfiles,debug, cb);
         });
 
-        //compile the 3rd party libs
-        /* DA RIVEDERE GLI IMPORT DELLE LIBRERIE */
+
+        //3.compile the 3rd party libs
         tasks.push(function(cb) {
+            /*
+            debug("compiling libs");
+            async.map(libextra, function(lib,cb) {
+                debug('compiling library: ',lib.id);
+                var paths = lib.getIncludePaths(plat);
+                var cfiles = [],
+                    output_dir,
+                    curlib;
+
+                 paths.forEach(function(ppath) {
+                 wrench.readdirSyncRecursive(ppath)
+                 .filter(function(filename) {
+                 if(filename.startsWith('examples' + path.sep )) return false;
+                 if(filename.toLowerCase().endsWith('.c')) return true;
+                 if(filename.toLowerCase().endsWith('.cpp')) return true;
+                 return false;
+                 })
+                 .forEach(function(filename) {
+                 cfiles.push(ppath + path.sep + filename);
+                 })
+                 ;
+                 });
+
+                /*
+                var includedLibs = detectLibs(fs.readFileSync(cfile).toString());
+                debug('========= scanned for included libs',includedLibs);
+                var libsList = [],
+                    base ;
+                includedLibs.forEach(
+                    function(item, index, array)
+                    {
+                        curlib = item;
+                        if(item != 'Arduino') {
+                            base = options.platform.getStandardLibraryPath() + path.sep + item;
+                            libsList = wrench.readdirSyncRecursive(base);
+
+                            if (libsList)
+                                libsList.forEach(function (item2, index2, array2) {
+                                    if (item2.toLowerCase().endsWith('.c') || item2.toLowerCase().endsWith('.cpp'))
+                                        cfiles.push(base + path.sep + item2);
+                                    output_dir = outdir + path.sep + curlib + path.sep + item2;
+                                    console.log("check " + item2);
+                                })
+                            //compileFiles(options, output_dir, includepaths,cfiles,debug,cb);
+                        }
+                    })
+
+                debug('cfiles',cfiles);
+                var outdir2 = outdir+path.sep+curlib;    //da libraries in poi ??? invece di curlib
+                */
+                /*compileFiles(options, outdir , includepaths, cfiles, debug, cb);
+            },cb);
+            */
+//------------------------------------------------------------
+            /*
             debug("compiling 3rd party libs");
             async.map(libextra, function(lib,cb) {
                 debug('compiling library: ',lib.id);
                 var paths = lib.getIncludePaths(plat);
                 var cfiles = [];
-                paths.forEach(function(path) {
-                    wrench.readdirSyncRecursive(path)
+                paths.forEach(function(ppath) {
+                    wrench.readdirSyncRecursive(ppath)
                         .filter(function(filename) {
                             if(filename.startsWith('examples' + path.sep )) return false;
                             if(filename.toLowerCase().endsWith('.c')) return true;
@@ -428,16 +466,54 @@
                             return false;
                         })
                         .forEach(function(filename) {
-                            cfiles.push(path + path.sep + filename);
+                            var item = ppath + path.sep + filename;
+                            if(item.indexOf(path.sep + options.device.arch +path.sep) > -1 )
+                                cfiles.push(item);
                         })
                     ;
                 });
                 debug('cfiles',cfiles);
                 compileFiles(options, outdir, includepaths, cfiles, debug,cb);
             },cb);
+            */
+//------------------------------------------------------------
+
+            var output_dir;
+            var includedLibs = detectLibs(fs.readFileSync(cfile).toString());
+            debug('========= scanned for included libs',includedLibs);
+            var libsList = [],
+                base,
+                cfiles = [];
+            includedLibs.forEach(
+                function(item, index, array)
+                {
+                    curlib = item;
+                    if(item != 'Arduino') {
+                        base = options.platform.getStandardLibraryPath() + path.sep + item;
+                        libsList = wrench.readdirSyncRecursive(base);
+
+                        if (libsList)
+                            libsList.forEach(function (item2, index2, array2) {
+                                if (item2.toLowerCase().endsWith('.c') || item2.toLowerCase().endsWith('.cpp'))
+                                {
+                                    var itm = base + path.sep + item2
+                                    if(itm.indexOf(path.sep + options.device.arch +path.sep) > -1 )
+                                        cfiles.push(itm);
+                                }
+                                    //cfiles.push(base + path.sep + item2);
+                                output_dir = outdir + path.sep + curlib + path.sep + item2;
+                                console.log("check " + item2);
+                            })
+                        compileFiles(options, outdir, includepaths,cfiles,debug,cb);
+                    }
+                })
+
+            debug('cfiles',cfiles);
+            var outdir2 = outdir+path.sep+curlib;    //da libraries in poi ??? invece di curlib
         });
 
-        //compile core
+
+        //5. compile core
         tasks.push(function(cb) {
             debug("compiling core files");
             var cfiles = listdir(options.platform.getCorePath(options));
@@ -457,12 +533,16 @@
             }, cb);
         });
 
-        //build the elf file
+        //6. build the elf file
         tasks.push(function(cb) {
             debug("building elf file");
-            var libofiles = [];
-            libextra.forEach(function(lib) {
-                var paths = lib.getIncludePaths(plat);
+            var libofiles = [],
+                libofiles2 = [];
+            var includedLibs = detectLibs(fs.readFileSync(cfile).toString());
+            //libextra.forEach(function(lib) {
+            /*includedLibs.forEach(function(lib) {
+                //var paths = lib.getIncludePaths(plat);
+                var paths =   options.platform.getUserLibraryDir()+'/'+lib;
                 paths.forEach(function(path) {
                     listdir(path).filter(function(file) {
                         if(file.endsWith('.cpp')) return true;
@@ -471,24 +551,37 @@
                         libofiles.push(outdir + path.sep + filename.substring(filename.lastIndexOf( path.sep )+1) + '.o');
                     });
                 });
+            });*/
+
+            //linkElfFile(options,libofiles,outdir,cb, debug);
+            /*for (var item in includedLibs){
+                if(includedLibs[item] == "Arduino")
+                    includedLibs.splice(item,1)
+                else
+                    includedLibs[item] = outdir + path.sep + includedLibs[item] + ".cpp.o";
+            };*/
+
+            includedLibs.forEach(function(itm){
+                if(itm != "Arduino")
+                    libofiles2.push(outdir + path.sep + itm + ".cpp.o");
             });
 
-            linkElfFile(options,libofiles,outdir,cb, debug);
+            linkElfFile(options,libofiles2,outdir,cb, debug);
         });
 
-        // 5. extract EEPROM data (from EEMEM directive) to .eep file.
+        // 7. extract EEPROM data (from EEMEM directive) to .eep file.
         tasks.push(function(cb) {
             debug("extracting EEPROM data");
             extractEEPROMData(options,outdir,cb,debug);
         });
 
-        // 6. build the .hex file
+        // 8. build the .hex file
         tasks.push(function(cb) {
             debug("building .HEX file");
             buildHexFile(options,outdir,cb, debug);
         });
 
-        // 7. on board !!!
+        // 9. on board !!!
         if(up)
             tasks.push(function(cb){
                     debug("uploading sketch on board");
@@ -516,7 +609,7 @@
             var fname = file.substring(file.lastIndexOf( path.sep )+1);
             if(fname.startsWith('.')) return cb(null, null);
             if(file.toLowerCase().endsWith('examples')) return cb(null,null);
-            if(file.toLowerCase().endsWith( + path.sep + 'avr-libc')) return cb(null,null);
+            if(file.toLowerCase().endsWith( path.sep + 'avr-libc')) return cb(null,null);
             if(file.toLowerCase().endsWith('.c')) {
                 compileC(options,outdir, includepaths, file,debug, cb);
                 return;
@@ -547,7 +640,9 @@
             "-mmcu="+options.device.build.mcu,
             "-DF_CPU="+options.device.build.f_cpu,
             "-MMD",
-            "-DARDUINO=158"
+            "-DARDUINO=158",
+            "-DARDUINO_"+options.device.build.board,                //"-DARDUINO_AVR_UNO",
+            "-DARDUINO_ARCH_"+options.device.arch.toUpperCase()     //"-DARDUINO_ARCH_AVR"
         ];
 
         if(options.verbosebuild)
@@ -586,7 +681,9 @@
             '-mmcu='+options.device.build.mcu,
             '-DF_CPU='+options.device.build.f_cpu,
             '-MMD',//output dependency info
-            '-DARDUINO=158'
+            '-DARDUINO=158',
+            "-DARDUINO_"+options.device.build.board,                //"-DARDUINO_AVR_UNO",
+            "-DARDUINO_ARCH_"+options.device.arch.toUpperCase()      //"-DARDUINO_ARCH_AVR"
             ];
 
         if(options.verbosebuild)

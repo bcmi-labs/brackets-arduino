@@ -4,6 +4,7 @@ var http = require('http');
 var https = require('https');
 var AdmZip = require('adm-zip');
 var platform = require('./platform');
+var path_module = require('path');
 
 
 
@@ -12,7 +13,7 @@ var libs = null;
 var plat = platform.getDefaultPlatform();
 
 
-function isInstalled() {
+function isInstalled_NO() {
     console.log('checking if',this.id,'is installed');
     if(this.source == 'ide') {
         console.log("  it's IDE. already installed");
@@ -30,13 +31,13 @@ function isInstalled() {
 
 function scanSubdirs(path) {
     var paths = [];
-    paths.push(path);
+//    paths.push(path);
     fs.readdirSync(path).forEach(function(filename) {
         if(fs.statSync(path+'/'+filename).isDirectory()) {
             //console.log('looking at path', path+'/'+filename);
             if(filename != 'examples') {
                 console.log("found a subdir of files. use it",filename);
-                paths.push(path+'/'+filename);
+                paths.push(path+path_module.sep+filename);
             }
         }
     });
@@ -48,16 +49,16 @@ function getIncludePaths(platform) {
     console.log("invoked for ",this.id);
 
     if(this.source == 'ide') {
-        var path = platform.getStandardLibraryPath()+'/'+this.location;
+        var path = platform.getStandardLibraryPath()+path_module.sep+this.location;
         return scanSubdirs(path);
     }
     if(this.path) {
-        return scanSubdirs(plat.getReposPath()+'/'+this.id+'/'+this.path);
+        return scanSubdirs(plat.getReposPath()+path_module.sep+this.id+path_module.sep+this.path);
     }
-    return scanSubdirs(plat.getReposPath()+'/'+this.id);
+    return scanSubdirs(plat.getReposPath()+path_module.sep+this.id);
 }
 
-function install(cb) {
+function install_NO(cb) {
     if(!fs.existsSync(plat.getReposPath())) {
         fs.mkdirSync(plat.getReposPath());
     }
@@ -123,21 +124,21 @@ function install(cb) {
 
 }
 
-function init() {
+function init_NO() {
     if(libs == null) {
         libs = [];
         fs.readdirSync(platform.getSettings().datapath).forEach(function(file){
             var str = fs.readFileSync(platform.getSettings().datapath+'/'+file).toString();
             var lib = JSON.parse(str);
-            lib.isInstalled = isInstalled;
-            lib.install = install;
+            //lib.isInstalled = isInstalled;
+            //lib.install = install;
             lib.getIncludePaths = getIncludePaths;
             libs.push(lib);
         });
     }
 }
 
-init();
+//init();
 
 function collectdeps(lib,deps) {
     if(lib.dependencies) {
@@ -153,6 +154,7 @@ function collectdeps(lib,deps) {
     }
 }
 
+/*
 exports.install = function(targets, cb) {
     console.log("installing libraries: ", targets);
     var toinstall = targets
@@ -188,7 +190,9 @@ exports.install = function(targets, cb) {
     installit(toinstall);
     //cb(null);
 }
+*/
 
+/*
 exports.search = function(str,cb) {
     str = str.toLowerCase();
     var results = [];
@@ -206,6 +210,7 @@ exports.search = function(str,cb) {
     });
     cb(results);
 }
+*/
 
 exports.getById = function(id) {
     for(var i=0; i<libs.length; i++) {
@@ -230,9 +235,8 @@ exports.isUserLib = function(libname, plat) {
 
 exports.getUserLib = function(libname, plat) {
     return {
-        isInstalled : function() { return true; },
         getIncludePaths: function(plat) {
             return [plat.getUserLibraryDir()+'/'+libname];
-        },
+        }
     }
 }
