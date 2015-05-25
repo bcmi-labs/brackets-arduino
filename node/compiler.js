@@ -18,7 +18,7 @@
 
     var uploader        = require('./compiler/uploader');
     var platform        = require('./compiler/platform');
-    //var LIBRARIES       = require('./compiler/libraries');
+
 
     var domainName = "org-arduino-ide-domain-compiler";
 
@@ -105,18 +105,8 @@
                 debug('scanning lib',libname);
 
                 //TODO user lib import
-                /*if(LIBRARIES.isUserLib(libname,plat)) {
-                    console.log("it's a user lib");
-                    var lib = LIBRARIES.getUserLib(libname,plat);
-                    lib.getIncludePaths(plat).forEach(function(ppath) {
-                        paths.push(ppath);
-                    });
-                    libs.push(lib);
-                    return;
-                }*/
                 paths.push(plat.getStandardLibraryPath() + path.sep + libname + path.sep + "src");
 
-                //lib.getIncludePaths(plat).forEach(function(ppath) { paths.push(ppath); });
                 plat.getUserLibraryDir()+path.sep+libname;
                 libs.push({"campo1": "valore1", "campo2": "valore2"});
             });
@@ -237,7 +227,6 @@
         var item = list.shift();
         try {
             item(function(err) {
-                console.log("--------------------");
                 if(err) {
                     dm.emitEvent (domainName, "console-error", err);
                     return cb(err);
@@ -266,6 +255,7 @@
     }
 
     function finalEvent(){
+        //TODO convert in event
         console.log("---> final cb <---");
     }
 
@@ -274,15 +264,12 @@
     function compile(options, sketchDir, up) {
         console.log("I'm Compiler and I'm wearing my sunglasses");
         dm.emitEvent (domainName, "console-log", "Start Building");
-        var BUILD_DIR       = os.tmpdir(),   // Right ???
+        var BUILD_DIR       = os.tmpdir(),
             userSketchesDir = BUILD_DIR;
 
         var curlib;
 
         platform;
-
-        //TEMPORANEAMENTE DISATTIVATO
-        //t_options.device.upload.protocol = prg;
 
         var outdir = BUILD_DIR  + path.sep +  'build' + new Date().getTime();
 
@@ -291,12 +278,6 @@
         var sketchPath = sketchDir;
         var finalcb = finalEvent;
         var publish = publishEvent;
-
-        /*console.log("compiling to");
-        console.log("sketchpath ", sketchPath);
-        console.log("outdir = ", outdir);
-        console.log("options = ", options);
-        console.log("sketchdir = ", sketchDir);*/
 
         var errorHit = false;
 
@@ -314,13 +295,12 @@
             }
         }
 
-//Temp        checkfile(options.platform.getCompilerBinaryPath());
+        checkfile(options.platform.getCompilerBinaryPath());
         debug("compiling ",sketchPath,"to dir",outdir);
         debug("root sketch dir = ",sketchDir);
 
         wrench.rmdirSyncRecursive(outdir, true);
         wrench.mkdirSyncRecursive(outdir);
-//    wrench.mkdirSyncRecursive(sketchPath);
 
         debug("assembling the sketch in the directory\n",outdir);
         checkfile(outdir);
@@ -367,7 +347,6 @@
 
             //assemble library paths
             var librarypaths = [];
-            //global libs
 
             debug("standard arduino libs = ",options.platform.getStandardLibraryPath());
             fs.readdirSync(options.platform.getStandardLibraryPath()).forEach(function(lib) {
@@ -378,15 +357,12 @@
 
             includepaths.push(options.platform.getVariantPath(options));
 
-//            includepaths.push(sketchDir);
-
             console.log("include path =",includepaths);
             console.log("includedlibs = ", includedLibs);
             calculateLibs(includedLibs,includepaths,libextra, debug, cb, plat);
-            //if(cb) cb();
         });
 
-        //4. actually compile code
+        //3. actually compile code
         tasks.push(function(cb) {
             console.log("moving on now");
             debug("include paths = ", JSON.stringify(includepaths,null, '   '));
@@ -395,89 +371,8 @@
         });
 
 
-        //3.compile the 3rd party libs
+        //4.compile the 3rd party libs
         tasks.push(function(cb) {
-            /*
-            debug("compiling libs");
-            async.map(libextra, function(lib,cb) {
-                debug('compiling library: ',lib.id);
-                var paths = lib.getIncludePaths(plat);
-                var cfiles = [],
-                    output_dir,
-                    curlib;
-
-                 paths.forEach(function(ppath) {
-                 wrench.readdirSyncRecursive(ppath)
-                 .filter(function(filename) {
-                 if(filename.startsWith('examples' + path.sep )) return false;
-                 if(filename.toLowerCase().endsWith('.c')) return true;
-                 if(filename.toLowerCase().endsWith('.cpp')) return true;
-                 return false;
-                 })
-                 .forEach(function(filename) {
-                 cfiles.push(ppath + path.sep + filename);
-                 })
-                 ;
-                 });
-
-                /*
-                var includedLibs = detectLibs(fs.readFileSync(cfile).toString());
-                debug('========= scanned for included libs',includedLibs);
-                var libsList = [],
-                    base ;
-                includedLibs.forEach(
-                    function(item, index, array)
-                    {
-                        curlib = item;
-                        if(item != 'Arduino') {
-                            base = options.platform.getStandardLibraryPath() + path.sep + item;
-                            libsList = wrench.readdirSyncRecursive(base);
-
-                            if (libsList)
-                                libsList.forEach(function (item2, index2, array2) {
-                                    if (item2.toLowerCase().endsWith('.c') || item2.toLowerCase().endsWith('.cpp'))
-                                        cfiles.push(base + path.sep + item2);
-                                    output_dir = outdir + path.sep + curlib + path.sep + item2;
-                                    console.log("check " + item2);
-                                })
-                            //compileFiles(options, output_dir, includepaths,cfiles,debug,cb);
-                        }
-                    })
-
-                debug('cfiles',cfiles);
-                var outdir2 = outdir+path.sep+curlib;    //da libraries in poi ??? invece di curlib
-                */
-                /*compileFiles(options, outdir , includepaths, cfiles, debug, cb);
-            },cb);
-            */
-//------------------------------------------------------------
-            /*
-            debug("compiling 3rd party libs");
-            async.map(libextra, function(lib,cb) {
-                debug('compiling library: ',lib.id);
-                var paths = lib.getIncludePaths(plat);
-                var cfiles = [];
-                paths.forEach(function(ppath) {
-                    wrench.readdirSyncRecursive(ppath)
-                        .filter(function(filename) {
-                            if(filename.startsWith('examples' + path.sep )) return false;
-                            if(filename.toLowerCase().endsWith('.c')) return true;
-                            if(filename.toLowerCase().endsWith('.cpp')) return true;
-                            return false;
-                        })
-                        .forEach(function(filename) {
-                            var item = ppath + path.sep + filename;
-                            if(item.indexOf(path.sep + options.device.arch +path.sep) > -1 )
-                                cfiles.push(item);
-                        })
-                    ;
-                });
-                debug('cfiles',cfiles);
-                compileFiles(options, outdir, includepaths, cfiles, debug,cb);
-            },cb);
-            */
-//------------------------------------------------------------
-
             var output_dir;
             var includedLibs = detectLibs(fs.readFileSync(cfile).toString());
             debug('========= scanned for included libs',includedLibs);
@@ -500,16 +395,13 @@
                                     if(itm.indexOf(path.sep + options.device.arch +path.sep) > -1 )
                                         cfiles.push(itm);
                                 }
-                                    //cfiles.push(base + path.sep + item2);
                                 output_dir = outdir + path.sep + curlib + path.sep + item2;
-                                console.log("check " + item2);
                             })
                         compileFiles(options, outdir, includepaths,cfiles,debug,cb);
                     }
                 })
 
             debug('cfiles',cfiles);
-            var outdir2 = outdir+path.sep+curlib;    //da libraries in poi ??? invece di curlib
         });
 
 
@@ -520,7 +412,7 @@
             compileFiles(options,outdir,includepaths,cfiles,debug,cb);
         });
 
-        //link everything into core.a
+        //6.link everything into core.a
         tasks.push(function(cb) {
             var dfiles = listdir(outdir)
                 .filter(function(file){
@@ -533,33 +425,12 @@
             }, cb);
         });
 
-        //6. build the elf file
+        //7. build the elf file
         tasks.push(function(cb) {
             debug("building elf file");
             var libofiles = [],
                 libofiles2 = [];
             var includedLibs = detectLibs(fs.readFileSync(cfile).toString());
-            //libextra.forEach(function(lib) {
-            /*includedLibs.forEach(function(lib) {
-                //var paths = lib.getIncludePaths(plat);
-                var paths =   options.platform.getUserLibraryDir()+'/'+lib;
-                paths.forEach(function(path) {
-                    listdir(path).filter(function(file) {
-                        if(file.endsWith('.cpp')) return true;
-                        return false;
-                    }).map(function(filename) {
-                        libofiles.push(outdir + path.sep + filename.substring(filename.lastIndexOf( path.sep )+1) + '.o');
-                    });
-                });
-            });*/
-
-            //linkElfFile(options,libofiles,outdir,cb, debug);
-            /*for (var item in includedLibs){
-                if(includedLibs[item] == "Arduino")
-                    includedLibs.splice(item,1)
-                else
-                    includedLibs[item] = outdir + path.sep + includedLibs[item] + ".cpp.o";
-            };*/
 
             includedLibs.forEach(function(itm){
                 if(itm != "Arduino")
@@ -569,19 +440,19 @@
             linkElfFile(options,libofiles2,outdir,cb, debug);
         });
 
-        // 7. extract EEPROM data (from EEMEM directive) to .eep file.
+        // 8. extract EEPROM data (from EEMEM directive) to .eep file.
         tasks.push(function(cb) {
             debug("extracting EEPROM data");
             extractEEPROMData(options,outdir,cb,debug);
         });
 
-        // 8. build the .hex file
+        // 9. build the .hex file
         tasks.push(function(cb) {
             debug("building .HEX file");
             buildHexFile(options,outdir,cb, debug);
         });
 
-        // 9. on board !!!
+        // 10. on board !!!
         if(up)
             tasks.push(function(cb){
                     debug("uploading sketch on board");
@@ -618,10 +489,8 @@
                 compileCPP(options,outdir, includepaths, file,debug, cb);
                 return;
             }
-            //debug("still need to compile",file);
             cb(null,null);
         }
-
         async.mapSeries(cfiles, comp, cb);
     }
 
@@ -632,7 +501,6 @@
             "-c",
             "-g",
             "-Os",
-            //"-w",
             "-fno-exceptions",
             "-ffunction-sections",
             "-fdata-sections",
@@ -641,8 +509,8 @@
             "-DF_CPU="+options.device.build.f_cpu,
             "-MMD",
             "-DARDUINO=158",
-            "-DARDUINO_"+options.device.build.board,                //"-DARDUINO_AVR_UNO",
-            "-DARDUINO_ARCH_"+options.device.arch.toUpperCase()     //"-DARDUINO_ARCH_AVR"
+            "-DARDUINO_"+options.device.build.board,
+            "-DARDUINO_ARCH_"+options.device.arch.toUpperCase()
         ];
 
         if(options.verbosebuild)
@@ -675,19 +543,18 @@
             "-c", //compile, don't link
             '-g', //include debug info and line numbers
             '-Os', //optimize for size
-            //'-w', //'-Wall', //turn on verbose warnings
             '-ffunction-sections',// put each function in it's own section
             '-fdata-sections',
             '-mmcu='+options.device.build.mcu,
             '-DF_CPU='+options.device.build.f_cpu,
             '-MMD',//output dependency info
             '-DARDUINO=158',
-            "-DARDUINO_"+options.device.build.board,                //"-DARDUINO_AVR_UNO",
-            "-DARDUINO_ARCH_"+options.device.arch.toUpperCase()      //"-DARDUINO_ARCH_AVR"
+            "-DARDUINO_"+options.device.build.board,
+            "-DARDUINO_ARCH_"+options.device.arch.toUpperCase()
             ];
 
         if(options.verbosebuild)
-            cmd.push('-w');
+            cmd.push('-w'); //'-Wall', //turn on verbose warnings
 
         if(options.device.build.vid)
             cmd.push('-DUSB_VID='+options.device.build.vid)
@@ -730,7 +597,7 @@
             }]
         );
 
-//---------------------------- EVENTI ----------------------------
+
 
         domainManager.registerEvent(
             domainName,
@@ -740,7 +607,7 @@
                 description:"building outputs"
             }]
         );
-//TODO gestione errori
+
         domainManager.registerEvent(
             domainName,
             "console-error",

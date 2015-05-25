@@ -1,3 +1,11 @@
+/**
+ *  BASED ON
+ *  https://github.com/joshmarinacci/ElectronIDE
+ *  BY Josh Marinacci
+ *
+ *  MODIFIED BY Arduino.org Team
+ */
+
 var fs = require('fs');
 var platform = require('./platform.js');
 
