@@ -1,3 +1,11 @@
+/**
+ *  BASED ON
+ *  https://github.com/joshmarinacci/ElectronIDE
+ *  BY Josh Marinacci
+ *
+ *  MODIFIED BY Arduino.org Team
+ */
+
 var SerialPort = require('serialport').SerialPort,
 	child_process = require('child_process')
 	sp = null;

@@ -113,7 +113,7 @@ define(function (require, exports, module) {
         //Menus.removeMenu(Menus.AppMenuBar.FIND_MENU);
         Menus.removeMenu(Menus.AppMenuBar.NAVIGATE_MENU);
         Menus.removeMenu(Menus.AppMenuBar.VIEW_MENU);
-        Menus.removeMenu("debug-menu");
+ //       Menus.removeMenu("debug-menu");
 
         createToolMenu();
         createSketchMenu();

@@ -97,7 +97,7 @@ define(function (require, exports, module) {
 
     function onBuildIconClick()
     {
-        var sketch_dir = DocumentManager.getCurrentDocument().file._parentPath;
+        var sketch_dir = DocumentManager.getCurrentDocument().file._parentPath.slice(0,DocumentManager.getCurrentDocument().file._parentPath.length-1);
         options.name = DocumentManager.getCurrentDocument().file._name.split(".")[0];
         options.device = brackets.arduino.options.target.board;
         //TEMPORARY DISABLED
@@ -114,7 +114,7 @@ define(function (require, exports, module) {
 
     function onUploadIconClick()
     {
-        var sketch_dir = DocumentManager.getCurrentDocument().file._parentPath;
+        var sketch_dir = DocumentManager.getCurrentDocument().file._parentPath.slice(0,DocumentManager.getCurrentDocument().file._parentPath.length-1);
         options.name = DocumentManager.getCurrentDocument().file._name.split(".")[0];
         options.device = brackets.arduino.options.target.board;
 
