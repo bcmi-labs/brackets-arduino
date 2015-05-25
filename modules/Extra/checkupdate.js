@@ -47,7 +47,7 @@ define(function (require, exports, module) {
                         //if(showIfLatest)
                         //TODO SHOW UP TO DATE MESSAGE
             },
-            error: function(err){alert(JSON.stringify(err));},
+            error: function(err){/*alert(JSON.stringify(err));*/},
             dataType: "json"
         });
     }
