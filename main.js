@@ -51,7 +51,8 @@ define(function (require, exports, module) {
         discoveryDomainName         = "org-arduino-ide-domain-discovery",
         filesystemDomainName        = "org-arduino-ide-domain-filesystem",
         copypasteDomainName         = "org-arduino-ide-domain-copypaste",
-		compilerDomainName          = "org-arduino-ide-domain-compiler";
+		compilerDomainName          = "org-arduino-ide-domain-compiler",
+        osDomainName                = "org-arduino-ide-domain-os";
 
 
 
@@ -83,13 +84,6 @@ define(function (require, exports, module) {
 
     brackets.arduino.preferences  = new Preferences( FileUtils.getNativeModuleDirectoryPath(module) + "/shared/preferences.json" );
 
-    //TODO complete with others platform path: core, user lib, sketchbook...
-    brackets.arduino.options.rootdir       = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module));
-    brackets.arduino.options.librariesdir  = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/libraries");
-    brackets.arduino.options.modulesdir    = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/modules");
-    brackets.arduino.options.hardwaredir   = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/hardware");
-    brackets.arduino.options.examples      = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/examples");
-
     AppInit.appReady(function () {
 
         //load domains
@@ -98,6 +92,34 @@ define(function (require, exports, module) {
         brackets.arduino.domains[filesystemDomainName]      = new NodeDomain( filesystemDomainName, ExtensionUtils.getModulePath(module, "node/filesystem"));
         brackets.arduino.domains[copypasteDomainName]       = new NodeDomain( copypasteDomainName, ExtensionUtils.getModulePath(module, "node/copypaste"));
 		brackets.arduino.domains[compilerDomainName]        = new NodeDomain( compilerDomainName, ExtensionUtils.getModulePath(module, "node/compiler"));
+        brackets.arduino.domains[osDomainName]              = new NodeDomain( osDomainName, ExtensionUtils.getModulePath(module, "node/os"));
+
+        //TODO complete with others platform path: core, user lib, sketchbook...
+        brackets.arduino.options.rootdir            = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module));
+        brackets.arduino.options.librariesdir       = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/libraries");
+        brackets.arduino.options.modulesdir         = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/modules");
+        brackets.arduino.options.hardwaredir        = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/hardware");
+        brackets.arduino.options.examples           = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/examples");
+        //brackets.arduino.options.sketcbook          = FileSystem.getDirectoryForPath( brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook") ||  getDefaultSketchBook() );//brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook") == "" ? getDefaultSketchBook() : brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook");
+        //brackets.arduino.options.userlibrariesdir   = FileSystem.getDirectoryForPath( brackets.arduino.options.sketcbook.fullPath + "/libraries");
+
+        brackets.arduino.domains[osDomainName].exec("getUserArduinoHome", brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook") ) //retrieve sketchbook
+            .done(function(userHomeDir){
+                brackets.arduino.options.sketcbook = FileSystem.getDirectoryForPath( userHomeDir );
+                brackets.arduino.preferences.set("arduino.ide.preferences.sketchbook", userHomeDir );
+            }).fail(function(err){
+                console.error(err);
+            });
+        brackets.arduino.domains[osDomainName].exec("getUserLibrariesArduinoHome", brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook") ) //retrieve user libraries
+            .done(function(userLibHomeDir){
+                brackets.arduino.options.userlibrariesdir = FileSystem.getDirectoryForPath( userLibHomeDir );
+            }).fail(function(err){
+                console.error(err);
+            });
+
+
+
+
 
         //load modules
         var SerialMonitor   = require("modules/SerialMonitor/main");
@@ -134,10 +156,6 @@ define(function (require, exports, module) {
 
         $('.working-set-splitview-btn').remove();
 
-        //Console log - logmsg.click event
-        $('.logmsg').click(function(evt){
-            alert('ciao');
-        });
     });
 
 });

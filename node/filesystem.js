@@ -91,11 +91,11 @@
 		console.log("LibZip added");
 	}
 
-	function getPlatLibs()
+	/*function getPlatLibs()
 	{
 		console.log("GET PLATFORM INTERFACE");
 		dManager.emitEvent (domainName, "platform_data", [platform.getUserLibraryDir(), platform.getStandardLibraryPath()]);
-	}
+	}*/
 
 	function init(domainManager){
 		if(!domainManager.hasDomain("fsInterface")){
@@ -148,13 +148,13 @@
 			"Import lib (zip) into project"
 		);
 
-		domainManager.registerCommand(
+		/*domainManager.registerCommand(
 			domainName,
 			"getPlatform",
 			getPlatLibs,
 			false,
 			"Get platform"
-		);
+		);*/
 
 		domainManager.registerEvent(
 			domainName,
