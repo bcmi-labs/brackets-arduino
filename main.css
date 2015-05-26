@@ -30,8 +30,16 @@
  *
  */
 
+@font-face {
+        font-family: 'TypoNineSansProRegular';
+        src: url('./fonts/TypoNineSansProRegular.ttf');
+}
 
-body, .main-view { font-family: Verdana !important; }
+#sidebar > * { font-family: TypoNineSansProRegular !important; }
+
+#main-toolbar .buttons>a:hover, #main-toolbar .bottom-buttons>a:hover {
+    background-color: rgba(0,0,0,0) !important;
+}
 
 .escbtn {
     float: right;

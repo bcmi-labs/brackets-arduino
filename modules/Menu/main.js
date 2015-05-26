@@ -125,6 +125,7 @@ define(function (require, exports, module) {
         filesystemDomain.on("platform_data", getPlatformAction);
 
         ExtensionUtils.loadStyleSheet(module, "css/Menu.css");
+        ExtensionUtils.loadStyleSheet(module, "css/aboutDialog.css");
 
     };
 
