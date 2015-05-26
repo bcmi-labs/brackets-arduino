@@ -1,4 +1,81 @@
 #aboutDiv {
-    font: 60%;
-    color: #87c0c1 !important;
+    text-align: center;
+}
+
+#version_ref {
+	font-size: 14px;
+	color: #17a0a4;
+	font-weight: bold;
+}
+
+#version_logo {
+	display: inline-block;
+	background: url('../img/github_min.png') center no-repeat;
+	width: 18px;
+	height: 18px;
+	padding: 3px;
+	
+}
+
+#socialDiv {
+	padding-top: 20px;
+}
+
+.social_ref {
+	display: inline-block;
+	width: 35px;
+	height: 35px;
+	padding: 5px;
+	text-align: center;
+
+}
+
+#website_ref {
+	background: url('../img/arduino.png') center no-repeat;
+    cursor:pointer;
+    border: none;
+}
+
+#website_ref:hover {
+	background: url('../img/arduino_over.png') center no-repeat;
+}
+
+#labs_ref {
+	background: url('../img/labs.png') center no-repeat;
+    cursor:pointer;
+    border: none;
+}
+
+#labs_ref:hover {
+	background: url('../img/labs_over.png') center no-repeat;
+}
+
+#facebook_ref {
+	background: url('../img/facebook.png') center no-repeat;
+    cursor:pointer;
+    border: none;
+}
+
+#facebook_ref:hover {
+	background: url('../img/facebook_over.png') center no-repeat;
+}
+
+#github_ref {
+	background: url('../img/github.png') center no-repeat;
+    cursor:pointer;
+    border: none;
+}
+
+#github_ref:hover {
+	background: url('../img/github_over.png') center no-repeat;
+}
+
+#twitter_ref {
+	background: url('../img/twitter.png') center no-repeat;
+    cursor:pointer;
+    border: none;
+}
+
+#twitter_ref:hover {
+	background: url('../img/twitter_over.png') center no-repeat;
 }

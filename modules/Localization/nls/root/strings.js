@@ -141,11 +141,13 @@ define({
         "WEB": {
             "SITE": {
                 "TITLE"     : "Arduino Web Site",
-                "URL"       : "http://arduino.org"
+                "URL"       : "http://arduino.org",
+                "NAME"      : "arduino.org"
             },
             "LABS": {
                 "TITLE"     : "Arduino Labs",
-                "URL"       : "http://labs.arduino.org"
+                "URL"       : "http://labs.arduino.org",
+                "NAME"      : "labs.arduino.org"
             },
             "TWITTER": {
                 "TITLE"     : "Twitter",

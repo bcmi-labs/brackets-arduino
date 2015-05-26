@@ -127,7 +127,6 @@ define(function (require, exports, module) {
 */
 
         ExtensionUtils.loadStyleSheet(module, "css/Menu.css");
-        ExtensionUtils.loadStyleSheet(module, "css/aboutDialog.css");
 
     };
 
@@ -475,6 +474,7 @@ define(function (require, exports, module) {
 
         var html = Mustache.render(template, info);
         Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.ABOUT.TITLE, html);
+        ExtensionUtils.loadStyleSheet(module, "css/aboutDialog.css");
     }
 
 /*    //ARDUINO EXAMPLES ???

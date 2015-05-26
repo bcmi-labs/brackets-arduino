@@ -35,7 +35,7 @@
         src: url('./fonts/TypoNineSansProRegular.ttf');
 }
 
-#sidebar > * { font-family: TypoNineSansProRegular !important; }
+body, #sidebar > * { font-family: TypoNineSansProRegular !important; }
 
 #main-toolbar .buttons>a:hover, #main-toolbar .bottom-buttons>a:hover {
     background-color: rgba(0,0,0,0) !important;
@@ -123,6 +123,11 @@
     display: block !important;
 }
 
+.open-files-container a, .open-files-container li {
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
 #working-set-list-first-pane,
 #working-set-list-container,
 .working-set-header,
@@ -140,16 +145,29 @@
 
 /* SideBar */
 
+#project-title {
+    font-size: 17px;
+}
+
 #project-files-container {
     margin-top: 10px;
     color: #ffffff;
+    text-shadow: none;
+}
+
+
+
+#project-files-container a, #project-files-container .extension {
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #ffffff !important;
 }
 
 #project-files-header {
     color: #ffffff;
 }
 
-span.working-set-header-title { background: none; }
+span.working-set-header-title { background: none; font-size: 20px; }
 #sidebar li.selected { background-color: #17a0a4; }
 
 .open-files-container, .forced-hidden {

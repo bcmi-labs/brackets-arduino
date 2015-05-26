@@ -1,13 +1,12 @@
 <div id="aboutDiv">
-    <center><h4><a href='#'>{{hversion}} - {{cycle}}</a></h4></center>
-    <div>
-        <a href="{{source}}">{{ARDUINO.EXTRAS.SOURCE}}</a>
-    </div>
-
-    <div class="ref_site"><a href="{{ARDUINO.WEB.SITE.URL}}">{{ARDUINO.WEB.SITE.TITLE}}</a></div>
-    <div class="ref_labs"><a href="{{ARDUINO.WEB.LABS.URL}}">{{ARDUINO.WEB.LABS.TITLE}}</a></div>
-    <div class="ref_social_twitter">{{ARDUINO.WEB.TWITTER.TITLE}} <a href="{{ARDUINO.WEB.TWITTER.URL}}">@{{ARDUINO.WEB.TWITTER.NAME}}</a></div>
-    <div class="ref_social_facebook">{{ARDUINO.WEB.FACEBOOK.TITLE}} <a href="{{ARDUINO.WEB.FACEBOOK.URL}}">/{{ARDUINO.WEB.FACEBOOK.NAME}}</a></div>
-    <div class="ref_social_github">{{ARDUINO.WEB.GITHUB.TITLE}} <a href="{{ARDUINO.WEB.GITHUB.URL}}">{{ARDUINO.WEB.GITHUB.NAME}}</a></div>
-
+    <a id="version_ref" href='#'>{{hversion}} - {{cycle}}</a><span id="version_logo"></span>
+    
+    <div id="socialDiv">
+    	<!--<a href="{{source}}">{{ARDUINO.EXTRAS.SOURCE}}</a>-->
+	    <a id="website_ref" class="social_ref" href="{{ARDUINO.WEB.SITE.URL}}" title="{{ARDUINO.WEB.SITE.NAME}}"></a>
+	    <a id="labs_ref" class="social_ref" href="{{ARDUINO.WEB.LABS.URL}}" title="{{ARDUINO.WEB.LABS.NAME}}"></a>
+	    <a id="twitter_ref" class="social_ref" href="{{ARDUINO.WEB.TWITTER.URL}}" title="{{ARDUINO.WEB.TWITTER.NAME}}"></a>
+	    <a id="facebook_ref" class="social_ref" href="{{ARDUINO.WEB.FACEBOOK.URL}}" title="{{ARDUINO.WEB.FACEBOOK.NAME}}"></a>
+	    <a id="github_ref" class="social_ref" href="{{ARDUINO.WEB.GITHUB.URL}}" title="{{ARDUINO.WEB.GITHUB.NAME}}"></a>
+	</div>
 </div>
