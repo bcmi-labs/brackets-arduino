@@ -108,6 +108,7 @@ define(function (require, exports, module) {
         copypasteDomain  = brackets.arduino.domains[copypasteDomainName];
         Strings = brackets.arduino.strings;
         sketch_importLibraryDirectory       = brackets.arduino.options.librariesdir;
+        sketch_importLibraryUserDirectory       = brackets.arduino.options.userlibrariesdir;
 
         //Menus.removeMenu(Menus.AppMenuBar.FIND_MENU);
         Menus.removeMenu(Menus.AppMenuBar.NAVIGATE_MENU);
@@ -120,9 +121,10 @@ define(function (require, exports, module) {
         createFileMenu();
         createHelpMenu();
 
-        filesystemDomain.exec("getPlatform");
+/*        filesystemDomain.exec("getPlatform");
         filesystemDomain.on("sampleList_data", setMenuActions);
         filesystemDomain.on("platform_data", getPlatformAction);
+*/
 
         ExtensionUtils.loadStyleSheet(module, "css/Menu.css");
         ExtensionUtils.loadStyleSheet(module, "css/aboutDialog.css");
@@ -133,10 +135,8 @@ define(function (require, exports, module) {
     function getPlatformAction($event, userLibrariesFolder, standard)
     {
         //var libsFolder = standard;
-        sketch_importLibraryUserDirectory = FileSystem.getDirectoryForPath(FileUtils.convertWindowsPathToUnixPath(userLibrariesFolder));
+        //sketch_importLibraryUserDirectory = FileSystem.getDirectoryForPath(FileUtils.convertWindowsPathToUnixPath(userLibrariesFolder));
 
-        //TODO get the user folder in the main file, get the lib path, sketchbook and
-        ///Users/user/Documents/Arduino
     }
 
     function bePatient(){
@@ -318,7 +318,8 @@ define(function (require, exports, module) {
 
                 //TODO remove use of node domain
                 filesystemDomain.exec("addDir", srcDir.fullPath, destDir.fullPath);
-                sketch_importLibraryDialog.close();
+                //sketch_importLibraryDialog.close();
+                sketchMenu_importLibCreateList();
             }
         });
     }
@@ -329,8 +330,9 @@ define(function (require, exports, module) {
             var srcArchive = FileSystem.getFileForPath(fileSelected[0]);
             if( FileUtils.getFileExtension(srcArchive.fullPath) == "zip" )
             {
-                sketch_importLibraryDialog.close();
+                //sketch_importLibraryDialog.close();
                 filesystemDomain.exec("addDirFromArchive", srcArchive.fullPath, sketch_importLibraryUserDirectory.fullPath);
+                sketchMenu_importLibCreateList();
             }
             else
             {
@@ -341,51 +343,57 @@ define(function (require, exports, module) {
     }
 
     function sketchMenu_importLibCreateList() {
-        
+        $('#libs_body').html("");
+        //TODO INSERT LOADING GIF UNTIL DIR LOAD FINISH
+
+        //TODO IMPROVE WITH JQUERY DEFERRED AND PROMISE
         var libs_arr = [];
-
-        //load ARDUINO LIBRARIES
-        sketch_importLibraryDirectory.getContents(function(err, contents, stats){
-            if(!err){
-                contents.forEach(function(file, index, array){    // get the files
-                    if(!file.isFile) {
-                        var farr = [];
-                        farr['name'] = file.name;
-                        farr['type'] = 'arduino_lib';
-                        libs_arr.push(farr);
-                    }
-                });
-            }
-
-            //load USER LIBRARIES
-            sketch_importLibraryUserDirectory.getContents(function(err, contents, stats){
+            //LOAD LIBRARIES
+            sketch_importLibraryDirectory.getContents(function(err, contents, stats){
                 if(!err){
-                    contents.forEach(function(file, index, array){
-                        if (!file.isFile) {
+                    for(var i = 0; i < contents.length; i++){
+                        var file =  contents[i];
+                        if (!file.isFile && file.name != "__MACOSX") {
                             var farr = [];
                             farr['name'] = file.name;
-                            farr['type'] = 'user_lib';
+                            farr['type'] = 'arduino_lib';
                             libs_arr.push(farr);
                         }
-                    });
+                    }
                 }
+                //LOAD USER LIBRARY
+                sketch_importLibraryUserDirectory.getContents(function(err, contents, stats){
+                    if(!err){
+                        for(var i = 0; i < contents.length; i++){
+                            var file =  contents[i];
+                            if (!file.isFile && file.name != "__MACOSX") {
+                                var farr = [];
+                                farr['name'] = file.name;
+                                farr['type'] = 'user_lib';
+                                libs_arr.push(farr);
+                            }
+                        }
+                    }
+
+                    if(libs_arr.length > 0){
+                        libs_arr.sort(function(a, b) {
+                            return a.name.localeCompare(b.name);
+                        });
+
+                        var libs_body = $('#libs_body').html();
+
+                        $.each(libs_arr, function(index, value){
+                            libs_body = libs_body+"<tr><td class='cbtn'><a id='"+value['name']+"'><img class='"+value['type']+"' /></a></td><td>"+value['name']+"</td><td class='cbtn'><img id='"+value['name']+"' class='add_btn' /></td></tr>";
+                        });
+
+                        $('#libs_body').html(libs_body);
+                        $('.add_btn').click(clickButton);
+                    }
+
+
+                });
             });
-            
-            if(libs_arr.length > 0){
-                libs_arr.sort(function(a, b) { 
-                    return a.name.localeCompare(b.name);
-                });
 
-                var libs_body = $('#libs_body').html();
-                
-                $.each(libs_arr, function(index, value){
-                    libs_body = libs_body+"<tr><td class='cbtn'><a id='"+value['name']+"'><img class='"+value['type']+"' /></a></td><td>"+value['name']+"</td><td class='cbtn'><img id='"+value['name']+"' class='add_btn' /></td></tr>";
-                });
-
-                $('#libs_body').html(libs_body);
-                $('.add_btn').click(clickButton);
-            }
-        });
     }
 
     function clickButton(evt) {
@@ -444,6 +452,21 @@ define(function (require, exports, module) {
         brackets.arduino.dispatcher.trigger('arduino-event-upload');
     }
 
+    function fileMenu_SampleFolder(){
+        //TODO: open examples inside the libraries / user libraries path.
+        //NOTE this only open generic arduino example, not libraries and user libraries examples.
+        //FileSystem.showOpenDialog(false, true, Strings.ARDUINO_DIALOG_SELECT_FOLDER, test  /*brackets.arduino.options.examples.fullPath*/, "" , function(a, dirSelected, b){
+        ProjectManager.openProject(brackets.arduino.options.examples.fullPath)
+            .done(function(){
+                brackets.arduino.dispatcher.trigger("arduino-event-console-success", menuPrefix + brackets.arduino.options.examples.fullPath + " " + Strings.ARDUINO.MESSAGE.SUCCESS_LOAD)
+            })
+            .fail(function(err){
+                brackets.arduino.dispatcher.trigger("arduino-event-console-err", menuPrefix + Strings.ARDUINO.MESSAGE.ERROR_LOAD + " " + err);
+            });
+        //});
+
+    }
+
     //HELP
     function helpMenu_showAboutDialog(){
         var template = require("text!./html/aboutDialog.html");
@@ -454,7 +477,7 @@ define(function (require, exports, module) {
         Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.ABOUT.TITLE, html);
     }
 
-    //ARDUINO EXAMPLES
+/*    //ARDUINO EXAMPLES ???
     function setMenuActions($event,data){
         var d1 = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "", createObjects(data));
         var elm = document.getElementsByClassName("first");
@@ -493,22 +516,8 @@ define(function (require, exports, module) {
         }
         cc = "first";
         return output
-    };
+    };*/
 
-    function fileMenu_SampleFolder(){
-        //TODO: open examples inside the libraries / user libraries path.
-        //NOTE this only open generic arduino example, not libraries and user libraries examples.
-        //FileSystem.showOpenDialog(false, true, Strings.ARDUINO_DIALOG_SELECT_FOLDER, test  /*brackets.arduino.options.examples.fullPath*/, "" , function(a, dirSelected, b){
-            ProjectManager.openProject(brackets.arduino.options.examples.fullPath)
-                .done(function(){
-                    brackets.arduino.dispatcher.trigger("arduino-event-console-success", menuPrefix + brackets.arduino.options.examples.fullPath + " " + Strings.ARDUINO.MESSAGE.SUCCESS_LOAD)
-                })
-                .fail(function(err){
-                    brackets.arduino.dispatcher.trigger("arduino-event-console-err", menuPrefix + Strings.ARDUINO.MESSAGE.ERROR_LOAD + " " + err);
-            });
-        //});
-
-    }
 
     return Menu;
 });

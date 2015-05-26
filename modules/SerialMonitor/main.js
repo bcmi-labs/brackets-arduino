@@ -171,12 +171,9 @@ define(function (require, exports, module) {
     var serialDataHandler = function($event, data){
         if(data)
         {
-            serialMonitorPanel.$panel.find("#console_log")[0].value += data;
-            serialMonitorPanel.$panel.find("#console_log")[0].scrollTop = 100000;
-            
-            //if (!serialMonitorPanel.$panel.find("#scroll")[0].checked)
-            if(serialPortScroll)
-                serialMonitorPanel.$panel.find("#console_log")[0].scrollTop = 0;
+            $('#console_log').html( $('#console_log').html() + "<span style='color: black;'>" + data + "</span><br />");
+            if(brackets.arduino.preferences.get("arduino.ide.serialmonitor.autoscroll") )
+                $('#console_log').scrollTop($('#console_log')[0].scrollHeight);
         }
             
     };
@@ -188,7 +185,7 @@ define(function (require, exports, module) {
      */
     var serialErrorHandler = function($event, error){
         if(error){
-            brackets.arduino.dispatcher.trigger("arduino-event-console-error", serialMonitorPrefix + " Error in serial port closing: " + err.toString());
+            brackets.arduino.dispatcher.trigger("arduino-event-console-error", serialMonitorPrefix + " Error in serial port closing: " + error.toString());
         }
     }
 
@@ -196,8 +193,8 @@ define(function (require, exports, module) {
      * used to clear the text area
      */
     function clear() {
-        serialMonitorPanel.$panel.find("#console_log")[0].value = "";
-        serialMonitorPanel.$panel.find("#message_input")[0].value = "";
+        $('#console_log').html( "");
+        $('#message_input').html( "");
     };
     
 
