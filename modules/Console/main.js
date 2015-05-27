@@ -82,11 +82,25 @@ define(function(require, exports, module){
 							if(data)
 								document.getElementById("pTag").innerText = data;
 		},
-		showHideConsole = function($event){
-							if(panel.isVisible())
-								panel.hide();
-							else
+		showConsole = function($event){
+							brackets.arduino.dispatcher.trigger("arduino-event-serialmonitor-hide");
+							if(!panel.isVisible){
 								panel.show();
+							}
+		},
+		hideConsole = function($event){
+							if(panel.isVisible){
+								panel.hide();
+							}
+		},
+		showHideConsole = function($event){
+							if(panel.isVisible()){
+								panel.hide();
+							}
+							else{
+								brackets.arduino.dispatcher.trigger("arduino-event-serialmonitor-hide");
+								panel.show();
+							}
 		};
 
 
@@ -106,7 +120,9 @@ define(function(require, exports, module){
 
 		brackets.arduino.dispatcher.on("arduino-event-console-clear", clearLog);
 
-		brackets.arduino.dispatcher.on("arduino-event-console-show", showHideConsole);
+		brackets.arduino.dispatcher.on("arduino-event-console-show", showConsole);
+		brackets.arduino.dispatcher.on("arduino-event-console-hide", hideConsole);
+		brackets.arduino.dispatcher.on("arduino-event-console", showHideConsole);
 
 		if(brackets.arduino.preferences.get("arduino.ide.preferences.consoleshow"))
 			panel.show();

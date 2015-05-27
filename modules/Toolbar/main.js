@@ -84,10 +84,10 @@ define(function (require, exports, module) {
                 CommandManager.execute(Commands.FILE_SAVE);
                 break;
             case 'toolbar-serial-btn':
-                Dispatcher.trigger('arduino-event-menu-tool-serialmonitor');
+                Dispatcher.trigger('arduino-event-serialmonitor');
                 break;
             case 'toolbar-console-btn':
-                Dispatcher.trigger('arduino-event-console-show');
+                Dispatcher.trigger('arduino-event-console');
                 break;
             case 'toolbar-toggle-btn':
                 if($('#sidebar').is(':visible')){

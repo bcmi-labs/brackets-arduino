@@ -16,12 +16,16 @@
 "arduino-event-console-board"   		: write selected board in the status bar
 "arduino-event-console-port"    		: write selected port in the status bar
 "arduino-event-console-clear"			: clear console log
-"arduino-event-console-show"            : open close the console window
+"arduino-event-console-show"            : open the console window
+"arduino-event-console-hide"            : close the console window
+"arduino-event-console"            		: open close the console window
 
 "arduino-event-menu-tool-boards"        : open the modal window for the board selection.
 "arduino-event-menu-tool-ports"         : open the modal window for the port selection.
 "arduino-event-menu-tool-programmer"    : open the modal window for the programmer selection.
-"arduino-event-menu-tool-serialmonitor" : open the panel with the serial monitor.
+"arduino-event-serialmonitor-show"		: open the panel with the serial monitor.
+"arduino-event-serialmonitor-hide"		: close the panel with the serial monitor.
+"arduino-event-serialmonitor" 			: open close the panel with the serial monitor.
 
 "arduino-event-menu-tool-preferences"   : open the modal window for the user's preferences.
 

@@ -102,7 +102,9 @@ define(function (require, exports, module) {
         serialDomain.on('serial_operation_error', serialErrorHandler);
 
         brackets.arduino.dispatcher.on("arduino-event-port-change", eventSerialPortChange);
-        brackets.arduino.dispatcher.on("arduino-event-menu-tool-serialmonitor",this.openSerialMonitorWindow);
+        brackets.arduino.dispatcher.on("arduino-event-serialmonitor-show",showSerialMonitor);
+        brackets.arduino.dispatcher.on("arduino-event-serialmonitor-hide",hideSerialMonitor);
+        brackets.arduino.dispatcher.on("arduino-event-serialmonitor",this.showHideSerialMonitor);
     }
 
 
@@ -113,11 +115,45 @@ define(function (require, exports, module) {
         }
     };
 
+    var showSerialMonitor = function(){
+        brackets.arduino.dispatcher.trigger("arduino-event-console-hide");
+
+        if (!serialMonitorPanel.isVisible()) {
+            serialMonitorPanel.show();
+            openSerialPort(serialPort, serialPortRate, function(err){
+                if(err) { //TODO send error to arudino console.
+                    console.error(serialMonitorPrefix + " Error in serial port opening: ", err);
+                    brackets.arduino.dispatcher.trigger("arduino-event-console-error", serialMonitorPrefix + " Error in serial port opening: " + err.toString());
+                }
+                else{
+                    brackets.arduino.dispatcher.trigger("arduino-event-console-log", serialMonitorPrefix + " Serial monitor connected to " + serialPort.address);
+                }
+            });
+        }
+    }
+
+    var hideSerialMonitor = function(){
+        if (serialMonitorPanel.isVisible()){
+            serialMonitorPanel.hide();
+            closeSerialPort(serialPort, function(err){
+                if(err) { //TODO send error to arudino console.
+                    console.error(serialMonitorPrefix + " Error in serial port closing: ", err);
+                    brackets.arduino.dispatcher.trigger( "arduino-event-console-error" , serialMonitorPrefix + " Error in serial port closing: " + err.toString());
+                }
+                else{
+                    brackets.arduino.dispatcher.trigger("arduino-event-console-log", serialMonitorPrefix + " Serial monitor disconnected from " + serialPort.address);
+                }
+            });
+        }
+    }
+
+
+
     /**
      * [openSerialMonitorWindow description]
      * @return {[type]} [description]
      */
-    SerialMonitor.prototype.openSerialMonitorWindow = function(){
+    SerialMonitor.prototype.showHideSerialMonitor = function(){
         togglePanel();
         //serialMonitorWindow = window.open(serialMonitorURI, serialMonitorWindowName, "width=" + 800 + ",height=" + 350);
     }
@@ -136,32 +172,12 @@ define(function (require, exports, module) {
 
 
         if (serialMonitorPanel.isVisible()) {
-            serialMonitorPanel.hide();
-            closeSerialPort(serialPort, function(err){
-                if(err) { //TODO send error to arudino console.
-                    console.error(serialMonitorPrefix + " Error in serial port closing: ", err);
-                    brackets.arduino.dispatcher.trigger( "arduino-event-console-error" , serialMonitorPrefix + " Error in serial port closing: " + err.toString());
-                }
-                else{
-                    brackets.arduino.dispatcher.trigger("arduino-event-console-log", serialMonitorPrefix + " Serial monitor disconnected from " + serialPort.address);
-                }
-            });
-
+            hideSerialMonitor();
         } 
         else {
-            serialMonitorPanel.show();
-            openSerialPort(serialPort, serialPortRate, function(err){
-                if(err) { //TODO send error to arudino console.
-                    console.error(serialMonitorPrefix + " Error in serial port opening: ", err);
-                    brackets.arduino.dispatcher.trigger("arduino-event-console-error", serialMonitorPrefix + " Error in serial port opening: " + err.toString());
-                }
-                else{
-                    brackets.arduino.dispatcher.trigger("arduino-event-console-log", serialMonitorPrefix + " Serial monitor connected to " + serialPort.address);
-                }
-            });
+            showSerialMonitor();
         }
     };
-
 
     /**
      * callback function, called when the board send data to the serial monitor.

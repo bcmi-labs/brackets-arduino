@@ -257,7 +257,7 @@ define(function (require, exports, module) {
     }
 
     function toolMenu_SerialMonitor(){
-        brackets.arduino.dispatcher.trigger("arduino-event-menu-tool-serialmonitor");
+        brackets.arduino.dispatcher.trigger("arduino-event-serialmonitor");
     }
 
     //SKETCH
