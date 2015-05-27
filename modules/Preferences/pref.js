@@ -159,7 +159,7 @@ define(function (require, exports, module) {
                     //brackets.arduino.preferences.set( prefKey_sketchbook, folderSelected[0]);
                     brackets.arduino.domains["org-arduino-ide-domain-os"].exec("getUserArduinoHome", folderSelected[0] )
                         .done(function(userHomeDir){
-                            brackets.arduino.options.sketcbook = FileSystem.getDirectoryForPath( userHomeDir );
+                            brackets.arduino.options.sketchbook = FileSystem.getDirectoryForPath( userHomeDir );
                             brackets.arduino.preferences.set("arduino.ide.preferences.sketchbook", userHomeDir );
                         }).fail(function(err){
                             console.error(err);

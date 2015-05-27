@@ -14,7 +14,8 @@
         wrench          = require('wrench'),
         os              = require('os'),
         child_process   = require('child_process'),
-        path            = require('path');
+        path            = require('path'),
+        preader         = require('properties-reader');
 
     var uploader        = require('./compiler/uploader');
     var platform        = require('./compiler/platform');
@@ -98,17 +99,74 @@
         dm.emitEvent (domainName, "console-log", "CPP File Created ["+cfile+"]");
     }
 
-    function calculateLibs(list, paths, libs, debug, cb, plat) {
-            //install libs if needed, and add to the include paths
+    function calculateLibs(list, paths, libs, debug, cb, plat, sketchbook) {
             list.forEach(function(libname){
                 if(libname == 'Arduino') return;
                 debug('scanning lib',libname);
 
-                //TODO user lib import
-                paths.push(plat.getStandardLibraryPath() + path.sep + libname + path.sep + "src");
 
-                plat.getUserLibraryDir()+path.sep+libname;
-                libs.push({"campo1": "valore1", "campo2": "valore2"});
+
+                //-tmp-\\paths.push(plat.getStandardLibraryPath() + path.sep + libname + path.sep + "src");
+
+                //TODO user lib import
+                //var user1 = plat.getUserLibraryDir()+path.sep+libname,
+                //    user2 = sketchbook + path.sep + libname;
+
+                //libs.push({"campo1": "valore1", "campo2": "valore2"});
+
+                // VERSIONE SYNC
+                if(fs.existsSync(plat.getStandardLibraryPath() + path.sep + libname))
+                {
+                    console.log("Standard lib");
+                    paths.push(plat.getStandardLibraryPath() + path.sep + libname + path.sep + "src");
+                }
+                else
+                {
+                    console.log("Scanning for user lib...")
+                    if(fs.existsSync(sketchbook + path.sep + "libraries" + path.sep + libname))
+                    {
+                        console.log("User lib");
+                        paths.push(sketchbook + path.sep + "libraries" + path.sep + libname + path.sep + "src");
+                    }
+                    else
+                        console.log("Problemone")
+                }
+
+                // VERSIONE ASYNC
+                /*
+                fs.exists(plat.getStandardLibraryPath() + path.sep + libname, function (exists){
+                    if(exists)
+                    {
+                        console.log("Standard lib");
+                        paths.push(plat.getStandardLibraryPath() + path.sep + libname + path.sep + "src");
+                    }
+                    else
+                    {
+                        console.log("Scan for user lib...");
+                        fs.exists(sketchbook + path.sep + libname, function (exists2) {
+                            if(exists2) {
+                                console.log("User lib");
+                                paths.push(sketchbook + path.sep + libname + path.sep + "src");
+                            }
+                            else
+                                console.log("Problemone");
+                        });
+                    }
+
+                });
+                */
+
+                /*
+                 if(LIBRARIES.isUserLib(libname,plat)) {
+                 console.log("it's a user lib");
+                 var lib = LIBRARIES.getUserLib(libname,plat);
+                 lib.getIncludePaths(plat).forEach(function(path) {
+                 paths.push(path);
+                 });
+                 libs.push(lib);
+                 return;
+                 }
+                */
             });
             if(cb) cb();
     }
@@ -255,8 +313,8 @@
     }
 
     function finalEvent(){
-        //TODO convert in event
         console.log("---> final cb <---");
+        dm.emitEvent (domainName, "console-success", "Building success!");
     }
 
 
@@ -267,7 +325,8 @@
         var BUILD_DIR       = os.tmpdir(),
             userSketchesDir = BUILD_DIR;
 
-        var curlib;
+        var curlib,
+            tolink;
 
         platform;
 
@@ -283,7 +342,7 @@
 
 
         function debug(message) {
-        //  TEMPORARILY DIABLED
+        //  TEMPORARILY DISABLED
             var args = Array.prototype.slice.call(arguments);
             console.log("message = " + message + args.join(" ")+'\n');
             if(message instanceof Error) {
@@ -359,7 +418,7 @@
 
             console.log("include path =",includepaths);
             console.log("includedlibs = ", includedLibs);
-            calculateLibs(includedLibs,includepaths,libextra, debug, cb, plat);
+            calculateLibs(includedLibs,includepaths,libextra, debug, cb, plat, options.sketchbook);
         });
 
         //3. actually compile code
@@ -373,7 +432,6 @@
 
         //4.compile the 3rd party libs
         tasks.push(function(cb) {
-            var output_dir;
             var includedLibs = detectLibs(fs.readFileSync(cfile).toString());
             debug('========= scanned for included libs',includedLibs);
             var libsList = [],
@@ -384,24 +442,47 @@
                 {
                     curlib = item;
                     if(item != 'Arduino') {
-                        base = options.platform.getStandardLibraryPath() + path.sep + item;
+
+                        if(fs.existsSync(options.platform.getStandardLibraryPath() + path.sep + item))
+                            base = options.platform.getStandardLibraryPath() + path.sep + item;
+                        else
+                            if(fs.existsSync(options.sketchbook + path.sep + "libraries" + path.sep + item))
+                                base = options.sketchbook + path.sep + "libraries" + path.sep + item;
+                            else
+                                console.log("Problemone2");
+
                         libsList = wrench.readdirSyncRecursive(base);
 
-                        if (libsList)
-                            libsList.forEach(function (item2, index2, array2) {
-                                if (item2.toLowerCase().endsWith('.c') || item2.toLowerCase().endsWith('.cpp'))
-                                {
-                                    var itm = base + path.sep + item2
-                                    if(itm.indexOf(path.sep + options.device.arch +path.sep) > -1 )
-                                        cfiles.push(itm);
-                                }
-                                output_dir = outdir + path.sep + curlib + path.sep + item2;
-                            })
-                        compileFiles(options, outdir, includepaths,cfiles,debug,cb);
+                        var prop = preader(base + path.sep + "library.properties");
+                        var ark = prop.get("architectures");
+
+                        if(ark == options.device.arch || ark == "*")
+                        {
+                            if (libsList)
+                                libsList.forEach(function (item2, index2, array2) {
+                                    if (item2.toLowerCase().endsWith('.c') || item2.toLowerCase().endsWith('.cpp'))
+                                            cfiles.push(base + path.sep + item2);
+                                })
+                        }
+                        else if(ark.indexOf(options.device.arch) > -1 && ark.indexOf(",") > -1)
+                        {
+                            if (libsList)
+                                libsList.forEach(function (item2, index2, array2) {
+                                    if (item2.toLowerCase().endsWith('.c') || item2.toLowerCase().endsWith('.cpp'))
+                                    {
+                                        var itm = base + path.sep + item2
+                                        if(itm.indexOf(path.sep + options.device.arch +path.sep) > -1 )
+                                            cfiles.push(itm);
+                                    }
+                                })
+                        }
+                        else
+                            console.log("ERRORE : Libreria non supportata dall'architettura " + options.device.arch)
                     }
                 })
-
             debug('cfiles',cfiles);
+            tolink = cfiles;
+            compileFiles(options, outdir, includepaths,cfiles,debug,cb);
         });
 
 
@@ -437,7 +518,11 @@
                     libofiles2.push(outdir + path.sep + itm + ".cpp.o");
             });
 
-            linkElfFile(options,libofiles2,outdir,cb, debug);
+            tolink.forEach(function(itm){
+                libofiles.push(outdir + itm.slice(itm.lastIndexOf(path.sep)) + ".o");
+            })
+
+            linkElfFile(options,libofiles,outdir,cb, debug);
         });
 
         // 8. extract EEPROM data (from EEMEM directive) to .eep file.
@@ -614,6 +699,15 @@
             [{  name:"cdata",
                 type:"string",
                 description:"building outputs"
+            }]
+        );
+
+        domainManager.registerEvent(
+            domainName,
+            "console-success",
+            [{  name:"cdata",
+                type:"string",
+                description:"building succes"
             }]
         );
 
