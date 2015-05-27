@@ -104,17 +104,6 @@
                 if(libname == 'Arduino') return;
                 debug('scanning lib',libname);
 
-
-
-                //-tmp-\\paths.push(plat.getStandardLibraryPath() + path.sep + libname + path.sep + "src");
-
-                //TODO user lib import
-                //var user1 = plat.getUserLibraryDir()+path.sep+libname,
-                //    user2 = sketchbook + path.sep + libname;
-
-                //libs.push({"campo1": "valore1", "campo2": "valore2"});
-
-                // VERSIONE SYNC
                 if(fs.existsSync(plat.getStandardLibraryPath() + path.sep + libname))
                 {
                     console.log("Standard lib");
@@ -129,44 +118,8 @@
                         paths.push(sketchbook + path.sep + "libraries" + path.sep + libname + path.sep + "src");
                     }
                     else
-                        console.log("Problemone")
+                        console.log("Library " + libname + "not exist")
                 }
-
-                // VERSIONE ASYNC
-                /*
-                fs.exists(plat.getStandardLibraryPath() + path.sep + libname, function (exists){
-                    if(exists)
-                    {
-                        console.log("Standard lib");
-                        paths.push(plat.getStandardLibraryPath() + path.sep + libname + path.sep + "src");
-                    }
-                    else
-                    {
-                        console.log("Scan for user lib...");
-                        fs.exists(sketchbook + path.sep + libname, function (exists2) {
-                            if(exists2) {
-                                console.log("User lib");
-                                paths.push(sketchbook + path.sep + libname + path.sep + "src");
-                            }
-                            else
-                                console.log("Problemone");
-                        });
-                    }
-
-                });
-                */
-
-                /*
-                 if(LIBRARIES.isUserLib(libname,plat)) {
-                 console.log("it's a user lib");
-                 var lib = LIBRARIES.getUserLib(libname,plat);
-                 lib.getIncludePaths(plat).forEach(function(path) {
-                 paths.push(path);
-                 });
-                 libs.push(lib);
-                 return;
-                 }
-                */
             });
             if(cb) cb();
     }
@@ -223,10 +176,10 @@
         //link everything into the .elf file
         var elfcmd = [
             options.platform.getCompilerBinaryPath() + path.sep + 'avr-gcc', //gcc
-            '-Os', //??
+            '-Os',
             '-Wl,--gc-sections', //not using relax yet
-            '-mmcu='+options.device.build.mcu, //the mcu, ex: atmega168
-            '-o', //??
+            '-mmcu='+options.device.build.mcu, //the mcu,
+            '-o',
             outdir + path.sep + options.name+'.cpp.elf',
             outdir + path.sep + options.name+'.cpp.o',
         ];
@@ -313,7 +266,7 @@
     }
 
     function finalEvent(){
-        console.log("---> final cb <---");
+        console.log("Building success!");
         dm.emitEvent (domainName, "console-success", "Building success!");
     }
 
@@ -449,7 +402,7 @@
                             if(fs.existsSync(options.sketchbook + path.sep + "libraries" + path.sep + item))
                                 base = options.sketchbook + path.sep + "libraries" + path.sep + item;
                             else
-                                console.log("Problemone2");
+                                console.log("ERROR : Library " + item + " not exist");
 
                         libsList = wrench.readdirSyncRecursive(base);
 
@@ -476,8 +429,9 @@
                                     }
                                 })
                         }
-                        else
-                            console.log("ERRORE : Libreria non supportata dall'architettura " + options.device.arch)
+                        else {
+                            console.log("ERROR : Library " + item + " is not supported in your architecture " + options.device.arch)
+                        }
                     }
                 })
             debug('cfiles',cfiles);
