@@ -1,14 +1,18 @@
 #console {
     min-height:195px;
-    height: 195px;
+    height: 99%;
+    max-height: 660px;
     padding-top: 0px;
     display: block;
     border: 9px solid #fcb600;
     padding-left: 0px;
+    background-color: #ffffff;
 }
 
 #logger {
-    height: 177px;
+    height: 99%;
+    max-height: 632px;
+    overflow: hidden;
     background-color: #ffffff;
     border: none;
     /*border:1px solid #EEE; border-right:0 solid;*/

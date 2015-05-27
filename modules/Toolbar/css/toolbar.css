@@ -131,6 +131,10 @@
 	background: url('../img/console_over.png') center no-repeat;
 }
 
+.consolehover {
+	background: url('../img/console_over.png') center no-repeat !important;
+}
+
 #toolbar-serial-btn {
 	background: url('../img/serial.png') center no-repeat;
     cursor:pointer;
@@ -139,6 +143,10 @@
 }
 #toolbar-serial-btn:hover {
 	background: url('../img/serial_over.png') center no-repeat;
+}
+
+.serialhover {
+	background: url('../img/serial_over.png') center no-repeat !important;
 }
 
 #toolbar-toggle-btn {

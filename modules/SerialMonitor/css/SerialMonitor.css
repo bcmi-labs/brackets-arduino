@@ -1,9 +1,13 @@
-#plugin-serialmonitor {
-    padding-top: 10px;
+#serialmonitor {
+    min-height: 380px;
+    height: 99%;
+    max-height: 380px;
+    padding-top: 0px;
     display: block;
-    padding-bottom: 56px;
-    margin-left: 7px;
-    display: block;
+    border: 9px solid #f27a20;
+    padding-left: 0px;
+    background-color: #ffffff;
+    padding-left: 16px; 
 }
 
 input#scroll {
@@ -18,22 +22,18 @@ input#scroll {
 #message_input{
     width: 86%;
     margin-left: 15px;
-    height: 27px;
-}
-
-#logarea {
-    height: 100%;
+    border: 1px solid #b2b5b5;
 }
 
 #console_log {
     width: 96%;
+    min-height: 220px;
+    max-height: 220px;
     overflow-y: scroll !important;
     margin-left: 15px;
     background-color: #ffffff;
     padding-top: 0px;
     border: 1px solid #b2b5b5;
-    min-height: 130px;
-    height: 60%;
 
     -moz-user-select: text;
     -khtml-user-select: text;
