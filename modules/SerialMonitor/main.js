@@ -90,7 +90,7 @@ define(function (require, exports, module) {
         serialMonitorPanelInit();
 
         //REGISTER COMMANDS and ADD MENU ITEMS
-        CommandManager.register("Serial Monitor", cmdOpenSerialMonitorWindow, this.openSerialMonitorWindow);
+        CommandManager.register("Serial Monitor", cmdOpenSerialMonitorWindow, this.showHideSerialMonitor);
 
         //TODO: it would be better to get the menu items and their position in a configuration file
         //TODO: it would be better to put this item in the TOOL menu
