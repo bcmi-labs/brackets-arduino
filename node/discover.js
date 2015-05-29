@@ -39,7 +39,7 @@
 	
 
 	var boardPorts = [],
-		pids = ["0X2A03", "0X2341", "0X1B4F", "0X03EB"];	//Arduino Srl, Arduino Llc, Adafruit, Atmel
+		pids = ["0X2A03", "0X2341", "0X1B4F", "0X03EB"];	//Arduino Srl, Arduino Llc, SparkFun, Atmel
 
 
 		pids = [];	//no filter
