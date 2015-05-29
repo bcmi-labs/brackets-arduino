@@ -54,10 +54,10 @@ define(function (require, exports, module) {
 
     var showLatest = function(latest){
         var template = require("text!./html/showLatest.html");
-        var info = $.extend({}, latest, brakets.arduino.strings);
+        var info = $.extend({}, latest, brackets.arduino.strings);
         var html = Mustache.render(template, info);
 
-        Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, brakets.arduino.strings.ARDUINO.DIALOG.LATEST.TITLE, html);
+        Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, brackets.arduino.strings.ARDUINO.DIALOG.LATEST.TITLE, html);
     }
 
 
