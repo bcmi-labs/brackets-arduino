@@ -2,7 +2,7 @@
   "version"	    :	1,
   "hversion"	: 	"0.0.1",
   "cycle"		: 	"alpha",
-  "source"      :   "",
+  "source"      :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.1-alpha",
   "changelog"	:	[],
   "url"		    : 	"http://arduino.org/downloads",
   "message"	    :	"",
