@@ -1,6 +1,7 @@
 {
   "name": "Arduino BT w/ ATmega168",
   "arch":"avr",
+  "enabled" : false,
   "upload": {
     "protocol": "arduino",
     "maximum_size": "14336",

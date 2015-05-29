@@ -1,5 +1,6 @@
 {
   "name" : "Arduino AVR Boards",
-  "version" : "2.0.0",
-  "arch" : "arm"
+  "version" : "",
+  "arch" : "arm",
+  "enabled": false
 }

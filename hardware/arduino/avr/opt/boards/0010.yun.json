@@ -2,6 +2,7 @@
   "id": "yun",
   "name": "Arduino Yún",
   "arch" : "avr",
+  "enabled" : true,
   "uid": [
     {
       "vid": "0x2341",

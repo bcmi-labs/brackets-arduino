@@ -1,6 +1,7 @@
 {
     "name": "Arduino Diecimila or Duemilanove w/ ATmega168",
     "arch":"avr",
+    "enabled" : false,
     "upload": {
         "protocol": "arduino",
 	"tool" : "avrdude",
