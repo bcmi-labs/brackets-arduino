@@ -1,6 +1,6 @@
 {
-  "version"	    :	2000000,
-  "hversion"	: 	"2.0.0",
+  "version"	    :	1,
+  "hversion"	: 	"0.0.1",
   "cycle"		: 	"alpha",
   "source"      :   "",
   "changelog"	:	[],
