@@ -245,13 +245,16 @@ define(function (require, exports, module) {
         var archs = brackets.arduino.options.archs,
             boards_cnt = [];
         for(var archIdx in archs){ //loop trough the archs/platforms
-            listBoardsDetectedHTML += '<option disabled><b>' + archs[archIdx].info.name + '</b></option>';
+            listBoardsDetectedHTML += '<option disabled># ' + archs[archIdx].info.name + '</option>';
 
             var boards = archs[archIdx].boards;
             boards_cnt = boards_cnt.concat(boards);
 
             for(var boardIdx in boards){ //TODO add archs in the option
-                listBoardsDetectedHTML += '<option value="' + boards[boardIdx].id + '">' + boards[boardIdx].name + '</option>';
+                if(archs[archIdx].info.enabled &&  boards[boardIdx].enabled)
+                    listBoardsDetectedHTML += '<option value="' + boards[boardIdx].id + '">' + boards[boardIdx].name + '</option>';
+                else
+                    listBoardsDetectedHTML += '<option disabled value="' + boards[boardIdx].id + '">' + boards[boardIdx].name + '</option>';
             }
         }
 
@@ -318,7 +321,7 @@ define(function (require, exports, module) {
         for(var archIdx in archs){ //loop trough the archs/platforms
             //listProgrammersDetectedHTML += '<option disabled><b>' + archs[archIdx].info.name + '</b></option>';
 
-            var programmers = archs[archIdx].programmers,
+            var programmers = archs[archIdx].programmers;
             programmers_cnt = programmers_cnt.concat(programmers);
 
             for(var progIdx in programmers){ //TODO add archs in the option
@@ -386,8 +389,10 @@ define(function (require, exports, module) {
             var boards = archs[archIdx].boards;
             for(var boardIdx in boards){ //TODO add archs in the option
                 if(boards[boardIdx].id == boardId){
-                    setBoard( boards[boardIdx] );
-                    return;
+                    if(archs[archIdx].info.enabled &&  boards[boardIdx].enabled) {
+                        setBoard(boards[boardIdx]);
+                        return;
+                    }
                 }
             }
         }

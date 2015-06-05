@@ -1,6 +1,7 @@
 {
     "name": "Arduino Nano w/ ATmega168",
     "arch":"avr",
+    "enabled" : false,
     "upload": {
 	"tool":"avrdude",
         "protocol": "arduino",

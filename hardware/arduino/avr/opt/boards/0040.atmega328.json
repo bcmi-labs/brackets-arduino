@@ -1,6 +1,7 @@
 {
     "name": "Arduino Duemilanove w/ ATmega328",
     "arch":"avr",
+    "enabled" : false,
     "upload": {
         "protocol": "arduino",
 	"tool" : "avrdude",

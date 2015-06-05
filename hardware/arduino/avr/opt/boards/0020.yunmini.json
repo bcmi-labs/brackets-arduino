@@ -2,6 +2,7 @@
     "id": "yunmini",
     "name": "Arduino Yún Mini",
     "arch":"avr",
+    "enabled" : true,
     "uid" : [
               {"vid":"0x2a03", "pid":"0x0050"},
               {"vid":"0x2a03", "pid":"0x8050"}
