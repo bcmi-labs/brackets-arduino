@@ -350,7 +350,7 @@
             if(cb) cb();
         });
 
-        //2. scan for the included libs make sure they are all installed collect their include paths
+        //2. scan for the included libs and collect their include paths
         tasks.push(function(cb) {
 
             includedLibs = detectLibs(fs.readFileSync(cfile).toString());
