@@ -30,50 +30,10 @@
  *
  */
 
-#main-toolbar {
-	left: 0px;
-	right: 200px;
-	width: 55px;
-	padding: 5px;
-}
-/* Main-Toolbar Icons */
-
-#main-toolbar {
-	text-align: left;
-	padding: 0px;
-	margin: 0px;
-}
-
-#main-toolbar .buttons>a:hover, #main-toolbar .bottom-buttons>a:hover {
-	outline: none !important;
-}
-
-#toolbar-parfait { display: none !important; }
-
-#main-toolbar { background-color: #17a0a4; }
-
-#main-toolbar .buttons>a, #main-toolbar .bottom-buttons>a {
-	width: 55px;
-	height: 38px;
-}
-
 #main-toolbar .buttons>a {
 	margin: 16px 0px 0px 0px;
 	display: block;
 }
-
-#toolbar-arduino-logo {
-	background: url('../img/arduino.png') center no-repeat;
-    cursor:pointer;
-    border: none;
-}
-
-#toolbar-arduino-logo:hover {
-	background: url('../img/arduino_over.png') center no-repeat;
-}
-
-
-#toolbar-sep2 {height: 30px; display: block; }
 
 #toolbar-verify-btn {
 	background: url('../img/verify.png') center no-repeat;
@@ -93,35 +53,6 @@
 	background: url('../img/upload_over.png') center no-repeat;
 }
 
-#toolbar-sep2 {height: 60px; display: block; }
-
-#toolbar-new-btn {
-	background: url('../img/new.png') center no-repeat;
-    cursor:pointer;
-    border: none;
-}
-#toolbar-new-btn:hover {
-	background: url('../img/new_over.png') center no-repeat;
-}
-
-#toolbar-open-btn {
-	background: url('../img/open.png') center no-repeat;
-    cursor:pointer;
-    border: none;
-}
-#toolbar-open-btn:hover {
-	background: url('../img/open_over.png') center no-repeat;
-}
-
-#toolbar-save-btn {
-	background: url('../img/save.png') center no-repeat;
-    cursor:pointer;
-    border: none;
-}
-#toolbar-save-btn:hover {
-	background: url('../img/save_over.png') center no-repeat;
-}
-
 #toolbar-console-btn {
 	background: url('../img/console.png') center no-repeat;
 	cursor:pointer;
@@ -139,7 +70,6 @@
 	background: url('../img/serial.png') center no-repeat;
     cursor:pointer;
     border: none;
-    padding-bottom: 16px;
 }
 #toolbar-serial-btn:hover {
 	background: url('../img/serial_over.png') center no-repeat;
@@ -147,13 +77,4 @@
 
 .serialhover {
 	background: url('../img/serial_over.png') center no-repeat !important;
-}
-
-#toolbar-toggle-btn {
-	background: url('../img/apri.png') center no-repeat;
-	padding-bottom: 16px;
-}
-
-#bottom-sep {
-	line-height: 58px;
 }

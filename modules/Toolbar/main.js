@@ -53,8 +53,8 @@ define(function (require, exports, module) {
 
         ExtensionUtils.loadStyleSheet(module, "./css/toolbar.css");
 
-        $('.buttons').html(toolbar_top_html);
-        $('.bottom-buttons').html(toolbar_bottom_html);
+        //$('.buttons').html(toolbar_top_html);
+        $('.bottom-buttons').html(toolbar_top_html+toolbar_bottom_html);
 
         $('.toolbar-btn').click(function(evt){
             evt.preventDefault();
@@ -74,30 +74,11 @@ define(function (require, exports, module) {
                 Dispatcher.trigger("arduino-event-console-clear");
                 Dispatcher.trigger('arduino-event-upload');
                 break;
-            case 'toolbar-new-btn':
-                CommandManager.execute(Commands.FILE_NEW);
-                break;
-            case 'toolbar-open-btn':
-                CommandManager.execute(Commands.FILE_OPEN);
-                break;
-            case 'toolbar-save-btn':
-                CommandManager.execute(Commands.FILE_SAVE);
-                break;
             case 'toolbar-serial-btn':
                 Dispatcher.trigger('arduino-event-serialmonitor');
                 break;
             case 'toolbar-console-btn':
                 Dispatcher.trigger('arduino-event-console');
-                break;
-            case 'toolbar-toggle-btn':
-                if($('#sidebar').is(':visible')){
-                    $('#sidebar').hide();
-                    $('.main-view .content').css('right', '0px');
-                }
-                else{
-                    $('.main-view .content').css('right', '200px');
-                    $('#sidebar').show();
-                }
                 break;
             default:
                 //console.log(btnid+' clicked');

@@ -145,6 +145,7 @@ body, #sidebar > * { font-family: TypoNineSansProRegular !important; }
 
 /* SideBar */
 
+
 #project-title {
     font-size: 17px;
 }
@@ -154,7 +155,6 @@ body, #sidebar > * { font-family: TypoNineSansProRegular !important; }
     color: #ffffff;
     text-shadow: none;
 }
-
 
 
 #project-files-container a, #project-files-container .extension {
@@ -191,6 +191,7 @@ div.sidebar-selection-extension.selectionExtension-visible.forced-hidden { left:
 	outline: none !important;
 }
 */
+
 .working-set-option-btn {
     right: 12px;
 }
