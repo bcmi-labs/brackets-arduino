@@ -30,8 +30,16 @@
  *
  */
 
-#main-toolbar .buttons>a {
-	margin: 16px 0px 0px 0px;
+#main-toolbar .bottom-buttons>a:hover {
+	background-color: rgba(0,0,0,0) !important;
+}
+
+#main-toolbar div.bottom-buttons {
+	margin-bottom: 22px;
+}
+
+#main-toolbar .bottom-buttons>a {
+	margin-bottom: 20px;
 	display: block;
 }
 
@@ -66,7 +74,7 @@
 	background: url('../img/console_over.png') center no-repeat !important;
 }
 
-#toolbar-serial-btn {
+#toolbar-serial-btn, .ctoolbar-btn {
 	background: url('../img/serial.png') center no-repeat;
     cursor:pointer;
     border: none;

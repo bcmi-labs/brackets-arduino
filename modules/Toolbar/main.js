@@ -43,7 +43,7 @@ define(function (require, exports, module) {
     module.exports.init = function(loc, disp){
             Strings = loc;
             Dispatcher = disp;
-            toolbar_top_template    = require("text!./html/toolbar-top.html");
+            //toolbar_top_template    = require("text!./html/toolbar-top.html");
             toolbar_bottom_template = require("text!./html/toolbar-bottom.html");
             toolbar_top_html        = Mustache.render(toolbar_top_template, Strings);
             toolbar_bottom_html     = Mustache.render(toolbar_bottom_template, Strings);
@@ -54,7 +54,7 @@ define(function (require, exports, module) {
         ExtensionUtils.loadStyleSheet(module, "./css/toolbar.css");
 
         //$('.buttons').html(toolbar_top_html);
-        $('.bottom-buttons').html(toolbar_top_html+toolbar_bottom_html);
+        $('.bottom-buttons').html(toolbar_bottom_html);
 
         $('.toolbar-btn').click(function(evt){
             evt.preventDefault();

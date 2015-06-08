@@ -3,7 +3,7 @@
     height: 99%;
     max-height: 660px;
     padding-top: 0px;
-    display: block;
+    display: none;
     border: 9px solid #fcb600;
     padding-left: 0px;
     background-color: #ffffff;
@@ -24,13 +24,6 @@
     -ms-user-select: text;
     user-select: text;
 }
-/*
-.info {
-    height:5%;
-    font-size: small;
-    text-align: right;
-    width: 97%;
-}*/
 
 div#bTag, div#pTag {
     cursor: pointer;

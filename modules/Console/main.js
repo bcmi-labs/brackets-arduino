@@ -142,6 +142,7 @@ define(function(require, exports, module){
 		StatusBar.addIndicator("bTag", bTag, true, "", "");
 
 		panel = WorkspaceManager.createBottomPanel("console.panel", $(panelHTML));
+		hideConsole();
 
 	});
 
