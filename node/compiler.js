@@ -20,7 +20,6 @@
     var uploader        = require('./compiler/uploader');
     var platform        = require('./compiler/platform');
 
-
     var domainName = "org-arduino-ide-domain-compiler";
 
     var dm, prg = "arduino";
@@ -271,7 +270,6 @@
     }
 
 
-
     function compile(options, sketchDir, up) {
         console.log("I'm Compiler and I'm wearing my sunglasses");
         dm.emitEvent (domainName, "console-log", "Start Building");
@@ -350,7 +348,7 @@
             if(cb) cb();
         });
 
-        //2. scan for the included libs make sure they are all installed collect their include paths
+        //2. scan for the included libs and collect their include paths
         tasks.push(function(cb) {
 
             includedLibs = detectLibs(fs.readFileSync(cfile).toString());
@@ -374,7 +372,7 @@
             calculateLibs(includedLibs,includepaths,libextra, debug, cb, plat, options.sketchbook);
         });
 
-        //3. actually compile code
+        //3. compile code
         tasks.push(function(cb) {
             console.log("moving on now");
             debug("include paths = ", JSON.stringify(includepaths,null, '   '));
