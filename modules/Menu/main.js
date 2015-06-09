@@ -59,7 +59,8 @@ define(function (require, exports, module) {
         sketch_importLibraryUserDirectory   = null;   //user libraries directory
 
     //Menus IDs
-    var ARDUINO_MENU_FILE_ID 	= "arduino.ide.menu.file",
+    var ARDUINO_MENU_ID         = "arduino.ide.menu",
+        ARDUINO_MENU_FILE_ID 	= "arduino.ide.menu.file",
         ARDUINO_MENU_EDIT_ID 	= "arduino.ide.menu.edit",
         ARDUINO_MENU_TOOLS_ID 	= "arduino.ide.menu.tools",
         ARDUINO_MENU_SKETCH_ID 	= "arduino.ide.menu.sketch",
@@ -115,11 +116,12 @@ define(function (require, exports, module) {
         Menus.removeMenu(Menus.AppMenuBar.VIEW_MENU);
  //       Menus.removeMenu("debug-menu");
 
-        createToolMenu();
-        createSketchMenu();
-        createEditMenu();
-        createFileMenu();
-        createHelpMenu();
+        createMenu();
+        //createToolMenu();
+        //createSketchMenu();
+        //createEditMenu();
+        //createFileMenu();
+        //createHelpMenu();
 
 /*        filesystemDomain.exec("getPlatform");
         filesystemDomain.on("sampleList_data", setMenuActions);
@@ -144,68 +146,10 @@ define(function (require, exports, module) {
     }
 
     //CREATE MENUS
-    function createToolMenu() {
-        var ToolsMenu = Menus.addMenu(Strings.ARDUINO.MENU.TOOLS.TITLE, ARDUINO_MENU_TOOLS_ID, Menus.FIRST);
+    function createMenu(){
+        var ArduinoMenu = Menus.addMenu(Strings.ARDUINO.MENU.TITLE, ARDUINO_MENU_ID, Menus.FIRST);
 
-        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_AUTO_FORMATTING  + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_AUTO_FORMATTING, bePatient);
-        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_STORE_SKETCH + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_STORE_SKETCH, bePatient);
-        //CommandManager.register("Fix encoding and reload [Coming Soon (A)]", ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD, bePatient);
-        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_SERIAL_MONITOR, ARDUINO_MENU_TOOL_SERIAL_MONITOR, toolMenu_SerialMonitor);
-
-        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_BOARD, ARDUINO_MENU_TOOL_SELECT_BOARD, toolMenu_SelectBoardPanel);
-        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_PORT, ARDUINO_MENU_TOOL_SELECT_PORT, toolMenu_SelectPortPanel);
-
-        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_PROGRAMMER, ARDUINO_MENU_TOOL_SELECT_PROGRAMMER, toolMenu_SelectProgrammerPanel);
-        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_BURN_BOOTLOADER + " [" +Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_WRITE_BOOTLOADER, bePatient);
-
-        ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_AUTO_FORMATTING);
-        ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_STORE_SKETCH);
-        //ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD);
-        ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_SERIAL_MONITOR);
-        ToolsMenu.addMenuDivider("arduino.menu.tools.divider1");
-        ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_SELECT_BOARD);
-        ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_SELECT_PORT);
-        ToolsMenu.addMenuDivider("arduino.menu.tools.divider2");
-        ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_SELECT_PROGRAMMER);
-        ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_WRITE_BOOTLOADER);
-    }
-
-    function createSketchMenu() {
-        var SketchMenu = Menus.addMenu(Strings.ARDUINO.MENU.SKETCH.TITLE, ARDUINO_MENU_SKETCH_ID, Menus.FIRST);
-
-        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_BUILD, ARDUINO_MENU_SKETCH_VERIFY_COMPILE, sketchMenu_VerifyCompile);
-        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_ADD_FILE, ARDUINO_MENU_SKETCH_ADD_FILE, sketchMenu_AddFile);
-        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_IMPORT_LIB + " [" + Strings.ARDUINO.EXTRAS.WIP +"]", ARDUINO_MENU_SKETCH_IMPORT_LIBS, sketchMenu_ImportLibs);
-        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_SHOW_FOLDER + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_SKETCH_OPEN_SKETCH_FOLDER, bePatient);
-
-        SketchMenu.addMenuItem(ARDUINO_MENU_SKETCH_VERIFY_COMPILE);
-        SketchMenu.addMenuDivider("arduino.menu.sketch.divider1");
-        SketchMenu.addMenuItem(ARDUINO_MENU_SKETCH_ADD_FILE);
-        SketchMenu.addMenuItem(ARDUINO_MENU_SKETCH_IMPORT_LIBS);
-        SketchMenu.addMenuItem(ARDUINO_MENU_SKETCH_OPEN_SKETCH_FOLDER);
-    }
-
-    function createEditMenu(){
-        //Menus.removeMenu(Menus.AppMenuBar.EDIT_MENU);
-
-        var EditMenu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);//Menus.addMenu("Edit", ARDUINO_MENU_EDIT_ID, Menus.FIRST);
-
-        CommandManager.register(Strings.ARDUINO.MENU.EDIT.ITEM_COPY_FORUM, ARDUINO_MENU_EDIT_COPY_FORUM, editMenu_copyForum);
-        CommandManager.register(Strings.ARDUINO.MENU.EDIT.ITEM_COPY_HTML + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_EDIT_COPY_HTML, bePatient);
-        CommandManager.register(Strings.ARDUINO.MENU.EDIT.ITED_FIND_SELECTED + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_EDIT_FIND_SELECTED, bePatient);
-
-        EditMenu.addMenuDivider("arduino.menu.edit.divider1");
-        EditMenu.addMenuItem(ARDUINO_MENU_EDIT_COPY_FORUM);
-        EditMenu.addMenuItem(ARDUINO_MENU_EDIT_COPY_HTML);
-        EditMenu.addMenuItem(ARDUINO_MENU_EDIT_FIND_SELECTED);
-    }
-
-    function createFileMenu() {
-        Menus.removeMenu(Menus.AppMenuBar.FILE_MENU);
-
-        var FileMenu2 = Menus.addMenu(Strings.ARDUINO.MENU.FILE.TITLE, ARDUINO_MENU_FILE_ID, Menus.FIRST);
-        //settingsFile;
-        //FileUtils;
+        //FILE
         CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_OPEN_SAMPLES, ARDUINO_MENU_FILE_OPEN_SAMPLE_FOLDER, fileMenu_SampleFolder);
         CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_UPLOAD, ARDUINO_MENU_FILE_UPLOAD, fileMenu_Upload);
         CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_UPLOAD_USE_PROGR + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_FILE_UPLOAD_BY_PROGRAMMER, bePatient);
@@ -213,35 +157,173 @@ define(function (require, exports, module) {
         CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_PRINT + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_FILE_PRINT, bePatient);
         CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_PREFERENCES + " [" + Strings.ARDUINO.EXTRAS.WIP + "]", ARDUINO_MENU_FILE_SETTINGS, fileMenu_showPreferences);
 
-        FileMenu2.addMenuItem(Commands.FILE_NEW);
-        FileMenu2.addMenuItem(Commands.FILE_OPEN);
-        FileMenu2.addMenuItem(ARDUINO_MENU_FILE_OPEN_SAMPLE_FOLDER);
-        FileMenu2.addMenuItem(Commands.FILE_OPEN_FOLDER); //cartella esempi
-        FileMenu2.addMenuItem(Commands.FILE_CLOSE);
-        FileMenu2.addMenuItem(Commands.FILE_SAVE);
-        FileMenu2.addMenuItem(Commands.FILE_SAVE_AS);
-        FileMenu2.addMenuItem(ARDUINO_MENU_FILE_UPLOAD);
-        FileMenu2.addMenuItem(ARDUINO_MENU_FILE_UPLOAD_BY_PROGRAMMER);
-        FileMenu2.addMenuDivider("arduino.menu.file.divider1");
-        FileMenu2.addMenuItem(ARDUINO_MENU_FILE_PAGE_SETTINGS);
-        FileMenu2.addMenuItem(ARDUINO_MENU_FILE_PRINT);
-        FileMenu2.addMenuDivider("arduino.menu.file.divider2")
-        FileMenu2.addMenuItem(ARDUINO_MENU_FILE_SETTINGS);
-        FileMenu2.addMenuDivider("arduino.menu.file.divider3")
+        //ArduinoMenu.addMenuItem(Commands.FILE_NEW);
+        //ArduinoMenu.addMenuItem(Commands.FILE_OPEN);
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_FILE_OPEN_SAMPLE_FOLDER);
+        ArduinoMenu.addMenuItem(Commands.FILE_OPEN_FOLDER); //cartella esempi
+        ArduinoMenu.addMenuItem(Commands.FILE_CLOSE);
+        ArduinoMenu.addMenuItem(Commands.FILE_SAVE);
+        ArduinoMenu.addMenuItem(Commands.FILE_SAVE_AS);
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_FILE_UPLOAD);
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_FILE_UPLOAD_BY_PROGRAMMER);
+        //ArduinoMenu.addMenuDivider();
+        //ArduinoMenu.addMenuItem(ARDUINO_MENU_FILE_PAGE_SETTINGS);
+        //ArduinoMenu.addMenuItem(ARDUINO_MENU_FILE_PRINT);
+        //ArduinoMenu.addMenuDivider()
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_FILE_SETTINGS);
+        //ArduinoMenu.addMenuDivider();
 
-        //TODO SHOW FILE.QUIT ONLY IF IS NOT MACOSX
-        FileMenu2.addMenuItem(Commands.FILE_QUIT);
-    }
+        //EDIT
+        CommandManager.register(Strings.ARDUINO.MENU.EDIT.ITEM_COPY_FORUM, ARDUINO_MENU_EDIT_COPY_FORUM, editMenu_copyForum);
+        CommandManager.register(Strings.ARDUINO.MENU.EDIT.ITEM_COPY_HTML + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_EDIT_COPY_HTML, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.EDIT.ITED_FIND_SELECTED + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_EDIT_FIND_SELECTED, bePatient);
 
-    function createHelpMenu() {
-        var HelpMenu = Menus.getMenu(Menus.AppMenuBar.HELP_MENU, ARDUINO_MENU_HELP_ID);
+        ArduinoMenu.addMenuDivider();
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_EDIT_COPY_FORUM);
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_EDIT_COPY_HTML);
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_EDIT_FIND_SELECTED);
 
+        //TOOL
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_AUTO_FORMATTING  + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_AUTO_FORMATTING, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_STORE_SKETCH + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_STORE_SKETCH, bePatient);
+        //CommandManager.register("Fix encoding and reload [Coming Soon (A)]", ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_SERIAL_MONITOR, ARDUINO_MENU_TOOL_SERIAL_MONITOR, toolMenu_SerialMonitor);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_BOARD, ARDUINO_MENU_TOOL_SELECT_BOARD, toolMenu_SelectBoardPanel);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_PORT, ARDUINO_MENU_TOOL_SELECT_PORT, toolMenu_SelectPortPanel);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_PROGRAMMER, ARDUINO_MENU_TOOL_SELECT_PROGRAMMER, toolMenu_SelectProgrammerPanel);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_BURN_BOOTLOADER + " [" +Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_WRITE_BOOTLOADER, bePatient);
+
+        ArduinoMenu.addMenuDivider();
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_TOOL_AUTO_FORMATTING);
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_TOOL_STORE_SKETCH);
+        //ArduinoMenu.addMenuItem(ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD);
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_TOOL_SERIAL_MONITOR);
+        //ArduinoMenu.addMenuDivider();
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_TOOL_SELECT_BOARD);
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_TOOL_SELECT_PORT);
+        //ArduinoMenu.addMenuDivider();
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_TOOL_SELECT_PROGRAMMER);
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_TOOL_WRITE_BOOTLOADER);
+
+        //SKETCH
+        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_BUILD, ARDUINO_MENU_SKETCH_VERIFY_COMPILE, sketchMenu_VerifyCompile);
+        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_ADD_FILE, ARDUINO_MENU_SKETCH_ADD_FILE, sketchMenu_AddFile);
+        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_IMPORT_LIB + " [" + Strings.ARDUINO.EXTRAS.WIP +"]", ARDUINO_MENU_SKETCH_IMPORT_LIBS, sketchMenu_ImportLibs);
+        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_SHOW_FOLDER + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_SKETCH_OPEN_SKETCH_FOLDER, bePatient);
+
+        ArduinoMenu.addMenuDivider();
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_SKETCH_VERIFY_COMPILE);
+        //ArduinoMenu.addMenuDivider();
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_SKETCH_ADD_FILE);
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_SKETCH_IMPORT_LIBS);
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_SKETCH_OPEN_SKETCH_FOLDER);
+
+        //HELP
         CommandManager.register(Strings.ARDUINO.MENU.HELP.ITEM_ABOUT, ARDUINO_MENU_HELP_ABOUT, helpMenu_showAboutDialog);
 
-        HelpMenu.addMenuDivider("arduino.menu.help.divider1");
-        HelpMenu.addMenuItem(ARDUINO_MENU_HELP_ABOUT);
-
+        ArduinoMenu.addMenuDivider();
+        ArduinoMenu.addMenuItem(ARDUINO_MENU_HELP_ABOUT);
     }
+
+
+    //function createToolMenu() {
+    //    var ToolsMenu = Menus.addMenu(Strings.ARDUINO.MENU.TOOLS.TITLE, ARDUINO_MENU_TOOLS_ID, Menus.FIRST);
+    //
+    //    CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_AUTO_FORMATTING  + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_AUTO_FORMATTING, bePatient);
+    //    CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_STORE_SKETCH + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_STORE_SKETCH, bePatient);
+    //    //CommandManager.register("Fix encoding and reload [Coming Soon (A)]", ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD, bePatient);
+    //    CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_SERIAL_MONITOR, ARDUINO_MENU_TOOL_SERIAL_MONITOR, toolMenu_SerialMonitor);
+    //
+    //    CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_BOARD, ARDUINO_MENU_TOOL_SELECT_BOARD, toolMenu_SelectBoardPanel);
+    //    CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_PORT, ARDUINO_MENU_TOOL_SELECT_PORT, toolMenu_SelectPortPanel);
+    //
+    //    CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_PROGRAMMER, ARDUINO_MENU_TOOL_SELECT_PROGRAMMER, toolMenu_SelectProgrammerPanel);
+    //    CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_BURN_BOOTLOADER + " [" +Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_WRITE_BOOTLOADER, bePatient);
+    //
+    //    ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_AUTO_FORMATTING);
+    //    ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_STORE_SKETCH);
+    //    //ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD);
+    //    ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_SERIAL_MONITOR);
+    //    ToolsMenu.addMenuDivider("arduino.menu.tools.divider1");
+    //    ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_SELECT_BOARD);
+    //    ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_SELECT_PORT);
+    //    ToolsMenu.addMenuDivider("arduino.menu.tools.divider2");
+    //    ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_SELECT_PROGRAMMER);
+    //    ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_WRITE_BOOTLOADER);
+    //}
+
+    //function createSketchMenu() {
+    //    var SketchMenu = Menus.addMenu(Strings.ARDUINO.MENU.SKETCH.TITLE, ARDUINO_MENU_SKETCH_ID, Menus.FIRST);
+    //
+    //    CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_BUILD, ARDUINO_MENU_SKETCH_VERIFY_COMPILE, sketchMenu_VerifyCompile);
+    //    CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_ADD_FILE, ARDUINO_MENU_SKETCH_ADD_FILE, sketchMenu_AddFile);
+    //    CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_IMPORT_LIB + " [" + Strings.ARDUINO.EXTRAS.WIP +"]", ARDUINO_MENU_SKETCH_IMPORT_LIBS, sketchMenu_ImportLibs);
+    //    CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_SHOW_FOLDER + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_SKETCH_OPEN_SKETCH_FOLDER, bePatient);
+    //
+    //    SketchMenu.addMenuItem(ARDUINO_MENU_SKETCH_VERIFY_COMPILE);
+    //    SketchMenu.addMenuDivider("arduino.menu.sketch.divider1");
+    //    SketchMenu.addMenuItem(ARDUINO_MENU_SKETCH_ADD_FILE);
+    //    SketchMenu.addMenuItem(ARDUINO_MENU_SKETCH_IMPORT_LIBS);
+    //    SketchMenu.addMenuItem(ARDUINO_MENU_SKETCH_OPEN_SKETCH_FOLDER);
+    //}
+
+    //function createEditMenu(){
+    //    //Menus.removeMenu(Menus.AppMenuBar.EDIT_MENU);
+    //
+    //    var EditMenu = Menus.getMenu(Menus.AppMenuBar.EDIT_MENU);//Menus.addMenu("Edit", ARDUINO_MENU_EDIT_ID, Menus.FIRST);
+    //
+    //    CommandManager.register(Strings.ARDUINO.MENU.EDIT.ITEM_COPY_FORUM, ARDUINO_MENU_EDIT_COPY_FORUM, editMenu_copyForum);
+    //    CommandManager.register(Strings.ARDUINO.MENU.EDIT.ITEM_COPY_HTML + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_EDIT_COPY_HTML, bePatient);
+    //    CommandManager.register(Strings.ARDUINO.MENU.EDIT.ITED_FIND_SELECTED + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_EDIT_FIND_SELECTED, bePatient);
+    //
+    //    EditMenu.addMenuDivider("arduino.menu.edit.divider1");
+    //    EditMenu.addMenuItem(ARDUINO_MENU_EDIT_COPY_FORUM);
+    //    EditMenu.addMenuItem(ARDUINO_MENU_EDIT_COPY_HTML);
+    //    EditMenu.addMenuItem(ARDUINO_MENU_EDIT_FIND_SELECTED);
+    //}
+
+    //function createFileMenu() {
+    //    Menus.removeMenu(Menus.AppMenuBar.FILE_MENU);
+    //
+    //    var FileMenu2 = Menus.addMenu(Strings.ARDUINO.MENU.FILE.TITLE, ARDUINO_MENU_FILE_ID, Menus.FIRST);
+    //    //settingsFile;
+    //    //FileUtils;
+    //    CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_OPEN_SAMPLES, ARDUINO_MENU_FILE_OPEN_SAMPLE_FOLDER, fileMenu_SampleFolder);
+    //    CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_UPLOAD, ARDUINO_MENU_FILE_UPLOAD, fileMenu_Upload);
+    //    CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_UPLOAD_USE_PROGR + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_FILE_UPLOAD_BY_PROGRAMMER, bePatient);
+    //    CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_PRINT_PAGE_SETTING  + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_FILE_PAGE_SETTINGS, bePatient);
+    //    CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_PRINT + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_FILE_PRINT, bePatient);
+    //    CommandManager.register(Strings.ARDUINO.MENU.FILE.ITEM_PREFERENCES + " [" + Strings.ARDUINO.EXTRAS.WIP + "]", ARDUINO_MENU_FILE_SETTINGS, fileMenu_showPreferences);
+    //
+    //    FileMenu2.addMenuItem(Commands.FILE_NEW);
+    //    FileMenu2.addMenuItem(Commands.FILE_OPEN);
+    //    FileMenu2.addMenuItem(ARDUINO_MENU_FILE_OPEN_SAMPLE_FOLDER);
+    //    FileMenu2.addMenuItem(Commands.FILE_OPEN_FOLDER); //cartella esempi
+    //    FileMenu2.addMenuItem(Commands.FILE_CLOSE);
+    //    FileMenu2.addMenuItem(Commands.FILE_SAVE);
+    //    FileMenu2.addMenuItem(Commands.FILE_SAVE_AS);
+    //    FileMenu2.addMenuItem(ARDUINO_MENU_FILE_UPLOAD);
+    //    FileMenu2.addMenuItem(ARDUINO_MENU_FILE_UPLOAD_BY_PROGRAMMER);
+    //    FileMenu2.addMenuDivider("arduino.menu.file.divider1");
+    //    FileMenu2.addMenuItem(ARDUINO_MENU_FILE_PAGE_SETTINGS);
+    //    FileMenu2.addMenuItem(ARDUINO_MENU_FILE_PRINT);
+    //    FileMenu2.addMenuDivider("arduino.menu.file.divider2")
+    //    FileMenu2.addMenuItem(ARDUINO_MENU_FILE_SETTINGS);
+    //    FileMenu2.addMenuDivider("arduino.menu.file.divider3")
+    //
+    //    //TODO SHOW FILE.QUIT ONLY IF IS NOT MACOSX
+    //    FileMenu2.addMenuItem(Commands.FILE_QUIT);
+    //}
+
+    //function createHelpMenu() {
+    //    var HelpMenu = Menus.getMenu(Menus.AppMenuBar.HELP_MENU, ARDUINO_MENU_HELP_ID);
+    //
+    //    CommandManager.register(Strings.ARDUINO.MENU.HELP.ITEM_ABOUT, ARDUINO_MENU_HELP_ABOUT, helpMenu_showAboutDialog);
+    //
+    //    HelpMenu.addMenuDivider("arduino.menu.help.divider1");
+    //    HelpMenu.addMenuItem(ARDUINO_MENU_HELP_ABOUT);
+    //
+    //}
 
     //TOOL
     function toolMenu_SelectBoardPanel(){
