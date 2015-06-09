@@ -117,6 +117,7 @@ define(function (require, exports, module) {
 
     var showSerialMonitor = function(){
         brackets.arduino.dispatcher.trigger("arduino-event-console-hide");
+        $('#toolbar-console-btn').removeClass('consolehover');
 
         if (!serialMonitorPanel.isVisible()) {
             serialMonitorPanel.show();
@@ -129,10 +130,13 @@ define(function (require, exports, module) {
                     brackets.arduino.dispatcher.trigger("arduino-event-console-log", serialMonitorPrefix + " Serial monitor connected to " + serialPort.address);
                 }
             });
+            $('#toolbar-serial-btn').addClass('serialhover');
         }
     }
 
     var hideSerialMonitor = function(){
+        $('#toolbar-serial-btn').removeClass('serialhover');
+
         if (serialMonitorPanel.isVisible()){
             serialMonitorPanel.hide();
             closeSerialPort(serialPort, function(err){

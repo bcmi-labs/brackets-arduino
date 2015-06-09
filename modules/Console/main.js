@@ -86,20 +86,24 @@ define(function(require, exports, module){
 							brackets.arduino.dispatcher.trigger("arduino-event-serialmonitor-hide");
 							if(!panel.isVisible){
 								panel.show();
+								$('#toolbar-console-btn').addClass('consolehover');
 							}
 		},
 		hideConsole = function($event){
 							if(panel.isVisible){
 								panel.hide();
+								$('#toolbar-console-btn').removeClass('consolehover');
 							}
 		},
 		showHideConsole = function($event){
 							if(panel.isVisible()){
 								panel.hide();
+								$('#toolbar-console-btn').removeClass('consolehover');
 							}
 							else{
 								brackets.arduino.dispatcher.trigger("arduino-event-serialmonitor-hide");
 								panel.show();
+								$('#toolbar-console-btn').addClass('consolehover');
 							}
 		};
 
@@ -124,8 +128,10 @@ define(function(require, exports, module){
 		brackets.arduino.dispatcher.on("arduino-event-console-hide", hideConsole);
 		brackets.arduino.dispatcher.on("arduino-event-console", showHideConsole);
 
-		if(brackets.arduino.preferences.get("arduino.ide.preferences.consoleshow"))
+		if(brackets.arduino.preferences.get("arduino.ide.preferences.consoleshow")){
 			panel.show();
+			$('#toolbar-console-btn').addClass('consolehover');
+		}
 	}
 
 	AppInit.htmlReady(function () {
