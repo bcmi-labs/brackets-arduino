@@ -6,6 +6,7 @@
 define({
     "ARDUINO": {
         "MENU": {
+            "TITLE" :   "Arduino",
             "SKETCH": {
                 "TITLE"             : "Sketch",
                 "ITEM_BUILD"        : "Verifica / Compila",
