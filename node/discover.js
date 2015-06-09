@@ -75,8 +75,8 @@
 				Async.filter(ports,
 					function(item, cbk_2_1){
 
-						//MACOSX
-						if(process.platform == "mac" || process.platform == "darwin"){
+						//MACOSX AND LINUX
+						if(process.platform == "mac" || process.platform == "darwin" || process.platform == "linux"){
 							if(pids.length == 0)
 								cbk_2_1(true);
 							else
@@ -86,7 +86,7 @@
 									cbk_2_1(false);
 						}
 
-						//WIN:
+						//WIN
 						if(process.platform == "win" || process.platform == "win32" || process.platform == "win64"){
 
 							item.vendorId  = "0X"+item.pnpId.substring(item.pnpId.indexOf("VID_")+4, item.pnpId.indexOf("VID_")+8);
@@ -100,9 +100,6 @@
 								else
 									cbk_2_1(false);
 						}
-
-						//TODO LINUX
-
 					},
 					function(result){
 						cbk_2(null, result);
@@ -116,8 +113,8 @@
 
 						bport.address = port.comName;		//ADDRESS
 						bport.protcol = "serial";			//PROTOCOL
-						//MACOSX
-						if(process.platform == "mac" || process.platform == "darwin"){
+						//MACOSX AND LINUX
+						if(process.platform == "mac" || process.platform == "darwin" || process.platform == "linux"){
 							bport.vid =  port.vendorId;
 							bport.pid =  port.productId;
 						}
