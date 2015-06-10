@@ -49,7 +49,9 @@ define(function (require, exports, module) {
     var filesystemDomainName    = "org-arduino-ide-domain-filesystem",
         filesystemDomain        = null,
         copypasteDomainName     = "org-arduino-ide-domain-copypaste",
-        copypasteDomain         = null;
+        copypasteDomain         = null,
+        driverDomainName        = "org-arduino-ide-domain-driver",
+        driverDomain            = null;
 
     var menuPrefix         = "[arduino ide - menu] ";
 
@@ -96,7 +98,9 @@ define(function (require, exports, module) {
 
 
     //Edit Menu IDs
-    var ARDUINO_MENU_HELP_ABOUT 			        = "arduino.ide.menu.help.about";
+    var ARDUINO_MENU_HELP_ABOUT 			        = "arduino.ide.menu.help.about",
+        ARDUINO_MENU_HELP_DRIVER 			        = "arduino.ide.menu.help.driver";
+
 
     var Strings;
     /**
@@ -106,6 +110,9 @@ define(function (require, exports, module) {
         //get domains
         filesystemDomain = brackets.arduino.domains[filesystemDomainName];
         copypasteDomain  = brackets.arduino.domains[copypasteDomainName];
+
+        driverDomain    = brackets.arduino.domains[driverDomainName];
+
         Strings = brackets.arduino.strings;
         sketch_importLibraryDirectory       = brackets.arduino.options.librariesdir;
         sketch_importLibraryUserDirectory       = brackets.arduino.options.userlibrariesdir;
@@ -238,7 +245,13 @@ define(function (require, exports, module) {
 
         CommandManager.register(Strings.ARDUINO.MENU.HELP.ITEM_ABOUT, ARDUINO_MENU_HELP_ABOUT, helpMenu_showAboutDialog);
 
-        HelpMenu.addMenuDivider("arduino.menu.help.divider1");
+        if(brackets.platform === 'win')
+            CommandManager.register(Strings.ARDUINO.MENU.HELP.ITEM_WIN_DRIVER, ARDUINO_MENU_HELP_DRIVER, helpMenu_driver);
+
+        HelpMenu.addMenuDivider();
+        if(brackets.platform === 'win')
+            HelpMenu.addMenuItem(ARDUINO_MENU_HELP_DRIVER);
+
         HelpMenu.addMenuItem(ARDUINO_MENU_HELP_ABOUT);
 
     }
@@ -476,6 +489,14 @@ define(function (require, exports, module) {
         Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.ABOUT.TITLE, html);
         ExtensionUtils.loadStyleSheet(module, "css/aboutDialog.css");
     }
+
+
+    function helpMenu_driver(){
+        var driversPath = FileSystem.getFileForPath(brackets.arduino.options.shared.fullPath + "drivers");
+        driverDomain.exec("install", driversPath.fullPath);
+    }
+
+
 
 /*    //ARDUINO EXAMPLES ???
     function setMenuActions($event,data){
