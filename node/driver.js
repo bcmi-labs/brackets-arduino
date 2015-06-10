@@ -42,38 +42,30 @@
 
     function install(driverPath){console.log("A "+driverPath);
         async.series([
-                function(callback){console.log("B1");
+                function(callback){
+                    console.log("C1 ");
+                    // atmel windows drivers
+                    var fileexe = path.join(driverPath , 'driver-atmel-bundle-7.0.712.exe'); console.log("CC " + fileexe);
+                    var atmelInstallation  = exec( "\""+ fileexe + "\"" ,
+                        function (error, stdout, stderr) {
+                                callback(null, 'arduino');
+                        });
+                },
+                function(callback){
+                    console.log("B1");
                     // arduino and linino windows drivers
-                    var fileexe = isWin64() ? path.join(driverPath , 'dpinst-amd64.exe') : path.join(driverPath + 'dpinst-x86.exe'); console.log("B2 " + fileexe);
+                    var fileexe = isWin64() ? path.join(driverPath , 'dpinst-amd64.exe') : path.join(driverPath, 'dpinst-x86.exe');
+                    console.log("B2 " + fileexe);
                     var driverInstallation  = exec("\""+fileexe+"\"",
                         function (error, stdout, stderr) {
 							console.log("B2.1");
-                            if (error !== null){
-								console.error('B3: ' + error);
-                                callback(error);
-							}
-                            else{
-								console.log("B3 " + stdout);
 								callback(null, 'arduino');
-							}
-                        });
-                },
-                function(callback){console.log("C1 ");
-                    // atmel windows drivers
-					var fileexe = path.join(driverPath + 'driver-atmel-bundle-7.0.712.exe'); console.log("CC " + fileexe);
-                    var atmelInstallation  = exec( "\""+ fileexe + "\"" ,
-                        function (error, stdout, stderr) {
-                            if (error !== null)
-                            //console.log('exec error: ' + error);
-                                callback(error);
-                            else
-                                callback(null, 'arduino');
                         });
                 }
             ],
             // optional callback
             function(err, results){
-                if(!err){console.log("ERR "+err);
+                if(err){console.log("ERR "+err);
                     console.error(err);
                 }
                 else{

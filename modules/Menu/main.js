@@ -246,7 +246,7 @@ define(function (require, exports, module) {
         CommandManager.register(Strings.ARDUINO.MENU.HELP.ITEM_ABOUT, ARDUINO_MENU_HELP_ABOUT, helpMenu_showAboutDialog);
 
         if(brackets.platform === 'win')
-            CommandManager.register(Strings.ARDUINO.MENU.HELP.ITEM_WIN_DRIVER, ARDUINO_MENU_HELP_DRIVER, helpMenu_driver);
+            CommandManager.register(Strings.ARDUINO.MENU.HELP.ITEM_DRIVER, ARDUINO_MENU_HELP_DRIVER, helpMenu_driver);
 
         HelpMenu.addMenuDivider();
         if(brackets.platform === 'win')
