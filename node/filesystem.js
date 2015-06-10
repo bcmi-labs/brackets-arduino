@@ -98,8 +98,8 @@
 	}*/
 
 	function init(domainManager){
-		if(!domainManager.hasDomain("fsInterface")){
-			domainManager.registerDomain("fsInterface", {major: 0, minor: 1});
+		if(!domainManager.hasDomain(domainName)){
+			domainManager.registerDomain(domainName, {major: 0, minor: 1});
 		}
 		dManager = domainManager;
 		
