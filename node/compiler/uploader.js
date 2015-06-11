@@ -199,7 +199,7 @@ exports.upload = function(hexfile,options, publish, callback) {
 										console.log("got new path 2 : ",options.port);
 									runAVRDude(hexfile, options, debug, callback);
                             })
-                        },500);
+                        },2000);
                     })
                 });
 
