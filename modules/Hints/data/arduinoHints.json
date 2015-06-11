@@ -87,5 +87,6 @@
     "attachInterrupt | Syntax: attachInterrupt(interrupt, ISR, mode);": true,
     "detachInterrupt | Syntax: detachInterrupt(interrupt);": true,
     "interrupts | Syntax: interrupts();": true,
-    "noInterrupts | Syntax: noInterrupts();": true
+    "noInterrupts | Syntax: noInterrupts();": true,
+    "begin | begin(speed, config)":true
 }
