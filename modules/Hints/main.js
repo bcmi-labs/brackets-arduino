@@ -375,6 +375,7 @@ var hintwords = [], arduinoKeys = [], isKeyword = false, libraryKeys = [], libra
     }
 
 	CodeMirror.defineMIME("text/x-ino", "ino");
+    LanguageManager.getLanguage('cpp').removeFileExtension('ino');
     LanguageManager.defineLanguage("ino", {
         name: "Arduino",
         mode: "ino",
