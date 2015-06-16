@@ -156,6 +156,8 @@ define(function (require, exports, module) {
 
         $('.working-set-splitview-btn').remove();
 
+        // Add hover class to console-btn
+        $('#toolbar-console-btn').addClass('consolehover');
     });
 
 });
