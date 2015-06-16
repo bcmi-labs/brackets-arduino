@@ -11,8 +11,7 @@ var SerialPort = require('serialport').SerialPort,
 	sp = null;
 
 var SerialPort2 = require('serialport');
-	
-//function runAVRDude(hexfile, portpath, options, debug, cb) {
+
 function runAVRDude(hexfile, options, debug, cb) {
     debug("running AVR dude");
     if(options.platform.useSerial()) {
@@ -43,17 +42,6 @@ function runAVRDude(hexfile, options, debug, cb) {
     }
 
     console.log("running", uploadcmd.join(' '));
-	//---------------------------------
-	//sp = new SerialPort(portpath,{
-//	sp = new SerialPort(options.port,{ baudRate:1200 });
-//	sp = new SerialPort(options.port);
-
-//	sp.on('open',function() {
-//		sp.close(function(err) {
-//			if(!err){
-				//var start = new Date().getTime();
-				//while(((new Date).getTime()-start)<=2000){};
-				
 				var result = child_process.execFile(
 					uploadcmd[0],
 					uploadcmd.slice(1),
@@ -77,11 +65,6 @@ function runAVRDude(hexfile, options, debug, cb) {
 						}
 					}
 				);
-//			}
-//			else
-//				console.log("APERTURA errore");
-//		});
-//	});
 }
 
 function scanForPortReturn(list1,options, cb) {
@@ -97,8 +80,7 @@ function scanForPortReturn(list1,options, cb) {
             },700);
         } else {
             console.log('we are back to normal!');
-//TODO    controllare
-			console.log("....................................................")
+//TODO
 			setTimeout(function() {
 			console.log(JSON.stringify(list2));
 				console.log("TEST 2: "+options.device.uid.length);
@@ -111,11 +93,9 @@ function scanForPortReturn(list1,options, cb) {
 					//if (list2[item].pnpId=="") {
 						console.log("SELECTED : " + JSON.stringify(list2[item]));
 						selected = list2[item].comName;
-						//cb(list2[item].comName);
 					}
 				}
 			}
-                //cb(list1[list1.length-1].comName);
 				cb(selected);
             },500);
         }
@@ -194,8 +174,6 @@ exports.upload = function(hexfile,options, publish, callback) {
         }
     }
     console.log("uploading to device using ",options.device);
-
-    //if(options.device.bootloader.path == 'caterina') {
     if(options.device.bootloader.file.indexOf('caterina')> -1) {
         console.log("need to do the leonardo dance");
 
@@ -221,7 +199,7 @@ exports.upload = function(hexfile,options, publish, callback) {
 										console.log("got new path 2 : ",options.port);
 									runAVRDude(hexfile, options, debug, callback);
                             })
-                        },500);
+                        },2000);
                     })
                 });
 
@@ -233,7 +211,7 @@ exports.upload = function(hexfile,options, publish, callback) {
     }
 }
 
-//TODO modificare port con options.port e lasciare un solo parametro
+//TODO edit port -> options.port ; 1 parameter
 exports.writeBootloader = function(port, options){
 	    console.log("running AVR dude");
 
@@ -254,8 +232,7 @@ exports.writeBootloader = function(port, options){
 
 	if(options.verboseupload)
 		cmd.push('-v','-v','-v', '-v');
-		
-	console.log("******************************************");
+
     console.log("writing bootloader \n", uploadcmd.join(' '));
 	
 	var newcmd = customizeUpload(uploadcmd, uploadcmd[searchStringInArray('-c', uploadcmd)].slice(2));

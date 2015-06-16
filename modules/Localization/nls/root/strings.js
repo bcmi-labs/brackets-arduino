@@ -40,6 +40,7 @@ define({
             },
             "HELP": {
                 "TITLE"        : "Help",
+                "ITEM_DRIVER"  : "Install Arduino driver",
                 "ITEM_ABOUT"   : "About Arduino"
             }
         },

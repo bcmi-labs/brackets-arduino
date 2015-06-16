@@ -52,7 +52,8 @@ define(function (require, exports, module) {
         filesystemDomainName        = "org-arduino-ide-domain-filesystem",
         copypasteDomainName         = "org-arduino-ide-domain-copypaste",
 		compilerDomainName          = "org-arduino-ide-domain-compiler",
-        osDomainName                = "org-arduino-ide-domain-os";
+        osDomainName                = "org-arduino-ide-domain-os",
+        driverDomainName            = "org-arduino-ide-domain-driver";
 
 
 
@@ -93,6 +94,7 @@ define(function (require, exports, module) {
         brackets.arduino.domains[copypasteDomainName]       = new NodeDomain( copypasteDomainName, ExtensionUtils.getModulePath(module, "node/copypaste"));
 		brackets.arduino.domains[compilerDomainName]        = new NodeDomain( compilerDomainName, ExtensionUtils.getModulePath(module, "node/compiler"));
         brackets.arduino.domains[osDomainName]              = new NodeDomain( osDomainName, ExtensionUtils.getModulePath(module, "node/os"));
+        brackets.arduino.domains[driverDomainName]          = new NodeDomain( driverDomainName, ExtensionUtils.getModulePath(module, "node/driver"));
 
         //TODO complete with others platform path: core, user lib, sketchbook...
         brackets.arduino.options.rootdir            = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module));
@@ -100,6 +102,7 @@ define(function (require, exports, module) {
         brackets.arduino.options.modulesdir         = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/modules");
         brackets.arduino.options.hardwaredir        = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/hardware");
         brackets.arduino.options.examples           = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/examples");
+        brackets.arduino.options.shared             = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/shared");
         //brackets.arduino.options.sketcbook          = FileSystem.getDirectoryForPath( brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook") ||  getDefaultSketchBook() );//brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook") == "" ? getDefaultSketchBook() : brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook");
         //brackets.arduino.options.userlibrariesdir   = FileSystem.getDirectoryForPath( brackets.arduino.options.sketcbook.fullPath + "/libraries");
 

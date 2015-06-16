@@ -37,7 +37,8 @@
 "org-arduino-ide-domain-discovery"          : discovery domain name
 "org-arduino-ide-domain-filesystem"         : filesystem domain name
 "org-arduino-ide-domain-compiler"           : compiler domain name
-"org-arduino-ide-domain-osr"          : os domain name
+"org-arduino-ide-domain-os"                 : os domain name
+"org-arduino-ide-domain-driver"             : driver domain name
 
 ##########
 
