@@ -38,9 +38,11 @@
 	
 	
 	//function open(port, rate, eol) {
-	function open(port, rate) {
+	function open(port, rate, eol) {
 		var args = Args([
-						{ port:   	Args.STRING 	| Args.Required }
+						{ port:   	Args.STRING 	| Args.Required },
+						{ rate:		Args.INT		| Args.Required },
+						{ eol:		Args.STRING		| Args.Optional },
 						], arguments);
 
 		sp = new SerialPort(args.port, { baudRate: args.rate },false);
@@ -69,9 +71,74 @@
   			} 
   			else {
     			//console.log('open');
+				var my_data_array = [];
 			    sp.on('data', function(data) {
-			      //console.log('data received: ' + data);
-			      dManager.emitEvent (domainName, "serial_data", data.toString());
+					var flag = true;
+
+
+					for(var i = 0; i< data.length; i++)
+					{
+						if(args.eol.indexOf(',')>0)
+						{
+							var eols = args.eol.split(',');
+							eols[0] = eols[0].substring(1, eols[0].length);
+							eols[1] = eols[1].substring(0, eols[1].length-1);
+							if (data[i] == eols[0] || data[i] == eols[1]) {
+								//my_data_array.push(data[i]);
+								var new_buf = new Buffer(my_data_array);
+								dManager.emitEvent(domainName, "serial_data", new_buf.toString());
+								my_data_array = [];
+								flag = false;
+							}
+							else
+								my_data_array.push(data[i]);
+						}
+						else if(args.eol == "NA")
+						{
+							if (data[i] == 10 || data[i] == 13) {
+								var new_buf = new Buffer(my_data_array);
+								dManager.emitEvent(domainName, "serial_data", new_buf.toString());
+								my_data_array = [];
+								flag = false;
+							}
+							else
+								my_data_array.push(data[i]);
+						}
+						else
+						{
+							if (data[i] == args.eol) {
+								my_data_array.push(data[i]);
+								var new_buf = new Buffer(my_data_array);
+								dManager.emitEvent(domainName, "serial_data", new_buf.toString());
+								my_data_array = [];
+								flag = false;
+							}
+							else
+								my_data_array.push(data[i]);
+						}
+					}
+
+					/*if(flag) {
+						var new_buf = new Buffer(my_data_array);
+						dManager.emitEvent(domainName, "serial_data", new_buf.toString());
+						my_data_array = [];
+					}*/
+
+					//ORIGINAL
+					/*if(last_data != 13 || last_data!=10)
+					{
+						serial_data += data;
+						dManager.emitEvent(domainName, "serial_data", data.toString());
+					}
+					else
+					{
+						serial_data +=data;
+						serial_data = serial_data.substring(0, serial_data.length-1);
+						dManager.emitEvent(domainName, "serial_data", serial_data);
+						serial_data = "";
+
+					}*/
+			      	//dManager.emitEvent (domainName, "serial_data", data.toString());
 			    });
 			}
 		});
