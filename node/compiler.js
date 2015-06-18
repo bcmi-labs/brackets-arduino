@@ -145,12 +145,7 @@
                     console.log(cmd.join(" "));
                     console.log(stdout);
                     console.log(stderr);
-                    var err = new Error("there was a problem running " + cmd.join(" "));
-                    err.cmd = cmd;
-                    err.output = stdout + stderr;
-                    if(debug) debug(err);
-                    cb(err);
-                    dm.emitEvent (domainName, "console-error", error);
+                    dm.emitEvent (domainName, "console-error", error.message);
                     return;
                 }
                 if(cb) cb();
