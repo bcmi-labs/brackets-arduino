@@ -362,8 +362,8 @@ var hintwords = [], arduinoKeys = [], isKeyword = false, libraryKeys = [], libra
                                                         "ino",
                                                         {   SUMMARY:array.Desc,
                                                             SYNTAX: array.Syn,
-                                                            URL:"http://labs.arduino.org/tiki-index.php?page="+ array.Name,
-                                                            BASEURL:"http://labs.arduino.org/tiki-index.php?page=",
+                                                            URL: "http://labs.arduino.org/" + pascalize(array.Name),
+                                                            BASEURL: "http://labs.arduino.org/", /*tiki-index.php?page=*/
                                                             EXAMPLES: array.Examples,
                                                             ADDITIONAL: array.Additional
                                                         }
@@ -372,6 +372,15 @@ var hintwords = [], arduinoKeys = [], isKeyword = false, libraryKeys = [], libra
             result.resolve(inlineWidget);
             return result.promise();
         }
+    }
+
+    function pascalize(str) {
+        //PacalCase
+        return str
+            .replace(/\s(.)/g, function($1) { return $1.toUpperCase(); })
+            .replace(/\s/g, '')
+            .replace(/^(.)/, function($1) { return $1.toUpperCase(); });
+
     }
 
 	CodeMirror.defineMIME("text/x-ino", "ino");
