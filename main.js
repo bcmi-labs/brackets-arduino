@@ -137,7 +137,7 @@ define(function (require, exports, module) {
         var menu            = new Menu();
 		var compiler 		= new Compiler();
 
-        ExtensionUtils.loadStyleSheet(module, "main.css");
+        //ExtensionUtils.loadStyleSheet(module, "main.css");
 
         opts.setTargetBoard( brackets.arduino.preferences.get("arduino.ide.options.target.board"));
         opts.setTargetPort( brackets.arduino.preferences.get("arduino.ide.options.target.port"));
