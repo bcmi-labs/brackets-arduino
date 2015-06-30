@@ -51,7 +51,7 @@ define(function (require, exports, module) {
 
     module.exports.load = function(){
 
-        //ExtensionUtils.loadStyleSheet(module, "./css/toolbar.css");
+        ExtensionUtils.loadStyleSheet(module, "./css/toolbar.css");
 
         $('.buttons').html(toolbar_top_html);
         $('.bottom-buttons').html(toolbar_bottom_html);
