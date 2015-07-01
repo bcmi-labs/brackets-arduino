@@ -1,10 +1,32 @@
 {
-  "version"	    :	1,
-  "hversion"	: 	"0.0.1",
-  "cycle"		: 	"alpha",
-  "source"      :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.1-alpha",
-  "changelog"	:	[],
-  "url"		    : 	"http://arduino.org/downloads",
-  "message"	    :	"",
-  "error"		:	""
+  "revisions":
+    [
+        {
+           "version"	:	2,
+           "hversion"	: 	"0.0.2",
+           "cycle"		: 	"alpha",
+           "source"     :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.2-alpha",
+           "changelog"	:	[
+                                {"name" : "studio", "desc": "open blink example at first run."},
+           						{"name" : "studio", "desc": "improve ui loading."},
+           						{"name" : "studio", "desc": "serial monitor responsive ui."},
+           						{"name" : "studio", "desc": "serial monitor fix end line chars in received messages."},
+           						{"name" : "studio", "desc": "fix icon now visible in bar for linux version."}
+           					],
+           "url"		: 	"http://arduino.org/downloads",
+           "message"	:	"",
+           "error"		:	""
+         },
+
+        {
+          "version"	    :	1,
+          "hversion"	: 	"0.0.1",
+          "cycle"		: 	"alpha",
+          "source"      :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.1-alpha",
+          "changelog"	:	[],
+          "url"		    : 	"http://arduino.org/downloads",
+          "message"	    :	"",
+          "error"		:	""
+        }
+    ]
 }
