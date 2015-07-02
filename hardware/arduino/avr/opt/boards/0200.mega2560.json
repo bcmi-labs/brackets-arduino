@@ -2,7 +2,7 @@
     "id": "mega2560",
     "name": "Arduino Mega 2560 or Mega ADK",
     "arch":"avr",
-    "enabled" : false,
+    "enabled" : true,
     "uid" : [
         {"vid":"0x2341", "pid":"0x0010"},
         {"vid":"0x2341", "pid":"0x0042"},
