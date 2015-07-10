@@ -235,8 +235,9 @@ define(function (require, exports, module) {
         FileMenu2.addMenuDivider("arduino.menu.file.divider2")
         FileMenu2.addMenuItem(ARDUINO_MENU_FILE_SETTINGS);
         FileMenu2.addMenuDivider("arduino.menu.file.divider3")
-
+        FileMenu2.addMenuItem(Commands.FILE_EXTENSION_MANAGER);
         //TODO SHOW FILE.QUIT ONLY IF IS NOT MACOSX
+        FileMenu2.addMenuDivider();
         FileMenu2.addMenuItem(Commands.FILE_QUIT);
     }
 
