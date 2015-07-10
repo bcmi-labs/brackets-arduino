@@ -1,7 +1,7 @@
 {
     "name": "Arduino Fio",
     "arch":"avr",
-    "enabled" : false,
+    "enabled" : true,
     "upload": {
 	"tool" : "avrdude",
         "protocol": "arduino",
