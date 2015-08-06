@@ -3,6 +3,6 @@
   "title": "Arduino",
   "description": "Arduino brackets extension",
   "homepage": "http://arduino.org",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Arduino.org Team <support@arduino.org>"
 }
