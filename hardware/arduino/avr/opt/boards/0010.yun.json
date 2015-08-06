@@ -50,7 +50,7 @@
     "variant": "yun",
     "board": "AVR_YUN",
     "usb_product": "Arduino Yun",
-    "extra_flags": "{usb_flags}"
+    "extra_flags": ""
   },
   "info": {
     "power": {

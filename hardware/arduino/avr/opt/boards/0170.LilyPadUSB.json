@@ -31,7 +31,7 @@
 	"board" : "AVR_LILYPAD_USB",
         "core": "arduino",
         "variant": "leonardo",
-	"extra_flags":"{usb_flags}"
+	"extra_flags":""
     },
     "id": "LilyPadUSB"
 }

@@ -31,7 +31,7 @@
 	"usb_product":"Robot Control",
         "variant": "robot_control",
 	"board":"AVR_ROBOT_CONTROL",
-	"extra_flags":"{usb_flags}"
+	"extra_flags":""
     },
     "id": "robotControl"
 }
