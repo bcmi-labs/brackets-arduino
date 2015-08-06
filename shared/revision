@@ -2,8 +2,8 @@
   "revisions":
     [
         {
-           "version"	:	2,
-           "hversion"	: 	"0.0.2",
+           "version"	:	3,
+           "hversion"	: 	"0.0.3",
            "date"       :   "2015-06-10",
            "cycle"		: 	"alpha",
            "source"     :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.2-alpha",
