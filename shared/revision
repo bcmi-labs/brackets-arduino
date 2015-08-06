@@ -8,6 +8,7 @@
            "cycle"		: 	"alpha",
            "source"     :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.2-alpha",
            "changelog"	:	[
+                                {"name" : "studio", "desc": "compiler module improved. enabled samd architecture."},
                                 {"name" : "studio", "desc": "enabled extension manager."},
                                 {"name" : "studio", "desc": "enabled avr boards: mega, mega adk, ethernet, fio, nano w/ 328."},
                                 {"name" : "studio", "desc": "open blink example at first run."},
