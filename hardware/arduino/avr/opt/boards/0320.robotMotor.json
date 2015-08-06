@@ -30,7 +30,7 @@
 	"usb_product":"AVR_ROBOT_MOTOR",
         "core": "arduino",
         "variant": "robot_motor",
-	"extra_flags":"{usb_flags}"
+	"extra_flags":""
     },
     "id": "robotMotor"
 }

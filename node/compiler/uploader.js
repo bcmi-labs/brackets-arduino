@@ -12,83 +12,22 @@ var SerialPort = require('serialport').SerialPort,
 
 var SerialPort2 = require('serialport');
 
-function runAVRDude(hexfile, options, debug, cb) {
-    debug("running AVR dude");
-    if(options.platform.useSerial()) {
-        var uploadcmd = [
-            options.platform.getAvrDudeBinary(),    	//[ /hardware/tools/avr/bin/avrdude]
-            '-C'+options.platform.getAvrDudeConf(),		//[ /hardware/tools/avr/etc/avrdude.conf]
-            //'-v','-v','-v', '-v', //super verbose
-            '-p'+options.device.build.mcu,
-            '-c'+options.device.upload.protocol,
-            //'-P'+portpath,
-            '-P'+options.port,
-            '-b'+options.device.upload.speed,
-            '-D', //don't erase
-            '-Uflash:w:'+hexfile+':i'
-        ];
-
-		if(options.verboseupload)
-			cmd.push('-v','-v','-v', '-v');
-
-    } else {
-        var uploadcmd = [
-            options.platform.getAvrDudeBinary(),	
-            '-C'+options.platform.getAvrDudeConf(),
-            '-c',options.platform.getProgrammerId(),//'usbtiny',
-            '-p',options.device.build.mcu,//'attiny85',
-            '-Uflash:w:'+hexfile,
-        ];
-    }
-
-    console.log("running", uploadcmd.join(' '));
-				var result = child_process.execFile(
-					uploadcmd[0],
-					uploadcmd.slice(1),
-					function(error, stdout, stderr) {
-						console.log(error,stdout,stderr);
-						if(error) {
-							console.log("error. code = ",error.code);
-							console.log(error);
-							var err = new Error("there was a problem running " + uploadcmd.join(" "));
-							err.cmd = uploadcmd;
-							//err.output = stdout + stderr;
-							err.message = stdout + stderr;   ///  creare direttamente in new Error (row 53)
-							err.type = "error";
-							console.log(stdout);
-							console.log(stderr)
-							debug(err);
-							if(cb) cb(err);
-						} else {
-							debug("uploaded");
-							if(cb) cb();
-						}
-					}
-				);
-}
-
 function scanForPortReturn(list1,options, cb) {
 	var selected = "";
     SerialPort2.list(function(err, list2) {
-        console.log("list 2 is ",list2);
-        console.log("lengths = ",list1.length,list2.length);
         if(list2.length < list1.length) {
             console.log("we need to rescan");
-			console.log("TEST 1: "+options.device.uid.length);
             setTimeout(function() {
                 scanForPortReturn(list1, options, cb);
             },700);
         } else {
             console.log('we are back to normal!');
-//TODO
 			setTimeout(function() {
-			console.log(JSON.stringify(list2));
-				console.log("TEST 2: "+options.device.uid.length);
 			for(item in list2)
 			{
-				console.log("TEST 2b: "+options.device.uid.length);
+			console.log("ELEMENT : " + JSON.stringify(item));
 				for(var i = 0; i < options.device.uid.length; i++) {
-					var suf_pid = options.device.uid[i].pid.substring(2);
+					var suf_pid = options.device.uid[i].pid.substring(2).toUpperCase();
 					if (list2[item].pnpId.indexOf('PID_' + suf_pid) > -1 || list2[item].pnpId==""){
 					//if (list2[item].pnpId=="") {
 						console.log("SELECTED : " + JSON.stringify(list2[item]));
@@ -164,56 +103,85 @@ function searchStringInArray (str, strArray) {
     return -1;
 }
 
-exports.upload = function(hexfile,options, publish, callback) {
-    function debug(message) {
-        var args = Array.prototype.slice.call(arguments);
-        if(message instanceof Error) {
-            publish({type:'error', message: args.join(" ") + message.output});
-        } else {
-            publish({type:"upload", message:args.join(" ")});
-        }
-    }
-    console.log("uploading to device using ",options.device);
-    if(options.device.bootloader.file.indexOf('caterina')> -1) {
-        console.log("need to do the leonardo dance");
-
-        //scan for ports
+//IN TESTING
+exports.upload = function(upcmd,options, publish, callback) {
+	function debug(message) {
+		var args = Array.prototype.slice.call(arguments);
+		if(message instanceof Error) {
+			publish({type:'error', message: args.join(" ") + message.output});
+		} else {
+			publish({type:"upload", message:args.join(" ")});
+		}
+	}
+	console.log("uploading to device using ",options.device);
+	if( options.device.upload.wait_for_upload_port ) {
+		console.log("need to do the leonardo dance");
+		//scan for ports
 		SerialPort2.list(function(err,list1) {
-            console.log("list 1 is ",list1);
-            //open port at 1200 baud
-            var sp2 = new SerialPort(options.port, { baudrate: 1200 });
-            sp2.on('open',function() {
-                console.log("opened at 1200bd");
-                //close port
-                sp2.flush(function() {
-                    sp2.close(function() {
-                        console.log("did a successful close");
-                        console.log("closed at 1200bd");
-                        //wait 300ms
-                        setTimeout(function() {
-                            console.log("doing a second list");
-                            //scan for ports again
-								scanForPortReturn(list1, options, function(ppath) {
-									console.log("got new path 1 : ",ppath);
-									options.port = ppath;
-										console.log("got new path 2 : ",options.port);
-									runAVRDude(hexfile, options, debug, callback);
-                            })
-                        },2000);
-                    })
-                });
+			//open port at 1200 baud
+			var sp2 = new SerialPort(options.port, { baudrate: 1200 });
+			sp2.on('open',function() {
+				console.log("opened at 1200bd");
+				//close port
+				sp2.flush(function() {
+					sp2.close(function() {
+						console.log("closed at 1200bd");
+						//wait 300ms
+						setTimeout(function() {
+							console.log("doing a second list");
+							//scan for ports again
+							scanForPortReturn(list1, options, function(ppath) {
+								//TODO : in upcmd search "-P"+options.port and substitute with "-P"+ppath
+								upcmd[upcmd.indexOf("-P"+options.port)] = "-P"+ppath;
+								//options.port = ppath;
+								runAVRDude(upcmd, debug, callback);
+							})
+						},3000);
+					})
+				});
 
-            });
+			});
 
-        });
-    } else {
-        runAVRDude(hexfile, options,debug, callback);
-    }
+		});
+	} else {
+		runAVRDude(upcmd, debug, callback);
+	}
+}
+
+
+
+function runAVRDude(uploadcmd, debug, cb) {
+	debug("Uploading...");
+	
+	console.log("running", uploadcmd.join(' '));
+	var result = child_process.execFile(
+		uploadcmd[0],
+		uploadcmd.slice(1),
+		function(error, stdout, stderr) {
+			console.log(error,stdout,stderr);
+			if(error) {
+				console.log("error. code = ",error.code);
+				console.log(error);
+				var err = new Error("there was a problem running " + uploadcmd.join(" "));
+				err.cmd = uploadcmd;
+				//err.output = stdout + stderr;
+				err.message = stdout + stderr;   ///  creare direttamente in new Error (row 53)
+				err.type = "error";
+				console.log(stdout);
+				console.log(stderr)
+				debug(err);
+				if(cb) cb(err);
+			} else {
+				debug("uploaded");
+				if(cb) cb();
+			}
+		}
+	);
 }
 
 //TODO edit port -> options.port ; 1 parameter
 exports.writeBootloader = function(port, options){
-	    console.log("running AVR dude");
+	    console.log("Writing bootloader...");
 
         var uploadcmd = [
             options.platform.getAvrDudeBinary(),

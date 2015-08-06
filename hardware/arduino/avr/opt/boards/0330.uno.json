@@ -15,7 +15,7 @@
         "speed": "115200"
     },
     "bootloader": {
-	"tool":"avrdude",
+	    "tool":"avrdude",
         "low_fuses": "0xff",
         "high_fuses": "0xde",
         "extended_fuses": "0x05",
@@ -27,7 +27,7 @@
     "build": {
         "mcu": "atmega328p",
         "f_cpu": "16000000L",
-	"board":"AVR_UNO",
+	    "board":"AVR_UNO",
         "core": "arduino",
         "variant": "standard"
     },

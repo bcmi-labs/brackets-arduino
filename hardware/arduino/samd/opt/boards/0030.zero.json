@@ -1,13 +1,13 @@
 {
-  "id": "zeropro",
-  "name": "Arduino Zero Pro (Native USB Port)",
+  "id": "zero",
+  "name": "Arduino M0",
   "arch": "samd",
-   "enabled" : true,
+  "enabled" : true,
   "uid": [
-    {"vid": "0x2a03", "pid": "0x804d"},
     {"vid": "0x2a03", "pid": "0x004d"},
-    {"vid": "0x2a03", "pid": "0x004f"},
-    {"vid": "0x2a03", "pid": "0x804f"}
+    {"vid": "0x2a03", "pid": "0x804d"},
+    {"vid": "0x2a03", "pid": "0x004e"},
+    {"vid": "0x2a03", "pid": "0x804e"}
   ],
   "upload": {
     "tool": "avrdude",
@@ -21,6 +21,7 @@
   "build": {
     "mcu": "cortex-m0plus",
     "f_cpu": "48000000L",
+	"usb_product" : "Arduino M0",
     "board": "SAM_ZERO",
     "core": "arduino",
     "extra_flags": "-D__SAMD21G18A__ -mthumb",
@@ -28,7 +29,7 @@
     "variant": "arduino_zero",
     "variant_system_lib": "",
     "vid": "0x2a03",
-    "pid": "0x804d",
+    "pid": "0x804e",
     "section_start": "0x4000",
     "emu_mcu": "atmega2560"
   }

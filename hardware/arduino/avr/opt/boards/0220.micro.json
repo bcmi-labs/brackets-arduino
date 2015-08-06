@@ -29,7 +29,7 @@
         "pid": "0x8037",
         "core": "arduino",
         "variant": "micro",
-	"extra_flags":"{usb_flags}"
+	"extra_flags":""
     },
     "id": "micro"
 }

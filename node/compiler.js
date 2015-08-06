@@ -18,13 +18,10 @@
         preader         = require('properties-reader');
 
     var uploader        = require('./compiler/uploader');
-    var platform        = require('./compiler/platform');
-
+    var platform, platform_obj, pattern;
     var domainName = "org-arduino-ide-domain-compiler";
-
     var dm, prg = "arduino";
-
-    var hexFile;
+    var hexFile, binFile;
 
     String.prototype.endsWith = function(suffix) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
@@ -59,7 +56,6 @@
                 decs.push(def[0]+';\n');
             }
         });
-
         return decs;
     }
 
@@ -123,16 +119,49 @@
             if(cb) cb();
     }
 
-    function listdir(p_path) {
+    function listdir2(p_path) {
         return fs.readdirSync(p_path)
             .filter(function(file) {
                 if(file.startsWith('.')) return false;
                 return true;
             })
             .map(function(file) {
-                return p_path + path.sep + file;
+				var entry = p_path + path.sep + file;
+				
+				if(fs.statSync(entry).isDirectory())			
+					return listdir(entry);
+				else
+					return entry;
+					
             });
     }
+	
+	function listdir(p_path)
+	{
+		var list1 = fs.readdirSync(p_path)
+			.filter(function(file) {
+                if(file.startsWith('.')) return false;
+                return true;
+            }),
+			list2 = [],
+			resultList =[];
+			
+		for(var i in list1)
+		{
+			var entry = p_path + path.sep + list1[i];
+				
+				if(fs.statSync(entry).isDirectory())	
+				{			
+					var list = fs.readdirSync(entry);
+					for(var i in list)
+						resultList.push(entry+path.sep+list[i]);
+				}
+				else
+					resultList.push(entry)
+		}
+		
+		return resultList;
+	}
 
     function exec(cmd, cb, debug) {
         var result = child_process.execFile(
@@ -151,16 +180,11 @@
                 if(cb) cb();
             }
         );
+        console.log("COMMAND " + cmd.toString());
     }
 
     function linkFile(options, file, outdir, cb, debug) {
-        var cmd = [
-            options.platform.getCompilerBinaryPath() + path.sep + 'avr-ar',
-            'rcs',
-            outdir + path.sep + 'core.a',
-            file,
-        ];
-        exec(cmd, cb, debug);
+        exec(platform_obj.getLinkCmd(options,file,outdir), cb, debug);
         var filename = file.split(path.sep);
 
         dm.emitEvent (domainName, "console-log", filename[filename.length-1]+" linked to core.a");
@@ -168,57 +192,22 @@
 
     function linkElfFile(options, libofiles, outdir, cb, debug) {
         //link everything into the .elf file
-        var elfcmd = [
-            options.platform.getCompilerBinaryPath() + path.sep + 'avr-gcc', //gcc
-            '-Os',
-            '-Wl,--gc-sections', //not using relax yet
-            '-mmcu='+options.device.build.mcu, //the mcu,
-            '-o',
-            outdir + path.sep + options.name+'.cpp.elf',
-            outdir + path.sep + options.name+'.cpp.o',
-        ];
-
-        elfcmd = elfcmd.concat(libofiles);
-        elfcmd = elfcmd.concat([
-            outdir + path.sep + 'core.a',
-            '-L'+outdir,
-            '-lm',
-        ]);
-
-
-        exec(elfcmd, cb, debug);
-
+        exec(platform_obj.getLinkElfCmd(options,libofiles,outdir),cb, debug);
         dm.emitEvent (domainName, "console-log", options.name+ ".cpp.elf linked to core.a");
     }
 
     function extractEEPROMData(options, outdir, cb, debug) {
-        var eepcmd = [
-            options.platform.getCompilerBinaryPath() + path.sep + 'avr-objcopy',
-            '-O',
-            'ihex',
-            '-j',
-            '.eeprom',
-            '--set-section-flags=.eeprom=alloc,load',
-            '--no-change-warnings',
-            '--change-section-lma',
-            '.eeprom=0',
-            outdir + path.sep + options.name+'.cpp.elf',
-            outdir + path.sep + options.name+'.eep',
-        ];
+        exec(platform_obj.getEEPROMCmd(options,outdir),cb,debug);
+        dm.emitEvent (domainName, "console-log", options.name+ " EEPROM");
+    }
 
-        exec(eepcmd, cb, debug);
+    function buildBinFile(options, outdir, cb, debug){
+        exec(platform_obj.getBinCmd(options, outdir), cb, debug);
+        dm.emitEvent (domainName, "console-log", options.name + ".bin builded");
     }
 
     function buildHexFile(options, outdir, cb, debug) {
-        var hexcmd = [
-            options.platform.getCompilerBinaryPath() + path.sep + 'avr-objcopy',
-            '-O',
-            'ihex',
-            '-R',
-            '.eeprom',
-            outdir + path.sep + options.name+'.cpp.elf',
-            outdir + path.sep + options.name+'.cpp.hex',
-        ];
+        var hexcmd = platform_obj.getHexCmd(options, outdir);
         hexFile = hexcmd[hexcmd.length-1];
         exec(hexcmd, cb, debug);
         dm.emitEvent (domainName, "console-log", options.name+ ".hex builded");
@@ -264,17 +253,34 @@
         dm.emitEvent (domainName, "console-success", "Building success!");
     }
 
-
     function compile(options, sketchDir, up) {
         console.log("I'm Compiler and I'm wearing my sunglasses");
         dm.emitEvent (domainName, "console-log", "Start Building");
         var BUILD_DIR       = os.tmpdir(),
-            userSketchesDir = BUILD_DIR;
-
-        var curlib,
+            userSketchesDir = BUILD_DIR,
+            curlib,
             tolink;
 
-        platform;
+        if(options.device.arch) {
+            switch (options.device.arch) {
+                case 'avr':
+                    platform = require('./compiler/platformAVR');
+                    break;
+                /*case 'sam':
+                    platform = require('./compiler/platformSAM');
+                    break;*/
+                case 'samd':
+                    platform = require('./compiler/platformSAMD');
+                    break;
+            }
+            platform_obj  = platform.getDefaultPlatform();
+            pattern = platform_obj.getPattern();
+        }
+        else {
+            alert("Select a board first!")
+            return false;
+        }
+
 
         var outdir = BUILD_DIR  + path.sep +  'build' + new Date().getTime();
 
@@ -309,7 +315,6 @@
 
         debug("assembling the sketch in the directory\n",outdir);
         checkfile(outdir);
-
 
         var tasks = [];
 
@@ -375,7 +380,6 @@
             compileFiles(options,outdir,includepaths,cfiles,debug, cb);
         });
 
-
         //4.compile the 3rd party libs
         tasks.push(function(cb) {
             var includedLibs = detectLibs(fs.readFileSync(cfile).toString());
@@ -432,19 +436,22 @@
             compileFiles(options, outdir, includepaths,cfiles,debug,cb);
         });
 
-
         //5. compile core
         tasks.push(function(cb) {
             debug("compiling core files");
+			
             var cfiles = listdir(options.platform.getCorePath(options));
+			cfiles = cfiles.concat(listdir(options.platform.getVariantPath(options)));
+				
             compileFiles(options,outdir,includepaths,cfiles,debug,cb);
         });
 
         //6.link everything into core.a
+        if(pattern.archives)
         tasks.push(function(cb) {
             var dfiles = listdir(outdir)
                 .filter(function(file){
-                    if(file.endsWith('.d')) return false;
+                    if(file.endsWith('.d') || file.endsWith('.cpp')) return false;
                     return true;
                 });
             async.mapSeries(dfiles, function(file, cb) {
@@ -454,6 +461,7 @@
         });
 
         //7. build the elf file
+        if(pattern.combine)
         tasks.push(function(cb) {
             debug("building elf file");
             var libofiles = [],
@@ -473,12 +481,21 @@
         });
 
         // 8. extract EEPROM data (from EEMEM directive) to .eep file.
+        if(pattern.eep)
         tasks.push(function(cb) {
             debug("extracting EEPROM data");
             extractEEPROMData(options,outdir,cb,debug);
         });
 
+        // 8,5. create the .bin file
+        if(pattern.bin)
+        tasks.push(function(cb) {
+            debug("building .BIN file");
+            buildBinFile(options, outdir, cb, debug);
+        });
+
         // 9. build the .hex file
+        if(pattern.hex)
         tasks.push(function(cb) {
             debug("building .HEX file");
             buildHexFile(options,outdir,cb, debug);
@@ -486,7 +503,7 @@
 
         // 10. on board !!!
         if(up)
-            tasks.push(function(cb){
+            tasks.push(function(cb) {
                     debug("uploading sketch on board");
                     var pub = function(data){
                             if(data)
@@ -500,12 +517,12 @@
                             if(data)
                                 dm.emitEvent(domainName, "console-log", data.output);
                         };
-                        uploader.upload(hexFile,options,pub,cb);
+                        uploader.upload(platform_obj.getUploadCmd(hexFile,options,outdir), options,pub, cb);
+
                 });
 
         processList(tasks, finalcb, publish);
     }
-
 
     function compileFiles(options, outdir, includepaths, cfiles,debug, cb) {
         function comp(file,cb) {
@@ -513,97 +530,24 @@
             if(fname.startsWith('.')) return cb(null, null);
             if(file.toLowerCase().endsWith('examples')) return cb(null,null);
             if(file.toLowerCase().endsWith( path.sep + 'avr-libc')) return cb(null,null);
-            if(file.toLowerCase().endsWith('.c')) {
-                compileC(options,outdir, includepaths, file,debug, cb);
+            if(file.toLowerCase().endsWith('.c')) {                
+                exec(platform_obj.getCompileCCmd(options,outdir,includepaths,file), cb, debug);
+
+                var filename = file.substring(file.lastIndexOf(path.sep)+1);
+                dm.emitEvent (domainName, "console-log", filename+" compiled");
                 return;
             }
             if(file.toLowerCase().endsWith('.cpp')) {
-                compileCPP(options,outdir, includepaths, file,debug, cb);
+                exec(platform_obj.getCompileCppCmd(options,outdir,includepaths,file), cb, debug);
+
+                var filename = file.substring(file.lastIndexOf(path.sep)+1);
+                dm.emitEvent (domainName, "console-log", filename+" compiled");
+
                 return;
             }
             cb(null,null);
         }
         async.mapSeries(cfiles, comp, cb);
-    }
-
-    function compileCPP(options, outdir, includepaths, cfile,debug, cb) {
-        debug("compiling ",cfile);
-        var cmd = [
-            options.platform.getCompilerBinaryPath() + path.sep + "avr-g++",
-            "-c",
-            "-g",
-            "-Os",
-            "-fno-exceptions",
-            "-ffunction-sections",
-            "-fdata-sections",
-            "-fno-threadsafe-statics",
-            "-mmcu="+options.device.build.mcu,
-            "-DF_CPU="+options.device.build.f_cpu,
-            "-MMD",
-            "-DARDUINO=158",
-            "-DARDUINO_"+options.device.build.board,
-            "-DARDUINO_ARCH_"+options.device.arch.toUpperCase()
-        ];
-
-        if(options.verbosebuild)
-            cmd.push('-w');
-
-        if(options.device.build.vid)
-            cmd.push('-DUSB_VID='+options.device.build.vid)
-        if(options.device.build.pid)
-            cmd.push('-DUSB_PID='+options.device.build.pid)
-
-        includepaths.forEach(function(path){
-            cmd.push('-I'+path);
-        })
-
-        cmd.push(cfile); //add the actual c++ file
-        cmd.push('-o'); //output object file
-        var filename = cfile.substring(cfile.lastIndexOf(path.sep)+1);
-        var filename_cut = filename.substring(filename.lastIndexOf( path.sep )+1);
-        cmd.push(outdir + path.sep + filename_cut+'.o');
-
-        exec(cmd,cb, debug);
-
-        dm.emitEvent (domainName, "console-log", filename+" compiled");
-    }
-
-    function compileC(options, outdir, includepaths, cfile, debug, cb) {
-        debug("compiling ",cfile);
-        var cmd = [
-            options.platform.getCompilerBinaryPath() + path.sep + "avr-gcc", //gcc
-            "-c", //compile, don't link
-            '-g', //include debug info and line numbers
-            '-Os', //optimize for size
-            '-ffunction-sections',// put each function in it's own section
-            '-fdata-sections',
-            '-mmcu='+options.device.build.mcu,
-            '-DF_CPU='+options.device.build.f_cpu,
-            '-MMD',//output dependency info
-            '-DARDUINO=158',
-            "-DARDUINO_"+options.device.build.board,
-            "-DARDUINO_ARCH_"+options.device.arch.toUpperCase()
-            ];
-
-        if(options.verbosebuild)
-            cmd.push('-w'); //'-Wall', //turn on verbose warnings
-
-        if(options.device.build.vid)
-            cmd.push('-DUSB_VID='+options.device.build.vid)
-        if(options.device.build.pid)
-            cmd.push('-DUSB_PID='+options.device.build.pid)
-
-        includepaths.forEach(function(path){
-            cmd.push("-I"+path);
-        })
-        cmd.push(cfile); //add the actual c file
-        cmd.push('-o');
-        var filename = cfile.substring(cfile.lastIndexOf( path.sep )+1);
-
-        cmd.push(outdir + path.sep + filename+'.o');
-
-        exec(cmd, cb, debug);
-        dm.emitEvent (domainName, "console-log", filename+" compiled");
     }
 
     function init(domainManager){
