@@ -392,12 +392,12 @@ function Platform() {
 	
 	//TEST
 	this.getOpenOcd = function(){
-		return this.root+((process.platform =='win32')? '\\hardware\\tools\\OpenOCD-0.9.0-dev-arduino\\bin\\openocd.exe' : '/hardware/tools/OpenOCD-0.9.0-dev-arduino/bin/openocd'); 	
+		return this.root+((process.platform =='win32')? '\\hardware\\tools\\OpenOCD-0.9.0-arduino\\bin\\openocd.exe' : '/hardware/tools/OpenOCD-0.9.0-arduino/bin/openocd');
 	}
 	
 	//TEST
 	this.getOpenOcdScripts = function(){
-		return this.root+((process.platform =='win32')? '\\hardware\\tools\\OpenOCD-0.9.0-dev-arduino\\share\\openocd\\scripts' : '/hardware/tools/OpenOCD-0.9.0-dev-arduino/share/openocd/scripts'); 	
+		return this.root+((process.platform =='win32')? '\\hardware\\tools\\OpenOCD-0.9.0-arduino\\share\\openocd\\scripts' : '/hardware/tools/OpenOCD-0.9.0-arduino/share/openocd/scripts');
 	}
 }
 
