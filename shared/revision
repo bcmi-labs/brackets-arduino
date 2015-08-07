@@ -10,7 +10,7 @@
            "changelog"	:	[
                                 {"name" : "studio", "desc": "compiler module improved."},
                                 {"name" : "studio", "desc": "uploader module improved."},
-                                {"name" : "studio", "desc": "enabled samd architecture : m0, m0 pro."},
+                                {"name" : "studio", "desc": "enabled samd architecture : m0, m0 pro."}
            					],
            "url"		: 	"http://arduino.org/downloads",
            "message"	:	"",
