@@ -99,8 +99,8 @@ function Platform() {
 /* New Functionalities */
 
     this.getCMISPath = function(){
-        return [    this.root+((process.platform =='win32')? '\\hardware\\tools\\CMSIS\\CMSIS\\Include' : '/hardware/arduino/CMSIS/CMSIS/Include'),
-                    this.root+((process.platform =='win32')? '\\hardware\\tools\\CMSIS\\Device\\ATMEL' : '/hardware/arduino/CMSIS/Device/ATMEL')
+        return [    this.root+((process.platform =='win32')? '\\hardware\\tools\\CMSIS\\CMSIS\\Include' : '/hardware/tools/CMSIS/CMSIS/Include'),
+                    this.root+((process.platform =='win32')? '\\hardware\\tools\\CMSIS\\Device\\ATMEL' : '/hardware/tools/CMSIS/Device/ATMEL')
         ];
     }
 
