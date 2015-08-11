@@ -17,6 +17,7 @@
   "build": {
     "mcu": "cortex-m0plus",
     "f_cpu": "48000000L",
+    "usb_product" : "Arduino M0 Pro",
     "board": "SAM_ZERO",
     "core": "arduino",
     "extra_flags": "-D__SAMD21G18A__ -mthumb ",

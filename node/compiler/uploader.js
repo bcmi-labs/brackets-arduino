@@ -25,7 +25,6 @@ function scanForPortReturn(list1,options, cb) {
 			setTimeout(function() {
 			for(item in list2)
 			{
-			console.log("ELEMENT : " + JSON.stringify(item));
 				for(var i = 0; i < options.device.uid.length; i++) {
 					var suf_pid = options.device.uid[i].pid.substring(2).toUpperCase();
 					if (list2[item].pnpId.indexOf('PID_' + suf_pid) > -1 || list2[item].pnpId==""){

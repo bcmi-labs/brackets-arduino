@@ -205,7 +205,19 @@ function Platform() {
             cmd.push('-DUSB_VID='+options.device.build.vid)
         if(options.device.build.pid)
             cmd.push('-DUSB_PID='+options.device.build.pid)
-			
+
+        cmd.push('-DUSBCON')
+
+        if(options.device.build.usb_manifacturer)
+            cmd.push('-DUSB_MANUFACTURER='+options.device.build.usb_manifacturer)
+        else
+            cmd.push('-DUSB_MANUFACTURER= ')
+
+        if(options.device.build.usb_product)
+            cmd.push('-DUSB_PRODUCT="'+options.device.build.usb_product+'"')
+        else
+            cmd.push('-DUSB_PRODUCT=')
+
         var cmsispaths = this.getCMISPath();
         for (var i in cmsispaths)
                 cmd.push("-I" + cmsispaths[i]);
@@ -252,7 +264,19 @@ function Platform() {
             cmd.push('-DUSB_VID='+options.device.build.vid)
         if(options.device.build.pid)
             cmd.push('-DUSB_PID='+options.device.build.pid)
-		
+
+        cmd.push('-DUSBCON')
+
+        if(options.device.build.usb_manifacturer)
+            cmd.push('-DUSB_MANUFACTURER='+options.device.build.usb_manifacturer)
+        else
+            cmd.push('-DUSB_MANUFACTURER= ')
+
+        if(options.device.build.usb_product)
+            cmd.push('-DUSB_PRODUCT="'+options.device.build.usb_product+'"')
+        else
+            cmd.push('-DUSB_PRODUCT=')
+
 		var cmsispaths = this.getCMISPath();
         for (var i in cmsispaths)
             cmd.push("-I" + cmsispaths[i]);
@@ -354,7 +378,6 @@ function Platform() {
     }
 
     this.getUploadCmd = function(hexfile, options, outdir){
-		
 		if(options.device.upload.native_usb)
 		{	
 			//Native Usb Case       
@@ -363,8 +386,8 @@ function Platform() {
 				'-C'+this.getAvrDudeConf()
 			];
 
-			if(options.verboseupload)
-				cmd.push('-v','-v');
+			//if(options.verboseupload)
+				uploadcmd.push('-v','-v');
 
 			uploadcmd.push( '-p'+options.device.build.emu_mcu,
 							'-c'+options.device.upload.protocol,
