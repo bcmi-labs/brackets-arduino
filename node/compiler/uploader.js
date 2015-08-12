@@ -27,7 +27,7 @@ function scanForPortReturn(list1,options, cb) {
 			{
 				for(var i = 0; i < options.device.uid.length; i++) {
 					var suf_pid = options.device.uid[i].pid.substring(2).toUpperCase();
-					if (list2[item].pnpId.indexOf('PID_' + suf_pid) > -1 || list2[item].pnpId==""){
+					if (list2[item].pnpId.indexOf('PID_' + suf_pid) > -1 || list2[item].productId=="0x"+suf_pid || list2[item].productId=="0x"+suf_pid.toLowerCase()){
 					//if (list2[item].pnpId=="") {
 						console.log("SELECTED : " + JSON.stringify(list2[item]));
 						selected = list2[item].comName;
