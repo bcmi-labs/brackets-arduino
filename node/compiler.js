@@ -127,15 +127,15 @@
             })
             .map(function(file) {
 				var entry = p_path + path.sep + file;
-				
-				if(fs.statSync(entry).isDirectory())			
+
+				if(fs.statSync(entry).isDirectory())
 					return listdir(entry);
 				else
 					return entry;
-					
+
             });
     }
-	
+
 	function listdir(p_path)
 	{
 		var list1 = fs.readdirSync(p_path)
@@ -145,13 +145,13 @@
             }),
 			list2 = [],
 			resultList =[];
-			
+
 		for(var i in list1)
 		{
 			var entry = p_path + path.sep + list1[i];
-				
-				if(fs.statSync(entry).isDirectory())	
-				{			
+
+				if(fs.statSync(entry).isDirectory())
+				{
 					var list = fs.readdirSync(entry);
 					for(var i in list)
 						resultList.push(entry+path.sep+list[i]);
@@ -159,7 +159,7 @@
 				else
 					resultList.push(entry)
 		}
-		
+
 		return resultList;
 	}
 
@@ -260,6 +260,12 @@
             userSketchesDir = BUILD_DIR,
             curlib,
             tolink;
+
+            var com = sketchDir,
+                gp = global.path.substring(0,global.path.lastIndexOf('/'));
+                sketchDir = gp+com;
+
+            console.log(sketchDir);
 
         if(options.device.arch) {
             switch (options.device.arch) {
@@ -439,10 +445,10 @@
         //5. compile core
         tasks.push(function(cb) {
             debug("compiling core files");
-			
+
             var cfiles = listdir(options.platform.getCorePath(options));
 			cfiles = cfiles.concat(listdir(options.platform.getVariantPath(options)));
-				
+
             compileFiles(options,outdir,includepaths,cfiles,debug,cb);
         });
 
@@ -530,7 +536,7 @@
             if(fname.startsWith('.')) return cb(null, null);
             if(file.toLowerCase().endsWith('examples')) return cb(null,null);
             if(file.toLowerCase().endsWith( path.sep + 'avr-libc')) return cb(null,null);
-            if(file.toLowerCase().endsWith('.c')) {                
+            if(file.toLowerCase().endsWith('.c')) {
                 exec(platform_obj.getCompileCCmd(options,outdir,includepaths,file), cb, debug);
 
                 var filename = file.substring(file.lastIndexOf(path.sep)+1);
