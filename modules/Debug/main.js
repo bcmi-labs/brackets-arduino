@@ -37,7 +37,8 @@ define(function (require, exports, module) {
         ExtensionUtils      = brackets.getModule("utils/ExtensionUtils"),
         FileUtils           = brackets.getModule("file/FileUtils"),
         WorkspaceManager    = brackets.getModule("view/WorkspaceManager"),
-        EventDispatcher     = brackets.getModule("utils/EventDispatcher");
+        EventDispatcher     = brackets.getModule("utils/EventDispatcher"),
+        EditorManager       = brackets.getModule("editor/EditorManager");
 
 
     var debugDomainName     = "org-arduino-ide-domain-debug",
@@ -46,7 +47,7 @@ define(function (require, exports, module) {
         debugPanelHTML      = null;
 
     var cmdOpenDebugWindow = "org.arduino.ide.view.debug.openwindow",
-        cmdIDprova = "org.arduino.ide.prova";
+        cmdSetBreakpoint   = "org.arduino.ide.view.debug.setbreakpoint";
 
     var debugDomain                 = null;
 
@@ -55,7 +56,7 @@ define(function (require, exports, module) {
     var pref,
         evt;
 
-    var bp = [20, 25, 27,28];
+    var bp = [];
 
     /**
      * [debug description]
@@ -75,13 +76,11 @@ define(function (require, exports, module) {
         var toolsMenu = Menus.getMenu("arduino.ide.menu.tools");
         toolsMenu.addMenuItem( cmdOpenDebugWindow, null, Menus.AFTER);
 
-
-        CommandManager.register("Prova", cmdIDprova, this.prova);
-        var pippo = Menus.getContextMenu(Menus.ContextMenuIds.INLINE_EDITOR_MENU);
-        pippo.addMenuItem(cmdIDprova, null)
+        CommandManager.register("Set breakpoint", cmdSetBreakpoint, this.setBreakpoint);
+        Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU).addMenuDivider();
+        Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU).addMenuItem(cmdSetBreakpoint, null)
 
         //ATTACH EVENT HANDLER
-        //TODO : Create node domain
         debugDomain.on('debug_data', debugDataHandler);
         debugDomain.on('debug_err', debugErrorHandler);
 
@@ -141,9 +140,14 @@ define(function (require, exports, module) {
         togglePanel();
     }
 
-    Debug.prototype.prova = function()
-    {
-        console.log("PROVA")
+    /**
+     * [setBreakpoint description]
+     */
+    Debug.prototype.setBreakpoint = function(){
+        var editor = EditorManager.getCurrentFullEditor();
+        var line = editor.getCursorPos().line + 1;
+        bp.push(line);
+        //TODO: how to highlight the breakpoint ?
     }
 
     var togglePanel = function() {
@@ -293,6 +297,7 @@ define(function (require, exports, module) {
             debugIcon.removeClass("on");
         });
 
+
     };
 
     return Debug;
@@ -301,4 +306,4 @@ define(function (require, exports, module) {
 //TODO : branch on github
 //TODO : clear console button?
 //TODO : UI
-//TODO : close gdb/openocd at hide panel ?
+//TODO : close gdb/openocd at hide panel?

@@ -101,13 +101,14 @@
 	function restartExecution()
 	{
 		console.log("--|| Restart sketch ||--")
-		ocdProcess.stdin.write(" monitor reset init"+" \n")
-		dManager.emitEvent(domainName, "debug_data", "monitor reset init"+" \n")
+		ocdProcess.stdin.write(" monitor reset resume"+" \n")
+		dManager.emitEvent(domainName, "debug_data", "monitor reset resume"+" \n")
 	}
 
 	function continueExecution()
 	{
 		console.log("--|| Continue sketch execution ||--")
+		ocdProcess.stdin.write(" continue"+" \n")
 		ocdProcess.stdin.write(" continue"+" \n")
 		dManager.emitEvent(domainName, "debug_data", "continue"+" \n")
 	}
