@@ -149,6 +149,22 @@
 	background: url('../img/serial_over.png') center no-repeat !important;
 }
 
+#toolbar-debug-btn {
+	background: url('../img/debug.png') center no-repeat;
+	cursor:pointer;
+	border: none;
+	padding-bottom: 16px;
+}
+#toolbar-debug-btn:hover {
+	background: url('../img/debug_over.png') center no-repeat;
+}
+
+.debuglhover {
+	background: url('../img/debug_over.png') center no-repeat !important;
+}
+
+
+
 #toolbar-toggle-btn {
 	background: url('../img/apri.png') center no-repeat;
 	padding-bottom: 16px;
