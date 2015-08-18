@@ -36,6 +36,7 @@ define(function (require, exports, module) {
         Menus               = brackets.getModule("command/Menus"),
         ExtensionUtils      = brackets.getModule("utils/ExtensionUtils"),
         FileUtils           = brackets.getModule("file/FileUtils"),
+        FileSystem          = brackets.getModule("filesystem/FileSystem"),
         WorkspaceManager    = brackets.getModule("view/WorkspaceManager"),
         EventDispatcher     = brackets.getModule("utils/EventDispatcher"),
         EditorManager       = brackets.getModule("editor/EditorManager");
@@ -56,7 +57,8 @@ define(function (require, exports, module) {
     var pref,
         evt;
 
-    var bp = [];
+    var bp = [],
+        selectFolderDialog;
 
     /**
      * [debug description]
@@ -131,6 +133,57 @@ define(function (require, exports, module) {
         }
     }
 
+    function selectElfFile()
+    {
+        //TODO : Get window title from String
+        debugDomain.exec("getTmpFolder")
+            .done(function (tmpDir) {
+                console.log("Tmp dir : " + tmpDir)
+
+                FileSystem.showOpenDialog(false, false, "Select elf file", tmpDir , ['elf'], function(a,selectedElf,c){
+                    if (selectedElf[0].length > 0) {
+                        console.log("Elf selected : " + selectedElf[0])
+
+                        FileSystem.showOpenDialog(false, true, "Select sketch folder", "" , "", function(a,selectedFolder,c){
+                            if (selectedFolder[0].length > 0) {
+                                console.log("Selected folder : " + selectedFolder[0])
+
+                                debugDomain.exec("launchOpenOcd")
+                                    .done(function(pid)
+                                    {
+                                        if(pid > 1) {
+                                            console.log("OpenOcd running...")
+
+                                            debugDomain.exec("launchGdb", selectedElf[0], selectedFolder[0])
+                                                .done(function () {
+                                                    console.log("Gdb running...")
+                                                })
+                                                .fail(function(err)
+                                                {
+                                                    console.log("Error in gdb launch")
+                                                })
+                                        }
+                                    })
+                            }
+                        } );
+                    }
+                } );
+            })
+            .fail(function(err)
+            {
+                console.log("Error in get tmp dir")
+            })
+    }
+
+    function selectSketchFolder()
+    {
+        //TODO : Get window title from String
+        FileSystem.showOpenDialog(false, true, "Select sketch folder", "" , "", function(a,selectedFolder,c) {
+            if (selectedFolder[0].length > 0) {
+                console.log("Selected folder : " + selectedFolder[0])
+            }
+        })
+    }
 
     /**
      * [openDebugWindow description]
@@ -167,7 +220,7 @@ define(function (require, exports, module) {
     var debugDataHandler = function($event, data){
         if(data)
         {
-            $('#debug_log').html( $('#debug_log').html() + "<span style='color: black;'>" + data.replace("(gdb)","") + "</span><br />");
+            $('#debug_log').html( $('#debug_log').html() + "<span style='color: black;'>" + data.replace("(gdb)","") + "</span><br /><hr>");
             //TODO: evaluate condition ?
             //(brackets.arduino.preferences.get("arduino.ide.debug.autoscroll") )
                 $('#debug_log').scrollTop($('#debug_log')[0].scrollHeight);
@@ -207,13 +260,18 @@ define(function (require, exports, module) {
         });
 
         debugPanel.$panel.find("#startDebug_button").on("click",function(){
-            alert("Momentaneamente lancia openOcd \n In futuro sarà automatico")
+
+            selectElfFile();
+            /*var sketchFolder = selectSketchFolder(),
+                elfFile = selectElfFile();
+
             debugDomain.exec("launchOpenOcd")
                 .done(function(pid)
                 {
                     if(pid > 1) {
                         console.log("OpenOcd running...")
-                        debugDomain.exec("launchGdb")
+
+                            debugDomain.exec("launchGdb", elfFile, sketchFolder)
                             .done(function () {
                                 console.log("Gdb running...")
                             })
@@ -222,12 +280,23 @@ define(function (require, exports, module) {
                                 console.log("Error in gdb launch")
                             })
                     }
-                })
+                })*/
         });
 
         debugPanel.$panel.find("#haltsketchDebug_button").on("click",function(){
             debugDomain.exec("halt")
-                .done(function(a,b,c){
+                .done(function(){
+                    console.log("Halt execution")
+                })
+                .fail(function(err)
+                {
+                    console.log("Error in gdb launch")
+                })
+        });
+
+        debugPanel.$panel.find("#restartsketchDebug_button").on("click",function(){
+            debugDomain.exec("restart")
+                .done(function(){
                     console.log("Halt execution")
                 })
                 .fail(function(err)
@@ -237,9 +306,9 @@ define(function (require, exports, module) {
         });
 
         debugPanel.$panel.find("#continuesketchDebug_button").on("click",function(){
-            debugDomain.exec("continue")
-                .done(function(a,b,c){
-                    console.log("Continue execution")
+            debugDomain.exec("step_next_bp")
+                .done(function(){
+                    console.log("Continue execution (next bp)")
                 })
                 .fail(function(err)
                 {
@@ -247,10 +316,10 @@ define(function (require, exports, module) {
                 })
         });
 
-        debugPanel.$panel.find("#showfunctionDebug_button").on("click",function(){
-            debugDomain.exec("show_function", "setup")
-                .done(function(a,b,c){
-                    console.log("Show function")
+        debugPanel.$panel.find("#stepsketchDebug_button").on("click",function(){
+            debugDomain.exec("step_next_line")
+                .done(function(){
+                    console.log("Continue execution (next line)")
                 })
                 .fail(function(err)
                 {
@@ -260,7 +329,7 @@ define(function (require, exports, module) {
 
         debugPanel.$panel.find("#showbreakpointDebug_button").on("click",function(){
             debugDomain.exec("show_breakpoints")
-                .done(function(a,b,c){
+                .done(function(){
                     console.log("List of breakpoints")
                 })
                 .fail(function(err)
@@ -272,7 +341,7 @@ define(function (require, exports, module) {
         debugPanel.$panel.find("#setbreakpointDebug_button").on("click",function(){
             for ( var i = 0 ; i < bp.length ; i++ )
             debugDomain.exec("set_breakpoint", bp[i])
-                .done(function(a,b,c){
+                .done(function(){
                     console.log("Breakpoint setted at " + bp[i]);
                 })
                 .fail(function(err)
@@ -283,7 +352,7 @@ define(function (require, exports, module) {
 
         debugPanel.$panel.find("#showvalueDebug_button").on("click",function(){
             debugDomain.exec("show_value", "a")
-                .done(function(a,b,c){
+                .done(function(){
                     console.log("The value of [var] is " + b )
                 })
                 .fail(function(err)
@@ -297,13 +366,11 @@ define(function (require, exports, module) {
             debugIcon.removeClass("on");
         });
 
-
     };
 
     return Debug;
 });
 
-//TODO : branch on github
 //TODO : clear console button?
 //TODO : UI
 //TODO : close gdb/openocd at hide panel?

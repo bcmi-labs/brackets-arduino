@@ -69,6 +69,20 @@ a#haltsketchDebug_button:hover {
     background-size: 35px;
 }
 
+a#restartsketchDebug_button {
+    background: url('restart.png') center no-repeat;
+    cursor:pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
+    /*margin-left: 5px;*/
+    background-size: 35px;
+}
+a#restartsketchDebug_button:hover {
+    background: url('restart_over.png') center no-repeat;
+    background-size: 35px;
+}
+
 a#continuesketchDebug_button {
     background: url('continue.png') center no-repeat;
     cursor:pointer;
@@ -80,6 +94,20 @@ a#continuesketchDebug_button {
 }
 a#continuesketchDebug_button:hover {
     background: url('continue_over.png') center no-repeat;
+    background-size: 35px;
+}
+
+a#stepsketchDebug_button {
+    background: url('step.png') center no-repeat;
+    cursor:pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
+    /*margin-left: 5px;*/
+    background-size: 35px;
+}
+a#stepsketchDebug_button:hover {
+    background: url('step_over.png') center no-repeat;
     background-size: 35px;
 }
 
@@ -126,15 +154,16 @@ a#setbreakpointDebug_button:hover {
 }
 
 a#showvalueDebug_button {
-    background: url('showvalue.png') center no-repeat;
-    cursor:pointer;
-    width: 35px;
-    height: 35px;
-    padding: 0px;
-    /*margin-left: 5px;*/
-    background-size: 35px;
-}
+     background: url('showvalue.png') center no-repeat;
+     cursor:pointer;
+     width: 35px;
+     height: 35px;
+     padding: 0px;
+     /*margin-left: 5px;*/
+     background-size: 35px;
+ }
 a#showvalueDebug_button:hover {
     background: url('showvalue_over.png') center no-repeat;
     background-size: 35px;
 }
+

@@ -29,34 +29,57 @@
 	"use strict";
 
 	var child_process   = require('child_process'),
-		timer			= require('timers');
-	
+		timer			= require('timers'),
+		os              = require('os'),
+		path			= require('path');
+
 	var domainName = "org-arduino-ide-domain-debug",
 		dManager;
-
-	var interval = 2000;
-
-	var arduinopath = "C:/Users/Sebastiano/Downloads/arduino-1.7.5.org-windows/arduino-1.7.5/",
-		openocd = "hardware/tools/OpenOCD-0.9.0-arduino/bin/openocd.exe",
-		scripts = "hardware/tools/OpenOCD-0.9.0-arduino/share/openocd/scripts",
-		script = "hardware/arduino/samd/variants/arduino_zero/openocd_scripts/arduino_zero.cfg",
-		gdb = "hardware/tools/gcc-arm-none-eabi-4.8.3-2014q1/bin/arm-none-eabi-gdb",
-		blinkfolder = "examples/01.Basics/Blink";
 
 	var openOcdProcess,
 		ocdProcess;
 
+	var rootDir = __dirname.substring(0, __dirname.lastIndexOf(path.sep)),
+		interval = 2000;
+
+	function getTmpFolder()
+	{
+		return os.tmpdir();
+	}
+
+	function getOpenOcd()
+	{
+		return rootDir+((process.platform =='win32')? '\\hardware\\tools\\OpenOCD-0.9.0-arduino\\bin\\openocd' : 'hardware/tools/OpenOCD-0.9.0-arduino/bin/openocd')
+	}
+
+	function getScriptDir()
+	{
+		return rootDir+((process.platform =='win32')? '\\hardware\\tools\\OpenOCD-0.9.0-arduino\\share\\openocd\\scripts' : 'hardware/tools/OpenOCD-0.9.0-arduino/share/openocd/scripts')
+	}
+
+	function getScript()
+	{
+		return rootDir+((process.platform =='win32')? '\\hardware\\arduino\\samd\\variants\\arduino_zero\\openocd_scripts\\arduino_zero.cfg' : 'hardware/arduino/samd/variants/arduino_zero/openocd_scripts/arduino_zero.cfg')
+	}
+
+	function getGdb()
+	{
+		return rootDir+((process.platform =='win32')? '\\hardware\\tools\\samd\\bin\\arm-none-eabi-gdb' : 'hardware/tools/samd/bin/arm-none-eabi-gdb')
+	}
+
+
+
 	function launchOpenOcd()
 	{
-		var OpenOcdCmd = [arduinopath+openocd, "-s", arduinopath+scripts, "-f", arduinopath+script];
+		var OpenOcdCmd = [getOpenOcd(), "-s", getScriptDir(), "-f", getScript()];
 		openOcdProcess = child_process.spawn(OpenOcdCmd[0], OpenOcdCmd.slice(1));
 
 		return openOcdProcess.pid;
 	}
 
-	function launchGdb()
+	function launchGdb(elfFile, sketchFolder)
 	{
-		var OcdCmd = [arduinopath+gdb, "-d", arduinopath+blinkfolder]
+		var OcdCmd = [getGdb(), "-d", sketchFolder]
 		ocdProcess = child_process.exec(OcdCmd[0], OcdCmd.slice(1));
 
 		ocdProcess.stdout.on("data", function(data){
@@ -69,7 +92,7 @@
 
 		if(ocdProcess.pid)
 			timer.setTimeout(function(){
-				locateElfFile("C:/Users/Sebastiano/AppData/Local/Temp/build7710172437809297057.tmp/Blink.cpp.elf")
+				locateElfFile(elfFile)
 				timer.setTimeout(function(){
 					locateLiveProgram()
 				}, interval);
@@ -91,6 +114,9 @@
 		dManager.emitEvent(domainName, "debug_data", "target remote localhost:3333"+" \n");
 	}
 
+
+
+
 	function stopExecution()
 	{
 		console.log("--|| Stop sketch ||--")
@@ -101,23 +127,22 @@
 	function restartExecution()
 	{
 		console.log("--|| Restart sketch ||--")
-		ocdProcess.stdin.write(" monitor reset resume"+" \n")
+		ocdProcess.stdin.write(" monitor reset run"+" \n")
 		dManager.emitEvent(domainName, "debug_data", "monitor reset resume"+" \n")
 	}
 
-	function continueExecution()
+	function stepNextBp()
 	{
 		console.log("--|| Continue sketch execution ||--")
-		ocdProcess.stdin.write(" continue"+" \n")
 		ocdProcess.stdin.write(" continue"+" \n")
 		dManager.emitEvent(domainName, "debug_data", "continue"+" \n")
 	}
 
-	function showFunction(foo)
+	function stepNextLine()
 	{
-		console.log("--|| Show " + foo + " ||--")
-		ocdProcess.stdin.write("l " + foo + " \n")
-		dManager.emitEvent(domainName, "debug_data", "l " + foo + " \n")
+		console.log("--|| Step Next Line ||--")
+		ocdProcess.stdin.write(" next" + " \n")
+		dManager.emitEvent(domainName, "debug_data", "next" + " \n")
 	}
 
 	function showBreakpoints()
@@ -134,12 +159,17 @@
 		dManager.emitEvent(domainName, "debug_data", "b " + line + " \n")
 	}
 
+
+
+
+	//TODO showVariable
 	function showVariable(variable)
 	{
 		console.log("--|| Show the value of " + variable + " ||--")
-		//ocdProcess.stdin.write("b " + line + " \n")
-		dManager.emitEvent(domainName, "debug_data", "ANCORA NON IMPLEMENTATA")
+		ocdProcess.stdin.write("print " + variable + " \n")
+		dManager.emitEvent(domainName, "debug_data", "print " + variable + " \n")
 	}
+
 
 	function init(domainManager){
 		if(!domainManager.hasDomain( domainName )){
@@ -170,43 +200,31 @@
 
 		dManager.registerCommand(
 			domainName,
-			"init",
+			"restart",
 			restartExecution,
 			false,
 			"Restart sketch execution"
 		);
 
-		dManager.registerCommand(
-			domainName,
-			"continue",
-			continueExecution,
-			false,
-			"Restart sketch execution"
-		);
 
 		dManager.registerCommand(
 			domainName,
 			"launchGdb",
 			launchGdb,
 			false,
-			"Start Gdb"
-		);
-
-		dManager.registerCommand(
-			domainName,
-			"show_function",
-			showFunction,
-			false,
-			"Show setup function",
-			[{	name:"functionName",
+			"Start Gdb",
+			[{
+				name:"elfFile",
 				type:"string",
-				description:"Function to show"
-			}],
-			[{	name:"functionBody",
+				description:"Elf file to locate"
+			},
+			{
+				name:"sketchFolder",
 				type:"string",
-				description:"Function body"
+				description:"Sketch folder"
 			}]
 		);
+
 
 		dManager.registerCommand(
 			domainName,
@@ -233,6 +251,7 @@
 			}]
 		);
 
+		//TODO show variable command
 		dManager.registerCommand(
 			domainName,
 			"show_value",
@@ -248,6 +267,31 @@
 				description:"Value of variableName"
 			}]
 		);
+
+		dManager.registerCommand(
+			domainName,
+			"step_next_line",
+			stepNextLine,
+			false,
+			"Step next line"
+		);
+
+		dManager.registerCommand(
+			domainName,
+			"step_next_bp",
+			stepNextBp,
+			false,
+			"Step next line"
+		);
+
+		dManager.registerCommand(
+			domainName,
+			"getTmpFolder",
+			getTmpFolder,
+			false,
+			"Get tmp folder"
+		);
+
 
 
 
