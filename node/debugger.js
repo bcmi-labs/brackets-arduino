@@ -121,53 +121,49 @@
 	{
 		console.log("--|| Stop sketch ||--")
 		ocdProcess.stdin.write(" monitor reset halt"+" \n")
-		dManager.emitEvent(domainName, "debug_data", "monitor reset halt"+" \n")
+		dManager.emitEvent(domainName, "debug_data", "Halt")
 	}
 
 	function restartExecution()
 	{
 		console.log("--|| Restart sketch ||--")
 		ocdProcess.stdin.write(" monitor reset run"+" \n")
-		dManager.emitEvent(domainName, "debug_data", "monitor reset resume"+" \n")
+		dManager.emitEvent(domainName, "debug_data", "Resume")
 	}
 
 	function stepNextBp()
 	{
 		console.log("--|| Continue sketch execution ||--")
-		ocdProcess.stdin.write(" continue"+" \n")
-		dManager.emitEvent(domainName, "debug_data", "continue"+" \n")
+		ocdProcess.stdin.write(" continue" + " \n")
+		//dManager.emitEvent(domainName, "debug_data", "continue")
 	}
 
 	function stepNextLine()
 	{
 		console.log("--|| Step Next Line ||--")
 		ocdProcess.stdin.write(" next" + " \n")
-		dManager.emitEvent(domainName, "debug_data", "next" + " \n")
+		//dManager.emitEvent(domainName, "debug_data", "next")
 	}
 
 	function showBreakpoints()
 	{
 		console.log("--|| Show a list of breakpoints ||--")
 		ocdProcess.stdin.write("info breakpoints " + " \n")
-		dManager.emitEvent(domainName, "debug_data", "info breakpoints" + " \n")
+		//dManager.emitEvent(domainName, "debug_data", "info breakpoints")
 	}
 
-	function setBreakpoint(line)
+	function setBreakpoint(filename, line)
 	{
 		console.log("--|| Set breakpoint at " + line + " ||--")
-		ocdProcess.stdin.write("b " + line + " \n")
-		dManager.emitEvent(domainName, "debug_data", "b " + line + " \n")
+		ocdProcess.stdin.write("break " + filename +  ":" + line + " \n")
+		//dManager.emitEvent(domainName, "debug_data", "b " + line)
 	}
 
-
-
-
-	//TODO showVariable
 	function showVariable(variable)
 	{
 		console.log("--|| Show the value of " + variable + " ||--")
 		ocdProcess.stdin.write("print " + variable + " \n")
-		dManager.emitEvent(domainName, "debug_data", "print " + variable + " \n")
+		//dManager.emitEvent(domainName, "debug_data", "print " + variable)
 	}
 
 
@@ -177,6 +173,9 @@
 		}
 		dManager = domainManager;
 
+
+//------------     COMMANDS     ------------
+		//<editor-fold desc="launchOpenOcd">
 		dManager.registerCommand(
 			domainName,
 			"launchOpenOcd",
@@ -189,7 +188,9 @@
 				description:"OpenOcd Process ID"
 			}]
 		);
+		//</editor-fold>
 
+		//<editor-fold desc="halt">
 		dManager.registerCommand(
 			domainName,
 			"halt",
@@ -197,7 +198,9 @@
 			false,
 			"Stop sketch execution"
 		);
+		//</editor-fold>
 
+		//<editor-fold desc="restart">
 		dManager.registerCommand(
 			domainName,
 			"restart",
@@ -205,8 +208,9 @@
 			false,
 			"Restart sketch execution"
 		);
+		//</editor-fold>
 
-
+		//<editor-fold desc="launchGdb">
 		dManager.registerCommand(
 			domainName,
 			"launchGdb",
@@ -224,8 +228,9 @@
 				description:"Sketch folder"
 			}]
 		);
+		//</editor-fold>
 
-
+		//<editor-fold desc="show_breakpoints">
 		dManager.registerCommand(
 			domainName,
 			"show_breakpoints",
@@ -238,20 +243,27 @@
 				description:"List of breakpoints"
 			}]
 		);
+		//</editor-fold>
 
+		//<editor-fold desc="set_breakpoint">
 		dManager.registerCommand(
 			domainName,
 			"set_breakpoint",
 			setBreakpoint,
 			false,
 			"Set breakpoint",
-			[{	name:"breakpointLine",
+			[{	name:"sketchname",
+				type:"string",
+				description:"File in witch set breakpoint"
+			},
+				{	name:"breakpointLine",
 				type:"int",
 				description:"Set a breakpoint at breakpointLine row"
 			}]
 		);
+		//</editor-fold>
 
-		//TODO show variable command
+		//<editor-fold desc="show_value">
 		dManager.registerCommand(
 			domainName,
 			"show_value",
@@ -267,7 +279,9 @@
 				description:"Value of variableName"
 			}]
 		);
+		//</editor-fold>
 
+		//<editor-fold desc="step_next_line">
 		dManager.registerCommand(
 			domainName,
 			"step_next_line",
@@ -275,7 +289,9 @@
 			false,
 			"Step next line"
 		);
+		//</editor-fold>
 
+		//<editor-fold desc="step_next_bp">
 		dManager.registerCommand(
 			domainName,
 			"step_next_bp",
@@ -283,7 +299,9 @@
 			false,
 			"Step next line"
 		);
+		//</editor-fold>
 
+		//<editor-fold desc="getTmpFolder">
 		dManager.registerCommand(
 			domainName,
 			"getTmpFolder",
@@ -291,11 +309,11 @@
 			false,
 			"Get tmp folder"
 		);
+		//</editor-fold>
 
 
-
-
-
+//------------     EVENTS     ------------
+		//<editor-fold desc="debug_data">
 		dManager.registerEvent(
 			domainName,
 			"debug_data",
@@ -304,7 +322,9 @@
 				description:"data from gdb"
 			}]
 		);
+		//</editor-fold>
 
+		//<editor-fold desc="debug_err">
 		dManager.registerEvent(
 			domainName,
 			"debug_err",
@@ -313,6 +333,7 @@
 				description:"error from gdb"
 			}]
 		);
+		//</editor-fold>
 
 	}
 	

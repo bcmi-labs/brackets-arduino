@@ -33,13 +33,16 @@ define(function (require, exports, module) {
     "use strict";
 
     var CommandManager      = brackets.getModule("command/CommandManager"),
+        Commands            = brackets.getModule("command/Commands"),
         Menus               = brackets.getModule("command/Menus"),
         ExtensionUtils      = brackets.getModule("utils/ExtensionUtils"),
         FileUtils           = brackets.getModule("file/FileUtils"),
+        File                = brackets.getModule("filesystem/File"),
         FileSystem          = brackets.getModule("filesystem/FileSystem"),
         WorkspaceManager    = brackets.getModule("view/WorkspaceManager"),
         EventDispatcher     = brackets.getModule("utils/EventDispatcher"),
-        EditorManager       = brackets.getModule("editor/EditorManager");
+        EditorManager       = brackets.getModule("editor/EditorManager"),
+        DocumentManager     = brackets.getModule("document/DocumentManager");
 
 
     var debugDomainName     = "org-arduino-ide-domain-debug",
@@ -47,18 +50,15 @@ define(function (require, exports, module) {
         debugPanel          = null,
         debugPanelHTML      = null;
 
-    var cmdOpenDebugWindow = "org.arduino.ide.view.debug.openwindow",
-        cmdSetBreakpoint   = "org.arduino.ide.view.debug.setbreakpoint";
+    var cmdOpenDebugWindow  = "org.arduino.ide.view.debug.openwindow",
+        cmdSetBreakpoint    = "org.arduino.ide.view.debug.setbreakpoint";
 
-    var debugDomain                 = null;
-
-    var debugPrefix                 = "[arduino ide - debug]";
+    var debugDomain         = null;
+    var debugPrefix         = "[arduino ide - debug]";
 
     var pref,
-        evt;
-
-    var bp = [],
-        selectFolderDialog;
+        evt,
+        bp = [];
 
     /**
      * [debug description]
@@ -157,6 +157,16 @@ define(function (require, exports, module) {
                                             debugDomain.exec("launchGdb", selectedElf[0], selectedFolder[0])
                                                 .done(function () {
                                                     console.log("Gdb running...")
+                                                    //TODO open cpp file
+                                                    /*
+                                                        get Document from name
+                                                     * EditorManager.openDocument(document_to_open , pane )
+                                                     */
+                                                    //var fileCpp = File(selectedElf[0].replace('.elf',''));
+                                                    //var documentCpp = Document(fileCpp);
+                                                    //var EditorManager.openDocument(documentCpp, Pane,)
+                                                    CommandManager.execute(Commands.CMD_ADD_TO_WORKINGSET_AND_OPEN, {fullPath: selectedElf[0].replace('.elf',''), paneId: "first-pane"});
+
                                                 })
                                                 .fail(function(err)
                                                 {
@@ -212,15 +222,11 @@ define(function (require, exports, module) {
         }
     };
 
-    /**
-     * callback function, called when the board send data to the serial monitor.
-     * @param  {Event} $event the event emitted by the NodeDomain of brackets
-     * @param  {String} data   the string sent by the board
-     */
     var debugDataHandler = function($event, data){
         if(data)
         {
-            $('#debug_log').html( $('#debug_log').html() + "<span style='color: black;'>" + data.replace("(gdb)","") + "</span><br /><hr>");
+            if(data != "(gdb)")
+            $('#debug_log').html( $('#debug_log').html() + "<span style='color: black;'>" + data.replace("(gdb)","").substring(data.indexOf("=")+1) + "</span><hr>");
             //TODO: evaluate condition ?
             //(brackets.arduino.preferences.get("arduino.ide.debug.autoscroll") )
                 $('#debug_log').scrollTop($('#debug_log')[0].scrollHeight);
@@ -339,21 +345,23 @@ define(function (require, exports, module) {
         });
 
         debugPanel.$panel.find("#setbreakpointDebug_button").on("click",function(){
-            for ( var i = 0 ; i < bp.length ; i++ )
-            debugDomain.exec("set_breakpoint", bp[i])
-                .done(function(){
-                    console.log("Breakpoint setted at " + bp[i]);
-                })
-                .fail(function(err)
-                {
-                    console.log("Error")
-                })
+            var currentFileName = DocumentManager.getCurrentDocument().file.name.replace('.ino','.cpp');
+            for ( var i = 0 ; i < bp.length ; i++ ) {
+                var cur_bp = bp[i];
+                debugDomain.exec("set_breakpoint", currentFileName, cur_bp)
+                    .done(function () {
+                        console.log("Breakpoint setted at " + currentFileName + " : " + cur_bp);
+                    })
+                    .fail(function (err) {
+                        console.log("Error")
+                    })
+            }
         });
 
         debugPanel.$panel.find("#showvalueDebug_button").on("click",function(){
-            debugDomain.exec("show_value", "a")
+            debugDomain.exec("show_value", "a") //TODO how to get variable name?
                 .done(function(){
-                    console.log("The value of [var] is " + b )
+                    console.log("The value of [a] is [undefined]" )
                 })
                 .fail(function(err)
                 {
@@ -371,6 +379,5 @@ define(function (require, exports, module) {
     return Debug;
 });
 
-//TODO : clear console button?
 //TODO : UI
-//TODO : close gdb/openocd at hide panel?
+//TODO : closeing gdb/openocd at hidden panel?
