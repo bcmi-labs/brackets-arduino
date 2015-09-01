@@ -159,10 +159,18 @@
 		//dManager.emitEvent(domainName, "debug_data", "b " + line)
 	}
 
+	//[SUSPENDED]
 	function showVariable(variable)
 	{
 		console.log("--|| Show the value of " + variable + " ||--")
 		ocdProcess.stdin.write("print " + variable + " \n")
+		//dManager.emitEvent(domainName, "debug_data", "print " + variable)
+	}
+
+	function showVariables()
+	{
+		console.log("--|| Show variables ||--")
+		ocdProcess.stdin.write("info locals" + " \n")
 		//dManager.emitEvent(domainName, "debug_data", "print " + variable)
 	}
 
@@ -263,6 +271,7 @@
 		);
 		//</editor-fold>
 
+		//[SUSPENDED]
 		//<editor-fold desc="show_value">
 		dManager.registerCommand(
 			domainName,
@@ -278,6 +287,16 @@
 				type:"string",
 				description:"Value of variableName"
 			}]
+		);
+		//</editor-fold>
+
+		//<editor-fold desc="show_variables">
+		dManager.registerCommand(
+			domainName,
+			"show_variables",
+			showVariables,
+			false,
+			"Show variables with their values"
 		);
 		//</editor-fold>
 

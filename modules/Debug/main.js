@@ -225,8 +225,8 @@ define(function (require, exports, module) {
     var debugDataHandler = function($event, data){
         if(data)
         {
-            if(data != "(gdb)")
-            $('#debug_log').html( $('#debug_log').html() + "<span style='color: black;'>" + data.replace("(gdb)","").substring(data.indexOf("=")+1) + "</span><hr>");
+            if(data != "(gdb) ")
+            $('#debug_log').html( $('#debug_log').html() + "<span style='color: black;'>" + data.replace("(gdb)","") + "</span><hr>");
             //TODO: evaluate condition ?
             //(brackets.arduino.preferences.get("arduino.ide.debug.autoscroll") )
                 $('#debug_log').scrollTop($('#debug_log')[0].scrollHeight);
@@ -241,7 +241,10 @@ define(function (require, exports, module) {
      */
     var debugErrorHandler = function($event, error){
         if(error){
-            brackets.arduino.dispatcher.trigger("arduino-event-debug-error", debugPrefix + " Error in debugging : " + error.toString());
+            //brackets.arduino.dispatcher.trigger("arduino-event-debug-error", debugPrefix + " Error in debugging : " + error.toString());
+            if(error != "(gdb) ")
+                $('#debug_log').html( $('#debug_log').html() + "<span style='color: red;'>" + error.replace("(gdb)","") + "</span><hr>");
+            $('#debug_log').scrollTop($('#debug_log')[0].scrollHeight);
         }
     }
 
@@ -359,9 +362,9 @@ define(function (require, exports, module) {
         });
 
         debugPanel.$panel.find("#showvalueDebug_button").on("click",function(){
-            debugDomain.exec("show_value", "a") //TODO how to get variable name?
+            debugDomain.exec("show_variables")
                 .done(function(){
-                    console.log("The value of [a] is [undefined]" )
+                    console.log("Show variables" )
                 })
                 .fail(function(err)
                 {
