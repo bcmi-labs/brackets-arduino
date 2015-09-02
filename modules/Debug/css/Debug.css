@@ -5,7 +5,7 @@
     max-height: 380px;
     padding-top: 0px;
     display: block;
-    border: 9px solid #9bff74;
+    border: 9px solid #c4a97f;
     padding-left: 0px;
     background-color: #ffffff;
     padding-left: 16px;
@@ -41,19 +41,7 @@
 
 
 
-a#startDebug_button {
-    background: url('start.png') center no-repeat;
-    cursor:pointer;
-    width: 35px;
-    height: 35px;
-    padding: 0px;
-    /*margin-left: 5px;*/
-    background-size: 35px;
-}
-a#startDebug_button:hover {
-    background: url('start_over.png') center no-repeat;
-    background-size: 35px;
-}
+
 
 a#haltsketchDebug_button {
     background: url('halt.png') center no-repeat;

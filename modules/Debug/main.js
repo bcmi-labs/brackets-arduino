@@ -58,7 +58,8 @@ define(function (require, exports, module) {
 
     var pref,
         evt,
-        bp = [];
+        bp = [],
+        String;
 
     /**
      * [debug description]
@@ -66,6 +67,7 @@ define(function (require, exports, module) {
     function Debug () {
         pref = brackets.arduino.preferences;
         evt  = brackets.arduino.dispatcher;
+        String = brackets.arduino.strings;
 
         debugDomain = brackets.arduino.domains[debugDomainName];
 
@@ -85,6 +87,7 @@ define(function (require, exports, module) {
         //ATTACH EVENT HANDLER
         debugDomain.on('debug_data', debugDataHandler);
         debugDomain.on('debug_err', debugErrorHandler);
+        debugDomain.on('close_flag', debugCloseHandler);
 
         brackets.arduino.dispatcher.on("arduino-event-debug-show",showDebug);
         brackets.arduino.dispatcher.on("arduino-event-debug-hide",hideDebug);
@@ -111,7 +114,17 @@ define(function (require, exports, module) {
              }
              });
             */
+            //TODO : disabilitare tutto di default e abilitare a showpanel
+            //TODO NOTE : cambiate un fottio di icone oltre ai js del debug
+            $('#debugOptions > a' ).each( function(){
+                $(this).attr('disabled',true);
+                $(this).unbind('click')
+            });
+
             $('#toolbar-debug-btn').addClass('debughover');
+            selectElfFile();
+
+
         }
     }
 
@@ -130,24 +143,29 @@ define(function (require, exports, module) {
                     brackets.arduino.dispatcher.trigger("arduino-event-console-log", debugPrefix + " Serial monitor disconnected from " + serialPort.address);
                 }
             });*/
+
+            debugDomain.exec("stopAll")
+                .done(function () {
+                    console.log("Debug Stopped...")
+                })
+                .fail(function(err)
+                {
+                    console.log("Error in debug stop")
+                })
         }
     }
 
     function selectElfFile()
     {
-        //TODO : Get window title from String
         debugDomain.exec("getTmpFolder")
             .done(function (tmpDir) {
                 console.log("Tmp dir : " + tmpDir)
-
-                FileSystem.showOpenDialog(false, false, "Select elf file", tmpDir , ['elf'], function(a,selectedElf,c){
+                FileSystem.showOpenDialog(false, false, String.ARDUINO.DIALOG.DEBUGGER.ELF, tmpDir , ['elf'], function(a,selectedElf,c){
                     if (selectedElf[0].length > 0) {
                         console.log("Elf selected : " + selectedElf[0])
-
-                        FileSystem.showOpenDialog(false, true, "Select sketch folder", "" , "", function(a,selectedFolder,c){
+                        FileSystem.showOpenDialog(false, true, String.ARDUINO.DIALOG.DEBUGGER.SKETCH_FOLDER, "" , "", function(a,selectedFolder,c){
                             if (selectedFolder[0].length > 0) {
                                 console.log("Selected folder : " + selectedFolder[0])
-
                                 debugDomain.exec("launchOpenOcd")
                                     .done(function(pid)
                                     {
@@ -157,16 +175,7 @@ define(function (require, exports, module) {
                                             debugDomain.exec("launchGdb", selectedElf[0], selectedFolder[0])
                                                 .done(function () {
                                                     console.log("Gdb running...")
-                                                    //TODO open cpp file
-                                                    /*
-                                                        get Document from name
-                                                     * EditorManager.openDocument(document_to_open , pane )
-                                                     */
-                                                    //var fileCpp = File(selectedElf[0].replace('.elf',''));
-                                                    //var documentCpp = Document(fileCpp);
-                                                    //var EditorManager.openDocument(documentCpp, Pane,)
                                                     CommandManager.execute(Commands.CMD_ADD_TO_WORKINGSET_AND_OPEN, {fullPath: selectedElf[0].replace('.elf',''), paneId: "first-pane"});
-
                                                 })
                                                 .fail(function(err)
                                                 {
@@ -183,16 +192,6 @@ define(function (require, exports, module) {
             {
                 console.log("Error in get tmp dir")
             })
-    }
-
-    function selectSketchFolder()
-    {
-        //TODO : Get window title from String
-        FileSystem.showOpenDialog(false, true, "Select sketch folder", "" , "", function(a,selectedFolder,c) {
-            if (selectedFolder[0].length > 0) {
-                console.log("Selected folder : " + selectedFolder[0])
-            }
-        })
     }
 
     /**
@@ -234,11 +233,6 @@ define(function (require, exports, module) {
             
     };
 
-    /**
-     * callback function, called when the serial communication fails.
-     * @param  {Event} $event the event emitted by the NodeDomain of brackets
-     * @param  {String} error the string sent by the board
-     */
     var debugErrorHandler = function($event, error){
         if(error){
             //brackets.arduino.dispatcher.trigger("arduino-event-debug-error", debugPrefix + " Error in debugging : " + error.toString());
@@ -246,6 +240,11 @@ define(function (require, exports, module) {
                 $('#debug_log').html( $('#debug_log').html() + "<span style='color: red;'>" + error.replace("(gdb)","") + "</span><hr>");
             $('#debug_log').scrollTop($('#debug_log')[0].scrollHeight);
         }
+    }
+
+    var debugCloseHandler = function($event, flag){
+        if(flag == "1")
+            $('#debug_log').html('');
     }
 
     /**
@@ -269,27 +268,7 @@ define(function (require, exports, module) {
         });
 
         debugPanel.$panel.find("#startDebug_button").on("click",function(){
-
             selectElfFile();
-            /*var sketchFolder = selectSketchFolder(),
-                elfFile = selectElfFile();
-
-            debugDomain.exec("launchOpenOcd")
-                .done(function(pid)
-                {
-                    if(pid > 1) {
-                        console.log("OpenOcd running...")
-
-                            debugDomain.exec("launchGdb", elfFile, sketchFolder)
-                            .done(function () {
-                                console.log("Gdb running...")
-                            })
-                            .fail(function(err)
-                            {
-                                console.log("Error in gdb launch")
-                            })
-                    }
-                })*/
         });
 
         debugPanel.$panel.find("#haltsketchDebug_button").on("click",function(){

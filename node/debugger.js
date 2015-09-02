@@ -37,7 +37,7 @@
 		dManager;
 
 	var openOcdProcess,
-		ocdProcess;
+		gdbProcess;
 
 	var rootDir = __dirname.substring(0, __dirname.lastIndexOf(path.sep)),
 		interval = 2000;
@@ -67,6 +67,11 @@
 		return rootDir+((process.platform =='win32')? '\\hardware\\tools\\samd\\bin\\arm-none-eabi-gdb' : 'hardware/tools/samd/bin/arm-none-eabi-gdb')
 	}
 
+	function stopAll()
+	{
+		if(!gdbProcess.killed)
+			gdbProcess.kill('SIGKILL');
+	}
 
 
 	function launchOpenOcd()
@@ -74,23 +79,34 @@
 		var OpenOcdCmd = [getOpenOcd(), "-s", getScriptDir(), "-f", getScript()];
 		openOcdProcess = child_process.spawn(OpenOcdCmd[0], OpenOcdCmd.slice(1));
 
+		openOcdProcess.on('close', function(code, signal){
+			console.log("OPENOCD PROCESS KILLED");
+			dManager.emitEvent(domainName, "close_flag", "1")
+		});
+
 		return openOcdProcess.pid;
 	}
 
 	function launchGdb(elfFile, sketchFolder)
 	{
-		var OcdCmd = [getGdb(), "-d", sketchFolder]
-		ocdProcess = child_process.exec(OcdCmd[0], OcdCmd.slice(1));
+		var gdbCmd = [getGdb(), "-d", sketchFolder]
+		gdbProcess = child_process.exec(gdbCmd[0], gdbCmd.slice(1));
 
-		ocdProcess.stdout.on("data", function(data){
+		gdbProcess.stdout.on("data", function(data){
 			dManager.emitEvent(domainName, "debug_data", data.toString());
 		});
 
-		ocdProcess.stderr.on("data", function(data){
+		gdbProcess.stderr.on("data", function(data){
 			dManager.emitEvent(domainName, "debug_err", data.toString());
 		});
 
-		if(ocdProcess.pid)
+		gdbProcess.on('close', function(code, signal){
+			console.log("GDB PROCESS KILLED");
+			if(!openOcdProcess.killed)
+				openOcdProcess.kill('SIGKILL');
+		});
+
+		if(gdbProcess.pid)
 			timer.setTimeout(function(){
 				locateElfFile(elfFile)
 				timer.setTimeout(function(){
@@ -102,7 +118,7 @@
 	function locateElfFile(filepath)
 	{
 		console.log("--|| Locate elf file ||--")
-		ocdProcess.stdin.write("file " + filepath + " \n")
+		gdbProcess.stdin.write("file " + filepath + " \n")
 		console.log("file " + filepath + " \n")
 
 	}
@@ -110,7 +126,7 @@
 	function locateLiveProgram()
 	{
 		console.log("--|| Locate live program ||--")
-		ocdProcess.stdin.write("target remote localhost:3333"+" \n")
+		gdbProcess.stdin.write("target remote localhost:3333"+" \n")
 		dManager.emitEvent(domainName, "debug_data", "target remote localhost:3333"+" \n");
 	}
 
@@ -120,42 +136,42 @@
 	function stopExecution()
 	{
 		console.log("--|| Stop sketch ||--")
-		ocdProcess.stdin.write(" monitor reset halt"+" \n")
+		gdbProcess.stdin.write(" monitor reset halt"+" \n")
 		dManager.emitEvent(domainName, "debug_data", "Halt")
 	}
 
 	function restartExecution()
 	{
 		console.log("--|| Restart sketch ||--")
-		ocdProcess.stdin.write(" monitor reset run"+" \n")
+		gdbProcess.stdin.write(" monitor reset run"+" \n")
 		dManager.emitEvent(domainName, "debug_data", "Resume")
 	}
 
 	function stepNextBp()
 	{
 		console.log("--|| Continue sketch execution ||--")
-		ocdProcess.stdin.write(" continue" + " \n")
+		gdbProcess.stdin.write(" continue" + " \n")
 		//dManager.emitEvent(domainName, "debug_data", "continue")
 	}
 
 	function stepNextLine()
 	{
 		console.log("--|| Step Next Line ||--")
-		ocdProcess.stdin.write(" next" + " \n")
+		gdbProcess.stdin.write(" next" + " \n")
 		//dManager.emitEvent(domainName, "debug_data", "next")
 	}
 
 	function showBreakpoints()
 	{
 		console.log("--|| Show a list of breakpoints ||--")
-		ocdProcess.stdin.write("info breakpoints " + " \n")
+		gdbProcess.stdin.write("info breakpoints " + " \n")
 		//dManager.emitEvent(domainName, "debug_data", "info breakpoints")
 	}
 
 	function setBreakpoint(filename, line)
 	{
 		console.log("--|| Set breakpoint at " + line + " ||--")
-		ocdProcess.stdin.write("break " + filename +  ":" + line + " \n")
+		gdbProcess.stdin.write("break " + filename +  ":" + line + " \n")
 		//dManager.emitEvent(domainName, "debug_data", "b " + line)
 	}
 
@@ -163,14 +179,14 @@
 	function showVariable(variable)
 	{
 		console.log("--|| Show the value of " + variable + " ||--")
-		ocdProcess.stdin.write("print " + variable + " \n")
+		gdbProcess.stdin.write("print " + variable + " \n")
 		//dManager.emitEvent(domainName, "debug_data", "print " + variable)
 	}
 
 	function showVariables()
 	{
 		console.log("--|| Show variables ||--")
-		ocdProcess.stdin.write("info locals" + " \n")
+		gdbProcess.stdin.write("info locals" + " \n")
 		//dManager.emitEvent(domainName, "debug_data", "print " + variable)
 	}
 
@@ -195,6 +211,16 @@
 				type:"string",
 				description:"OpenOcd Process ID"
 			}]
+		);
+		//</editor-fold>
+
+		//<editor-fold desc="stopAll">
+		dManager.registerCommand(
+			domainName,
+			"stopAll",
+			stopAll,
+			false,
+			"Stop Debug"
 		);
 		//</editor-fold>
 
@@ -350,6 +376,17 @@
 			[{	name:"derr",
 				type:"string",
 				description:"error from gdb"
+			}]
+		);
+		//</editor-fold>
+
+		//<editor-fold desc="close_flag">
+		dManager.registerEvent(
+			domainName,
+			"close_flag",
+			[{	name:"flag",
+				type:"int",
+				description:"Communicates if openOcd and GDB were closed"
 			}]
 		);
 		//</editor-fold>
