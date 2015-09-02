@@ -114,8 +114,7 @@ define(function (require, exports, module) {
              }
              });
             */
-            //TODO : disabilitare tutto di default e abilitare a showpanel
-            //TODO NOTE : cambiate un fottio di icone oltre ai js del debug
+
             $('#debugOptions > a' ).each( function(){
                 $(this).attr('disabled',true);
                 $(this).unbind('click')
@@ -362,4 +361,3 @@ define(function (require, exports, module) {
 });
 
 //TODO : UI
-//TODO : closeing gdb/openocd at hidden panel?
