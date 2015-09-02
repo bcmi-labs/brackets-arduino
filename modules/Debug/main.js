@@ -102,7 +102,6 @@ define(function (require, exports, module) {
 
         if (!debugPanel.isVisible()) {
             debugPanel.show();
-            //TODO: Open Debug channel
             /*
              openSerialPort(serialPort, serialPortRate, serialPortEol, function(err){
              if(err) { //TODO send error to arudino console.
@@ -114,16 +113,8 @@ define(function (require, exports, module) {
              }
              });
              */
-
-            $('#debugOptions > a' ).each( function(){
-                $(this).attr('disabled',true);
-                $(this).unbind('click')
-            });
-
             $('#toolbar-debug-btn').addClass('debughover');
             selectElfFile();
-
-
         }
     }
 
@@ -132,7 +123,6 @@ define(function (require, exports, module) {
 
         if (debugPanel.isVisible()){
             debugPanel.hide();
-            //TODO: Close Debug channel
             /*closeSerialPort(serialPort, function(err){
              if(err) { //TODO send error to arudino console.
              console.error(debugPrefix + " Error in serial port closing: ", err);
@@ -146,6 +136,10 @@ define(function (require, exports, module) {
             debugDomain.exec("stopAll")
                 .done(function () {
                     console.log("Debug Stopped...")
+                    $('#debugOptions > a' ).each( function(){
+                        $(this).attr('disabled',true);
+                        $(this).unbind('click')
+                    });
                 })
                 .fail(function(err)
                 {
@@ -175,6 +169,10 @@ define(function (require, exports, module) {
                                                 .done(function () {
                                                     console.log("Gdb running...")
                                                     CommandManager.execute(Commands.CMD_ADD_TO_WORKINGSET_AND_OPEN, {fullPath: selectedElf[0].replace('.elf',''), paneId: "first-pane"});
+                                                    $('#debugOptions > a' ).each( function(){
+                                                        $(this).attr('disabled',false);
+                                                    });
+                                                    bindButtonsEvents();
                                                 })
                                                 .fail(function(err)
                                                 {
@@ -246,26 +244,8 @@ define(function (require, exports, module) {
             $('#debug_log').html('');
     }
 
-    /**
-     * used to clear the text area
-     */
-    function clear() {
-        $('#console_log').html( "");
-    };
-
-
-    function debugPanelInit(){
-
-        ExtensionUtils.loadStyleSheet(module, "css/Debug.css");
-
-        debugPanelHTML = require("text!modules/debug/html/Debug.html");
-        debugPanel = WorkspaceManager.createBottomPanel("modules/debug/html/debug.panel", $(debugPanelHTML));
-
-        //TODO : it's necessary ?
-        debugPanel.$panel.find("#clear_button").on("click", function () {
-            clear();
-        });
-
+    function bindButtonsEvents()
+    {
         debugPanel.$panel.find("#startDebug_button").on("click",function(){
             selectElfFile();
         });
@@ -277,18 +257,18 @@ define(function (require, exports, module) {
                 })
                 .fail(function(err)
                 {
-                    console.log("Error in gdb launch")
+                    console.log("Error in halt execution")
                 })
         });
 
         debugPanel.$panel.find("#restartsketchDebug_button").on("click",function(){
             debugDomain.exec("restart")
                 .done(function(){
-                    console.log("Halt execution")
+                    console.log("Restart execution")
                 })
                 .fail(function(err)
                 {
-                    console.log("Error in gdb launch")
+                    console.log("Error in restart execution")
                 })
         });
 
@@ -349,11 +329,16 @@ define(function (require, exports, module) {
                     console.log("Error")
                 })
         });
+    }
 
-        debugPanel.$panel.find(".close").on("click", function () {
-            debugPanel.hide();
-            debugIcon.removeClass("on");
-        });
+    function debugPanelInit(){
+
+        ExtensionUtils.loadStyleSheet(module, "css/Debug.css");
+
+        debugPanelHTML = require("text!modules/debug/html/Debug.html");
+        debugPanel = WorkspaceManager.createBottomPanel("modules/debug/html/debug.panel", $(debugPanelHTML));
+
+        //bindButtonsEvents();
 
     };
 
