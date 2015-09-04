@@ -42,7 +42,8 @@ define(function (require, exports, module) {
         WorkspaceManager    = brackets.getModule("view/WorkspaceManager"),
         EventDispatcher     = brackets.getModule("utils/EventDispatcher"),
         EditorManager       = brackets.getModule("editor/EditorManager"),
-        DocumentManager     = brackets.getModule("document/DocumentManager");
+        DocumentManager     = brackets.getModule("document/DocumentManager"),
+        AppInit = brackets.getModule("utils/AppInit");
 
 
     var debugDomainName     = "org-arduino-ide-domain-debug",
@@ -56,31 +57,31 @@ define(function (require, exports, module) {
     var debugDomain         = null;
     var debugPrefix         = "[arduino ide - debug]";
 
-    var pref,
-        evt,
-        bp = [],
-        String;
+    var bp = [],
+        String,
+        sketchFolder,
+        bpData,
+        editor,
+        codeMirror;
 
     /**
      * [debug description]
      */
     function Debug () {
-        pref = brackets.arduino.preferences;
-        evt  = brackets.arduino.dispatcher;
         String = brackets.arduino.strings;
 
-        debugDomain = brackets.arduino.domains[debugDomainName];
-
         debugPanelInit();
+
+        debugDomain = brackets.arduino.domains[debugDomainName];
 
         //REGISTER COMMANDS and ADD MENU ITEMS
         CommandManager.register("Debug", cmdOpenDebugWindow, this.showHideDebug);
 
-        //TODO: it would be better to get the menu items and their position in a configuration file
         var toolsMenu = Menus.getMenu("arduino.ide.menu.tools");
         toolsMenu.addMenuItem( cmdOpenDebugWindow, null, Menus.AFTER);
 
         CommandManager.register("Set breakpoint", cmdSetBreakpoint, this.setBreakpoint);
+
         Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU).addMenuDivider();
         Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU).addMenuItem(cmdSetBreakpoint, null)
 
@@ -148,6 +149,12 @@ define(function (require, exports, module) {
         }
     }
 
+    var loadBreakpointFile = function(file, callback){
+        file.read(function(err, data, stat){
+            callback(err, data, stat);
+        });
+    };
+
     function selectElfFile()
     {
         debugDomain.exec("getTmpFolder")
@@ -157,15 +164,16 @@ define(function (require, exports, module) {
                     if (selectedElf[0].length > 0) {
                         console.log("Elf selected : " + selectedElf[0])
                         FileSystem.showOpenDialog(false, true, String.ARDUINO.DIALOG.DEBUGGER.SKETCH_FOLDER, "" , "", function(a,selectedFolder,c){
-                            if (selectedFolder[0].length > 0) {
-                                console.log("Selected folder : " + selectedFolder[0])
+                            sketchFolder = selectedFolder[0]
+                            if (sketchFolder.length > 0) {
+                                console.log("Selected folder : " + sketchFolder)
                                 debugDomain.exec("launchOpenOcd")
                                     .done(function(pid)
                                     {
                                         if(pid > 1) {
                                             console.log("OpenOcd running...")
 
-                                            debugDomain.exec("launchGdb", selectedElf[0], selectedFolder[0])
+                                            debugDomain.exec("launchGdb", selectedElf[0], sketchFolder)
                                                 .done(function () {
                                                     console.log("Gdb running...")
                                                     CommandManager.execute(Commands.CMD_ADD_TO_WORKINGSET_AND_OPEN, {fullPath: selectedElf[0].replace('.elf',''), paneId: "first-pane"});
@@ -173,6 +181,47 @@ define(function (require, exports, module) {
                                                         $(this).attr('disabled',false);
                                                     });
                                                     bindButtonsEvents();
+
+
+                                                    //<editor-fold desc="load bp">
+                                                    var bpFile = FileSystem.getFileForPath( sketchFolder + '/breakpoints' );
+                                                    if(editor == undefined)
+                                                        editor = EditorManager.getCurrentFullEditor();
+                                                    if(codeMirror == undefined)
+                                                        codeMirror = editor._codeMirror;
+
+                                                    loadBreakpointFile(bpFile, function(err, data, stat){
+                                                        if(err)
+                                                            console.error(debugPrefix + " Error in loading breakpoint file: " + err);
+                                                        else{
+                                                            bpData = JSON.parse(data);
+                                                            brackets.arduino.debug = {"breakpoints" :  bpData  };
+                                                            var currentFile = DocumentManager.getCurrentDocument().file;
+                                                            $.each(bpData.list, function(index,item) {
+                                                                    if(item.file == currentFile._path)
+                                                                    {
+                                                                        for ( var i = 0 ; i < item.breakpointList.length ; i++ ) {
+                                                                            var currentBreakpoint = item.breakpointList[i];
+
+                                                                            //Mark bp on line number
+                                                                            codeMirror.addLineClass(currentBreakpoint-1, null, "arduino-breakpoint");
+
+                                                                            debugDomain.exec("set_breakpoint", currentFile._name, currentBreakpoint)
+                                                                                .done(function () {
+                                                                                    console.log("Breakpoint setted at " + currentFile._name + " : " + currentBreakpoint);
+                                                                                })
+                                                                                .fail(function (err) {
+                                                                                    console.log("Error")
+                                                                                })
+                                                                        }
+                                                                    }
+                                                            })
+                                                        }
+                                                    });
+                                                    //</editor-fold>
+
+
+
                                                 })
                                                 .fail(function(err)
                                                 {
@@ -203,11 +252,38 @@ define(function (require, exports, module) {
      * [setBreakpoint description]
      */
     Debug.prototype.setBreakpoint = function(){
-        var editor = EditorManager.getCurrentFullEditor();
-        var line = editor.getCursorPos().line + 1;
-        bp.push(line);
-        //TODO: how to highlight the breakpoint ?
+        editor = EditorManager.getCurrentFullEditor();
+        codeMirror = editor._codeMirror;
+        //TODO : Is a good choice set bp only if the panel is visible???
+        if(debugPanel.isVisible()) {
+            var line = editor.getCursorPos().line;
+
+            $.each(bpData.list, function(index,item) {
+                if(item.file == DocumentManager.getCurrentDocument().file._path) {
+                    //If the selected line isn't yet in the array mark it, unmark otherwise
+                    if ($.inArray(line + 1, item.breakpointList) == -1) {
+                        item.breakpointList.push(line + 1);
+                        item.breakpointList.sort(function (a, b) {
+                            return a - b;
+                        })
+                        //TODO : set breakpoint on board
+                        var breakpoint = codeMirror.addLineClass(line, null, "arduino-breakpoint");
+                    }
+                    else {
+                        var elementToRemove = line + 1;
+                        item.breakpointList = $.grep(item.breakpointList, function (value) {
+                            return value != elementToRemove;
+                        })
+                        var breakpoint = codeMirror.removeLineClass(line, null, "arduino-breakpoint");
+                    }
+                }
+            })
+        }
+        else
+            alert('Debug not active');
     }
+
+
 
     var togglePanel = function() {
         if (debugPanel.isVisible()) {
@@ -244,12 +320,9 @@ define(function (require, exports, module) {
             $('#debug_log').html('');
     }
 
+
     function bindButtonsEvents()
     {
-        debugPanel.$panel.find("#startDebug_button").on("click",function(){
-            selectElfFile();
-        });
-
         debugPanel.$panel.find("#haltsketchDebug_button").on("click",function(){
             debugDomain.exec("halt")
                 .done(function(){
@@ -332,17 +405,13 @@ define(function (require, exports, module) {
     }
 
     function debugPanelInit(){
-
         ExtensionUtils.loadStyleSheet(module, "css/Debug.css");
 
         debugPanelHTML = require("text!modules/debug/html/Debug.html");
         debugPanel = WorkspaceManager.createBottomPanel("modules/debug/html/debug.panel", $(debugPanelHTML));
-
-        //bindButtonsEvents();
-
     };
 
     return Debug;
 });
 
-//TODO : UI
+//TODO : Improve UI

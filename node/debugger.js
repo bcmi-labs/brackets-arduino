@@ -190,6 +190,19 @@
 		//dManager.emitEvent(domainName, "debug_data", "print " + variable)
 	}
 
+	function saveBreakpoints(bpList, filename)
+	{
+		console.log("--|| Save breakpoint on file ||--")
+		//gdbProcess.stdin.write("save breakpoints" + filename +" \n")
+		//oppure
+		fs.writeFile(filename, bpList, function(err){
+			if(err)
+				dManager.emitEvent(domainName, "debug_err", "Error in breakpoint file saving...");
+			else
+				dManager.emitEvent(domainName, "debug_data", "Breakpoint file saved");
+
+		})
+	}
 
 	function init(domainManager){
 		if(!domainManager.hasDomain( domainName )){
@@ -293,6 +306,24 @@
 				{	name:"breakpointLine",
 				type:"int",
 				description:"Set a breakpoint at breakpointLine row"
+			}]
+		);
+		//</editor-fold>
+
+		//<editor-fold desc="saveBreakpoint">
+		dManager.registerCommand(
+			domainName,
+			"saveBreakpoints",
+			saveBreakpoints,
+			false,
+			"Save breakpoint in a file",
+			[{	name:"bpList",
+				type:"string",
+				description:"List of breakpoints"
+			},
+			{	name:"filename",
+				type:"string",
+				description:"Name of file(absolute) to save breakpoints"
 			}]
 		);
 		//</editor-fold>

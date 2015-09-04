@@ -155,3 +155,8 @@ a#showvalueDebug_button:hover {
     background-size: 35px;
 }
 
+.arduino-breakpoint .CodeMirror-linenumber {
+    background-color: #c4a97f !important;
+    color: #000 !important;
+    border-radius: 2px !important;
+}
