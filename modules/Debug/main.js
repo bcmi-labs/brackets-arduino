@@ -43,7 +43,9 @@ define(function (require, exports, module) {
         EventDispatcher     = brackets.getModule("utils/EventDispatcher"),
         EditorManager       = brackets.getModule("editor/EditorManager"),
         DocumentManager     = brackets.getModule("document/DocumentManager"),
-        AppInit = brackets.getModule("utils/AppInit");
+        AppInit             = brackets.getModule("utils/AppInit"),
+        Dialogs             = brackets.getModule("widgets/Dialogs"),
+        DefaultDialogs      = brackets.getModule("widgets/DefaultDialogs");
 
 
     var debugDomainName     = "org-arduino-ide-domain-debug",
@@ -61,6 +63,7 @@ define(function (require, exports, module) {
         String,
         sketchFolder,
         bpData,
+        bpFile,
         editor,
         codeMirror;
 
@@ -97,7 +100,7 @@ define(function (require, exports, module) {
 
 
     var showDebug = function(){
-        //TODO ???
+        //TODO
         //brackets.arduino.dispatcher.trigger("arduino-event-debug-hide");
         $('#toolbar-debug-btn').removeClass('debughover');
 
@@ -184,7 +187,7 @@ define(function (require, exports, module) {
 
 
                                                     //<editor-fold desc="load bp">
-                                                    var bpFile = FileSystem.getFileForPath( sketchFolder + '/breakpoints' );
+                                                    bpFile = FileSystem.getFileForPath( sketchFolder + '/breakpoints' );
                                                     if(editor == undefined)
                                                         editor = EditorManager.getCurrentFullEditor();
                                                     if(codeMirror == undefined)
@@ -202,8 +205,6 @@ define(function (require, exports, module) {
                                                                     {
                                                                         for ( var i = 0 ; i < item.breakpointList.length ; i++ ) {
                                                                             var currentBreakpoint = item.breakpointList[i];
-
-                                                                            //Mark bp on line number
                                                                             codeMirror.addLineClass(currentBreakpoint-1, null, "arduino-breakpoint");
 
                                                                             debugDomain.exec("set_breakpoint", currentFile._name, currentBreakpoint)
@@ -266,7 +267,23 @@ define(function (require, exports, module) {
                         item.breakpointList.sort(function (a, b) {
                             return a - b;
                         })
-                        //TODO : set breakpoint on board
+                        //<editor-fold desc=" set breakpoint">
+                        debugDomain.exec("set_breakpoint", DocumentManager.getCurrentDocument().file._name, line+1)
+                            .done(function () {
+                                console.log("Breakpoint setted at " + DocumentManager.getCurrentDocument().file._name + " : " + line+1);
+
+                                bpFile.write(JSON.stringify(bpData), function(err,fs){
+                                    if(err)
+                                        console.log("Error in breakpoint file saving")
+                                    else
+                                        console.log("Breakpoints saved on file")
+                                });
+                            })
+                            .fail(function (err) {
+                                console.log("Error")
+                            })
+
+                        //</editor-fold>
                         var breakpoint = codeMirror.addLineClass(line, null, "arduino-breakpoint");
                     }
                     else {
@@ -274,13 +291,30 @@ define(function (require, exports, module) {
                         item.breakpointList = $.grep(item.breakpointList, function (value) {
                             return value != elementToRemove;
                         })
+
+                        //<editor-fold desc=" delete breakpoint">
+                        debugDomain.exec("deleteBreakpoint", DocumentManager.getCurrentDocument().file._name, elementToRemove)
+                            .done(function () {
+                                console.log("Breakpoint deleted at " + DocumentManager.getCurrentDocument().file._name + " : " + elementToRemove);
+                                bpFile.write(JSON.stringify(bpData), function(err,fs){
+                                    if(err)
+                                        console.log("Error in breakpoint file saving")
+                                    else
+                                        console.log("Breakpoints saved on file")
+                                });
+                            })
+                            .fail(function (err) {
+                                console.log("Error")
+                            })
+                        //</editor-fold>
+
                         var breakpoint = codeMirror.removeLineClass(line, null, "arduino-breakpoint");
                     }
                 }
             })
         }
         else
-            alert('Debug not active');
+            var dlg = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Debug not active", "Run Debug before proceed");
     }
 
 
@@ -300,7 +334,7 @@ define(function (require, exports, module) {
             if(data != "(gdb) ")
                 $('#debug_log').html( $('#debug_log').html() + "<span style='color: black;'>" + data.replace("(gdb)","") + "</span><hr>");
             //TODO: evaluate condition ?
-            //(brackets.arduino.preferences.get("arduino.ide.debug.autoscroll") )
+            //if(brackets.arduino.preferences.get("arduino.ide.debug.autoscroll") )
             $('#debug_log').scrollTop($('#debug_log')[0].scrollHeight);
         }
 

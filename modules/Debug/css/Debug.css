@@ -159,4 +159,7 @@ a#showvalueDebug_button:hover {
     background-color: #c4a97f !important;
     color: #000 !important;
     border-radius: 2px !important;
+    background-image: url("breakpoint.gif");
+    background-repeat: no-repeat;
+    background-position: center;
 }

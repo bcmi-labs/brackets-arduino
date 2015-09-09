@@ -40,7 +40,7 @@
 		gdbProcess;
 
 	var rootDir = __dirname.substring(0, __dirname.lastIndexOf(path.sep)),
-		interval = 2000;
+		interval = 0;
 
 	function getTmpFolder()
 	{
@@ -204,6 +204,12 @@
 		})
 	}
 
+	function deleteBreakpoint(filename, line)
+	{
+		console.log("--|| Delete breakpoint at " + line + " ||--")
+		gdbProcess.stdin.write("clear " + filename +  ":" + line + " \n")
+	}
+
 	function init(domainManager){
 		if(!domainManager.hasDomain( domainName )){
 			domainManager.registerDomain( domainName, {major: 0, minor: 1});
@@ -307,6 +313,24 @@
 				type:"int",
 				description:"Set a breakpoint at breakpointLine row"
 			}]
+		);
+		//</editor-fold>
+
+		//<editor-fold desc="deleteBreakpoint">
+		dManager.registerCommand(
+			domainName,
+			"deleteBreakpoint",
+			deleteBreakpoint,
+			false,
+			"Delete breakpoint",
+			[{	name:"sketchname",
+				type:"string",
+				description:"File in witch delete breakpoint"
+			},
+				{	name:"breakpointLine",
+					type:"int",
+					description:"Delete the breakpoint at breakpointLine row"
+				}]
 		);
 		//</editor-fold>
 
