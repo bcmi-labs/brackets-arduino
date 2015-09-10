@@ -55,12 +55,10 @@
 #main-toolbar .buttons>a, #main-toolbar .bottom-buttons>a {
 	width: 55px;
 	height: 38px;
-}
-
-#main-toolbar .buttons>a {
 	margin: 16px 0px 0px 0px;
 	display: block;
 }
+
 
 #toolbar-arduino-logo {
 	background: url('../img/arduino.png') center no-repeat;
@@ -126,6 +124,7 @@
 	background: url('../img/console.png') center no-repeat;
 	cursor:pointer;
 	border: none;
+	/* padding-bottom: 16px */
 }
 #toolbar-console-btn:hover {
 	background: url('../img/console_over.png') center no-repeat;
@@ -139,7 +138,7 @@
 	background: url('../img/serial.png') center no-repeat;
     cursor:pointer;
     border: none;
-    padding-bottom: 16px;
+	/* padding-bottom: 16px */
 }
 #toolbar-serial-btn:hover {
 	background: url('../img/serial_over.png') center no-repeat;
@@ -153,7 +152,7 @@
 	background: url('../img/debug.png') center no-repeat;
 	cursor:pointer;
 	border: none;
-	padding-bottom: 16px;
+	/* padding-bottom: 16px */
 }
 #toolbar-debug-btn:hover {
 	background: url('../img/debug_over.png') center no-repeat;
