@@ -49,35 +49,43 @@
 
 	function getOpenOcd()
 	{
-		return rootDir+((process.platform =='win32')? '\\hardware\\tools\\OpenOCD-0.9.0-arduino\\bin\\openocd' : 'hardware/tools/OpenOCD-0.9.0-arduino/bin/openocd')
+		return rootDir+((process.platform =='win32')? '\\hardware\\tools\\OpenOCD-0.9.0-arduino\\bin\\openocd' : '/hardware/tools/OpenOCD-0.9.0-arduino/bin/openocd')
 	}
 
 	function getScriptDir()
 	{
-		return rootDir+((process.platform =='win32')? '\\hardware\\tools\\OpenOCD-0.9.0-arduino\\share\\openocd\\scripts' : 'hardware/tools/OpenOCD-0.9.0-arduino/share/openocd/scripts')
+		return rootDir+((process.platform =='win32')? '\\hardware\\tools\\OpenOCD-0.9.0-arduino\\share\\openocd\\scripts' : '/hardware/tools/OpenOCD-0.9.0-arduino/share/openocd/scripts')
 	}
 
 	function getScript()
 	{
-		return rootDir+((process.platform =='win32')? '\\hardware\\arduino\\samd\\variants\\arduino_zero\\openocd_scripts\\arduino_zero.cfg' : 'hardware/arduino/samd/variants/arduino_zero/openocd_scripts/arduino_zero.cfg')
+		return rootDir+((process.platform =='win32')? '\\hardware\\arduino\\samd\\variants\\arduino_zero\\openocd_scripts\\arduino_zero.cfg' : '/hardware/arduino/samd/variants/arduino_zero/openocd_scripts/arduino_zero.cfg')
 	}
 
 	function getGdb()
 	{
-		return rootDir+((process.platform =='win32')? '\\hardware\\tools\\samd\\bin\\arm-none-eabi-gdb' : 'hardware/tools/samd/bin/arm-none-eabi-gdb')
+		return rootDir+((process.platform =='win32')? '\\hardware\\tools\\samd\\bin\\arm-none-eabi-gdb' : '/hardware/tools/samd/bin/arm-none-eabi-gdb')
 	}
 
 	function stopAll()
 	{
+		if(!openOcdProcess.killed)
+		{
+			if(process.platform == 'win32')
+				process.kill(openOcdProcess.pid, 'SIGKILL');
+			else
+				process.kill(-openOcdProcess.pid)
+		}
 		if(!gdbProcess.killed)
-			gdbProcess.kill('SIGKILL');
+			process.kill(gdbProcess.pid, 'SIGKILL');
+
 	}
 
 
 	function launchOpenOcd()
 	{
 		var OpenOcdCmd = [getOpenOcd(), "-s", getScriptDir(), "-f", getScript()];
-		openOcdProcess = child_process.spawn(OpenOcdCmd[0], OpenOcdCmd.slice(1));
+		openOcdProcess = child_process.spawn(OpenOcdCmd[0], OpenOcdCmd.slice(1), {detached: true});
 
 		openOcdProcess.on('close', function(code, signal){
 			console.log("OPENOCD PROCESS KILLED");
@@ -102,8 +110,7 @@
 
 		gdbProcess.on('close', function(code, signal){
 			console.log("GDB PROCESS KILLED");
-			if(!openOcdProcess.killed)
-				openOcdProcess.kill('SIGKILL');
+			dManager.emitEvent(domainName, "close_flag", "1")
 		});
 
 		if(gdbProcess.pid)
@@ -118,7 +125,8 @@
 	function locateElfFile(filepath)
 	{
 		console.log("--|| Locate elf file ||--")
-		gdbProcess.stdin.write("file " + filepath + " \n")
+		//gdbProcess.stdin.write("file " + filepath + " \n")
+		gdbProcess.stdin.write("file " + filepath.substring(0,filepath.lastIndexOf(path.sep)) + " \n")
 		console.log("file " + filepath + " \n")
 
 	}
@@ -127,7 +135,8 @@
 	{
 		console.log("--|| Locate live program ||--")
 		gdbProcess.stdin.write("target remote localhost:3333"+" \n")
-		dManager.emitEvent(domainName, "debug_data", "target remote localhost:3333"+" \n");
+		console.log("target remote localhost:3333"+" \n")
+		//dManager.emitEvent(domainName, "debug_data", "target remote localhost:3333"+" \n");
 	}
 
 

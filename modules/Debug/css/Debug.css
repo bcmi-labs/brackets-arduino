@@ -156,10 +156,10 @@ a#showvalueDebug_button:hover {
 }
 
 .arduino-breakpoint .CodeMirror-linenumber {
-    background-color: #c4a97f !important;
+    //background-color: #c4a97f !important;
     color: #000 !important;
     border-radius: 2px !important;
-    background-image: url("breakpoint.gif");
+    background-image: url("breakpoint.png");
     background-repeat: no-repeat;
     background-position: center;
 }
