@@ -185,8 +185,6 @@ define(function (require, exports, module) {
                                                     });
                                                     bindButtonsEvents();
 
-
-                                                    //TODO : breakpoints non sta in sketchFolder ma nella cartella di selectedElf
                                                     //<editor-fold desc="load bp">
                                                     var bpFileFolder = FileSystem.getFileForPath(selectedElf[0])._parentPath;
                                                     bpFile = FileSystem.getFileForPath( bpFileFolder + '/breakpoints' );
