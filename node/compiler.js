@@ -112,8 +112,19 @@
                         console.log("User lib");
                         paths.push(sketchbook + path.sep + "libraries" + path.sep + libname + path.sep + "src");
                     }
+                    //<editor-fold desc="test new path for lib">
+                    else if(fs.existsSync(plat.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + arch + path.sep + "libraries" + path.sep + libname))
+                    {
+                        console.log("User lib");
+                        paths.push(plat.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + arch + path.sep + "libraries" + path.sep + libname);
+                        if(fs.existsSync(plat.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + arch + path.sep + "libraries" + path.sep + libname + path.sep + "src"))
+                            paths.push((plat.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + arch + path.sep + "libraries" + path.sep + libname + path.sep + "src"))
+                        if(fs.existsSync(plat.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + arch + path.sep + "libraries" + path.sep + libname + path.sep + "utility"))
+                            paths.push((plat.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + arch + path.sep + "libraries" + path.sep + libname + path.sep + "utility"))
+                    }
+                    //</editor-fold>
                     else
-                        console.log("Library " + libname + "not exist")
+                        console.log("Library " + libname + " not exist")
                 }
             });
             if(cb) cb();
