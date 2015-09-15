@@ -442,8 +442,8 @@ define(function (require, exports, module) {
     function debugPanelInit(){
         ExtensionUtils.loadStyleSheet(module, "css/Debug.css");
 
-        debugPanelHTML = require("text!modules/debug/html/Debug.html");
-        debugPanel = WorkspaceManager.createBottomPanel("modules/debug/html/debug.panel", $(debugPanelHTML));
+        debugPanelHTML = require("text!modules/Debug/html/Debug.html");
+        debugPanel = WorkspaceManager.createBottomPanel("modules/Debug/html/debug.panel", $(debugPanelHTML));
     };
 
     return Debug;
