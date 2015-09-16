@@ -125,11 +125,15 @@
 	function locateElfFile(filepath)
 	{
 		console.log("--|| Locate elf file ||--")
-		if(process.platform == 'win32')
+		if(process.platform == 'win32' || process.platform == 'linux') {
 			gdbProcess.stdin.write("file " + filepath + " \n")
-		else
-			gdbProcess.stdin.write("file " + filepath.substring(0,filepath.lastIndexOf(path.sep)) + " \n")
-		console.log("file " + filepath + " \n")
+			console.log("file " + filepath + " \n")
+		}
+		else {
+			gdbProcess.stdin.write("file " + filepath.substring(0, filepath.lastIndexOf(path.sep)) + " \n")
+			console.log("file " + filepath.substring(0, filepath.lastIndexOf(path.sep)) + " \n")
+		}
+
 
 	}
 
