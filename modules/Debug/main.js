@@ -186,14 +186,8 @@ define(function (require, exports, module) {
                                                     });
                                                     bindButtonsEvents();
 
-                                                    //<editor-fold desc="load bp">
                                                     var bpFileFolder = FileSystem.getFileForPath(selectedElf[0])._parentPath;
                                                     bpFile = FileSystem.getFileForPath( bpFileFolder + '/breakpoints' );
-                                                    if(editor == undefined)
-                                                        editor = EditorManager.getCurrentFullEditor();
-                                                    if(codeMirror == undefined)
-                                                        codeMirror = editor._codeMirror;
-
 
                                                     loadBreakpointFile(bpFile, function(err, data, stat){
                                                         if(err)
@@ -205,9 +199,11 @@ define(function (require, exports, module) {
                                                             $.each(bpData.list, function(index,item) {
                                                                     if(item.file == currentFile._path)
                                                                     {
+                                                                        editor = EditorManager.getActiveEditor();
+                                                                        codeMirror = editor._codeMirror;
                                                                         for ( var i = 0 ; i < item.breakpointList.length ; i++ ) {
                                                                             var currentBreakpoint = item.breakpointList[i];
-                                                                            codeMirror.addLineClass(currentBreakpoint-1, null, "arduino-breakpoint");
+                                                                            var breakpoint = codeMirror.addLineClass(currentBreakpoint-1, null, "arduino-breakpoint");
 
                                                                             debugDomain.exec("set_breakpoint", currentFile._name, currentBreakpoint)
                                                                                 .done(function () {
@@ -221,9 +217,6 @@ define(function (require, exports, module) {
                                                             })
                                                         }
                                                     });
-                                                    //</editor-fold>
-
-
 
                                                 })
                                                 .fail(function(err)
@@ -270,11 +263,11 @@ define(function (require, exports, module) {
                             item.breakpointList.sort(function (a, b) {
                                 return a - b;
                             })
-                            //<editor-fold desc=" set breakpoint">
+
+                            var breakpoint = codeMirror.addLineClass(line, null, "arduino-breakpoint");
                             debugDomain.exec("set_breakpoint", DocumentManager.getCurrentDocument().file._name, line + 1)
                                 .done(function () {
-                                    console.log("Breakpoint setted at " + DocumentManager.getCurrentDocument().file._name + " : " + line + 1);
-                                    var breakpoint = codeMirror.addLineClass(line, null, "arduino-breakpoint");
+                                    console.log("Breakpoint setted at " + DocumentManager.getCurrentDocument().file._name + " : " + (line + 1));
                                     bpFile.write(JSON.stringify(bpData), function (err, fs) {
                                         if (err)
                                             console.log("Error in breakpoint file saving")
@@ -286,8 +279,6 @@ define(function (require, exports, module) {
                                     console.log("Error")
                                 })
 
-                            //</editor-fold>
-                            var breakpoint = codeMirror.addLineClass(line, null, "arduino-breakpoint");
                         }
                         else {
                             var elementToRemove = line + 1;
@@ -295,7 +286,6 @@ define(function (require, exports, module) {
                                 return value != elementToRemove;
                             })
 
-                            //<editor-fold desc=" delete breakpoint">
                             debugDomain.exec("deleteBreakpoint", DocumentManager.getCurrentDocument().file._name, elementToRemove)
                                 .done(function () {
                                     console.log("Breakpoint deleted at " + DocumentManager.getCurrentDocument().file._name + " : " + elementToRemove);
@@ -310,9 +300,6 @@ define(function (require, exports, module) {
                                 .fail(function (err) {
                                     console.log("Error")
                                 })
-                            //</editor-fold>
-
-
                         }
                     }
                 })

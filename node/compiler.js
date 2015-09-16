@@ -117,6 +117,10 @@
                     {
                         console.log("User lib");
                         paths.push(plat.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + arch + path.sep + "libraries" + path.sep + libname);
+                        if(fs.existsSync(plat.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + arch + path.sep + "libraries" + path.sep + libname + path.sep + "src"))
+                            paths.push((plat.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + arch + path.sep + "libraries" + path.sep + libname + path.sep + "src"))
+                        if(fs.existsSync(plat.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + arch + path.sep + "libraries" + path.sep + libname + path.sep + "utility"))
+                            paths.push((plat.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + arch + path.sep + "libraries" + path.sep + libname + path.sep + "utility"))
                     }
                     //</editor-fold>
                     else
