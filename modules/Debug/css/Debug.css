@@ -164,4 +164,5 @@ a#showvalueDebug_button:hover {
     background-image: url("breakpoint.png");
     background-repeat: no-repeat;
     background-position: center;
+    background-size: 17px 17px;
 }

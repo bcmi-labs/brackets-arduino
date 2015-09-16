@@ -97,7 +97,7 @@
 
 	function launchGdb(elfFile, sketchFolder)
 	{
-		var gdbCmd = [getGdb(), "-d", sketchFolder]
+		var gdbCmd = [getGdb(), "-d", "'" + sketchFolder + "'"]
 		gdbProcess = child_process.exec(gdbCmd[0], gdbCmd.slice(1));
 
 		gdbProcess.stdout.on("data", function(data){
@@ -125,8 +125,10 @@
 	function locateElfFile(filepath)
 	{
 		console.log("--|| Locate elf file ||--")
-		//gdbProcess.stdin.write("file " + filepath + " \n")
-		gdbProcess.stdin.write("file " + filepath.substring(0,filepath.lastIndexOf(path.sep)) + " \n")
+		if(process.platform == 'win32')
+			gdbProcess.stdin.write("file " + filepath + " \n")
+		else
+			gdbProcess.stdin.write("file " + filepath.substring(0,filepath.lastIndexOf(path.sep)) + " \n")
 		console.log("file " + filepath + " \n")
 
 	}
@@ -173,29 +175,22 @@
 	function showBreakpoints()
 	{
 		console.log("--|| Show a list of breakpoints ||--")
-		gdbProcess.stdin.write("info breakpoints " + " \n")
+		gdbProcess.stdin.write(" info breakpoints " + " \n")
 		//dManager.emitEvent(domainName, "debug_data", "info breakpoints")
 	}
 
 	function setBreakpoint(filename, line)
 	{
 		console.log("--|| Set breakpoint at " + line + " ||--")
-		gdbProcess.stdin.write("break " + filename +  ":" + line + " \n")
+		gdbProcess.stdin.write(" break " + filename +  ":" + line + " \n")
 		//dManager.emitEvent(domainName, "debug_data", "b " + line)
 	}
 
-	//[SUSPENDED]
-	function showVariable(variable)
-	{
-		console.log("--|| Show the value of " + variable + " ||--")
-		gdbProcess.stdin.write("print " + variable + " \n")
-		//dManager.emitEvent(domainName, "debug_data", "print " + variable)
-	}
 
 	function showVariables()
 	{
 		console.log("--|| Show variables ||--")
-		gdbProcess.stdin.write("info locals" + " \n")
+		gdbProcess.stdin.write(" info locals" + " \n")
 		//dManager.emitEvent(domainName, "debug_data", "print " + variable)
 	}
 
@@ -218,6 +213,7 @@
 		console.log("--|| Delete breakpoint at " + line + " ||--")
 		gdbProcess.stdin.write("clear " + filename +  ":" + line + " \n")
 	}
+
 
 	function init(domainManager){
 		if(!domainManager.hasDomain( domainName )){
@@ -361,25 +357,6 @@
 		);
 		//</editor-fold>
 
-		//[SUSPENDED]
-		//<editor-fold desc="show_value">
-		dManager.registerCommand(
-			domainName,
-			"show_value",
-			showVariable,
-			false,
-			"Show variable value",
-			[{	name:"variableName",
-				type:"string",
-				description:"Name of varibale to inspect"
-			}],
-			[{	name:"variableValue",
-				type:"string",
-				description:"Value of variableName"
-			}]
-		);
-		//</editor-fold>
-
 		//<editor-fold desc="show_variables">
 		dManager.registerCommand(
 			domainName,
@@ -419,7 +396,6 @@
 			"Get tmp folder"
 		);
 		//</editor-fold>
-
 
 //------------     EVENTS     ------------
 		//<editor-fold desc="debug_data">

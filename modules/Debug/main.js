@@ -65,7 +65,8 @@ define(function (require, exports, module) {
         bpData,
         bpFile,
         editor,
-        codeMirror;
+        codeMirror,
+        YN_dialog;
 
     /**
      * [debug description]
@@ -260,59 +261,85 @@ define(function (require, exports, module) {
         if(debugPanel.isVisible()) {
             var line = editor.getCursorPos().line;
 
-            $.each(bpData.list, function(index,item) {
-                if(item.file == DocumentManager.getCurrentDocument().file._path) {
-                    //If the selected line isn't yet in the array mark it, unmark otherwise
-                    if ($.inArray(line + 1, item.breakpointList) == -1) {
-                        item.breakpointList.push(line + 1);
-                        item.breakpointList.sort(function (a, b) {
-                            return a - b;
-                        })
-                        //<editor-fold desc=" set breakpoint">
-                        debugDomain.exec("set_breakpoint", DocumentManager.getCurrentDocument().file._name, line+1)
-                            .done(function () {
-                                console.log("Breakpoint setted at " + DocumentManager.getCurrentDocument().file._name + " : " + line+1);
-
-                                bpFile.write(JSON.stringify(bpData), function(err,fs){
-                                    if(err)
-                                        console.log("Error in breakpoint file saving")
-                                    else
-                                        console.log("Breakpoints saved on file")
-                                });
+            if(bpData) {
+                $.each(bpData.list, function (index, item) {
+                    if (item.file == DocumentManager.getCurrentDocument().file._path) {
+                        //If the selected line isn't yet in the array mark it, unmark otherwise
+                        if ($.inArray(line + 1, item.breakpointList) == -1) {
+                            item.breakpointList.push(line + 1);
+                            item.breakpointList.sort(function (a, b) {
+                                return a - b;
                             })
-                            .fail(function (err) {
-                                console.log("Error")
+                            //<editor-fold desc=" set breakpoint">
+                            debugDomain.exec("set_breakpoint", DocumentManager.getCurrentDocument().file._name, line + 1)
+                                .done(function () {
+                                    console.log("Breakpoint setted at " + DocumentManager.getCurrentDocument().file._name + " : " + line + 1);
+                                    var breakpoint = codeMirror.addLineClass(line, null, "arduino-breakpoint");
+                                    bpFile.write(JSON.stringify(bpData), function (err, fs) {
+                                        if (err)
+                                            console.log("Error in breakpoint file saving")
+                                        else
+                                            console.log("Breakpoints saved on file")
+                                    });
+                                })
+                                .fail(function (err) {
+                                    console.log("Error")
+                                })
+
+                            //</editor-fold>
+                            var breakpoint = codeMirror.addLineClass(line, null, "arduino-breakpoint");
+                        }
+                        else {
+                            var elementToRemove = line + 1;
+                            item.breakpointList = $.grep(item.breakpointList, function (value) {
+                                return value != elementToRemove;
                             })
 
-                        //</editor-fold>
+                            //<editor-fold desc=" delete breakpoint">
+                            debugDomain.exec("deleteBreakpoint", DocumentManager.getCurrentDocument().file._name, elementToRemove)
+                                .done(function () {
+                                    console.log("Breakpoint deleted at " + DocumentManager.getCurrentDocument().file._name + " : " + elementToRemove);
+                                    var breakpoint = codeMirror.removeLineClass(line, null, "arduino-breakpoint");
+                                    bpFile.write(JSON.stringify(bpData), function (err, fs) {
+                                        if (err)
+                                            console.log("Error in breakpoint file saving")
+                                        else
+                                            console.log("Breakpoints saved on file")
+                                    });
+                                })
+                                .fail(function (err) {
+                                    console.log("Error")
+                                })
+                            //</editor-fold>
+
+
+                        }
+                    }
+                })
+            }
+            else //if is the first bp
+            {
+                debugDomain.exec("set_breakpoint", DocumentManager.getCurrentDocument().file._name, line+1)
+                    .done(function () {
+                        console.log("Breakpoint setted at " + DocumentManager.getCurrentDocument().file._name + " : " + line+1);
+
+                        //push()
+                        bpData = {}
+                        bpData.list = [];
+                        bpData.list.push ({"file" : DocumentManager.getCurrentDocument().file._path , "breakpointList" : [line + 1]});
                         var breakpoint = codeMirror.addLineClass(line, null, "arduino-breakpoint");
-                    }
-                    else {
-                        var elementToRemove = line + 1;
-                        item.breakpointList = $.grep(item.breakpointList, function (value) {
-                            return value != elementToRemove;
-                        })
-
-                        //<editor-fold desc=" delete breakpoint">
-                        debugDomain.exec("deleteBreakpoint", DocumentManager.getCurrentDocument().file._name, elementToRemove)
-                            .done(function () {
-                                console.log("Breakpoint deleted at " + DocumentManager.getCurrentDocument().file._name + " : " + elementToRemove);
-                                bpFile.write(JSON.stringify(bpData), function(err,fs){
-                                    if(err)
-                                        console.log("Error in breakpoint file saving")
-                                    else
-                                        console.log("Breakpoints saved on file")
-                                });
-                            })
-                            .fail(function (err) {
-                                console.log("Error")
-                            })
-                        //</editor-fold>
-
-                        var breakpoint = codeMirror.removeLineClass(line, null, "arduino-breakpoint");
-                    }
-                }
-            })
+                        bpFile.write(JSON.stringify(bpData), function(err,fs){
+                            if(err)
+                                console.log("Error in breakpoint file saving")
+                            else {
+                                console.log("Breakpoints saved on file")
+                            }
+                        });
+                    })
+                    .fail(function (err) {
+                        console.log("Error")
+                    })
+            }
         }
         else
             var dlg = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "Debug not active", "Run Debug before proceed");
@@ -354,7 +381,6 @@ define(function (require, exports, module) {
         if(flag == "1")
             $('#debug_log').html('');
     }
-
 
     function bindButtonsEvents()
     {
