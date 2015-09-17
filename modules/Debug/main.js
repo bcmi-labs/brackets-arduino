@@ -101,23 +101,11 @@ define(function (require, exports, module) {
 
 
     var showDebug = function(){
-        //TODO
-        //brackets.arduino.dispatcher.trigger("arduino-event-debug-hide");
         $('#toolbar-debug-btn').removeClass('debughover');
 
         if (!debugPanel.isVisible()) {
             debugPanel.show();
-            /*
-             openSerialPort(serialPort, serialPortRate, serialPortEol, function(err){
-             if(err) { //TODO send error to arudino console.
-             console.error(serialMonitorPrefix + " Error in serial port opening: ", err);
-             brackets.arduino.dispatcher.trigger("arduino-event-console-error", serialMonitorPrefix + " Error in serial port opening: " + err.toString());
-             }
-             else{
-             brackets.arduino.dispatcher.trigger("arduino-event-console-log", serialMonitorPrefix + " Serial monitor connected to " + serialPort.address);
-             }
-             });
-             */
+
             $('#toolbar-debug-btn').addClass('debughover');
             selectElfFile();
         }
@@ -128,15 +116,6 @@ define(function (require, exports, module) {
 
         if (debugPanel.isVisible()){
             debugPanel.hide();
-            /*closeSerialPort(serialPort, function(err){
-             if(err) { //TODO send error to arudino console.
-             console.error(debugPrefix + " Error in serial port closing: ", err);
-             brackets.arduino.dispatcher.trigger( "arduino-event-console-error" , debugPrefix + " Error in serial port closing: " + err.toString());
-             }
-             else{
-             brackets.arduino.dispatcher.trigger("arduino-event-console-log", debugPrefix + " Serial monitor disconnected from " + serialPort.address);
-             }
-             });*/
 
             debugDomain.exec("stopAll")
                 .done(function () {
@@ -250,7 +229,7 @@ define(function (require, exports, module) {
     Debug.prototype.setBreakpoint = function(){
         editor = EditorManager.getCurrentFullEditor();
         codeMirror = editor._codeMirror;
-        //TODO : Is a good choice set bp only if the panel is visible???
+        //Enable breakpoint selection only if the panel is visible
         if(debugPanel.isVisible()) {
             var line = editor.getCursorPos().line;
 
@@ -348,8 +327,6 @@ define(function (require, exports, module) {
         {
             if(data != "(gdb) ")
                 $('#debug_log').html( $('#debug_log').html() + "<span style='color: black;'>" + data.replace("(gdb)","") + "</span><hr>");
-            //TODO: evaluate condition ?
-            //if(brackets.arduino.preferences.get("arduino.ide.debug.autoscroll") )
             $('#debug_log').scrollTop($('#debug_log')[0].scrollHeight);
         }
 
@@ -461,5 +438,3 @@ define(function (require, exports, module) {
 
     return Debug;
 });
-
-//TODO : Improve UI

@@ -138,8 +138,6 @@
 	}
 
 
-
-
 	function stopExecution()
 	{
 		console.log("--|| Stop sketch ||--")
