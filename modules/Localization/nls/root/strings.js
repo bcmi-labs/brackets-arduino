@@ -134,6 +134,10 @@ define({
                 "LBL_CHECK_UPDATE"          : "Check for update at startup",
                 "BTN_SKETCHBOOK_BROWSE"     : "Browse"
             },
+            "DEBUGGER" : {
+                "ELF" : "Select elf file",
+                "SKETCH_FOLDER" : "Select sketch folder"
+            },
             "GENERIC" :{
                 "TITLE_SELECT_FILE":    "Select file",
                 "TITLE_SELECT_FOLDER":  "Select folder"

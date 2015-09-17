@@ -1,0 +1,168 @@
+/* commento inserito per comodità */
+#debug {
+    min-height: 380px;
+    height: 99%;
+    max-height: 380px;
+    padding-top: 0px;
+    display: block;
+    border: 9px solid #c4a97f;
+    padding-left: 0px;
+    background-color: #ffffff;
+    padding-left: 16px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#debugOptions {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 7px;
+}
+
+#debug_log {
+    width: 96%;
+    min-height: 220px;
+    max-height: 220px;
+    overflow-y: scroll !important;
+    margin-left: 7px;
+    background-color: #ffffff;
+    padding-top: 0px;
+    border: 1px solid #b2b5b5;
+
+    -moz-user-select: text;
+    -khtml-user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+.debug_label {
+  color: #17a0a4;
+    margin-left: 7px;
+}
+
+
+
+
+
+a#haltsketchDebug_button {
+    background: url('halt.png') center no-repeat;
+    cursor:pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
+    /*margin-left: 5px;*/
+    background-size: 35px;
+}
+a#haltsketchDebug_button:hover {
+    background: url('halt_over.png') center no-repeat;
+    background-size: 35px;
+}
+
+a#restartsketchDebug_button {
+    background: url('restart.png') center no-repeat;
+    cursor:pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
+    /*margin-left: 5px;*/
+    background-size: 35px;
+}
+a#restartsketchDebug_button:hover {
+    background: url('restart_over.png') center no-repeat;
+    background-size: 35px;
+}
+
+a#continuesketchDebug_button {
+    background: url('continue.png') center no-repeat;
+    cursor:pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
+    /*margin-left: 5px;*/
+    background-size: 35px;
+}
+a#continuesketchDebug_button:hover {
+    background: url('continue_over.png') center no-repeat;
+    background-size: 35px;
+}
+
+a#stepsketchDebug_button {
+    background: url('step.png') center no-repeat;
+    cursor:pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
+    /*margin-left: 5px;*/
+    background-size: 35px;
+}
+a#stepsketchDebug_button:hover {
+    background: url('step_over.png') center no-repeat;
+    background-size: 35px;
+}
+
+a#showfunctionDebug_button {
+    background: url('showfunction.png') center no-repeat;
+    cursor:pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
+    /*margin-left: 5px;*/
+    background-size: 35px;
+}
+a#showfunctionDebug_button:hover {
+    background: url('showfunction_over.png') center no-repeat;
+    background-size: 35px;
+}
+
+a#showbreakpointDebug_button {
+    background: url('showbreakpoint.png') center no-repeat;
+    cursor:pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
+    /*margin-left: 5px;*/
+    background-size: 35px;
+}
+a#showbreakpointDebug_button:hover {
+    background: url('showbreakpoint_over.png') center no-repeat;
+    background-size: 35px;
+}
+
+a#setbreakpointDebug_button {
+    background: url('setbreakpoint.png') center no-repeat;
+    cursor:pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0px;
+    /*margin-left: 5px;*/
+    background-size: 35px;
+}
+a#setbreakpointDebug_button:hover {
+    background: url('setbreakpoint_over.png') center no-repeat;
+    background-size: 35px;
+}
+
+a#showvalueDebug_button {
+     background: url('showvalue.png') center no-repeat;
+     cursor:pointer;
+     width: 35px;
+     height: 35px;
+     padding: 0px;
+     /*margin-left: 5px;*/
+     background-size: 35px;
+ }
+a#showvalueDebug_button:hover {
+    background: url('showvalue_over.png') center no-repeat;
+    background-size: 35px;
+}
+
+.arduino-breakpoint .CodeMirror-linenumber {
+    //background-color: #c4a97f !important;
+    color: #000 !important;
+    border-radius: 2px !important;
+    background-image: url("breakpoint.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 17px 17px;
+}

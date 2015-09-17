@@ -1,9 +1,13 @@
 <div id="serialmonitor" class="modal-bar">
     <div id="options">
         <div class="form-inline text-center">
-            <label class="serial_label">AutoScroll</label><input type="checkbox" id="scroll" checked=true />&nbsp;&nbsp;|&nbsp;&nbsp;
-            <label class="serial_label">Baud Rate</label>
-            <select id="baud" class="selectpicker">
+
+            <div class="oneBlock">
+                <label class="serial_label">AutoScroll</label><input type="checkbox" id="scroll" checked=true />&nbsp;&nbsp;|&nbsp;&nbsp;
+            </div>
+            <div class="oneBlock">
+                <label class="serial_label">Baud Rate</label>
+                <select id="baud" class="selectpicker">
                 <option value="" disabled selected>Select baud rate</option>
                 <option value="300">300</option>
                 <option value="1200">1200</option>
@@ -17,21 +21,28 @@
                 <option value="57600">57600</option>
                 <option value="115200">115200</option>
             </select>&nbsp;&nbsp;|&nbsp;&nbsp;
-            <label class="serial_label">End of Line</label>
-            <select id="eol">
+            </div>
+            <div class="oneBlock">
+                <label class="serial_label">End of Line</label>
+                <select id="eol">
                 <option value="" disabled selected>Select end of line</option>
                 <option value="NA">No line ending</option>
                 <option value="10">New line</option>
                 <option value="13">Carriage return</option>
                 <option value="[10,13]">Both NL &amp; CR</option>
             </select>
+            </div>
         </div>
     </div>
-    <div id="send" class="form-inline">
+
+    <div id="send" class="form-inline oneBlock" style="width: 100%;">
         <label class="serial_label">Message</label><br />
         <input type="text" id="message_input" /><a class="btn" id="send_button" title="Send Message" /><a id="clear_button" class="btn" title="Clear Log and Message" />
         <!--<input type="button" id="send_button" value="Send">-->
     </div>
-    <label class="serial_label">Log</label>
-    <div id="console_log"></div>
+
+    <div class="form-inline" style="width: 100%; ">
+        <label class="serial_label">Log</label>
+        <div id="console_log"></div>
+    </div>
 </div>

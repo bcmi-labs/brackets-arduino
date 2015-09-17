@@ -89,6 +89,9 @@ define(function (require, exports, module) {
             case 'toolbar-console-btn':
                 Dispatcher.trigger('arduino-event-console');
                 break;
+            case 'toolbar-debug-btn':
+                Dispatcher.trigger('arduino-event-debug');
+                break;
             case 'toolbar-toggle-btn':
                 if($('#sidebar').is(':visible')){
                     $('#sidebar').hide();

@@ -53,7 +53,8 @@ define(function (require, exports, module) {
         copypasteDomainName         = "org-arduino-ide-domain-copypaste",
 		compilerDomainName          = "org-arduino-ide-domain-compiler",
         osDomainName                = "org-arduino-ide-domain-os",
-        driverDomainName            = "org-arduino-ide-domain-driver";
+        driverDomainName            = "org-arduino-ide-domain-driver",
+        debugDomainName             = "org-arduino-ide-domain-debug";
 
 
 
@@ -95,6 +96,7 @@ define(function (require, exports, module) {
 		brackets.arduino.domains[compilerDomainName]        = new NodeDomain( compilerDomainName, ExtensionUtils.getModulePath(module, "node/compiler"));
         brackets.arduino.domains[osDomainName]              = new NodeDomain( osDomainName, ExtensionUtils.getModulePath(module, "node/os"));
         brackets.arduino.domains[driverDomainName]          = new NodeDomain( driverDomainName, ExtensionUtils.getModulePath(module, "node/driver"));
+        brackets.arduino.domains[debugDomainName]           = new NodeDomain( debugDomainName, ExtensionUtils.getModulePath(module, "node/debugger"));
 
         //TODO complete with others platform path: core, user lib, sketchbook...
         brackets.arduino.options.rootdir            = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module));
@@ -130,12 +132,14 @@ define(function (require, exports, module) {
 		var Console         = require("modules/Console/main");
         var Menu            = require("modules/Menu/main");
 		var Compiler        = require("modules/Compiler/main");
+        var Debug           = require("modules/Debug/main");
 
         var serialmonitor   = new SerialMonitor();
         var discovery       = new Discovery();
 		var console         = new Console();
         var menu            = new Menu();
 		var compiler 		= new Compiler();
+        var debug           = new Debug();
 
         ExtensionUtils.loadStyleSheet(module, "main.css");
 
@@ -147,10 +151,10 @@ define(function (require, exports, module) {
 
         arduinoHints    = require("modules/Hints/main");
 
-        if(brackets.arduino.preferences.get("arduino.ide.preferences.checkupdate")) {
+        /*if(brackets.arduino.preferences.get("arduino.ide.preferences.checkupdate")) {
             var chk = require("modules/Extra/checkupdate");
             chk.checkLatest(brackets.arduino.revision.version);
-        }
+        }*/
 
         // Main-Toolbar Buttons
         arduinoToolbar = require("modules/Toolbar/main");
