@@ -11,6 +11,14 @@
 *
 * Usage: Sensor Driver file for BNO055 sensor
 *
+* **************************************************************************
+*
+* Added Arduino M0/M0 Pro support
+*
+* Date: 07/27/2015
+*
+* Modified by: Arduino.org development Team.
+*
 ****************************************************************************
 * \section License
 *
@@ -61,6 +69,8 @@
     brief <Sensor driver for BNO055> */
 /*	STRUCTURE DEFINITIONS	*/
 static struct bno055_t *p_bno055;
+
+#define ERROR ERROR_BOSCH
 /*	 LOCAL FUNCTIONS	*/
 /*!
  *	@brief

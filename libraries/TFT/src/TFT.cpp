@@ -1,4 +1,5 @@
 #include "TFT.h"
+#include <Arduino.h>  //modified
 
 #if ARDUINO_AVR_ESPLORA
 TFT EsploraTFT(7, 0, 1);
@@ -15,6 +16,9 @@ TFT::TFT(uint8_t CS, uint8_t RS, uint8_t RST)
 
 void TFT::begin() {
 //initR(INITR_REDTAB);
+  #if defined(ARDUINO_ARCH_SAMD)
+	if((!Serial) || (SerialUSB)) Serial.begin(1200);
+  #endif	
   initG();
   setRotation(1);
 }

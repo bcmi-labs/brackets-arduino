@@ -112,6 +112,8 @@
 #define HID_REPORT_DESCRIPTOR_TYPE				0x22
 #define HID_PHYSICAL_DESCRIPTOR_TYPE			0x23
 
+#define TX_RX_LED_PULSE_MS 100     //----- Tx & Rx led blinking during transmission (declaration)
+
 _Pragma("pack(1)")
 
 //	Device
