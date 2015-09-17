@@ -1,1 +1,14 @@
-{"arduino.ide.serialmonitor.eol":"NL","arduino.ide.serialmonitor.baudrate":9600,"arduino.ide.serialmonitor.autoscroll":false,"arduino.ide.preferences.sketchbook":"","arduino.ide.preferences.verbosebuild":false,"arduino.ide.preferences.verboseupload":false,"arduino.ide.preferences.fontsize":14,"arduino.ide.preferences.consoleshow":true,"arduino.ide.preferences.checkupdate":true,"arduino.ide.options.target.port":"COM20","arduino.ide.options.target.board":"zeroproedbg","arduino.ide.options.target.programmer":""}
+{
+  "arduino.ide.serialmonitor.eol": "NL",
+  "arduino.ide.serialmonitor.baudrate": 9600,
+  "arduino.ide.serialmonitor.autoscroll": false,
+  "arduino.ide.preferences.sketchbook": "",
+  "arduino.ide.preferences.verbosebuild": false,
+  "arduino.ide.preferences.verboseupload": false,
+  "arduino.ide.preferences.fontsize": 14,
+  "arduino.ide.preferences.consoleshow": true,
+  "arduino.ide.preferences.checkupdate": true,
+  "arduino.ide.options.target.port": "",
+  "arduino.ide.options.target.board": "uno",
+  "arduino.ide.options.target.programmer": ""
+}
