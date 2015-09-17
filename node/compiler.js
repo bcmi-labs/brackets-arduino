@@ -94,7 +94,7 @@
         dm.emitEvent (domainName, "console-log", "CPP File Created ["+cfile+"]");
     }
 
-    function calculateLibs(list, paths, libs, debug, cb, plat, sketchbook) {
+    function calculateLibs(list, paths, libs, arch, debug, cb, plat, sketchbook) {
             list.forEach(function(libname){
                 if(libname == 'Arduino') return;
                 debug('scanning lib',libname);
@@ -378,9 +378,11 @@
 
             includepaths.push(options.platform.getVariantPath(options));
 
+            //TODO : add user lib folder
+
             console.log("include path =",includepaths);
             console.log("includedlibs = ", includedLibs);
-            calculateLibs(includedLibs,includepaths,libextra, debug, cb, plat, options.sketchbook);
+            calculateLibs(includedLibs,includepaths,libextra,options.device.arch, debug, cb, plat, options.sketchbook);
         });
 
         //3. compile code
@@ -409,6 +411,11 @@
                         else
                             if(fs.existsSync(options.sketchbook + path.sep + "libraries" + path.sep + item))
                                 base = options.sketchbook + path.sep + "libraries" + path.sep + item;
+                            //<editor-fold desc"test">
+                            //plat.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + arch + path.sep + "libraries" + path.sep + libname
+                            else if(fs.existsSync(options.platform.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + options.device.arch + path.sep + "libraries" + path.sep + item))
+                                    base = options.platform.root + path.sep + "hardware" + path.sep + "arduino" + path.sep + options.device.arch + path.sep + "libraries" + path.sep + item;
+                            //</editor-fold>
                             else
                                 console.log("ERROR : Library " + item + " not exist");
 

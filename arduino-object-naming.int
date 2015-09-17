@@ -27,6 +27,10 @@
 "arduino-event-serialmonitor-hide"		: close the panel with the serial monitor.
 "arduino-event-serialmonitor" 			: open close the panel with the serial monitor.
 
+"arduino-event-debug"                   : open close the debug window
+"arduino-event-debug-show"              : open the panel with the debug windows
+"arduino-event-debug-hide"              : close the panel with the debug windows
+
 "arduino-event-menu-tool-preferences"   : open the modal window for the user's preferences.
 
 ##########
