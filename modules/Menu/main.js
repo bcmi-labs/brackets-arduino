@@ -165,6 +165,9 @@ define(function (require, exports, module) {
         CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_PROGRAMMER, ARDUINO_MENU_TOOL_SELECT_PROGRAMMER, toolMenu_SelectProgrammerPanel);
         CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_BURN_BOOTLOADER + " [" +Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_WRITE_BOOTLOADER, bePatient);
 
+        ToolsMenu.addMenuItem(Commands.CMD_THEMES_OPEN_SETTINGS);
+        ToolsMenu.addMenuDivider();
+
         ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_AUTO_FORMATTING);
         ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_STORE_SKETCH);
         //ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD);
