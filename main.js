@@ -151,10 +151,10 @@ define(function (require, exports, module) {
 
         arduinoHints    = require("modules/Hints/main");
 
-        if(brackets.arduino.preferences.get("arduino.ide.preferences.checkupdate")) {
+        /*if(brackets.arduino.preferences.get("arduino.ide.preferences.checkupdate")) {
             var chk = require("modules/Extra/checkupdate");
             chk.checkLatest(brackets.arduino.revision.version);
-        }
+        }*/
 
         // Main-Toolbar Buttons
         arduinoToolbar = require("modules/Toolbar/main");
