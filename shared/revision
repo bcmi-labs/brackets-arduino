@@ -2,6 +2,29 @@
   "revisions":
     [
         {
+           "version"	:	4,
+           "hversion"	: 	"0.0.4",
+           "date"       :   "2015-09-18",
+           "cycle"		: 	"alpha",
+           "source"     :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.4-alpha",
+           "changelog"	:	[
+                                {"name": "New debugger module.","desc": "Debuger module available for arduino zero pro and m0 pro"},
+                                {"name": "Themes settings enabled","desc": "Now themes can be setted via Themes Settings Window"},
+                                {"name": "Enabled SAMD architecture : m0, m0 pro.","desc":""},
+                                {"name": "Fixed Tx and Rx for M0/M0 Pro","desc": "Tx and Rx blinking during serial communication for M0/M0 Pro"},
+                                {"name": "Added 9AXES support for M0/M0 Pro","desc": "Users Have to change the 9AXES address to 0x29 using M0 Pro"},
+                                {"name": "Added TFT support for M0/M0 Pro","desc": ""},
+                                {"name": "Added RTC support for M0/M0 Pro","desc": ""},
+                                {"name": "Added New Arduino Ciao Library","desc": "Arduino Ciao Library allows Linino users to connect to external world"},
+                                {"name": "Added Arduino.org Caterina source code","desc": "Caterina based bootloader source code now inclued (Caterina-ORG)"},
+                                {"name": "Added build_all_target.sh to build all bootloader *.hex files","desc": ""},
+                                {"name": "Added make clean_all command to clean working directory","desc": ""}
+                            ],
+           "url"		: 	"http://arduino.org/downloads",
+           "message"	:	"",
+           "error"		:	""
+         },
+        {
            "version"	:	3,
            "hversion"	: 	"0.0.3",
            "date"       :   "2015-08-06",
