@@ -182,6 +182,14 @@ const DeviceVectors exception_table=
 
 void SystemInit( void )
 {
+  //----- Tx & Rx led blinking during transmission (pin declaration) ----- begin ----
+  PORT->Group[1].DIRSET.reg=0x00000008;  //PB03 as output (RX_LED)
+  PORT->Group[1].OUTSET.reg=0x00000008;  //PB03 as output (RX_LED)
+  
+  PORT->Group[0].DIRSET.reg=0x08000000;  //PB03 as output (TX_LED)
+  PORT->Group[0].OUTSET.reg=0x08000000;  //PB03 as output (TX_LED)
+  //----- Tx & Rx led blinking during transmission (pin declaration) ----- end ----
+  
   /* Set 1 Flash Wait State for 48MHz, cf tables 20.9 and 35.27 in SAMD21 Datasheet */
   NVMCTRL->CTRLB.bit.RWS = NVMCTRL_CTRLB_RWS_HALF_Val ;
 

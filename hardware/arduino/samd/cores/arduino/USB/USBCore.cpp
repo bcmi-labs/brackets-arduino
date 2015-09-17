@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+//#include "../Arduino.h"
 
 #include "sam.h"
 #include "wiring_constants.h"
@@ -127,9 +128,21 @@ uint32_t USBD_Recv(uint32_t ep, void* d, uint32_t len)
 	uint8_t* dst = (uint8_t*)d;
 	while (n--)
 		*dst++ = UDD_Recv8(ep);
+	
+	
+	
+	
 	if (len && !UDD_FifoByteCount(ep)) // release empty buffer
 		UDD_ReleaseRX(ep);
-
+		
+  //----- Tx & Rx led blinking during transmission ----- begin ----	
+	PORT->Group[1].OUTTGL.reg =0x00000008 ;  //RxLED
+	for(int i=0; i < 100000; i++)
+	{
+		asm("NOP");
+	}
+	PORT->Group[1].OUTTGL.reg =0x00000008 ;	
+  //----- Tx & Rx led blinking during transmission ----- end ----
 	return len;
 }
 
@@ -163,6 +176,19 @@ uint32_t USBD_Send(uint32_t ep, const void* d, uint32_t len)
 
 	/* Wait for transfer to complete */
 	while (! udd_is_transf_cplt(ep));  // need fire exit.
+	
+  //----- Tx & Rx led blinking during transmission ----- begin ----
+	PORT->Group[0].OUTTGL.reg =0x08000000 ; //TxLED
+	for(int i=0; i < 100000; i++)
+	{
+		asm("NOP");
+	}
+	PORT->Group[0].OUTTGL.reg =0x08000000 ;
+	/*for(int i=0; i < 100000; i++)
+	{
+		asm("NOP");
+	}*/
+  //----- Tx & Rx led blinking during transmission ----- end ----	
 	return r;
 }
 

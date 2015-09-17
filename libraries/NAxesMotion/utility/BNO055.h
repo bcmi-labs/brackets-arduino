@@ -11,7 +11,16 @@
 *
 * Usage: Sensor Driver file for BNO055 sensor
 *
+* **************************************************************************
+*
+* Added Arduino M0/M0 Pro support
+*
+* Date: 07/27/2015
+*
+* Modified by: Arduino.org development Team.
+*
 ****************************************************************************
+*
 * \section License
 *
 * Redistribution and use in source and binary forms, with or without
@@ -748,7 +757,7 @@ s_16 sic_8;/**< soft iron calibration matrix 8 data */
 #define E_NULL_PTR                  ((s_8)-127)
 #define E_BNO055_OUT_OF_RANGE       ((s_8)-2)
 #define	SUCCESS						((u_8)0)
-#define	ERROR						((s_8)-1)
+#define	ERROR_BOSCH					((s_8)-1)
 
 /* Selection for bit enable and disable */
 #define ENABLED		0x01

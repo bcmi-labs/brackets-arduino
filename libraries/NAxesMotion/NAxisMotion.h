@@ -8,6 +8,14 @@
 * Usage:        Header file of the C++ Wrapper for the BNO055 Sensor API
 *
 ****************************************************************************
+*
+* Added Arduino M0/M0 Pro support
+*
+* Date: 07/27/2015
+*
+* Modified by: Arduino.org development Team.
+*
+****************************************************************************
 /***************************************************************************
 * License:
 *
@@ -76,8 +84,10 @@ struct bno055_accel_stat_t {
 
 #if defined(__AVR_ATmega32U4__) //Arduino Yun and Leonardo
 #define INT_PIN			4		//GPIO to receive the Interrupt from the BNO055 for the Arduino Uno(Interrupt is visible on the INT LED on the Shield)
-#elif defined(ARDUINO_ARCH_SAM)  //INT_PIN is the interrupt number not the interrupt pin
-#define INT_PIN			2
+#elif defined(ARDUINO_ARCH_SAM)   //INT_PIN is the interrupt number not the interrupt pin
+#define INT_PIN			2   
+#elif defined(ARDUINO_ARCH_SAMD)
+#define INT_PIN 		7  
 #else
 #define INT_PIN			0
 #endif
@@ -126,14 +136,14 @@ public:
 	*Input Parameters: None
 	*Return Parameter: None
 	*******************************************************************************************/
-	void initSensor(void);
+	void initSensor(unsigned int address = 0x28);
 
 	/*******************************************************************************************
 	*Description: This function is used to reset the BNO055
 	*Input Parameters: None
 	*Return Parameter: None
 	*******************************************************************************************/
-	void resetSensor(void);
+	void resetSensor(unsigned int address);
 
 	/*******************************************************************************************
 	*Description: This function is used to set the operation mode of the BNO055
