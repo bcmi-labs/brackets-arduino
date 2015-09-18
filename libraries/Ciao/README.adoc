@@ -1,13 +1,15 @@
-= Bridge Library for Arduino =
+= Ciao Library for Arduino =
 
-The Bridge library simplifies communication between the ATmega32U4 and the AR9331.
+The Ciao Library allows you to send and receive data outside the microcontroller, 
+through a serial communication, in a simple and intuitive way.
 
-For more information about this library please visit us at
-http://arduino.cc/en/Reference/YunBridgeLibrary
+For more information about this library please visit us at:
+
+http://labs.arduino.org/Ciao
 
 == License ==
 
-Copyright (c) Arduino LLC. All right reserved.
+Copyright (c) Arduino srl. All right reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public

@@ -3,8 +3,9 @@
 * Copyright (c) 2015 Arduino srl. All right reserved.
 *
 * File : CiaoData.h
-* Date : 2015/07/03
+* Date : 2015/09/17
 * Revision : 0.0.1 $
+* Author: andrea[at]arduino[dot]org
 *
 ****************************************************************************
 

@@ -3,11 +3,11 @@
 * Copyright (c) 2015 Arduino srl. All right reserved.
 *
 * File : Ciao.cpp
-* Date : 2015/07/03
+* Date : 2015/09/17
 * Revision : 0.0.1 $
-* 
+* Author: andrea[at]arduino[dot]org
+*
 ****************************************************************************
-
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either
