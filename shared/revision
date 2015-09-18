@@ -19,7 +19,8 @@
                                 {"name": "Added Arduino.org Caterina source code","desc": "Caterina based bootloader source code now inclued (Caterina-ORG)"},
                                 {"name": "Added build_all_target.sh to build all bootloader *.hex files","desc": ""},
                                 {"name": "Added make clean_all command to clean working directory","desc": ""},
-                                {"name": "Update Ethernet library", "desc": "Now Ethernet library supports m0/m0 pro boards"}
+                                {"name": "Update Ethernet library", "desc": "Now Ethernet library supports m0/m0 pro boards"},
+                                {"name": "Arduino drivers for Windows 10", "desc":""}
                             ],
            "url"		: 	"http://arduino.org/downloads",
            "message"	:	"",
