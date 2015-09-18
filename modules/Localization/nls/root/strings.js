@@ -18,6 +18,7 @@ define({
                 "ITEM_AUTO_FORMATTING"    : "Autoformatting",
                 "ITEM_STORE_SKETCH"       : "Store sketch",
                 "ITEM_SERIAL_MONITOR"     : "Serial monitor",
+                "ITEM_DEBUGGER"           : "Debugger",
                 "ITEM_BOARD"              : "Board",
                 "ITEM_PORT"               : "Port",
                 "ITEM_PROGRAMMER"         : "Programmer",

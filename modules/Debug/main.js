@@ -78,16 +78,11 @@ define(function (require, exports, module) {
 
         debugDomain = brackets.arduino.domains[debugDomainName];
 
-        //REGISTER COMMANDS and ADD MENU ITEMS
-        CommandManager.register("Debug", cmdOpenDebugWindow, this.showHideDebug);
-
-        var toolsMenu = Menus.getMenu("arduino.ide.menu.tools");
-        toolsMenu.addMenuItem( cmdOpenDebugWindow, null, Menus.AFTER);
-
         CommandManager.register("Set breakpoint", cmdSetBreakpoint, this.setBreakpoint);
 
         Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU).addMenuDivider();
         Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU).addMenuItem(cmdSetBreakpoint, null)
+
 
         //ATTACH EVENT HANDLER
         debugDomain.on('debug_data', debugDataHandler);

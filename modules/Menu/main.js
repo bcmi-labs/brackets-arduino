@@ -72,6 +72,7 @@ define(function (require, exports, module) {
         ARDUINO_MENU_TOOL_STORE_SKETCH              = "arduino.ide.menu.tool.store_sketch",
         //ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD    = "arduino.ide.menu.tool.verify_code_and_reload",
         ARDUINO_MENU_TOOL_SERIAL_MONITOR 		    = "arduino.ide.menu.tool.serial_monitor",
+        ARDUINO_MENU_TOOL_DEBUGGER 		            = "arduino.ide.menu.tool.debugger",
         ARDUINO_MENU_TOOL_SELECT_BOARD              = "arduino.ide.menu.tool.select_board",
         ARDUINO_MENU_TOOL_SELECT_PORT               = "arduino.ide.menu.tool.select_port",
         ARDUINO_MENU_TOOL_SELECT_PROGRAMMER         = "arduino.ide.menu.tool.select_programmer",
@@ -158,6 +159,7 @@ define(function (require, exports, module) {
         CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_STORE_SKETCH + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_STORE_SKETCH, bePatient);
         //CommandManager.register("Fix encoding and reload [Coming Soon (A)]", ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD, bePatient);
         CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_SERIAL_MONITOR, ARDUINO_MENU_TOOL_SERIAL_MONITOR, toolMenu_SerialMonitor);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_DEBUGGER, ARDUINO_MENU_TOOL_DEBUGGER, toolMenu_Debugger);
 
         CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_BOARD, ARDUINO_MENU_TOOL_SELECT_BOARD, toolMenu_SelectBoardPanel);
         CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_PORT, ARDUINO_MENU_TOOL_SELECT_PORT, toolMenu_SelectPortPanel);
@@ -172,6 +174,7 @@ define(function (require, exports, module) {
         ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_STORE_SKETCH);
         //ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD);
         ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_SERIAL_MONITOR);
+        ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_DEBUGGER);
         ToolsMenu.addMenuDivider("arduino.menu.tools.divider1");
         ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_SELECT_BOARD);
         ToolsMenu.addMenuItem(ARDUINO_MENU_TOOL_SELECT_PORT);
@@ -275,6 +278,10 @@ define(function (require, exports, module) {
 
     function toolMenu_SerialMonitor(){
         brackets.arduino.dispatcher.trigger("arduino-event-serialmonitor");
+    }
+
+    function toolMenu_Debugger(){
+        brackets.arduino.dispatcher.trigger("arduino-event-debug");
     }
 
     //SKETCH
