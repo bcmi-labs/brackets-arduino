@@ -70,7 +70,7 @@ define(function (require, exports, module) {
     //Tool Menu IDs
     var ARDUINO_MENU_TOOL_AUTO_FORMATTING 		    = "arduino.ide.menu.tool.auto_formatting",
         ARDUINO_MENU_TOOL_STORE_SKETCH              = "arduino.ide.menu.tool.store_sketch",
-        //ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD    = "arduino.ide.menu.tool.verify_code_and_reload",
+    //ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD    = "arduino.ide.menu.tool.verify_code_and_reload",
         ARDUINO_MENU_TOOL_SERIAL_MONITOR 		    = "arduino.ide.menu.tool.serial_monitor",
         ARDUINO_MENU_TOOL_DEBUGGER 		            = "arduino.ide.menu.tool.debugger",
         ARDUINO_MENU_TOOL_SELECT_BOARD              = "arduino.ide.menu.tool.select_board",
@@ -121,7 +121,7 @@ define(function (require, exports, module) {
         //Menus.removeMenu(Menus.AppMenuBar.FIND_MENU);
         Menus.removeMenu(Menus.AppMenuBar.NAVIGATE_MENU);
         Menus.removeMenu(Menus.AppMenuBar.VIEW_MENU);
- //       Menus.removeMenu("debug-menu");
+        //       Menus.removeMenu("debug-menu");
 
         createToolMenu();
         createSketchMenu();
@@ -129,10 +129,10 @@ define(function (require, exports, module) {
         createFileMenu();
         createHelpMenu();
 
-/*        filesystemDomain.exec("getPlatform");
-        filesystemDomain.on("sampleList_data", setMenuActions);
-        filesystemDomain.on("platform_data", getPlatformAction);
-*/
+        /*        filesystemDomain.exec("getPlatform");
+         filesystemDomain.on("sampleList_data", setMenuActions);
+         filesystemDomain.on("platform_data", getPlatformAction);
+         */
 
         ExtensionUtils.loadStyleSheet(module, "css/Menu.css");
 
@@ -188,8 +188,10 @@ define(function (require, exports, module) {
 
         CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_BUILD, ARDUINO_MENU_SKETCH_VERIFY_COMPILE, sketchMenu_VerifyCompile);
         CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_ADD_FILE, ARDUINO_MENU_SKETCH_ADD_FILE, sketchMenu_AddFile);
-        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_IMPORT_LIB + " [" + Strings.ARDUINO.EXTRAS.WIP +"]", ARDUINO_MENU_SKETCH_IMPORT_LIBS, sketchMenu_ImportLibs);
+        //CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_IMPORT_LIB + " [" + Strings.ARDUINO.EXTRAS.WIP +"]", ARDUINO_MENU_SKETCH_IMPORT_LIBS, sketchMenu_ImportLibs);
+        CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_IMPORT_LIB , ARDUINO_MENU_SKETCH_IMPORT_LIBS, sketchMenu_ImportLibs);
         CommandManager.register(Strings.ARDUINO.MENU.SKETCH.ITEM_SHOW_FOLDER + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_SKETCH_OPEN_SKETCH_FOLDER, bePatient);
+
 
         SketchMenu.addMenuItem(ARDUINO_MENU_SKETCH_VERIFY_COMPILE);
         SketchMenu.addMenuDivider("arduino.menu.sketch.divider1");
@@ -371,51 +373,52 @@ define(function (require, exports, module) {
 
         //TODO IMPROVE WITH JQUERY DEFERRED AND PROMISE
         var libs_arr = [];
-            //LOAD LIBRARIES
-            sketch_importLibraryDirectory.getContents(function(err, contents, stats){
+        //LOAD LIBRARIES
+        sketch_importLibraryDirectory.getContents(function(err, contents, stats){
+            if(!err){
+                for(var i = 0; i < contents.length; i++){
+                    var file =  contents[i];
+                    if (!file.isFile && file.name != "__MACOSX") {
+                        var farr = [];
+                        farr['name'] = file.name;
+                        farr['type'] = 'arduino_lib';
+                        libs_arr.push(farr);
+                    }
+                }
+            }
+            //LOAD USER LIBRARY
+            sketch_importLibraryUserDirectory = brackets.arduino.options.userlibrariesdir;
+            sketch_importLibraryUserDirectory.getContents(function(err, contents, stats){
                 if(!err){
                     for(var i = 0; i < contents.length; i++){
                         var file =  contents[i];
                         if (!file.isFile && file.name != "__MACOSX") {
                             var farr = [];
                             farr['name'] = file.name;
-                            farr['type'] = 'arduino_lib';
+                            farr['type'] = 'user_lib';
                             libs_arr.push(farr);
                         }
                     }
                 }
-                //LOAD USER LIBRARY
-                sketch_importLibraryUserDirectory.getContents(function(err, contents, stats){
-                    if(!err){
-                        for(var i = 0; i < contents.length; i++){
-                            var file =  contents[i];
-                            if (!file.isFile && file.name != "__MACOSX") {
-                                var farr = [];
-                                farr['name'] = file.name;
-                                farr['type'] = 'user_lib';
-                                libs_arr.push(farr);
-                            }
-                        }
-                    }
 
-                    if(libs_arr.length > 0){
-                        libs_arr.sort(function(a, b) {
-                            return a.name.localeCompare(b.name);
-                        });
+                if(libs_arr.length > 0){
+                    libs_arr.sort(function(a, b) {
+                        return a.name.localeCompare(b.name);
+                    });
 
-                        var libs_body = $('#libs_body').html();
+                    var libs_body = $('#libs_body').html();
 
-                        $.each(libs_arr, function(index, value){
-                            libs_body = libs_body+"<tr><td class='cbtn'><a id='"+value['name']+"'><img class='"+value['type']+"' /></a></td><td>"+value['name']+"</td><td class='cbtn'><img id='"+value['name']+"' class='add_btn' /></td></tr>";
-                        });
+                    $.each(libs_arr, function(index, value){
+                        libs_body = libs_body+"<tr><td class='cbtn'><a id='"+value['name']+"'><img class='"+value['type']+"' /></a></td><td>"+value['name']+"</td><td class='cbtn'><img id='"+value['name']+"' class='add_btn' /></td></tr>";
+                    });
 
-                        $('#libs_body').html(libs_body);
-                        $('.add_btn').click(clickButton);
-                    }
+                    $('#libs_body').html(libs_body);
+                    $('.add_btn').click(clickButton);
+                }
 
 
-                });
             });
+        });
 
     }
 
@@ -509,46 +512,46 @@ define(function (require, exports, module) {
 
 
 
-/*    //ARDUINO EXAMPLES ???
-    function setMenuActions($event,data){
-        var d1 = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "", createObjects(data));
-        var elm = document.getElementsByClassName("first");
-        if(elm.length > 0)
-        {
-            for(var i in elm)
-                document.getElementById(elm[i].id).onclick= function(evt){
-                    secondLevelAction(evt, data);
-                    console.log("FIRST");
-                };
-        }
-        else
-        {
-            elm = document.getElementsByClassName("second");
-            for(var i in elm)
-                document.getElementById(elm[i].id).onclick= function(evt){
-                    console.log("SECOND");
-                    d1.close();
-                    var filename = evt.target.value.split("/")[evt.target.value.split("/").length-1] + ".ino",
-                        filePath = FileUtils.convertWindowsPathToUnixPath(evt.target.value+"/"+filename);
-                    var fileObjectNative = FileUtils.convertWindowsPathToUnixPath (filePath);
-                    CommandManager.execute(Commands.CMD_ADD_TO_WORKINGSET_AND_OPEN, {fullPath: filePath, paneId: "first-pane"});
-                };
-        }
-    };
+    /*    //ARDUINO EXAMPLES ???
+     function setMenuActions($event,data){
+     var d1 = Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, "", createObjects(data));
+     var elm = document.getElementsByClassName("first");
+     if(elm.length > 0)
+     {
+     for(var i in elm)
+     document.getElementById(elm[i].id).onclick= function(evt){
+     secondLevelAction(evt, data);
+     console.log("FIRST");
+     };
+     }
+     else
+     {
+     elm = document.getElementsByClassName("second");
+     for(var i in elm)
+     document.getElementById(elm[i].id).onclick= function(evt){
+     console.log("SECOND");
+     d1.close();
+     var filename = evt.target.value.split("/")[evt.target.value.split("/").length-1] + ".ino",
+     filePath = FileUtils.convertWindowsPathToUnixPath(evt.target.value+"/"+filename);
+     var fileObjectNative = FileUtils.convertWindowsPathToUnixPath (filePath);
+     CommandManager.execute(Commands.CMD_ADD_TO_WORKINGSET_AND_OPEN, {fullPath: filePath, paneId: "first-pane"});
+     };
+     }
+     };
 
-    function createObjects(list){
-        var output = "";
+     function createObjects(list){
+     var output = "";
 
-        for(var i=0; i<list.length; i++)
-        {
-            var item = list[i].type.split("/")[list[i].type.split("/").length-1];
-            output += "<button id='"+item+"' value='"+list[i].type+"' class='"+cc+"' >"+item+"</button><br>";
-            //document.getElementById(item).onclick = function(){console.log("lino : ")};
-            //document.getElementById("nodeGoto").addEventListener("click", function() {gotoNode(result.name);}, false);
-        }
-        cc = "first";
-        return output
-    };*/
+     for(var i=0; i<list.length; i++)
+     {
+     var item = list[i].type.split("/")[list[i].type.split("/").length-1];
+     output += "<button id='"+item+"' value='"+list[i].type+"' class='"+cc+"' >"+item+"</button><br>";
+     //document.getElementById(item).onclick = function(){console.log("lino : ")};
+     //document.getElementById("nodeGoto").addEventListener("click", function() {gotoNode(result.name);}, false);
+     }
+     cc = "first";
+     return output
+     };*/
 
 
     return Menu;

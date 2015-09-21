@@ -26,17 +26,17 @@
  */
 
 /*require.config({
-    paths: {
-        "text" : "lib/text",
-        "i18n" : "lib/i18n"
-    },
-    locale: brackets.getLocale()
-});
-*/
+ paths: {
+ "text" : "lib/text",
+ "i18n" : "lib/i18n"
+ },
+ locale: brackets.getLocale()
+ });
+ */
 define(function (require, exports, module) {
     'use strict';
-	var ExtensionUtils  = brackets.getModule("utils/ExtensionUtils"),
-    	CommandManager  = brackets.getModule("command/CommandManager"),
+    var ExtensionUtils  = brackets.getModule("utils/ExtensionUtils"),
+        CommandManager  = brackets.getModule("command/CommandManager"),
         Commands        = brackets.getModule("command/Commands"),
         Menus           = brackets.getModule("command/Menus"),
         EditorManager   = brackets.getModule("editor/EditorManager"),
@@ -51,7 +51,7 @@ define(function (require, exports, module) {
         discoveryDomainName         = "org-arduino-ide-domain-discovery",
         filesystemDomainName        = "org-arduino-ide-domain-filesystem",
         copypasteDomainName         = "org-arduino-ide-domain-copypaste",
-		compilerDomainName          = "org-arduino-ide-domain-compiler",
+        compilerDomainName          = "org-arduino-ide-domain-compiler",
         osDomainName                = "org-arduino-ide-domain-os",
         driverDomainName            = "org-arduino-ide-domain-driver",
         debugDomainName             = "org-arduino-ide-domain-debug";
@@ -93,7 +93,7 @@ define(function (require, exports, module) {
         brackets.arduino.domains[discoveryDomainName]       = new NodeDomain( discoveryDomainName, ExtensionUtils.getModulePath(module, "node/discover"));
         brackets.arduino.domains[filesystemDomainName]      = new NodeDomain( filesystemDomainName, ExtensionUtils.getModulePath(module, "node/filesystem"));
         brackets.arduino.domains[copypasteDomainName]       = new NodeDomain( copypasteDomainName, ExtensionUtils.getModulePath(module, "node/copypaste"));
-		brackets.arduino.domains[compilerDomainName]        = new NodeDomain( compilerDomainName, ExtensionUtils.getModulePath(module, "node/compiler"));
+        brackets.arduino.domains[compilerDomainName]        = new NodeDomain( compilerDomainName, ExtensionUtils.getModulePath(module, "node/compiler"));
         brackets.arduino.domains[osDomainName]              = new NodeDomain( osDomainName, ExtensionUtils.getModulePath(module, "node/os"));
         brackets.arduino.domains[driverDomainName]          = new NodeDomain( driverDomainName, ExtensionUtils.getModulePath(module, "node/driver"));
         brackets.arduino.domains[debugDomainName]           = new NodeDomain( debugDomainName, ExtensionUtils.getModulePath(module, "node/debugger"));
@@ -105,19 +105,21 @@ define(function (require, exports, module) {
         brackets.arduino.options.hardwaredir        = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/hardware");
         brackets.arduino.options.examples           = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/examples");
         brackets.arduino.options.shared             = FileSystem.getDirectoryForPath( FileUtils.getNativeModuleDirectoryPath(module) + "/shared");
-        //brackets.arduino.options.sketcbook          = FileSystem.getDirectoryForPath( brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook") ||  getDefaultSketchBook() );//brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook") == "" ? getDefaultSketchBook() : brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook");
-        //brackets.arduino.options.userlibrariesdir   = FileSystem.getDirectoryForPath( brackets.arduino.options.sketcbook.fullPath + "/libraries");
+        //brackets.arduino.options.sketchbook          = FileSystem.getDirectoryForPath( brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook") ||  getDefaultSketchBook() );//brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook") == "" ? getDefaultSketchBook() : brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook");
+        //brackets.arduino.options.userlibrariesdir   = FileSystem.getDirectoryForPath( brackets.arduino.options.sketchbook.fullPath + "/libraries");
 
         brackets.arduino.domains[osDomainName].exec("getUserArduinoHome", brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook") ) //retrieve sketchbook
             .done(function(userHomeDir){
-                brackets.arduino.options.sketcbook = FileSystem.getDirectoryForPath( userHomeDir );
+                //brackets.arduino.options.sketchbook = FileSystem.getDirectoryForPath( userHomeDir );
+                brackets.arduino.options.sketchbook = FileSystem.getDirectoryForPath( FileUtils.convertWindowsPathToUnixPath(userHomeDir) );
                 brackets.arduino.preferences.set("arduino.ide.preferences.sketchbook", userHomeDir );
             }).fail(function(err){
                 console.error(err);
             });
         brackets.arduino.domains[osDomainName].exec("getUserLibrariesArduinoHome", brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook") ) //retrieve user libraries
             .done(function(userLibHomeDir){
-                brackets.arduino.options.userlibrariesdir = FileSystem.getDirectoryForPath( userLibHomeDir );
+                //brackets.arduino.options.userlibrariesdir = FileSystem.getDirectoryForPath( userLibHomeDir );
+                brackets.arduino.options.userlibrariesdir = FileSystem.getDirectoryForPath( FileUtils.convertWindowsPathToUnixPath(userLibHomeDir));
             }).fail(function(err){
                 console.error(err);
             });
@@ -129,16 +131,16 @@ define(function (require, exports, module) {
         //load modules
         var SerialMonitor   = require("modules/SerialMonitor/main");
         var Discovery       = require("modules/Discovery/main");
-		var Console         = require("modules/Console/main");
+        var Console         = require("modules/Console/main");
         var Menu            = require("modules/Menu/main");
-		var Compiler        = require("modules/Compiler/main");
+        var Compiler        = require("modules/Compiler/main");
         var Debug           = require("modules/Debug/main");
 
         var serialmonitor   = new SerialMonitor();
         var discovery       = new Discovery();
-		var console         = new Console();
+        var console         = new Console();
         var menu            = new Menu();
-		var compiler 		= new Compiler();
+        var compiler 		= new Compiler();
         var debug           = new Debug();
 
         ExtensionUtils.loadStyleSheet(module, "main.css");
@@ -152,9 +154,9 @@ define(function (require, exports, module) {
         arduinoHints    = require("modules/Hints/main");
 
         /*if(brackets.arduino.preferences.get("arduino.ide.preferences.checkupdate")) {
-            var chk = require("modules/Extra/checkupdate");
-            chk.checkLatest(brackets.arduino.revision.version);
-        }*/
+         var chk = require("modules/Extra/checkupdate");
+         chk.checkLatest(brackets.arduino.revision.version);
+         }*/
 
         // Main-Toolbar Buttons
         arduinoToolbar = require("modules/Toolbar/main");
