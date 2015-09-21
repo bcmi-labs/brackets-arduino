@@ -9,7 +9,7 @@
 (function () {
     "use strict";
 
-    var fs              = require('fs'),
+    var fs              = require('fs-extra'),
         async           = require('async'),
         wrench          = require('wrench'),
         os              = require('os'),
@@ -57,6 +57,13 @@
             }
         });
         return decs;
+    }
+
+    function copyInoFile(name, sketchPath, outdir)
+    {
+        var inofile = sketchPath + path.sep + name + ".ino",
+            newinofile = outdir + path.sep + name + ".ino";
+        fs.copySync(inofile, newinofile)
     }
 
     function generateCPPFile(cfile,sketchPath) {
@@ -340,7 +347,9 @@
         tasks.push(function(cb) {
             debug("generating",cfile);
 
+            copyInoFile (options.name, sketchPath, outdir)
             generateCPPFile(cfile,sketchPath);
+
 
             cfiles.push(cfile);
             //compile sketch files
