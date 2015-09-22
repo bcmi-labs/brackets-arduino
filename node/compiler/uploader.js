@@ -171,7 +171,7 @@ function runAVRDude(uploadcmd, debug, cb) {
 				debug(err);
 				if(cb) cb(err);
 			} else {
-				debug("uploaded");
+				debug("Uploaded");
 				if(cb) cb();
 			}
 		}

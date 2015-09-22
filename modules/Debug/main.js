@@ -37,7 +37,6 @@ define(function (require, exports, module) {
         Menus               = brackets.getModule("command/Menus"),
         ExtensionUtils      = brackets.getModule("utils/ExtensionUtils"),
         FileUtils           = brackets.getModule("file/FileUtils"),
-        File                = brackets.getModule("filesystem/File"),
         FileSystem          = brackets.getModule("filesystem/FileSystem"),
         WorkspaceManager    = brackets.getModule("view/WorkspaceManager"),
         EventDispatcher     = brackets.getModule("utils/EventDispatcher"),
@@ -49,6 +48,7 @@ define(function (require, exports, module) {
 
 
     var debugDomainName     = "org-arduino-ide-domain-debug",
+        compilerDomainName  = "org-arduino-ide-domain-compiler",
         debugIcon           = null,
         debugPanel          = null,
         debugPanelHTML      = null;
@@ -56,7 +56,8 @@ define(function (require, exports, module) {
     var cmdOpenDebugWindow  = "org.arduino.ide.view.debug.openwindow",
         cmdSetBreakpoint    = "org.arduino.ide.view.debug.setbreakpoint";
 
-    var debugDomain         = null;
+    var debugDomain         = null,
+        compilerDomain      = null;
     var debugPrefix         = "[arduino ide - debug]";
 
     var bp = [],
@@ -66,7 +67,9 @@ define(function (require, exports, module) {
         bpFile,
         editor,
         codeMirror,
-        YN_dialog;
+        YN_dialog,
+        options,
+        debugFlag = false;
 
     /**
      * [debug description]
@@ -74,14 +77,16 @@ define(function (require, exports, module) {
     function Debug () {
         String = brackets.arduino.strings;
 
+        FileUtils;
         debugPanelInit();
 
         debugDomain = brackets.arduino.domains[debugDomainName];
+        compilerDomain = brackets.arduino.domains[compilerDomainName];
 
         CommandManager.register("Set breakpoint", cmdSetBreakpoint, this.setBreakpoint);
 
         Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU).addMenuDivider();
-        Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU).addMenuItem(cmdSetBreakpoint, null)
+        Menus.getContextMenu(Menus.ContextMenuIds.EDITOR_MENU).addMenuItem(cmdSetBreakpoint, null);
 
 
         //ATTACH EVENT HANDLER
@@ -92,6 +97,25 @@ define(function (require, exports, module) {
         brackets.arduino.dispatcher.on("arduino-event-debug-show",showDebug);
         brackets.arduino.dispatcher.on("arduino-event-debug-hide",hideDebug);
         brackets.arduino.dispatcher.on("arduino-event-debug",this.showHideDebug);
+
+    }
+
+    function compile()
+    {
+        var options = {};
+        var sketch_dir = DocumentManager.getCurrentDocument().file._parentPath.slice(0,DocumentManager.getCurrentDocument().file._parentPath.length-1);
+        options.name = DocumentManager.getCurrentDocument().file._name.split(".")[0];
+        options.device = brackets.arduino.options.target.board;
+
+        options.verbosebuild = brackets.arduino.preferences.get("arduino.ide.preferences.verbosebuild");
+        options.verboseupload = brackets.arduino.preferences.get("arduino.ide.preferences.verboseupload");
+        options.sketchbook   = brackets.arduino.preferences.get("arduino.ide.preferences.sketchbook");
+        options.port = brackets.arduino.options.target.port.address;
+
+        brackets.arduino.dispatcher.trigger("arduino-event-console-clear");
+
+        compilerDomain.exec("compile",options, sketch_dir , true);
+
     }
 
 
@@ -100,9 +124,11 @@ define(function (require, exports, module) {
 
         if (!debugPanel.isVisible()) {
             debugPanel.show();
+            compilerDomain.on("uploaded", sketchUploaded);
 
             $('#toolbar-debug-btn').addClass('debughover');
-            selectElfFile();
+            //selectElfFile();
+            compile()
         }
     }
 
@@ -111,6 +137,8 @@ define(function (require, exports, module) {
 
         if (debugPanel.isVisible()){
             debugPanel.hide();
+
+            compilerDomain._eventHandlers.uploaded.pop();  //Unbind handler from uploaded event
 
             debugDomain.exec("stopAll")
                 .done(function () {
@@ -133,6 +161,7 @@ define(function (require, exports, module) {
         });
     };
 
+    /* NOT IN USE - substituted by startDebug
     function selectElfFile()
     {
         debugDomain.exec("getTmpFolder")
@@ -209,6 +238,7 @@ define(function (require, exports, module) {
                 console.log("Error in get tmp dir")
             })
     }
+    */
 
     /**
      * [openDebugWindow description]
@@ -307,7 +337,6 @@ define(function (require, exports, module) {
     }
 
 
-
     var togglePanel = function() {
         if (debugPanel.isVisible()) {
             hideDebug();
@@ -339,6 +368,10 @@ define(function (require, exports, module) {
     var debugCloseHandler = function($event, flag){
         if(flag == "1")
             $('#debug_log').html('');
+    }
+
+    var sketchUploaded = function($event, directory){
+        startDebug(DocumentManager.getCurrentDocument().file._name.replace('.ino',''), directory);
     }
 
     function bindButtonsEvents()
@@ -431,5 +464,62 @@ define(function (require, exports, module) {
         debugPanel = WorkspaceManager.createBottomPanel("modules/Debug/html/debug.panel", $(debugPanelHTML));
     };
 
+    function startDebug(filename, outdir)
+    {
+        debugDomain.exec("launchOpenOcd")
+            .done(function (pid) {
+                if (pid > 1) {
+                    console.log("OpenOcd running...");
+                    var elfFile  = outdir + ((brackets.platform =='win')? '\\' : '/') + filename + '.cpp.elf';
+                    var pippo = FileSystem.getFileForPath(FileUtils.convertWindowsPathToUnixPath(elfFile))._path;
+                    debugDomain.exec("launchGdb", FileSystem.getFileForPath(FileUtils.convertWindowsPathToUnixPath(elfFile))._path, outdir)
+                        .done(function () {
+                            console.log("Gdb running...")
+                            CommandManager.execute(Commands.CMD_ADD_TO_WORKINGSET_AND_OPEN, {
+                                fullPath: FileSystem.getFileForPath(FileUtils.convertWindowsPathToUnixPath(elfFile.replace('.elf','')))._path,
+                                paneId: "first-pane"
+                            });
+                            $('#debugOptions > a').each(function () {
+                                $(this).attr('disabled', false);
+                            });
+                            bindButtonsEvents();
+
+                            bpFile = FileSystem.getFileForPath(FileSystem.getFileForPath(FileUtils.convertWindowsPathToUnixPath(outdir))._path + '/breakpoints');
+
+                            loadBreakpointFile(bpFile, function (err, data, stat) {
+                                if (err)
+                                    console.error(debugPrefix + " Error in loading breakpoint file: " + err);
+                                else {
+                                    bpData = JSON.parse(data);
+                                    brackets.arduino.debug = {"breakpoints": bpData};
+                                    var currentFile = DocumentManager.getCurrentDocument().file;
+                                    $.each(bpData.list, function (index, item) {
+                                        if (item.file == currentFile._path) {
+                                            editor = EditorManager.getActiveEditor();
+                                            codeMirror = editor._codeMirror;
+                                            for (var i = 0; i < item.breakpointList.length; i++) {
+                                                var currentBreakpoint = item.breakpointList[i];
+                                                var breakpoint = codeMirror.addLineClass(currentBreakpoint - 1, null, "arduino-breakpoint");
+
+                                                debugDomain.exec("set_breakpoint", currentFile._name, currentBreakpoint)
+                                                    .done(function () {
+                                                        console.log("Breakpoint setted at " + currentFile._name + " : " + currentBreakpoint);
+                                                    })
+                                                    .fail(function (err) {
+                                                        console.log("Error")
+                                                    })
+                                            }
+                                        }
+                                    })
+                                }
+                            });
+
+                        })
+                        .fail(function (err) {
+                            console.log("Error in gdb launch")
+                        })
+                }
+            })
+    }
     return Debug;
 });
