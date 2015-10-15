@@ -71,6 +71,7 @@ define(function (require, exports, module) {
         options,
         debugFlag = false;
 
+    var cppFile;
     /**
      * [debug description]
      */
@@ -142,7 +143,10 @@ define(function (require, exports, module) {
 
             debugDomain.exec("stopAll")
                 .done(function () {
-                    console.log("Debug Stopped...")
+                    console.log("Debug Stopped.")
+                    //Close cpp file
+                    DocumentManager.setCurrentDocument(DocumentManager.getOpenDocumentForPath(cppFile));
+                    CommandManager.execute(Commands.FILE_CLOSE);
                     $('#debugOptions > a' ).each( function(){
                         $(this).attr('disabled',true);
                         $(this).unbind('click')
@@ -152,6 +156,7 @@ define(function (require, exports, module) {
                 {
                     console.log("Error in debug stop")
                 })
+
         }
     }
 
@@ -479,6 +484,7 @@ define(function (require, exports, module) {
                                 fullPath: FileSystem.getFileForPath(FileUtils.convertWindowsPathToUnixPath(elfFile.replace('.elf','')))._path,
                                 paneId: "first-pane"
                             });
+                            cppFile = FileSystem.getFileForPath(FileUtils.convertWindowsPathToUnixPath(elfFile.replace('.elf','')))._path;
                             $('#debugOptions > a').each(function () {
                                 $(this).attr('disabled', false);
                             });
