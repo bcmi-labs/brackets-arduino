@@ -42,6 +42,9 @@
 	var rootDir = __dirname.substring(0, __dirname.lastIndexOf(path.sep)),
 		interval = 0;
 
+	var message_flag = '';
+	var tmp_obj_values = [];
+
 	function getTmpFolder()
 	{
 		return os.tmpdir();
@@ -81,11 +84,11 @@
 
 	}
 
-
 	function launchOpenOcd()
 	{
 		var OpenOcdCmd = [getOpenOcd(), "-s", getScriptDir(), "-f", getScript()];
 		openOcdProcess = child_process.spawn(OpenOcdCmd[0], OpenOcdCmd.slice(1), {detached: true});
+		message_flag = "run_ocd";
 
 		openOcdProcess.on('close', function(code, signal){
 			console.log("OPENOCD PROCESS KILLED");
@@ -99,8 +102,10 @@
 	{
 		var gdbCmd = [getGdb(), "-d", "'" + sketchFolder + "'"]
 		gdbProcess = child_process.exec(gdbCmd[0], gdbCmd.slice(1));
+		message_flag = "run_gdb";
 
 		gdbProcess.stdout.on("data", function(data){
+			parseMessage(message_flag, data);
 			dManager.emitEvent(domainName, "debug_data", data.toString());
 		});
 
@@ -126,6 +131,7 @@
 	{
 		console.log("--|| Locate elf file ||--")
 		gdbProcess.stdin.write("file " + filepath + " \n")
+		message_flag = "elf"
 		console.log("file " + filepath + " \n")
 	}
 
@@ -133,15 +139,16 @@
 	{
 		console.log("--|| Locate live program ||--")
 		gdbProcess.stdin.write("target remote localhost:3333"+" \n")
+		message_flag = "live"
 		console.log("target remote localhost:3333"+" \n")
 		//dManager.emitEvent(domainName, "debug_data", "target remote localhost:3333"+" \n");
 	}
-
 
 	function stopExecution()
 	{
 		console.log("--|| Stop sketch ||--")
 		gdbProcess.stdin.write(" monitor reset halt"+" \n")
+		message_flag = 'stop';
 		dManager.emitEvent(domainName, "debug_data", "Halt")
 	}
 
@@ -149,6 +156,7 @@
 	{
 		console.log("--|| Restart sketch ||--")
 		gdbProcess.stdin.write(" monitor reset run"+" \n")
+		message_flag = 'restart';
 		dManager.emitEvent(domainName, "debug_data", "Resume")
 	}
 
@@ -156,6 +164,7 @@
 	{
 		console.log("--|| Continue sketch execution ||--")
 		gdbProcess.stdin.write(" continue" + " \n")
+		message_flag = 'next_bp';
 		//dManager.emitEvent(domainName, "debug_data", "continue")
 	}
 
@@ -163,6 +172,7 @@
 	{
 		console.log("--|| Step Next Line ||--")
 		gdbProcess.stdin.write(" next" + " \n")
+		message_flag = 'next_line';
 		//dManager.emitEvent(domainName, "debug_data", "next")
 	}
 
@@ -170,6 +180,7 @@
 	{
 		console.log("--|| Show a list of breakpoints ||--")
 		gdbProcess.stdin.write(" info breakpoints " + " \n")
+		message_flag = 'show_bp';
 		//dManager.emitEvent(domainName, "debug_data", "info breakpoints")
 	}
 
@@ -177,14 +188,15 @@
 	{
 		console.log("--|| Set breakpoint at " + line + " ||--")
 		gdbProcess.stdin.write(" break " + filename +  ":" + line + " \n")
+		message_flag = 'set_bp';
 		//dManager.emitEvent(domainName, "debug_data", "b " + line)
 	}
-
 
 	function showVariables()
 	{
 		console.log("--|| Show variables ||--")
 		gdbProcess.stdin.write(" info locals" + " \n")
+		message_flag = 'show_var'
 		//dManager.emitEvent(domainName, "debug_data", "print " + variable)
 	}
 
@@ -192,7 +204,7 @@
 	{
 		console.log("--|| Save breakpoint on file ||--")
 		//gdbProcess.stdin.write("save breakpoints" + filename +" \n")
-		//oppure
+		//or
 		fs.writeFile(filename, bpList, function(err){
 			if(err)
 				dManager.emitEvent(domainName, "debug_err", "Error in breakpoint file saving...");
@@ -205,9 +217,150 @@
 	function deleteBreakpoint(filename, line)
 	{
 		console.log("--|| Delete breakpoint at " + line + " ||--")
+		message_flag = 'del_bp';
 		gdbProcess.stdin.write("clear " + filename +  ":" + line + " \n")
 	}
 
+	function parseMessage(type, message)
+	{
+		var obj = {"type":type, "message":""};
+		message = message.replace("(gdb)","");
+		switch(type) {
+			case 'stop':
+
+			case 'restart':
+
+			case 'del_bp':
+				obj.message = {
+					"bpNumber": message.match(/(\d+)/g)[0],
+					"Raw": message.replace(/\r?\n|\r/g, "")
+				}
+				break;
+
+			case 'set_bp':
+				//TODO : valid message ?
+				obj.message = {
+					'BreakpointNumber': message.match(/(\d+)/g)[0],
+					'MemoryLocation': message.match(/(0x(\w+))/g)[0],
+					'File': message.match("file (.*), ")[1],
+					'Line': message.match("line (.*).")[1],
+					'Raw': message.replace(/\r?\n|\r/g, "")
+				}
+				break;
+
+
+			//TODO Handle exceptions
+			case 'next_bp':
+				if (message.indexOf('Breakpoint') > -1){
+
+					var mexSplit = message.split("\n");
+					if (mexSplit[0].trim() == "")
+						mexSplit.shift();
+					if (mexSplit[mexSplit.length - 1].trim() == "")
+						mexSplit.pop();
+
+					obj.message = {
+						'BreakpointNumber': message.match(/(\d+)/)[0],
+						'FunctionName': message.match(/(\d,)(.*)/)[2],
+						'File': message.match(/(at)(.*)([:]+\d+)/)[2],
+						'LineNumber': message.match(/(:\d+)/)[0].replace(":", ""),
+						//'Code': message.match(/([:]\d+)(.*)/)[2],
+						'Code': mexSplit[mexSplit.length - 1],
+						'Raw': message
+					}
+				}
+				break;
+
+
+
+
+
+
+			// Ok 95%
+			case 'show_bp':
+				if(message.indexOf('No breakpoints') > -1 )
+					obj.message = { "Raw" : message.replace(/\r?\n|\r/g, " ") }
+				else
+				{
+					var mex = message.replace("Num     Type           Disp Enb Address    What" , "").replace("\n"," ").replace(/\r?\n|\r/g, " ").replace(/\s\s+/g, " ");
+					var mexArray = mex.split(" ");
+					mexArray.shift();
+					mexArray.pop();
+
+					obj.breakpoints = [];
+					for(var i = 0; i+8 < mexArray.length ; ) {
+						obj.breakpoints.push({
+							"Num": mexArray[i],
+							"Type": mexArray[i + 1],
+							"Disp": mexArray[i + 2],
+							"Enb": mexArray[i + 3],
+							"Address": mexArray[i + 4],
+							"What": mexArray[i + 6],
+							"File": mexArray[i + 8].substring(0, mexArray[i+8].lastIndexOf(":")),
+							"Row": mexArray[i + 8].substring( mexArray[i+8].lastIndexOf(":"))
+						})
+						i+=9;
+					};
+					console.log( obj.breakpoints );
+				}
+				break;
+
+			// Ok
+			case 'show_var':
+				if(message.indexOf('No locals') > -1 )
+					obj.message = { "Raw" : message.replace(/\r?\n|\r/g, " ") }
+				else
+				{
+					/*if(obj.variables == undefined)
+						obj.variables = [];
+
+					var mexArray1 = message.split(/\r?\n|\r/);
+					mexArray1.forEach( function(item, index, array){
+						if(item != "" && item != " ")
+							obj.variables.push(item)
+					})
+					if(message.substring(message.length-2) == "\n ")
+						obj.variables = [];
+					console.log(obj.variables)*/
+
+					var mexArray = message.split(/\r?\n|\r/);
+					mexArray.forEach( function(item, index, array){
+						if(item != "" && item != " ")
+							tmp_obj_values.push(item)
+					})
+
+					if(message.substring(message.length-2) == "\n ")
+					{
+						obj.variables = tmp_obj_values;
+						tmp_obj_values = [];
+					}
+
+				}
+				break;
+
+			// Ok
+			 case 'next_line':
+				 var valid = false;
+				 if(message.match(/^([0-9a-z]+)$/i) > -1 )
+				 	valid = true;
+				 var mex = message.replace("\n",""),
+					 mexArray = mex.split("\t");
+
+
+				 obj.message = {
+					 'Valid' : valid,
+					 'LineNumber' : (valid)?  mexArray[0]: "",
+					 'Code' : (valid)? (mexArray.shift(), mexArray.join()) : ""
+				 }
+				 break;
+
+
+			default :
+				break;
+		}
+		//message_flag = '';
+		//return obj;
+	}
 
 	function init(domainManager){
 		if(!domainManager.hasDomain( domainName )){
@@ -274,11 +427,11 @@
 				type:"string",
 				description:"Elf file to locate"
 			},
-			{
-				name:"sketchFolder",
-				type:"string",
-				description:"Sketch folder"
-			}]
+				{
+					name:"sketchFolder",
+					type:"string",
+					description:"Sketch folder"
+				}]
 		);
 		//</editor-fold>
 
@@ -309,9 +462,9 @@
 				description:"File in witch set breakpoint"
 			},
 				{	name:"breakpointLine",
-				type:"int",
-				description:"Set a breakpoint at breakpointLine row"
-			}]
+					type:"int",
+					description:"Set a breakpoint at breakpointLine row"
+				}]
 		);
 		//</editor-fold>
 
@@ -344,10 +497,10 @@
 				type:"string",
 				description:"List of breakpoints"
 			},
-			{	name:"filename",
-				type:"string",
-				description:"Name of file(absolute) to save breakpoints"
-			}]
+				{	name:"filename",
+					type:"string",
+					description:"Name of file(absolute) to save breakpoints"
+				}]
 		);
 		//</editor-fold>
 
@@ -426,6 +579,6 @@
 		//</editor-fold>
 
 	}
-	
+
 	exports.init = init;
 }());
