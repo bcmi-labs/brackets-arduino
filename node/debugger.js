@@ -274,15 +274,14 @@
 
 
 
-
-
 			// Ok 95%
 			case 'show_bp':
 				if(message.indexOf('No breakpoints') > -1 )
 					obj.message = { "Raw" : message.replace(/\r?\n|\r/g, " ") }
 				else
 				{
-					var mex = message.replace("Num     Type           Disp Enb Address    What" , "").replace("\n"," ").replace(/\r?\n|\r/g, " ").replace(/\s\s+/g, " ");
+					//var mex = message.replace("Num     Type           Disp Enb Address    What" , "").replace("\n"," ").replace(/\r?\n|\r/g, " ").replace(/\s\s+/g, " ");
+					var mex = message.replace(/Num(.*)What/ , "").replace("\n"," ").replace(/\r?\n|\r/g, " ").replace(/\s\s+/g, " ");
 					var mexArray = mex.split(" ");
 					mexArray.shift();
 					mexArray.pop();
