@@ -59,7 +59,7 @@ a#haltsketchDebug_button:hover {
     background-size: 35px;
 }
 
-a#restartsketchDebug_button {
+a#restoresketchDebug_button {
     background: url('restart.png') center no-repeat;
     cursor:pointer;
     width: 35px;
@@ -68,7 +68,7 @@ a#restartsketchDebug_button {
     /*margin-left: 5px;*/
     background-size: 35px;
 }
-a#restartsketchDebug_button:hover {
+a#restoresketchDebug_button:hover {
     background: url('restart_over.png') center no-repeat;
     background-size: 35px;
 }
@@ -166,3 +166,15 @@ a#showvalueDebug_button:hover {
     background-position: center;
     background-size: 17px 17px;
 }
+
+hr{
+    margin:6px;
+    border-top-color: #000000;
+    opacity: 0.4;
+}
+
+.line-selected{
+    background-color: #c4a97f;
+    opacity: 0.7;
+}
+

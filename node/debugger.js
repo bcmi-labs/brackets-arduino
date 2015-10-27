@@ -105,7 +105,7 @@
 		message_flag = "run_gdb";
 
 		gdbProcess.stdout.on("data", function(data){
-			parseMessage(message_flag, data);
+			var mexParsed = parseMessage(message_flag, data);
 			dManager.emitEvent(domainName, "debug_data", data.toString());
 		});
 
@@ -152,11 +152,11 @@
 		dManager.emitEvent(domainName, "debug_data", "Halt")
 	}
 
-	function restartExecution()
+	function restoreExecution()
 	{
-		console.log("--|| Restart sketch ||--")
+		console.log("--|| Restore sketch ||--")
 		gdbProcess.stdin.write(" monitor reset run"+" \n")
-		message_flag = 'restart';
+		message_flag = 'restore';
 		dManager.emitEvent(domainName, "debug_data", "Resume")
 	}
 
@@ -217,7 +217,7 @@
 	function deleteBreakpoint(filename, line)
 	{
 		console.log("--|| Delete breakpoint at " + line + " ||--")
-		message_flag = 'del_bp';
+		message_flag = 'rem_bp';
 		gdbProcess.stdin.write("clear " + filename +  ":" + line + " \n")
 	}
 
@@ -228,137 +228,176 @@
 		switch(type) {
 			case 'stop':
 
-			case 'restart':
-
-			case 'del_bp':
-				obj.message = {
-					"bpNumber": message.match(/(\d+)/g)[0],
-					"Raw": message.replace(/\r?\n|\r/g, "")
+			case 'restore':
+				try{
+					obj.Raw = message.replace(/\r?\n|\r/g, "")
+					obj.message = "Sketch flow restored"
 				}
+				catch(err){
+					obj.err = err;
+					dManager.emitEvent(domainName, "debug_err", JSON.stringify(obj));
+					break;
+				}
+				break;
+
+
+			case 'rem_bp':
+				try{
+					obj.message = {
+						"BreakpointNumber": parseInt( message.match(/(\d+)/g)[0] ),
+						"Raw": message.replace(/\r?\n|\r/g, "")
+					}
+				}
+				catch(err){
+					obj.err = err;
+					dManager.emitEvent(domainName, "debug_err", JSON.stringify(obj));
+					break;
+					}
 				break;
 
 			case 'set_bp':
-				//TODO : valid message ?
-				obj.message = {
-					'BreakpointNumber': message.match(/(\d+)/g)[0],
-					'MemoryLocation': message.match(/(0x(\w+))/g)[0],
-					'File': message.match("file (.*), ")[1],
-					'Line': message.match("line (.*).")[1],
-					'Raw': message.replace(/\r?\n|\r/g, "")
-				}
-				break;
-
-
-			//TODO Handle exceptions
-			case 'next_bp':
-				if (message.indexOf('Breakpoint') > -1){
-
-					var mexSplit = message.split("\n");
-					if (mexSplit[0].trim() == "")
-						mexSplit.shift();
-					if (mexSplit[mexSplit.length - 1].trim() == "")
-						mexSplit.pop();
-
+				try {
 					obj.message = {
-						'BreakpointNumber': message.match(/(\d+)/)[0],
-						'FunctionName': message.match(/(\d,)(.*)/)[2],
-						'File': message.match(/(at)(.*)([:]+\d+)/)[2],
-						'LineNumber': message.match(/(:\d+)/)[0].replace(":", ""),
-						//'Code': message.match(/([:]\d+)(.*)/)[2],
-						'Code': mexSplit[mexSplit.length - 1],
-						'Raw': message
+						'BreakpointNumber': parseInt( message.match(/(\d+)/g)[0] ),
+						'MemoryLocation': message.match(/(0x(\w+))/g)[0],
+						'File': message.match("file (.*), ")[1],
+						'Line': parseInt( message.match("line (.*).")[1]),
+						'Raw': message.replace(/\r?\n|\r/g, "")
 					}
 				}
+				catch(err){
+					obj.err = err;
+					dManager.emitEvent(domainName, "debug_err", JSON.stringify(obj));
+					break;
+				}
 				break;
 
 
-
-
-			// Ok 95%
 			case 'show_bp':
 				if(message.indexOf('No breakpoints') > -1 )
 					obj.message = { "Raw" : message.replace(/\r?\n|\r/g, " ") }
 				else
 				{
 					//var mex = message.replace("Num     Type           Disp Enb Address    What" , "").replace("\n"," ").replace(/\r?\n|\r/g, " ").replace(/\s\s+/g, " ");
-					var mex = message.replace(/Num(.*)What/ , "").replace("\n"," ").replace(/\r?\n|\r/g, " ").replace(/\s\s+/g, " ");
-					var mexArray = mex.split(" ");
-					mexArray.shift();
-					mexArray.pop();
+					try {
+						var mex = message.replace(/Num(.*)What/, "").replace("\n", " ").replace(/\r?\n|\r/g, " ").replace(/\s\s+/g, " ");
+						var mexArray = mex.split(" ");
+						mexArray.shift();
+						mexArray.pop();
 
-					obj.breakpoints = [];
-					for(var i = 0; i+8 < mexArray.length ; ) {
-						obj.breakpoints.push({
-							"Num": mexArray[i],
-							"Type": mexArray[i + 1],
-							"Disp": mexArray[i + 2],
-							"Enb": mexArray[i + 3],
-							"Address": mexArray[i + 4],
-							"What": mexArray[i + 6],
-							"File": mexArray[i + 8].substring(0, mexArray[i+8].lastIndexOf(":")),
-							"Row": mexArray[i + 8].substring( mexArray[i+8].lastIndexOf(":"))
-						})
-						i+=9;
-					};
-					console.log( obj.breakpoints );
-				}
-				break;
-
-			// Ok
-			case 'show_var':
-				if(message.indexOf('No locals') > -1 )
-					obj.message = { "Raw" : message.replace(/\r?\n|\r/g, " ") }
-				else
-				{
-					/*if(obj.variables == undefined)
-						obj.variables = [];
-
-					var mexArray1 = message.split(/\r?\n|\r/);
-					mexArray1.forEach( function(item, index, array){
-						if(item != "" && item != " ")
-							obj.variables.push(item)
-					})
-					if(message.substring(message.length-2) == "\n ")
-						obj.variables = [];
-					console.log(obj.variables)*/
-
-					var mexArray = message.split(/\r?\n|\r/);
-					mexArray.forEach( function(item, index, array){
-						if(item != "" && item != " ")
-							tmp_obj_values.push(item)
-					})
-
-					if(message.substring(message.length-2) == "\n ")
-					{
-						obj.variables = tmp_obj_values;
-						tmp_obj_values = [];
+						obj.message = { "breakpoints" : [] };
+						for (var i = 0; i + 8 < mexArray.length;) {
+							obj.message.breakpoints.push({
+								"Num": parseInt( mexArray[i] ),
+								"Type": mexArray[i + 1],
+								"Disp": mexArray[i + 2],
+								"Enb": mexArray[i + 3],
+								"Address": mexArray[i + 4],
+								"What": mexArray[i + 6],
+								"File": mexArray[i + 8].substring(0, mexArray[i + 8].lastIndexOf(":")),
+								"Row": mexArray[i + 8].substring(mexArray[i + 8].lastIndexOf(":"))
+							})
+							i += 9;
+						}
+						;
 					}
-
+					catch(err){
+						obj.err = err;
+						dManager.emitEvent(domainName, "debug_err", JSON.stringify(obj));
+						break;
+					}
 				}
 				break;
 
-			// Ok
+			case 'show_var':
+				try {
+					if (message.indexOf('No locals') > -1)
+						obj.message = {"Raw": message.replace(/\r?\n|\r/g, " ")}
+					else {
+						var mexArray = message.split(/\r?\n|\r/);
+						mexArray.forEach(function (item, index, array) {
+							if (item != "" && item != " ")
+								tmp_obj_values.push(item)
+						})
+
+						if (message.substring(message.length - 2) == "\n ") {
+							//obj.variables = tmp_obj_values;
+							obj.message = { "variables" : tmp_obj_values};
+							tmp_obj_values = [];
+						}
+
+					}
+				}
+				catch(err){
+					obj.err = err;
+					dManager.emitEvent(domainName, "debug_err", JSON.stringify(obj));
+					break;
+				}
+				break;
+
 			 case 'next_line':
-				 var valid = false;
-				 if(message.match(/^([0-9a-z]+)$/i) > -1 )
-				 	valid = true;
-				 var mex = message.replace("\n",""),
-					 mexArray = mex.split("\t");
+				 if(message.indexOf("Breakpoint") == -1 && message.indexOf("main") == -1)
+				 {
+					 var valid = false;
+					 try {
+						 if (message.match(/^([0-9a-z]+)$/i) > -1)
+							 valid = true;
+						 var mex = message.replace("\n", ""),
+							 mexArray = mex.split("\t");
 
 
-				 obj.message = {
-					 'Valid' : valid,
-					 'LineNumber' : (valid)?  mexArray[0]: "",
-					 'Code' : (valid)? (mexArray.shift(), mexArray.join()) : ""
+						 obj.message = {
+							 'Valid': valid,
+							 'LineNumber': (valid) ? parseInt(mexArray[0]) : "",
+							 'Code': (valid) ? (mexArray.shift(), mexArray.join()) : ""
+						 }
+					 }
+					 catch (err) {
+						 obj.err = err;
+						 dManager.emitEvent(domainName, "debug_err", JSON.stringify(obj));
+						 break;
+					 }
+					 break;
 				 }
-				 break;
+
+			case 'next_bp':
+				if (message.indexOf('Breakpoint') > -1){
+
+					try {
+						var mexSplit = message.split("\n");
+						if (mexSplit[0].trim() == "")
+							mexSplit.shift();
+						if (mexSplit[mexSplit.length - 1].trim() == "")
+							mexSplit.pop();
+
+						obj.message = {
+							'BreakpointNumber': parseInt( message.match(/(\d+)/)[0] ),
+							'FunctionName': message.match(/(\d,)(.*)/)[2],
+							'File': message.match(/(at)(.*)([:]+\d+)/)[2],
+							'LineNumber': parseInt( message.match(/(:\d+)/)[0].replace(":", "") ),
+							'Code': mexSplit[mexSplit.length - 1],
+							'Raw': message
+						}
+					}
+					catch(err){
+						obj.err = err;
+						dManager.emitEvent(domainName, "debug_err", JSON.stringify(obj));
+						break;
+					}
+				}
+				break;
 
 
 			default :
 				break;
 		}
 		//message_flag = '';
-		//return obj;
+		//TODO testing
+		if(obj.message != "") {
+			//return obj;
+			dManager.emitEvent(domainName, "debug_data_"+obj.type, JSON.stringify(obj));
+		}
+		else return null;
 	}
 
 	function init(domainManager){
@@ -404,13 +443,13 @@
 		);
 		//</editor-fold>
 
-		//<editor-fold desc="restart">
+		//<editor-fold desc="restore">
 		dManager.registerCommand(
 			domainName,
-			"restart",
-			restartExecution,
+			"restore",
+			restoreExecution,
 			false,
-			"Restart sketch execution"
+			"Restore sketch execution"
 		);
 		//</editor-fold>
 
@@ -573,6 +612,87 @@
 			[{	name:"flag",
 				type:"int",
 				description:"Communicates if openOcd and GDB were closed"
+			}]
+		);
+		//</editor-fold>
+
+
+
+
+
+		//<editor-fold desc="set_bp">
+		dManager.registerEvent(
+			domainName,
+			"debug_data_set_bp",
+			[{	name:"set_bp_data",
+				type:"object",
+				description:"Object returned after a new breakpoint is set"
+			}]
+		);
+		//</editor-fold>
+
+		//<editor-fold desc="rem_bp">
+		dManager.registerEvent(
+			domainName,
+			"debug_data_rem_bp",
+			[{	name:"rem_bp_data",
+				type:"object",
+				description:"Object returned after a new breakpoint is deleted"
+			}]
+		);
+		//</editor-fold>
+
+		//<editor-fold desc="show_bp">
+		dManager.registerEvent(
+			domainName,
+			"debug_data_show_bp",
+			[{	name:"show_bp_data",
+				type:"object",
+				description:"Object returned when you require the breakpoint list"
+			}]
+		);
+		//</editor-fold>
+
+		//<editor-fold desc="next_bp">
+		dManager.registerEvent(
+			domainName,
+			"debug_data_next_bp",
+			[{	name:"next_bp_data",
+				type:"object",
+				description:"Object returned after step over next breakpoint"
+			}]
+		);
+		//</editor-fold>
+
+		//<editor-fold desc="show_var">
+		dManager.registerEvent(
+			domainName,
+			"debug_data_show_var",
+			[{	name:"show_var_data",
+				type:"object",
+				description:"Object returned when ask for variables values"
+			}]
+		);
+		//</editor-fold>
+
+		//<editor-fold desc="next_line">
+		dManager.registerEvent(
+			domainName,
+			"debug_data_next_line",
+			[{	name:"next_line_data",
+				type:"object",
+				description:"Object returned after step over next line"
+			}]
+		);
+		//</editor-fold>
+
+		//<editor-fold desc="restore">
+		dManager.registerEvent(
+			domainName,
+			"debug_data_restore",
+			[{	name:"restore_data",
+				type:"object",
+				description:"Object returned when a sketch flow is restored"
 			}]
 		);
 		//</editor-fold>

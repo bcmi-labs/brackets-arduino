@@ -49,22 +49,27 @@ define(function (require, exports, module) {
 
     var debugDomainName     = "org-arduino-ide-domain-debug",
         compilerDomainName  = "org-arduino-ide-domain-compiler",
+        debugIcon           = null,
         debugPanel          = null,
         debugPanelHTML      = null;
 
-    var cmdSetBreakpoint    = "org.arduino.ide.view.debug.setbreakpoint";
+    var cmdOpenDebugWindow  = "org.arduino.ide.view.debug.openwindow",
+        cmdSetBreakpoint    = "org.arduino.ide.view.debug.setbreakpoint";
 
     var debugDomain         = null,
         compilerDomain      = null;
-
     var debugPrefix         = "[arduino ide - debug]";
 
     var bp = [],
         String,
+        sketchFolder,
         bpData,
         bpFile,
         editor,
-        codeMirror;
+        codeMirror,
+        YN_dialog,
+        options,
+        debugFlag = false;
 
     var cppFile;
     /**
@@ -76,7 +81,7 @@ define(function (require, exports, module) {
         FileUtils;
         debugPanelInit();
 
-        debugDomain = brackets.arduino.domains[debugDomainName]
+        debugDomain = brackets.arduino.domains[debugDomainName];
         compilerDomain = brackets.arduino.domains[compilerDomainName];
 
         CommandManager.register("Set breakpoint", cmdSetBreakpoint, this.setBreakpoint);
