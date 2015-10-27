@@ -141,7 +141,6 @@
 		gdbProcess.stdin.write("target remote localhost:3333"+" \n")
 		message_flag = "live"
 		console.log("target remote localhost:3333"+" \n")
-		//dManager.emitEvent(domainName, "debug_data", "target remote localhost:3333"+" \n");
 	}
 
 	function stopExecution()
@@ -165,7 +164,6 @@
 		console.log("--|| Continue sketch execution ||--")
 		gdbProcess.stdin.write(" continue" + " \n")
 		message_flag = 'next_bp';
-		//dManager.emitEvent(domainName, "debug_data", "continue")
 	}
 
 	function stepNextLine()
@@ -173,7 +171,6 @@
 		console.log("--|| Step Next Line ||--")
 		gdbProcess.stdin.write(" next" + " \n")
 		message_flag = 'next_line';
-		//dManager.emitEvent(domainName, "debug_data", "next")
 	}
 
 	function showBreakpoints()
@@ -181,7 +178,6 @@
 		console.log("--|| Show a list of breakpoints ||--")
 		gdbProcess.stdin.write(" info breakpoints " + " \n")
 		message_flag = 'show_bp';
-		//dManager.emitEvent(domainName, "debug_data", "info breakpoints")
 	}
 
 	function setBreakpoint(filename, line)
@@ -189,7 +185,6 @@
 		console.log("--|| Set breakpoint at " + line + " ||--")
 		gdbProcess.stdin.write(" break " + filename +  ":" + line + " \n")
 		message_flag = 'set_bp';
-		//dManager.emitEvent(domainName, "debug_data", "b " + line)
 	}
 
 	function showVariables()
@@ -197,7 +192,6 @@
 		console.log("--|| Show variables ||--")
 		gdbProcess.stdin.write(" info locals" + " \n")
 		message_flag = 'show_var'
-		//dManager.emitEvent(domainName, "debug_data", "print " + variable)
 	}
 
 	function saveBreakpoints(bpList, filename)
@@ -278,7 +272,6 @@
 					obj.message = { "Raw" : message.replace(/\r?\n|\r/g, " ") }
 				else
 				{
-					//var mex = message.replace("Num     Type           Disp Enb Address    What" , "").replace("\n"," ").replace(/\r?\n|\r/g, " ").replace(/\s\s+/g, " ");
 					try {
 						var mex = message.replace(/Num(.*)What/, "").replace("\n", " ").replace(/\r?\n|\r/g, " ").replace(/\s\s+/g, " ");
 						var mexArray = mex.split(" ");
@@ -321,7 +314,6 @@
 						})
 
 						if (message.substring(message.length - 2) == "\n ") {
-							//obj.variables = tmp_obj_values;
 							obj.message = { "variables" : tmp_obj_values};
 							tmp_obj_values = [];
 						}
@@ -392,7 +384,6 @@
 				break;
 		}
 		//message_flag = '';
-		//TODO testing
 		if(obj.message != "") {
 			//return obj;
 			dManager.emitEvent(domainName, "debug_data_"+obj.type, JSON.stringify(obj));
@@ -615,8 +606,6 @@
 			}]
 		);
 		//</editor-fold>
-
-
 
 
 
