@@ -16,6 +16,8 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+ //
+
 #include "wiring_analog.h"
 #include "wiring_digital.h"
 
@@ -142,13 +144,16 @@ void analogWrite( uint32_t ulPin, uint32_t ulValue )
 
   if ( (attr & PIN_ATTR_ANALOG) == PIN_ATTR_ANALOG )
   {
-    if ( ulPin != 24 )  // Only 1 DAC on A0 (PA02)
+    if ( ulPin == 24 )  // Only 1 DAC on A0 (PA02)
     {
-      return;
+      	ulValue = mapResolution(ulValue, _writeResolution, DAC_RESOLUTION);
+    	DAC->DATA.reg = ulValue & 0x3FF;  // Dac on 10 bits.
+		DAC->CTRLA.bit.ENABLE = 1; // DAC Enabled
+		syncDAC();
+      	return;
     }
 	
-	ulValue = mapResolution(ulValue, _writeResolution, DAC_RESOLUTION);
-    DAC->DATA.reg = ulValue & 0x3FF;  // Dac on 10 bits.
+
   }
 
   if ( (attr & PIN_ATTR_PWM) == PIN_ATTR_PWM )

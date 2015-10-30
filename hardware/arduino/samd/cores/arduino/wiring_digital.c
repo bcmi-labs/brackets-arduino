@@ -16,6 +16,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+
 #include "wiring_digital.h"
 #include "WVariant.h"
 
@@ -143,20 +144,10 @@ void pinMode( uint32_t ulPin, uint32_t ulMode )
 
     case OUTPUT:
       // Set pin to output mode
-      if ( ulPin == 24 )  // Only 1 DAC on A0 (PA02)
-	  {
-	    DAC->CTRLA.bit.ENABLE = 1;
-
-        while(DAC->STATUS.bit.SYNCBUSY != 0)
-        {
-		  // Waiting for synchronization
-		}
-	  }
-	  else{
-		PORT->Group[g_APinDescription[ulPin].ulPort].PINCFG[g_APinDescription[ulPin].ulPin].reg&=~(uint8_t)(PORT_PINCFG_INEN) ;
-		PORT->Group[g_APinDescription[ulPin].ulPort].DIRSET.reg = (uint32_t)(1<<g_APinDescription[ulPin].ulPin) ;
-	  }
-	break ;
+		  PORT->Group[g_APinDescription[ulPin].ulPort].PINCFG[g_APinDescription[ulPin].ulPin].reg&=~(uint8_t)(PORT_PINCFG_INEN) ;
+		  PORT->Group[g_APinDescription[ulPin].ulPort].DIRSET.reg = (uint32_t)(1<<g_APinDescription[ulPin].ulPin) ;
+	  
+	  break ;
 
     default:
       // do nothing

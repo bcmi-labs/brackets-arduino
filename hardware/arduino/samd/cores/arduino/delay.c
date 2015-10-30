@@ -55,7 +55,7 @@ void delay( uint32_t ms )
   do
   {
     yield() ;
-  } while ( _ulTickCount - start <= ms ) ;
+  } while ( _ulTickCount - start <= (ms-1) ) ;
 }
 
 void SysTick_Handler( void )
