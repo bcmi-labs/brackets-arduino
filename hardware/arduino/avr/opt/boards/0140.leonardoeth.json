@@ -2,23 +2,23 @@
     "id": "leonardoeth",
     "name": "Arduino Leonardo ETH",
     "arch":"avr",
-    "enabled" : false,
+    "enabled" : true,
     "uid" : [
         {"vid":"0x2a03", "pid":"0x0040"},
         {"vid":"0x2a03", "pid":"0x8040"}
     ],
     "upload": {
         "protocol": "avr109",
-	"tool" : "avrdude",
+        "tool" : "avrdude",
         "maximum_size": "28672",
-	"maximum_data_size" : "2560",
+        "maximum_data_size" : "2560",
         "speed": "57600",
         "disable_flushing": "true",
-	"use_1200bps_touch" : "true",
-	"wait_for_upload_port" : "true"
+        "use_1200bps_touch" : "true",
+        "wait_for_upload_port" : "true"
     },
     "bootloader": {
-	"tool" : "avrdude",
+        "tool" : "avrdude",
         "low_fuses": "0xff",
         "high_fuses": "0xd8",
         "extended_fuses": "0xcb",
@@ -34,9 +34,9 @@
         "pid": "0x8040",
         "core": "arduino",
         "variant": "leonardo",
-	"usb_product":"Arduino Leonardo ETH",
-	"board":"AVR_LEONARDO",
-	"extra_flags":""
+        "usb_product":"Arduino Leonardo ETH",
+        "board":"AVR_LEONARDO",
+        "extra_flags":""
     },
     "info": {
         "power": {

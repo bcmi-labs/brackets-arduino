@@ -2,7 +2,7 @@
   "id": "megaadk",
   "name": "Arduino Mega ADK",
   "arch":"avr",
-  "enabled" : false,
+  "enabled" : true,
   "uid": [
     {
       "vid": "0x2341",

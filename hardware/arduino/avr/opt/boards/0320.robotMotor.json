@@ -1,19 +1,23 @@
 {
     "name": "Arduino Robot Motor",
     "arch":"avr",
-    "enabled" : false,
+    "enabled" : true,
+    "uid": [
+        { "vid": "0x2a03", "pid": "0x8039" },
+        { "vid": "0x2a03", "pid": "0x0039" }
+    ],
     "upload": {
-	"tool" : "avrdude",
+        "tool" : "avrdude",
         "protocol": "avr109",
         "maximum_size": "28672",
-	"maximum_data_size":"2560",
+        "maximum_data_size":"2560",
         "speed": "57600",
         "disable_flushing": "true",
-	"use_1200bps_touch":"true",
-	"wait_for_upload_port":"true"
+        "use_1200bps_touch":"true",
+        "wait_for_upload_port":"true"
     },
     "bootloader": {
-	"tool":"avrdude",
+        "tool":"avrdude",
         "low_fuses": "0xff",
         "high_fuses": "0xd8",
         "extended_fuses": "0xcb",
@@ -27,10 +31,11 @@
         "f_cpu": "16000000L",
         "vid": "0x2a03",
         "pid": "0x8039",
-	"usb_product":"AVR_ROBOT_MOTOR",
+        "usb_product":"Robot Motor",
+        "board":"AVR_ROBOT_MOTOR",
         "core": "arduino",
         "variant": "robot_motor",
-	"extra_flags":""
+        "extra_flags":""
     },
     "id": "robotMotor"
 }

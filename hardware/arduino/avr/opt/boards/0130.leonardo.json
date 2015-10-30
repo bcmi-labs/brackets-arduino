@@ -2,7 +2,7 @@
     "id": "leonardo",
     "name": "Arduino Leonardo",
     "arch":"avr",
-    "enabled" : false,
+    "enabled" : true,
     "uid" : [
         {"vid":"0x2341", "pid":"0x0036"},
         {"vid":"0x2341", "pid":"0x8036"},
@@ -10,24 +10,24 @@
         {"vid":"0x2a03", "pid":"0x8036"}
     ],
     "upload": {
-		"protocol": "avr109",
-		"tool" : "avrdude",
-		"maximum_size": "28672",
-		"maximum_data_size" : "2560",
-		"speed": "57600",
-		"disable_flushing": "true",
-		"use_1200bps_touch" : "true",
-		"wait_for_upload_port" : "true"
+        "protocol": "avr109",
+        "tool" : "avrdude",
+        "maximum_size": "28672",
+        "maximum_data_size" : "2560",
+        "speed": "57600",
+        "disable_flushing": "true",
+        "use_1200bps_touch" : "true",
+        "wait_for_upload_port" : "true"
     },
     "bootloader": {
-		"tool" : "avrdude",
-		"low_fuses": "0xff",
-		"high_fuses": "0xd8",
-		"extended_fuses": "0xcb",
-		"path": "caterina",
-		"file": "Caterina-Leonardo.hex",
-		"unlock_bits": "0x3F",
-		"lock_bits": "0x2F"
+        "tool" : "avrdude",
+        "low_fuses": "0xff",
+        "high_fuses": "0xd8",
+        "extended_fuses": "0xcb",
+        "path": "caterina",
+        "file": "Caterina-Leonardo.hex",
+        "unlock_bits": "0x3F",
+        "lock_bits": "0x2F"
     },
     "build": {
         "mcu": "atmega32u4",
@@ -36,7 +36,9 @@
         "pid": "0x8036",
         "core": "arduino",
         "variant": "leonardo",
-		"extra_flags":""
+        "board": "AVR_LEONARDO",
+        "usb_product": "Arduino Leonardo",
+        "extra_flags":""
     },
     "info": {
         "power": {

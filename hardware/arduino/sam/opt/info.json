@@ -2,5 +2,5 @@
   "name" : "Arduino ARM (32-bits) Boards",
   "version" : "",
   "arch" : "arm",
-  "enabled": false
+  "enabled": true
 }

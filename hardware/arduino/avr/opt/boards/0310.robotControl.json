@@ -1,19 +1,23 @@
 {
     "name": "Arduino Robot Control",
     "arch":"avr",
-    "enabled" : false,
+    "enabled" : true,
+    "uid": [
+        { "vid": "0x2a03", "pid": "0x8038" },
+        { "vid": "0x2a03", "pid": "0x0038" }
+    ],
     "upload": {
-	"tool":"avrdude",
+        "tool":"avrdude",
         "protocol": "avr109",
         "maximum_size": "28672",
-	"maximum_data_size":"2560",
+        "maximum_data_size":"2560",
         "speed": "57600",
         "disable_flushing": "true",
-	"use_1200bps_touch":"true",
-	"wait_for_upload_port" : "true"
+        "use_1200bps_touch":"true",
+        "wait_for_upload_port" : "true"
     },
     "bootloader": {
-	"tool":"avrdude",
+        "tool":"avrdude",
         "low_fuses": "0xff",
         "high_fuses": "0xd8",
         "extended_fuses": "0xcb",
@@ -28,10 +32,10 @@
         "vid": "0x2a03",
         "pid": "0x8038",
         "core": "arduino",
-	"usb_product":"Robot Control",
+        "usb_product":"Robot Control",
         "variant": "robot_control",
-	"board":"AVR_ROBOT_CONTROL",
-	"extra_flags":""
+        "board":"AVR_ROBOT_CONTROL",
+        "extra_flags":""
     },
     "id": "robotControl"
 }

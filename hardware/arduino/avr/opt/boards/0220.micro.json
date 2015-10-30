@@ -1,24 +1,28 @@
 {
     "name": "Arduino Micro",
     "arch":"avr",
-    "enabled" : false,
+    "enabled" : true,
+    "uid" : [
+        {"vid": "0x2a03", "pid": "0x8037"},
+        {"vid": "0x2a03", "pid": "0x0037"}
+    ],
     "upload": {
-	"tool" : "avrdude",
+        "tool" : "avrdude",
         "protocol": "avr109",
         "maximum_size": "28672",
-	"maximum_data_size" : "2560",
+        "maximum_data_size" : "2560",
         "speed": "57600",
         "disable_flushing": "true",
-	"use_1200bps_touch":"true",
-	"wait_for_upload_port":"true"
+        "use_1200bps_touch":"true",
+        "wait_for_upload_port":"true"
     },
     "bootloader": {
-	"tool":"avrdude",
+        "tool":"avrdude",
         "low_fuses": "0xff",
         "high_fuses": "0xd8",
         "extended_fuses": "0xcb",
         "path": "caterina",
-        "file": "Caterina-Micro.hex",
+        "file": "caterina/Caterina-Micro.hex",
         "unlock_bits": "0x3F",
         "lock_bits": "0x2F"
     },
@@ -27,9 +31,11 @@
         "f_cpu": "16000000L",
         "vid": "0x2a03",
         "pid": "0x8037",
+        "usb_product": "Arduino Micro",
+        "board": "AVR_MICRO",
         "core": "arduino",
         "variant": "micro",
-	"extra_flags":""
+        "extra_flags":""
     },
     "id": "micro"
 }

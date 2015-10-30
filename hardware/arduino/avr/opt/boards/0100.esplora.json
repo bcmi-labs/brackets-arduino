@@ -2,25 +2,26 @@
     "id": "esplora",
     "name": "Arduino Esplora",
     "arch":"avr",
-    "enabled" : false,
+    "enabled" : true,
     "uid" : [
-              {"vid":"0x2341", "pid":"0x003c"},
-              {"vid":"0x2341", "pid":"0x803c"},
-              {"vid":"0x2a03", "pid":"0x003c"},
-              {"vid":"0x2a03", "pid":"0x803c"}
-            ],
+        {"vid":"0x2341", "pid":"0x003c"},
+        {"vid":"0x2341", "pid":"0x803c"},
+        {"vid":"0x2a03", "pid":"0x003c"},
+        {"vid":"0x2a03", "pid":"0x803c"}
+    ],
     "upload": {
-	"tool" : "avrdude",
+        "tool" : "avrdude",
         "protocol": "avr109",
         "maximum_size": "28672",
-	"maximum_data_size" : "2560",
+        "maximum_data_size" : "2560",
         "speed": "57600",
         "disable_flushing": "true",
-	"use_1200bps_touch" : "true",
-	"wait_for_upload_port" : "true"
+        "use_1200bps_touch" : "true",
+        "wait_for_upload_port" : "true"
     },
-    "bootloader": {
-	"tool" : "avrdude",
+    "bootloader":
+    {
+        "tool" : "avrdude",
         "low_fuses": "0xff",
         "high_fuses": "0xd8",
         "extended_fuses": "0xcb",
@@ -36,9 +37,9 @@
         "pid": "0x803c",
         "core": "arduino",
         "variant": "leonardo",
-	"usb_product" : "Arduino Esplora",
-	"board" : "AVR_ESPLORA",
-	"extra_flags":""
+        "usb_product" : "Arduino Esplora",
+        "board" : "AVR_ESPLORA",
+        "extra_flags":""
     },
     "info": {
         "power": {
