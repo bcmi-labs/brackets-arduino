@@ -284,9 +284,9 @@
                 case 'avr':
                     platform = require('./compiler/platformAVR');
                     break;
-                /*case 'sam':
+                case 'sam':
                     platform = require('./compiler/platformSAM');
-                    break;*/
+                    break;
                 case 'samd':
                     platform = require('./compiler/platformSAMD');
                     break;
