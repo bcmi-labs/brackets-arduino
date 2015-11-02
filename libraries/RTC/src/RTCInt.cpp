@@ -56,12 +56,12 @@ void RTCInt::begin(bool timeRep)
   
   if (timeRep)
   {
-    RTC->MODE2.CTRL.bit.CLKREP = 1; // 24h time representation
+    RTC->MODE2.CTRL.bit.CLKREP = 0; // 24h time representation
 	time_Mode = true;
   }		
   else
   {  
-    RTC->MODE2.CTRL.bit.CLKREP = 0; // 12h time representation
+    RTC->MODE2.CTRL.bit.CLKREP = 1; // 12h time representation
 	time_Mode = false;
   }	
 
