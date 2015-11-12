@@ -1,8 +1,12 @@
 {
-  "name": "Arduino",
-  "title": "Arduino",
-  "description": "Arduino brackets extension",
-  "homepage": "http://arduino.org",
-  "version": "0.0.5",
-  "author": "Arduino.org Team <support@arduino.org>"
+  "title": "Arduino Studio",
+  "name": "brackets-arduino",
+  "description": "Arduino Studio Brackets Extension - Alpha",
+  "author": "Arduino.org Team",
+  "homepage": "https://github.com/arduino-org/brackets-arduino",
+  "license": "MIT",
+  "engines": {
+    "brackets": ">=1.3.0"
+  },
+  "version": "0.0.5"
 }
