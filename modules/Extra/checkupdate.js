@@ -40,12 +40,14 @@ define(function (require, exports, module) {
             method: "GET",
             data: {"version": parseInt(current_version)},
             success: function(data, status, xhr){
-                if(status == 'success')
+                if(status == 'success'){
+                    data = data.revisions[0];
                     if(data.version > current_version )
                         showLatest(data);
                     //else
                         //if(showIfLatest)
                         //TODO SHOW UP TO DATE MESSAGE
+                }
             },
             error: function(err){/*alert(JSON.stringify(err));*/},
             dataType: "json"

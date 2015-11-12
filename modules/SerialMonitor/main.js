@@ -121,7 +121,7 @@ define(function (require, exports, module) {
 
         if (!serialMonitorPanel.isVisible()) {
             serialMonitorPanel.show();
-            openSerialPort(serialPort, serialPortRate, function(err){
+            openSerialPort(serialPort, serialPortRate, serialPortEol, function(err){
                 if(err) { //TODO send error to arudino console.
                     console.error(serialMonitorPrefix + " Error in serial port opening: ", err);
                     brackets.arduino.dispatcher.trigger("arduino-event-console-error", serialMonitorPrefix + " Error in serial port opening: " + err.toString());
@@ -223,7 +223,7 @@ define(function (require, exports, module) {
         if (serialMonitorPanel.isVisible()) {
             closeSerialPort(serialPort, function (err) {
                 if (!err)
-                    openSerialPort(serialPort, serialPortRate, function (err) {
+                    openSerialPort(serialPort, serialPortRate, serialPortEol, function (err) {
                         if (!err){
                             clear();
                             brackets.arduino.dispatcher.trigger( "arduino-event-console-log" , serialMonitorPrefix + " Serial monitor connected to " + serialPort.address);
@@ -235,7 +235,7 @@ define(function (require, exports, module) {
                     });
                 else {
                     //console.error(serialMonitorPrefix + " Error in serial port closing: ", err);
-                    openSerialPort(serialPort, serialPortRate, function (err) {
+                    openSerialPort(serialPort, serialPortRate, serialPortEol, function (err) {
                         if (!err) {
                             clear();
                             brackets.arduino.dispatcher.trigger("arduino-event-console-log", serialMonitorPrefix + " Serial monitor connected to " + serialPort.address);
@@ -250,11 +250,12 @@ define(function (require, exports, module) {
         }
     };
 
-    function openSerialPort(serialPort, rate, callback){
+    function openSerialPort(serialPort, rate, eol, callback){
         if( (serialPort && typeof serialPort != "undefined" && serialPort!= "") &&
-            (serialPortRate && typeof serialPortRate != "undefined" && serialPortRate!= "")
+            (serialPortRate && typeof serialPortRate != "undefined" && serialPortRate!= "") &&
+            (serialPortEol && typeof serialPortEol != "undefined" && serialPortEol!= "")
         ) {
-            serialDomain.exec("open", serialPort.address, parseInt(serialPortRate))
+            serialDomain.exec("open", serialPort.address, parseInt(serialPortRate), serialPortEol)
                 .done( function(){
                     callback(null);
                 })
@@ -331,6 +332,7 @@ define(function (require, exports, module) {
             var select_item = serialMonitorPanel.$panel.find("#eol")[0];
             serialPortEol = select_item.selectedOptions[0].value;
             brackets.arduino.preferences.set( "arduino.ide.serialmonitor.eol", serialPortEol);
+            changeParameter();
         });
         
         serialMonitorPanel.$panel.find("#baud").on("change",function(){

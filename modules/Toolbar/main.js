@@ -80,9 +80,21 @@ define(function (require, exports, module) {
             case 'toolbar-console-btn':
                 Dispatcher.trigger('arduino-event-console');
                 break;
+            case 'toolbar-debug-btn':
+                Dispatcher.trigger('arduino-event-debug');
+                break;
+            case 'toolbar-toggle-btn':
+                if($('#sidebar').is(':visible')){
+                    $('#sidebar').hide();
+                    $('.main-view .content').css('right', '0px');
+                }
+                else{
+                    $('.main-view .content').css('right', '200px');
+                    $('#sidebar').show();
+                }
+                break;
             default:
                 //console.log(btnid+' clicked');
         }
     }
-
 });

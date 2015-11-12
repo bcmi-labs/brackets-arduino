@@ -18,7 +18,9 @@ define({
                 "TITLE"                   : "Strumenti",
                 "ITEM_AUTO_FORMATTING"    : "Auto formattazione",
                 "ITEM_STORE_SKETCH"       : "Archivia sketch",
-                "ITEM_SERIAL_MONITOR"     : "Monitor serial",
+                "ITEM_CONSOLE"            : "Console",
+                "ITEM_SERIAL_MONITOR"     : "Monitor seriale",
+                "ITEM_DEBUGGER"           : "Debugger",
                 "ITEM_BOARD"              : "Scheda",
                 "ITEM_PORT"               : "Porta",
                 "ITEM_PROGRAMMER"         : "Programmatore",
@@ -41,6 +43,7 @@ define({
             },
             "HELP": {
                 "TITLE"        : "Aiuto",
+                "ITEM_DRIVER"  : "Installa driver Arduino",
                 "ITEM_ABOUT"   : "Arduino"
             }
         },

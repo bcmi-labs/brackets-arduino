@@ -1,7 +1,7 @@
 {
     "name": "Arduino Ethernet",
     "arch":"avr",
-    "enabled" : false,
+    "enabled" : true,
     "upload": {
         "protocol": "arduino",
 	"tool" : "avrdude",

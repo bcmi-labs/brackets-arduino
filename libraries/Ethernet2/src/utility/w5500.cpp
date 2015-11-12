@@ -133,7 +133,6 @@ uint8_t W5500Class::write(uint16_t _addr, uint8_t _cb, uint8_t _data)
     SPI.transfer(_data);
     digitalWrite(slaveSelectPin, HIGH);*/
 #else
-	SerialUSB.println("dentro altro");
   SPI.transfer(SPI_CS, _addr >> 8, SPI_CONTINUE);
   SPI.transfer(SPI_CS, _addr & 0xFF, SPI_CONTINUE);
   SPI.transfer(SPI_CS, _cb, SPI_CONTINUE);

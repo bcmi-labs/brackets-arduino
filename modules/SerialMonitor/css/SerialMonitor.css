@@ -8,7 +8,9 @@
     border: 9px solid #f27a20;
     padding-left: 0px;
     background-color: #ffffff;
-    padding-left: 16px; 
+    padding-left: 16px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 input#scroll {
@@ -31,7 +33,7 @@ input#scroll {
     min-height: 220px;
     max-height: 220px;
     overflow-y: scroll !important;
-    margin-left: 15px;
+    margin-left:15px;
     background-color: #ffffff;
     padding-top: 0px;
     border: 1px solid #b2b5b5;
@@ -46,6 +48,11 @@ input#scroll {
 .serial_title {
   font-weight: bold;
 }
+
+.serial_label {
+    margin-left:15px;
+}
+
 .serial_label, .serial_title {
   color: #17a0a4;
 }
@@ -71,4 +78,9 @@ a#clear_button {
 }
 a#clear_button:hover {
     background: url('clear_over.png') center no-repeat;
+}
+
+
+.oneBlock, .form-inline{
+    float: left;
 }

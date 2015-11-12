@@ -87,5 +87,21 @@
     "attachInterrupt | Syntax: attachInterrupt(interrupt, ISR, mode);": true,
     "detachInterrupt | Syntax: detachInterrupt(interrupt);": true,
     "interrupts | Syntax: interrupts();": true,
-    "noInterrupts | Syntax: noInterrupts();": true
+    "noInterrupts | Syntax: noInterrupts();": true,
+    "begin | begin(speed, config)":true,
+
+    "Ciao | Library" : true,
+    "CiaoData | Library" : true,
+    "begin | Syntax : begin();" : true,
+    "writeResponse | Syntax : writeResponse( String protocol, String id, String param1='', String param2 = '', String param3 = '');" : true,
+    "read | Syntax : read(String);" : true,
+    "write | Syntax : write( String protocol, String param1, String param2 = '', String param3 = '');" : true,
+    "parse | Syntax : parse(String, String);" : true,
+    "dropAll | Syntax : dropAll();" : true,
+    "splitString | splitString(String command, String split, String msg[], int size);" : true,
+    "CiaoClass | CiaoClass(Stream &_stream);" : true,
+    "get | get(int index);" : true,
+    "parseMessage | parseMessage(String command);" : true,
+    "isError | isError();" : true,
+    "isEmpty | isEmpty();" : true
 }

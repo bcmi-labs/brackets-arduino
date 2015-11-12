@@ -18,7 +18,9 @@ define({
                 "TITLE"                   : "Tools",
                 "ITEM_AUTO_FORMATTING"    : "Autoformatting",
                 "ITEM_STORE_SKETCH"       : "Store sketch",
+                "ITEM_CONSOLE"            : "Console",
                 "ITEM_SERIAL_MONITOR"     : "Serial monitor",
+                "ITEM_DEBUGGER"           : "Debugger",
                 "ITEM_BOARD"              : "Board",
                 "ITEM_PORT"               : "Port",
                 "ITEM_PROGRAMMER"         : "Programmer",
@@ -41,6 +43,7 @@ define({
             },
             "HELP": {
                 "TITLE"        : "Help",
+                "ITEM_DRIVER"  : "Install Arduino driver",
                 "ITEM_ABOUT"   : "About Arduino"
             }
         },
@@ -133,6 +136,10 @@ define({
                 "LBL_FONT_SIZE"             : "Editor font size",
                 "LBL_CHECK_UPDATE"          : "Check for update at startup",
                 "BTN_SKETCHBOOK_BROWSE"     : "Browse"
+            },
+            "DEBUGGER" : {
+                "ELF" : "Select elf file",
+                "SKETCH_FOLDER" : "Select sketch folder"
             },
             "GENERIC" :{
                 "TITLE_SELECT_FILE":    "Select file",

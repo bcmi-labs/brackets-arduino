@@ -1,10 +1,97 @@
 {
-  "version"	    :	1,
-  "hversion"	: 	"0.0.1",
-  "cycle"		: 	"alpha",
-  "source"      :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.1-alpha",
-  "changelog"	:	[],
-  "url"		    : 	"http://arduino.org/downloads",
-  "message"	    :	"",
-  "error"		:	""
+  "revisions":
+    [
+        {
+           "version"  : 5,
+           "hversion" :   "0.0.5",
+           "date"       :   "2015-10-30",
+           "cycle"    :   "alpha",
+           "source"     :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.5-alpha",
+           "changelog"  : [
+                                {"name": "Enabled Others AVR boards.","desc": "Enabled AVR boards: Arduino Leonardo, Arduino Leonardo Ethernet 2, Arduino Micro, Arduino Esplora, Arduino Robot, LilyPad, Arduino Mega 2560, Arduino Mega ADK."},
+                                {"name": "Enabled SAM architecture","desc": "Enabled SAM architecture and Arduino DUE (native / programming)"},
+                                {"name": "Fixed import library","desc":""},
+                                {"name": "Autorun Debugger","desc": "Debugger now starts automaticcaly w/o select files"},
+                                {"name": "Removed breakpoints after debug finished","desc": ""},
+                                {"name": "Fixed M0 / M0 Pro delay() - support ticket #764877","desc": ""},
+                                {"name": "Arduino M0 / M0 Pro A0 GPIO Bugfix","desc": ""},
+                                {"name": "Arduino M0 / M0 Pro Interrupt Bugfix","desc": ""},
+                                {"name": "Arduino M0 / M0 Pro RTC (Real Time Clock)","desc": ""},
+                                {"name": "Power management library (Rest) for Arduino M0 and M0 PRO boards","desc": ""}
+                            ],
+           "url"    :   "http://arduino.org/downloads",
+           "message"  : "",
+           "error"    : ""
+         },
+        {
+           "version"	:	4,
+           "hversion"	: 	"0.0.4",
+           "date"       :   "2015-09-18",
+           "cycle"		: 	"alpha",
+           "source"     :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.4-alpha",
+           "changelog"	:	[
+                                {"name": "New debugger module.","desc": "Debuger module available for arduino zero pro and m0 pro"},
+                                {"name": "Themes settings enabled","desc": "Now themes can be setted via Themes Settings Window"},
+                                {"name": "Enabled SAMD architecture : m0, m0 pro.","desc":""},
+                                {"name": "Fixed Tx and Rx for M0/M0 Pro","desc": "Tx and Rx blinking during serial communication for M0/M0 Pro"},
+                                {"name": "Added 9AXES support for M0/M0 Pro","desc": "Users Have to change the 9AXES address to 0x29 using M0 Pro"},
+                                {"name": "Added TFT support for M0/M0 Pro","desc": ""},
+                                {"name": "Added RTC support for M0/M0 Pro","desc": ""},
+                                {"name": "Added New Arduino Ciao Library","desc": "Arduino Ciao Library allows Linino users to connect to external world"},
+                                {"name": "Added Arduino.org Caterina source code","desc": "Caterina based bootloader source code now inclued (Caterina-ORG)"},
+                                {"name": "Added build_all_target.sh to build all bootloader *.hex files","desc": ""},
+                                {"name": "Added make clean_all command to clean working directory","desc": ""},
+                                {"name": "Update Ethernet library", "desc": "Now Ethernet library supports m0/m0 pro boards"},
+                                {"name": "Arduino drivers for Windows 10", "desc":""}
+                            ],
+           "url"		: 	"http://arduino.org/downloads",
+           "message"	:	"",
+           "error"		:	""
+         },
+        {
+           "version"	:	3,
+           "hversion"	: 	"0.0.3",
+           "date"       :   "2015-08-06",
+           "cycle"		: 	"alpha",
+           "source"     :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.3-alpha",
+           "changelog"	:	[
+                                {"name" : "studio", "desc": "compiler module improved."},
+                                {"name" : "studio", "desc": "uploader module improved."},
+                                {"name" : "studio", "desc": "enabled samd architecture : m0, m0 pro."}
+           					],
+           "url"		: 	"http://arduino.org/downloads",
+           "message"	:	"",
+           "error"		:	""
+         },
+        {
+           "version"	:	2,
+           "hversion"	: 	"0.0.2",
+           "date"       :   "2015-06-10",
+           "cycle"		: 	"alpha",
+           "source"     :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.2-alpha",
+           "changelog"	:	[
+                                {"name" : "studio", "desc": "enabled extension manager."},
+                                {"name" : "studio", "desc": "enabled avr boards: mega, mega adk, ethernet, fio, nano w/ 328."},
+                                {"name" : "studio", "desc": "open blink example at first run."},
+           						{"name" : "studio", "desc": "improve ui loading."},
+           						{"name" : "studio", "desc": "serial monitor responsive ui."},
+           						{"name" : "studio", "desc": "serial monitor fix end line chars in received messages."},
+           						{"name" : "studio", "desc": "fix icon now visible in bar for linux version."}
+           					],
+           "url"		: 	"http://arduino.org/downloads",
+           "message"	:	"",
+           "error"		:	""
+         },
+        {
+          "version"	    :	1,
+          "hversion"	: 	"0.0.1",
+          "cycle"		: 	"alpha",
+          "date"        :   "2015-07-10",
+          "source"      :   "https://github.com/arduino-org/brackets-arduino/tree/0.0.1-alpha",
+          "changelog"	:	[],
+          "url"		    : 	"http://arduino.org/downloads",
+          "message"	    :	"",
+          "error"		:	""
+        }
+    ]
 }

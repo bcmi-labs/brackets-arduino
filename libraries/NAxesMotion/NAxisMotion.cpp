@@ -8,6 +8,14 @@
 * Usage:        Source file of the C++ Wrapper for the BNO055 Sensor API
 *
 ****************************************************************************
+*
+* Added Arduino M0/M0 Pro support
+*
+* Date: 07/27/2015
+*
+* Modified by: Arduino.org development Team.
+*
+****************************************************************************
 /***************************************************************************
 * License:
 *
@@ -60,14 +68,14 @@ NAxisMotion::NAxisMotion()
 *Input Parameters: None
 *Return Parameter: None
 *******************************************************************************************/
-void NAxisMotion::initSensor(void)
+void NAxisMotion::initSensor(unsigned int address)
 {	
 	//Initialize the GPIO peripheral
 	pinMode(INT_PIN, INPUT_PULLUP);		//Configure Interrupt pin
 	pinMode(RESET_PIN, OUTPUT);			//Configure Reset pin
 	
 	//Power on the BNO055
-	resetSensor();
+	resetSensor(address);
 }
 
 /*******************************************************************************************
@@ -75,7 +83,7 @@ void NAxisMotion::initSensor(void)
 *Input Parameters: None
 *Return Parameter: None
 *******************************************************************************************/
-void NAxisMotion::resetSensor(void)
+void NAxisMotion::resetSensor(unsigned int address)
 {
 	//Reset sequence
 	digitalWrite(RESET_PIN, LOW);		//Set the Reset pin LOW
@@ -89,7 +97,8 @@ void NAxisMotion::resetSensor(void)
 	myBNO.delay_msec = _delay;
 	
 	//Set the I2C address here !!! ADDR1 is the default address
-	myBNO.dev_addr = BNO055_I2C_ADDR1;
+	//myBNO.dev_addr = BNO055_I2C_ADDR1;
+	myBNO.dev_addr = address; 
 	//myBNO.dev_addr = BNO055_I2C_ADDR2;
 	
 	//Initialize the BNO055 structure to hold the device information

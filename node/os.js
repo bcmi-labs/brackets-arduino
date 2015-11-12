@@ -38,16 +38,13 @@
         return platform.getUserHome();
     }
 
-    function getUserDocuments() {
-        return getUserHome()+(( process.platform =='win32') ? '\\Documents' : "/Documents");
-    }
-
     function getUserArduinoHome(prefUserArduinoHome, callback) {
         fs.exists( prefUserArduinoHome, function(exists) { //if exists the user home stored in pref file callback it
             if(exists)
                 callback(null, prefUserArduinoHome);
             else{   //else try the default arduino dir under Documents, but if not exists create it
-                var arduino_home =  getUserHome()+((process.platform =='win32') ? '\\Documents\\Arduino-2' : "/Documents/Arduino-2");
+                //var arduino_home =  getUserHome()+((process.platform =='win32') ? '\\Documents\\Arduino-2' : "/Documents/Arduino-2");
+                var arduino_home =  getUserHome()+((process.platform =='win32') ? '\\Documents\\Arduino' : "/Documents/Arduino");
                 fs.exists( arduino_home, function(exists) {
                     if(!exists )
                         fs.mkdir(arduino_home, function(err){
@@ -100,14 +97,6 @@
             getUserHome,
             false,
             "get the user home path"
-        );
-
-        dManager.registerCommand(
-            domainName,
-            "getUserDocuments",
-            getUserDocuments,
-            false,
-            "get the user documents path"
         );
 
         dManager.registerCommand(

@@ -2,6 +2,7 @@
     "id": "duedbg",
     "name": "Arduino Due (Programming Port)",
 	"arch": "sam",
+    "enabled" : true,
     "uid": [
             {"vid": "0x2a03", "pid": "0x003d"},
             {"vid": "0x2341", "pid": "0x003d"}
@@ -19,8 +20,9 @@
         "f_cpu": "84000000L",
         "board": "SAM_DUE",
         "core": "arduino",
-        "extra_flags": "-D__SAM3X8E__ -mthumb {build.usb_flags}",
+        "extra_flags": "-D__SAM3X8E__ -mthumb",
         "ldscript": "linker_scripts/gcc/flash.ld",
+        "usb_product" : "Arduino Due",
         "variant": "arduino_due_x",
         "variant_system_lib": "libsam_sam3x8e_gcc_rel.a",
         "vid": "0x2a03",

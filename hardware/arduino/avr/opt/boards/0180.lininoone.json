@@ -36,7 +36,7 @@
         "variant": "yun",
         "board" : "AVR_YUN",
         "usb_product" : "Linino One",
-	"extra_flags":"{usb_flags}"
+	"extra_flags":""
     },
     "info": {
         "power": {

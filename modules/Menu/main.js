@@ -70,7 +70,9 @@ define(function (require, exports, module) {
     var ARDUINO_MENU_TOOL_AUTO_FORMATTING 		    = "arduino.ide.menu.tool.auto_formatting",
         ARDUINO_MENU_TOOL_STORE_SKETCH              = "arduino.ide.menu.tool.store_sketch",
         //ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD    = "arduino.ide.menu.tool.verify_code_and_reload",
+        ARDUINO_MENU_TOOL_CONSOLE        		    = "arduino.ide.menu.tool.console",
         ARDUINO_MENU_TOOL_SERIAL_MONITOR 		    = "arduino.ide.menu.tool.serial_monitor",
+        ARDUINO_MENU_TOOL_DEBUGGER 		            = "arduino.ide.menu.tool.debugger",
         ARDUINO_MENU_TOOL_SELECT_BOARD              = "arduino.ide.menu.tool.select_board",
         ARDUINO_MENU_TOOL_SELECT_PORT               = "arduino.ide.menu.tool.select_port",
         ARDUINO_MENU_TOOL_SELECT_PROGRAMMER         = "arduino.ide.menu.tool.select_programmer",
@@ -187,7 +189,9 @@ define(function (require, exports, module) {
         CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_AUTO_FORMATTING  + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_AUTO_FORMATTING, bePatient);
         CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_STORE_SKETCH + " [" + Strings.ARDUINO.EXTRAS.COMING_SOON + "]", ARDUINO_MENU_TOOL_STORE_SKETCH, bePatient);
         //CommandManager.register("Fix encoding and reload [Coming Soon (A)]", ARDUINO_MENU_TOOL_VERIFY_CODE_AND_RELOAD, bePatient);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_CONSOLE, ARDUINO_MENU_TOOL_CONSOLE, toolMenu_Console);
         CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_SERIAL_MONITOR, ARDUINO_MENU_TOOL_SERIAL_MONITOR, toolMenu_SerialMonitor);
+        CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_DEBUGGER, ARDUINO_MENU_TOOL_DEBUGGER, toolMenu_Debugger);
         CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_BOARD, ARDUINO_MENU_TOOL_SELECT_BOARD, toolMenu_SelectBoardPanel);
         CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_PORT, ARDUINO_MENU_TOOL_SELECT_PORT, toolMenu_SelectPortPanel);
         CommandManager.register(Strings.ARDUINO.MENU.TOOLS.ITEM_PROGRAMMER, ARDUINO_MENU_TOOL_SELECT_PROGRAMMER, toolMenu_SelectProgrammerPanel);
@@ -219,10 +223,18 @@ define(function (require, exports, module) {
         ArduinoMenu.addMenuItem(ARDUINO_MENU_SKETCH_OPEN_SKETCH_FOLDER);
 
         //HELP
-        CommandManager.register(Strings.ARDUINO.MENU.HELP.ITEM_ABOUT, ARDUINO_MENU_HELP_ABOUT, helpMenu_showAboutDialog);
 
+        var HelpMenu = Menus.getMenu(Menus.AppMenuBar.HELP_MENU, ARDUINO_MENU_HELP_ID);
+
+        CommandManager.register(Strings.ARDUINO.MENU.HELP.ITEM_ABOUT, ARDUINO_MENU_HELP_ABOUT, helpMenu_showAboutDialog);
         ArduinoMenu.addMenuDivider();
-        ArduinoMenu.addMenuItem(ARDUINO_MENU_HELP_ABOUT);
+
+        if(brackets.platform === 'win') {
+            CommandManager.register(Strings.ARDUINO.MENU.HELP.ITEM_DRIVER, ARDUINO_MENU_HELP_DRIVER, helpMenu_driver);
+            HelpMenu.addMenuItem(ARDUINO_MENU_HELP_DRIVER);
+        }
+
+        HelpMenu.addMenuItem(ARDUINO_MENU_HELP_ABOUT);
     }
 
 
@@ -338,8 +350,16 @@ define(function (require, exports, module) {
         brackets.arduino.dispatcher.trigger("arduino-event-menu-tool-programmers");
     }
 
+    function toolMenu_Console(){
+        brackets.arduino.dispatcher.trigger("arduino-event-console");
+    }
+
     function toolMenu_SerialMonitor(){
         brackets.arduino.dispatcher.trigger("arduino-event-serialmonitor");
+    }
+
+    function toolMenu_Debugger(){
+        brackets.arduino.dispatcher.trigger("arduino-event-debug");
     }
 
     //SKETCH
@@ -557,6 +577,11 @@ define(function (require, exports, module) {
         var html = Mustache.render(template, info);
         Dialogs.showModalDialog(DefaultDialogs.DIALOG_ID_INFO, Strings.ARDUINO.DIALOG.ABOUT.TITLE, html);
         ExtensionUtils.loadStyleSheet(module, "css/aboutDialog.css");
+    }
+
+    function helpMenu_driver(){
+        var driversPath = FileSystem.getFileForPath(brackets.arduino.options.shared.fullPath + "drivers");
+        driverDomain.exec("install", driversPath.fullPath);
     }
 
 /*    //ARDUINO EXAMPLES ???

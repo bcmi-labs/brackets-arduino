@@ -124,7 +124,7 @@ define(function (require, exports, module) {
 
     var openPreferencesWindow = function($event, data){
         var data = brackets.arduino.strings.ARDUINO.DIALOG.PREFERENCE
-        preferencesWindow = require("text!./html/Preferences.html");
+        preferencesWindow = require("text!./html/preferences.html");
         var preferencesWindowHTML =  Mustache.render( preferencesWindow, data);
 
         //preferencesWindow
