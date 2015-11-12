@@ -55,6 +55,7 @@ define({
             "BTN_TLT_OPEN_FILE"     : "Open",
             "BTN_TLT_CONSOLE"       : "Console",
             "BTN_TLT_SERIAL_MONITOR": "Serial monitor",
+            "BTN_TLT_DEBUG"         : "Debug",
             "BTN_TLT_SIDEBAR"       : "Show/Hide Sidebar"
         },
         "STATUS_BAR": {

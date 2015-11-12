@@ -84,26 +84,29 @@ define(function(require, exports, module){
 		},
 		showConsole = function($event){
 							brackets.arduino.dispatcher.trigger("arduino-event-serialmonitor-hide");
-							if(!panel.isVisible){
+							brackets.arduino.dispatcher.trigger("arduino-event-debug-hide");
+							if(!panel.isVisible()){
 								panel.show();
 								$('#toolbar-console-btn').addClass('consolehover');
 							}
 		},
 		hideConsole = function($event){
-							if(panel.isVisible){
+							if(panel.isVisible()){
 								panel.hide();
 								$('#toolbar-console-btn').removeClass('consolehover');
 							}
 		},
 		showHideConsole = function($event){
 							if(panel.isVisible()){
-								panel.hide();
-								$('#toolbar-console-btn').removeClass('consolehover');
+								hideConsole();
+								//panel.hide();
+								//$('#toolbar-console-btn').removeClass('consolehover');
 							}
 							else{
-								brackets.arduino.dispatcher.trigger("arduino-event-serialmonitor-hide");
-								panel.show();
-								$('#toolbar-console-btn').addClass('consolehover');
+								showConsole();
+								//brackets.arduino.dispatcher.trigger("arduino-event-console-hide");
+								//panel.show();
+								//$('#toolbar-console-btn').addClass('consolehover');
 							}
 		};
 
@@ -128,9 +131,13 @@ define(function(require, exports, module){
 		brackets.arduino.dispatcher.on("arduino-event-console-hide", hideConsole);
 		brackets.arduino.dispatcher.on("arduino-event-console", showHideConsole);
 
-		if(brackets.arduino.preferences.get("arduino.ide.preferences.consoleshow")){
-			panel.show();
-			$('#toolbar-console-btn').addClass('consolehover');
+		if(brackets.arduino.preferences.get("arduino.ide.preferences.console.show")){
+			//panel.show();
+			//$('#toolbar-console-btn').addClass('consolehover');
+			showConsole();
+		}
+		else{
+			hideConsole();
 		}
 	}
 
@@ -142,8 +149,8 @@ define(function(require, exports, module){
 		StatusBar.addIndicator("bTag", bTag, true, "", "");
 
 		panel = WorkspaceManager.createBottomPanel("console.panel", $(panelHTML));
+		//showConsole();
 		hideConsole();
-
 	});
 
 	return Console;

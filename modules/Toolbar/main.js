@@ -45,7 +45,7 @@ define(function (require, exports, module) {
             Dispatcher = disp;
             //toolbar_top_template    = require("text!./html/toolbar-top.html");
             toolbar_bottom_template = require("text!./html/toolbar-bottom.html");
-            toolbar_top_html        = Mustache.render(toolbar_top_template, Strings);
+            //toolbar_top_html        = Mustache.render(toolbar_top_template, Strings);
             toolbar_bottom_html     = Mustache.render(toolbar_bottom_template, Strings);
     };
 

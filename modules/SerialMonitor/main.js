@@ -117,7 +117,8 @@ define(function (require, exports, module) {
 
     var showSerialMonitor = function(){
         brackets.arduino.dispatcher.trigger("arduino-event-console-hide");
-        $('#toolbar-console-btn').removeClass('consolehover');
+        brackets.arduino.dispatcher.trigger("arduino-event-debug-hide");
+        //$('#toolbar-console-btn').removeClass('consolehover');
 
         if (!serialMonitorPanel.isVisible()) {
             serialMonitorPanel.show();

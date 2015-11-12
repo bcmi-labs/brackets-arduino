@@ -121,6 +121,8 @@ define(function (require, exports, module) {
 
 
     var showDebug = function(){
+        brackets.arduino.dispatcher.trigger("arduino-event-serialmonitor-hide");
+        brackets.arduino.dispatcher.trigger("arduino-event-console-hide");
         $('#toolbar-debug-btn').removeClass('debughover');
 
         if (!debugPanel.isVisible()) {

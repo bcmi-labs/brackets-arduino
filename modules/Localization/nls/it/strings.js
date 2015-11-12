@@ -55,6 +55,7 @@ define({
             "BTN_TLT_OPEN_FILE"     : "Apri",
             "BTN_TLT_CONSOLE"       : "Console",
             "BTN_TLT_SERIAL_MONITOR": "Monitor Seriale",
+            "BTN_TLT_DEBUG"         : "Debug",
             "BTN_TLT_SIDEBAR"       : "Mostra/Nascondi Barra laterale"
         },
         "STATUS_BAR": {

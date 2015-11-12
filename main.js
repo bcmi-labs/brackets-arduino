@@ -143,7 +143,7 @@ define(function (require, exports, module) {
         var compiler 		= new Compiler();
         var debug           = new Debug();
 
-        brackets.arduino.dispatcher.trigger("arduino-event-console-hide");
+        //brackets.arduino.dispatcher.trigger("arduino-event-console-hide");
 
         ExtensionUtils.loadStyleSheet(module, "main.css");
 
@@ -167,7 +167,7 @@ define(function (require, exports, module) {
         arduinoToolbar.load();        
 
         // Add hover class to console-btn
-        $('#toolbar-console-btn').addClass('consolehover');
+       // $('#toolbar-console-btn').addClass('consolehover');
     });
 
 });

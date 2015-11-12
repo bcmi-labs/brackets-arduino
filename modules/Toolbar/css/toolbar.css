@@ -86,3 +86,17 @@
 .serialhover {
 	background: url('../img/serial_over.png') center no-repeat !important;
 }
+
+#toolbar-debug-btn {
+	background: url('../img/debug.png') center no-repeat;
+	cursor:pointer;
+	border: none;
+	/* padding-bottom: 16px */
+}
+#toolbar-debug-btn:hover {
+	background: url('../img/debug_over.png') center no-repeat;
+}
+
+.debughover {
+	background: url('../img/debug_over.png') center no-repeat !important;
+}
