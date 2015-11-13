@@ -49,7 +49,9 @@ define(function (require, exports, module) {
     var filesystemDomainName    = "org-arduino-ide-domain-filesystem",
         filesystemDomain        = null,
         copypasteDomainName     = "org-arduino-ide-domain-copypaste",
-        copypasteDomain         = null;
+        copypasteDomain         = null,
+		driverDomainName        = "org-arduino-ide-domain-driver",
+        driverDomain            = null;
 
     var menuPrefix         = "[arduino ide - menu] ";
 
@@ -96,10 +98,10 @@ define(function (require, exports, module) {
     var ARDUINO_MENU_EDIT_COPY_FORUM 			    = "arduino.ide.menu.edit.copy_forum",
         ARDUINO_MENU_EDIT_COPY_HTML 				= "arduino.ide.menu.edit.copy_html",
         ARDUINO_MENU_EDIT_FIND_SELECTED 			= "arduino.ide.menu.edit.find_selected";
-
-
+	
     //Edit Menu IDs
-    var ARDUINO_MENU_HELP_ABOUT 			        = "arduino.ide.menu.help.about";
+    var ARDUINO_MENU_HELP_ABOUT 			        = "arduino.ide.menu.help.about",
+		ARDUINO_MENU_HELP_DRIVER					= "arduino.ide.menu.help.driver";
 
     var Strings;
     /**
@@ -109,6 +111,7 @@ define(function (require, exports, module) {
         //get domains
         filesystemDomain = brackets.arduino.domains[filesystemDomainName];
         copypasteDomain  = brackets.arduino.domains[copypasteDomainName];
+		driverDomain  = brackets.arduino.domains[driverDomainName];
         Strings = brackets.arduino.strings;
         sketch_importLibraryDirectory       = brackets.arduino.options.librariesdir;
         sketch_importLibraryUserDirectory       = brackets.arduino.options.userlibrariesdir;
