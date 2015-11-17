@@ -124,10 +124,6 @@ define(function (require, exports, module) {
                 console.error(err);
             });
 
-
-
-
-
         //load modules
         var SerialMonitor   = require("modules/SerialMonitor/main");
         var Discovery       = require("modules/Discovery/main");
@@ -164,7 +160,12 @@ define(function (require, exports, module) {
         
         arduinoToolbar = require("modules/Toolbar/main");
         arduinoToolbar.init(brackets.arduino.strings, brackets.arduino.dispatcher);
-        arduinoToolbar.load();        
+        arduinoToolbar.load();
+
+        //add exec grant to toolchains and others under the tools directory
+        if(brackets.platform !== 'win') {
+            brackets.arduino.domains[osDomainName].exec("chmodRecursive", FileSystem.getDirectoryForPath( brackets.arduino.options.hardwaredir.fullPath + "/tools").fullPath, '0755');
+        }
 
         // Add hover class to console-btn
        // $('#toolbar-console-btn').addClass('consolehover');

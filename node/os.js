@@ -27,7 +27,8 @@
 
 (function () {
     "use strict";
-    var fs = require('fs');
+    var fs = require('fs'),
+        wrench = require('wrench');
 
     var domainName = "org-arduino-ide-domain-os",
         dManager;
@@ -84,6 +85,9 @@
         });
     }
 
+    function chmodRecursive(file, mod){
+        return wrench.chmodSyncRecursive(file, mod);
+    }
 
     function init(domainManager){
         if(!domainManager.hasDomain( domainName )){
@@ -113,6 +117,22 @@
             getUserLibrariesArduinoHome,
             true,
             "get the user arduino libraries path"
+        );
+
+        dManager.registerCommand(
+            domainName,
+            "chmodRecursive",
+            chmodRecursive,
+            false,
+            "recursive chmod",
+            [{	name:"directory",
+                type:"string",
+                description:"directory path"
+            }],
+            [{	name:"mod",
+                type:"number",
+                description:"mod"
+            }]
         );
     }
 

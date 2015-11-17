@@ -18,7 +18,8 @@
       "adm-zip" : ">=0.4.7",
       "copy-paste": "*",
       "wrench" : "1.5.8",
-      "properties-reader" : "0.0.10"
+      "properties-reader" : "0.0.10",
+      "wrench" : "1.5.8"
   }
 }
   
