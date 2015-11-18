@@ -130,9 +130,11 @@ exports.upload = function(upcmd,options, publish, callback) {
 							console.log("doing a second list");
 							//scan for ports again
 							scanForPortReturn(list1, options, function(ppath) {
-								//TODO : in upcmd search "-P"+options.port and substitute with "-P"+ppath
-								upcmd[upcmd.indexOf("-P"+options.port)] = "-P"+ppath;
-								//options.port = ppath;
+
+								if(upcmd.indexOf("-P"+options.port)>-1)
+                                    upcmd[upcmd.indexOf("-P"+options.port)] = "-P"+ppath;
+								if(upcmd.indexOf("--port="+options.port)>-1)
+                                    upcmd[upcmd.indexOf("--port="+options.port)] = "--port="+ppath;
 								runAVRDude(upcmd, debug, callback);
 							})
 						},3000);
